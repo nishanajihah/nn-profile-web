@@ -2,11 +2,96 @@
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { getGitHubUser, getContributionData } from '$lib/utils/github-api.js';
   
   // Register GSAP plugins
   gsap.registerPlugin(ScrollTrigger);
 
-  onMount(() => {
+  // GitHub profile data
+  let profile = null;
+  let contributions = null;
+  let isLoading = true;
+
+  // Career timeline data
+  const timelineData = [
+    {
+      year: '2025',
+      title: 'Senior Developer',
+      company: 'Tech Innovations Inc.',
+      description: 'Leading development of cutting-edge web applications with a focus on audio processing and visualization.'
+    },
+    {
+      year: '2023-2024',
+      title: 'Full Stack Developer',
+      company: 'Creative Solutions Agency',
+      description: 'Developed interactive websites and applications for clients in the music and entertainment industry.'
+    },
+    {
+      year: '2022-2023',
+      title: 'Frontend Developer',
+      company: 'Digital Media Productions',
+      description: 'Created dynamic user interfaces for web applications with a focus on audiovisual experiences.'
+    },
+    {
+      year: '2020-2022',
+      title: 'Junior Developer',
+      company: 'Web Studios',
+      description: 'Started my journey in web development working on various client projects.'
+    },
+    {
+      year: '2018-2020',
+      title: 'Music Producer',
+      company: 'Independent',
+      description: 'Produced original music and worked with local artists on recording projects.'
+    }
+  ];
+
+  // Skills data
+  const skills = {
+    technical: [
+      { name: 'JavaScript/TypeScript', level: 95 },
+      { name: 'React & Svelte', level: 90 },
+      { name: 'Node.js', level: 85 },
+      { name: 'CSS & UI Design', level: 88 },
+      { name: 'Audio Programming', level: 92 },
+      { name: '3D/WebGL', level: 78 },
+      { name: 'Database Design', level: 75 },
+      { name: 'DevOps & Deployment', level: 70 }
+    ],
+    music: [
+      { name: 'Music Production', level: 92 },
+      { name: 'Piano/Keys', level: 88 },
+      { name: 'Guitar', level: 82 },
+      { name: 'Composition', level: 90 },
+      { name: 'Audio Engineering', level: 85 },
+      { name: 'Music Theory', level: 80 }
+    ]
+  };
+
+  async function loadProfileData() {
+    try {
+      // Get GitHub profile data
+      const githubProfile = await getGitHubUser();
+      if (githubProfile && !githubProfile.message) {
+        profile = githubProfile;
+      }
+      
+      // Get contribution data
+      const contributionData = await getContributionData();
+      if (contributionData) {
+        contributions = contributionData;
+      }
+    } catch (err) {
+      console.error('Error loading profile data:', err);
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  onMount(async () => {
+    // Load profile data
+    await loadProfileData();
+    
     // Timeline animation
     const timeline = gsap.timeline({
       scrollTrigger: {
@@ -36,23 +121,14 @@
       }
     });
 
-    // Contact form animation
-    gsap.from('.contact-form', {
-      opacity: 0,
-      x: -30,
-      duration: 0.8,
+    // Skills animation
+    gsap.from('.skill-bar-fill', {
+      width: 0,
+      duration: 1.5,
+      ease: 'power2.out',
+      stagger: 0.1,
       scrollTrigger: {
-        trigger: '.contact-section',
-        start: 'top 70%'
-      }
-    });
-
-    gsap.from('.social-links', {
-      opacity: 0,
-      x: 30,
-      duration: 0.8,
-      scrollTrigger: {
-        trigger: '.contact-section',
+        trigger: '.skills-section',
         start: 'top 70%'
       }
     });
@@ -61,413 +137,516 @@
 
 <svelte:head>
   <title>About | Nisha Najihah</title>
-  <meta name="description" content="About Nisha Najihah - musician, developer, and creative" />
+  <meta name="description" content="Learn about Nisha Najihah - Developer, musician, and creative based in Kuala Lumpur" />
 </svelte:head>
 
-<section class="about-container">
-  <h1 class="about-title">About Me</h1>
+<main class="about-page">
+  <section class="hero-section">
+    <h1>About Me</h1>
+    <p class="tagline">Developer by day, musician by night</p>
+  </section>
   
-  <div class="bio-section">
-    <div class="profile-image">
-      <!-- Profile image will go here -->
-      <div class="image-placeholder"></div>
+  <section class="bio-section">
+    <div class="bio-container">
+      <div class="bio-image">
+        <img src={profile?.avatar_url || "/static/images/profile-placeholder.jpg"} alt="Nisha Najihah" />
+        
+        {#if profile}
+          <div class="github-stats">
+            <div class="stat">
+              <span class="stat-number">{profile.public_repos}</span>
+              <span class="stat-label">Repositories</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">{profile.followers}</span>
+              <span class="stat-label">Followers</span>
+            </div>
+            {#if contributions}
+              <div class="stat">
+                <span class="stat-number">{contributions.totalContributions}</span>
+                <span class="stat-label">Contributions</span>
+              </div>
+            {/if}
+          </div>
+        {/if}
+      </div>
+      
+      <div class="bio-content">
+        <h2>Developer & Musician</h2>
+        
+        <p>
+          Hi, I'm Nisha! I'm a software developer with a passion for music and audio technology. 
+          My unique background in both programming and music production allows me to create innovative 
+          digital experiences that bridge the gap between technology and art.
+        </p>
+        
+        <p>
+          With expertise in full-stack development, especially in JavaScript and interactive web applications, 
+          I build solutions that are both functionally robust and aesthetically engaging. I'm particularly 
+          interested in the intersection of code and music, creating tools and applications for musicians 
+          and audio professionals.
+        </p>
+        
+        <p>
+          When I'm not coding, you'll find me in the studio producing music, playing piano, or exploring 
+          the latest advancements in audio technology. This dual passion gives me a unique perspective in 
+          creating digital experiences that resonate emotionally with users.
+        </p>
+        
+        <div class="bio-links">
+          <a href="/code" class="bio-link">View My Projects</a>
+          <a href="/music" class="bio-link">Listen to My Music</a>
+        </div>
+      </div>
     </div>
-    
-    <div class="bio-content">
-      <h2>Nisha Najihah</h2>
-      <p class="tagline">Developer | Musician | Creative</p>
-      
-      <p>Welcome to my portfolio! I'm a passionate developer and musician who loves creating digital experiences and meaningful music. I blend technical expertise with creative expression to build innovative solutions and emotional connections.</p>
-      
-      <p>As a developer, I focus on creating intuitive, performant web applications that solve real problems. As a musician, I craft songs that tell stories and evoke feelings. I believe that both code and music are forms of creative expression, just using different languages.</p>
-      
-      <p>I'm constantly exploring the intersection of technology and art, finding new ways to bring these worlds together in my work. Whether I'm writing code or composing music, I'm driven by curiosity and a commitment to quality.</p>
-    </div>
-  </div>
+  </section>
   
-  <div class="timeline-section">
-    <h2>My Journey</h2>
+  <section class="timeline-section">
+    <h2>Career Journey</h2>
     
     <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-date">2020</div>
-        <div class="timeline-content">
-          <h3>Started Learning Web Development</h3>
-          <p>Began my journey in the world of programming with HTML, CSS, and JavaScript.</p>
+      {#each timelineData as item}
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">{item.year}</div>
+          <div class="timeline-content">
+            <h3>{item.title}</h3>
+            <h4>{item.company}</h4>
+            <p>{item.description}</p>
+          </div>
         </div>
+      {/each}
+    </div>
+  </section>
+  
+  <section class="skills-section">
+    <h2>Skills</h2>
+    
+    <div class="skills-container">
+      <div class="skills-column">
+        <h3>Technical Skills</h3>
+        
+        {#each skills.technical as skill}
+          <div class="skill">
+            <div class="skill-header">
+              <span class="skill-name">{skill.name}</span>
+              <span class="skill-level">{skill.level}%</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" style="width: {skill.level}%"></div>
+            </div>
+          </div>
+        {/each}
       </div>
       
-      <div class="timeline-item">
-        <div class="timeline-date">2021</div>
-        <div class="timeline-content">
-          <h3>Released First Music Single</h3>
-          <p>Launched my music career with my debut single on streaming platforms.</p>
-        </div>
-      </div>
-      
-      <div class="timeline-item">
-        <div class="timeline-date">2022</div>
-        <div class="timeline-content">
-          <h3>Completed Full Stack Bootcamp</h3>
-          <p>Expanded my skills in frontend and backend development through intensive training.</p>
-        </div>
-      </div>
-      
-      <div class="timeline-item">
-        <div class="timeline-date">2023</div>
-        <div class="timeline-content">
-          <h3>Released EP Album</h3>
-          <p>Created and released a collection of original songs as part of my first EP.</p>
-        </div>
-      </div>
-      
-      <div class="timeline-item">
-        <div class="timeline-date">2024</div>
-        <div class="timeline-content">
-          <h3>Launched First Major Web Application</h3>
-          <p>Developed and deployed a full-featured web application used by hundreds of users.</p>
-        </div>
-      </div>
-      
-      <div class="timeline-item">
-        <div class="timeline-date">2025</div>
-        <div class="timeline-content">
-          <h3>Current Projects</h3>
-          <p>Working on new music releases and building innovative web experiences.</p>
-        </div>
+      <div class="skills-column">
+        <h3>Music Skills</h3>
+        
+        {#each skills.music as skill}
+          <div class="skill">
+            <div class="skill-header">
+              <span class="skill-name">{skill.name}</span>
+              <span class="skill-level">{skill.level}%</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-bar-fill" style="width: {skill.level}%"></div>
+            </div>
+          </div>
+        {/each}
       </div>
     </div>
-  </div>
+  </section>
   
-  <div class="contact-section">
+  <section class="contact-section">
     <h2>Get In Touch</h2>
     
     <div class="contact-container">
-      <div class="contact-form">
-        <form>
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" required />
-          </div>
+      <div class="contact-info">
+        <p>I'm always interested in hearing about new projects and opportunities. Whether you want to discuss a potential collaboration, ask about my work, or just say hello, feel free to reach out!</p>
+        
+        <div class="contact-methods">
+          <a href="mailto:hello@nishanajihah.com" class="contact-method email">
+            <span class="icon">📧</span>
+            <span>hello@nishanajihah.com</span>
+          </a>
           
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required />
-          </div>
+          <a href="https://github.com/nishanajihah" target="_blank" class="contact-method github">
+            <span class="icon">🐙</span>
+            <span>github.com/nishanajihah</span>
+          </a>
           
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5" required></textarea>
-          </div>
-          
-          <button type="submit" class="submit-button">Send Message</button>
-        </form>
+          <a href="https://open.spotify.com/artist/{profile?.login || 'nishanajihah'}" target="_blank" class="contact-method spotify">
+            <span class="icon">🎵</span>
+            <span>Spotify</span>
+          </a>
+        </div>
       </div>
       
-      <div class="social-links">
-        <h3>Connect With Me</h3>
-        
-        <div class="links-grid">
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-link github">
-            GitHub
-          </a>
-          
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link linkedin">
-            LinkedIn
-          </a>
-          
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link instagram">
-            Instagram (Personal)
-          </a>
-          
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link instagram-music">
-            Instagram (Music)
-          </a>
-          
-          <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="social-link spotify">
-            Spotify
-          </a>
-          
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-link youtube">
-            YouTube
-          </a>
+      <form class="contact-form">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required />
         </div>
         
-        <div class="support-section">
-          <h3>Support My Work</h3>
-          <a href="https://ko-fi.com" target="_blank" rel="noopener noreferrer" class="support-button kofi">
-            Buy Me a Coffee
-          </a>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
         </div>
-      </div>
+        
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" name="subject" required />
+        </div>
+        
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        
+        <button type="submit" class="submit-button">Send Message</button>
+      </form>
     </div>
-  </div>
-</section>
+  </section>
+</main>
 
 <style>
-  .about-container {
+  .about-page {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 2rem;
   }
-
-  .about-title {
-    font-size: 3rem;
-    margin-bottom: 2rem;
+  
+  .hero-section {
     text-align: center;
+    padding: 4rem 0;
   }
-
-  .bio-section {
+  
+  .hero-section h1 {
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .tagline {
+    font-size: 1.2rem;
+    opacity: 0.8;
+  }
+  
+  .bio-container {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    gap: 2rem;
-    margin-bottom: 4rem;
+    gap: 3rem;
+    margin: 3rem 0;
   }
-
-  .image-placeholder {
+  
+  .bio-image {
+    position: relative;
+  }
+  
+  .bio-image img {
     width: 100%;
-    aspect-ratio: 1 / 1;
-    background: linear-gradient(45deg, #e3e3e3, #f5f5f5);
-    border-radius: 50%;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   }
-
-  .tagline {
-    font-style: italic;
-    color: #666;
+  
+  .github-stats {
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .stat {
+    text-align: center;
+  }
+  
+  .stat-number {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #6a11cb;
+  }
+  
+  .stat-label {
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+  
+  .bio-content h2 {
+    font-size: 2.2rem;
     margin-bottom: 1.5rem;
+    color: #333;
   }
-
+  
+  .bio-content p {
+    margin-bottom: 1.2rem;
+    line-height: 1.7;
+    color: #555;
+  }
+  
+  .bio-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .bio-link {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 500;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .bio-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(106, 17, 203, 0.3);
+  }
+  
   .timeline-section {
-    margin-bottom: 4rem;
+    margin: 6rem 0;
+    position: relative;
   }
-
+  
+  .timeline-section h2 {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
   .timeline {
     position: relative;
-    max-width: 1000px;
-    margin: 2rem auto;
+    margin-left: 2rem;
   }
-
-  .timeline::after {
+  
+  .timeline::before {
     content: '';
     position: absolute;
-    width: 4px;
-    background-color: #ccc;
     top: 0;
     bottom: 0;
-    left: 50%;
-    margin-left: -2px;
+    left: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #6a11cb, #2575fc);
   }
-
+  
   .timeline-item {
     position: relative;
     margin-bottom: 3rem;
-    width: 50%;
-  }
-
-  .timeline-item:nth-child(odd) {
-    left: 0;
-    padding-right: 2.5rem;
-  }
-
-  .timeline-item:nth-child(even) {
-    left: 50%;
     padding-left: 2.5rem;
   }
-
-  .timeline-item::after {
-    content: '';
+  
+  .timeline-dot {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    background: #000;
+    left: -5px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    top: 0;
-    z-index: 1;
+    background: #6a11cb;
+    transform: translateX(-50%);
   }
-
-  .timeline-item:nth-child(odd)::after {
-    right: -10px;
-  }
-
-  .timeline-item:nth-child(even)::after {
-    left: -10px;
-  }
-
-  .timeline-content {
-    padding: 1.5rem;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  .timeline-date {
+  
+  .timeline-year {
     position: absolute;
+    left: 0;
     top: 0;
+    transform: translateX(-110%);
     font-weight: bold;
+    color: #6a11cb;
   }
-
-  .timeline-item:nth-child(odd) .timeline-date {
-    right: -70px;
+  
+  .timeline-content {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
   }
-
-  .timeline-item:nth-child(even) .timeline-date {
-    left: -70px;
+  
+  .timeline-content h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #333;
   }
-
+  
+  .timeline-content h4 {
+    margin: 0.5rem 0;
+    font-weight: normal;
+    color: #6a11cb;
+  }
+  
+  .skills-section {
+    margin: 6rem 0;
+  }
+  
+  .skills-section h2 {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .skills-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+  
+  .skills-column h3 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #333;
+  }
+  
+  .skill {
+    margin-bottom: 1.5rem;
+  }
+  
+  .skill-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  
+  .skill-name {
+    font-weight: 500;
+  }
+  
+  .skill-level {
+    opacity: 0.7;
+  }
+  
+  .skill-bar {
+    height: 8px;
+    background: #eee;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .skill-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    border-radius: 4px;
+  }
+  
   .contact-section {
-    margin-bottom: 4rem;
+    margin: 6rem 0;
   }
-
+  
+  .contact-section h2 {
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
   .contact-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 3rem;
   }
-
+  
+  .contact-info p {
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+  
+  .contact-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .contact-method {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s;
+  }
+  
+  .contact-method:hover {
+    transform: translateX(5px);
+  }
+  
+  .contact-method .icon {
+    font-size: 1.5rem;
+  }
+  
+  .contact-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  
   .form-group {
     margin-bottom: 1.5rem;
   }
-
+  
   .form-group label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
   }
-
-  .form-group input, .form-group textarea {
+  
+  .form-group input,
+  .form-group textarea {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.8rem;
     border: 1px solid #ddd;
     border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
   }
-
+  
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #6a11cb;
+    box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.2);
+  }
+  
   .submit-button {
-    padding: 0.75rem 1.5rem;
-    background: #000;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
     color: white;
     border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-
-  .submit-button:hover {
-    background: #333;
-  }
-
-  .social-links {
-    padding: 1.5rem;
-    background: #f8f8f8;
-    border-radius: 8px;
-  }
-
-  .links-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin: 1.5rem 0;
-  }
-
-  .social-link {
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1rem;
-    text-decoration: none;
-    color: white;
-    border-radius: 4px;
+    border-radius: 30px;
+    padding: 1rem 2rem;
+    font-size: 1rem;
     font-weight: 500;
-    transition: opacity 0.3s ease;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
   }
-
-  .social-link:hover {
-    opacity: 0.9;
+  
+  .submit-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(106, 17, 203, 0.3);
   }
-
-  .github {
-    background: #333;
-  }
-
-  .linkedin {
-    background: #0077b5;
-  }
-
-  .instagram, .instagram-music {
-    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-  }
-
-  .spotify {
-    background: #1DB954;
-  }
-
-  .youtube {
-    background: #FF0000;
-  }
-
-  .support-section {
-    margin-top: 1.5rem;
-    text-align: center;
-  }
-
-  .support-button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: bold;
-    transition: opacity 0.3s ease;
-  }
-
-  .kofi {
-    background: #FF5E5B;
-    color: white;
-  }
-
-  .kofi:hover {
-    opacity: 0.9;
-  }
-
+  
+  /* Responsive styles */
   @media (max-width: 900px) {
-    .timeline::after {
-      left: 31px;
-    }
-
-    .timeline-item {
-      width: 100%;
-      padding-left: 70px;
-      padding-right: 25px;
-    }
-
-    .timeline-item:nth-child(odd),
-    .timeline-item:nth-child(even) {
-      left: 0;
-      padding-left: 70px;
-      padding-right: 25px;
-    }
-
-    .timeline-item:nth-child(odd)::after,
-    .timeline-item:nth-child(even)::after {
-      left: 21px;
-    }
-
-    .timeline-item:nth-child(odd) .timeline-date,
-    .timeline-item:nth-child(even) .timeline-date {
-      left: 0;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .bio-section {
+    .bio-container,
+    .contact-container,
+    .skills-container {
       grid-template-columns: 1fr;
     }
-
-    .contact-container {
-      grid-template-columns: 1fr;
-    }
-
-    .image-placeholder {
-      max-width: 250px;
-      margin: 0 auto;
+    
+    .timeline-year {
+      position: relative;
+      transform: none;
+      margin-bottom: 0.5rem;
     }
   }
 </style>

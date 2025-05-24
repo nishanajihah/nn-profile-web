@@ -8,13 +8,40 @@
   gsap.registerPlugin(ScrollTrigger);
 
   let canvas;
+  let splineApp;
 
   onMount(() => {
     // Initialize Spline scene
     if (canvas) {
-      const spline = new Application(canvas);
-      // Replace this URL with your actual Spline scene URL when you have created one
-      spline.load('https://prod.spline.design/example-scene-url');
+      splineApp = new Application(canvas);
+      // Use a custom Spline scene with musical and coding elements
+      splineApp.load('https://prod.spline.design/VHkhNo0aRqtSJBSS/scene.splinecode')
+        .then(() => {
+          console.log('Spline scene loaded successfully');
+          
+          // Add interaction to 3D elements
+          if (splineApp.findObjectByName) {
+            // Find interactive elements in the scene
+            const musicNote = splineApp.findObjectByName('musicNote');
+            const codeSymbol = splineApp.findObjectByName('codeSymbol');
+            
+            // Add event listeners if elements exist
+            if (musicNote) {
+              musicNote.addEventListener('click', () => {
+                window.location.href = '/music';
+              });
+            }
+            
+            if (codeSymbol) {
+              codeSymbol.addEventListener('click', () => {
+                window.location.href = '/code';
+              });
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error loading Spline scene:', error);
+        });
     }
 
     // Hero section animations
@@ -86,7 +113,7 @@
   <meta name="description" content="Portfolio of Nisha Najihah - Developer, musician, and creative" />
 </svelte:head>
 
-<section class="hero" on:mousemove={handleMouseMove}>
+<section class="hero" onmousemove={handleMouseMove}>
   <div class="spline-container">
     <canvas bind:this={canvas}></canvas>
   </div>

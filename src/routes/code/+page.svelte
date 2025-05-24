@@ -2,49 +2,67 @@
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { getRepositories, getMockRepositories } from '$lib/utils/github-api.js';
   
   // Register GSAP plugins
   gsap.registerPlugin(ScrollTrigger);
 
-  // Mock projects data (will be replaced with GitHub API)
-  const projects = [
-    {
-      name: 'Project One',
-      description: 'A description of what this project does and the tech stack used.',
-      technologies: ['JavaScript', 'Node.js', 'Express'],
-      stars: 25,
-      forks: 10,
-      link: 'https://github.com',
-      liveSite: 'https://example.com'
-    },
-    {
-      name: 'Project Two',
-      description: 'Another cool project with a longer description explaining the concept and implementation details.',
-      technologies: ['React', 'TypeScript', 'Firebase'],
-      stars: 42,
-      forks: 15,
-      link: 'https://github.com',
-      liveSite: null
-    },
-    {
-      name: 'Project Three',
-      description: 'A third amazing project showcasing different skills and accomplishments.',
-      technologies: ['Svelte', 'TailwindCSS', 'Supabase'],
-      stars: 18,
-      forks: 5,
-      link: 'https://github.com',
-      liveSite: 'https://example.com'
-    },
-    {
-      name: 'Project Four',
-      description: 'A fourth project demonstrating your expertise in different areas.',
-      technologies: ['Python', 'Flask', 'PostgreSQL'],
-      stars: 31,
-      forks: 12,
-      link: 'https://github.com',
-      liveSite: 'https://example.com'
+  // Projects data from GitHub
+  let projects = [];
+  let isLoading = true;
+  let error = null;
+  
+  // Get featured projects from GitHub
+  async function loadProjects() {
+    try {
+      // Try to fetch real GitHub data
+      const repos = await getRepositories(8); // Limit to 8 repos
+      
+      if (repos && !repos.message) { // Check if we got a valid response
+        // Transform GitHub data to our project format
+        projects = repos.map(repo => ({
+          name: repo.name,
+          description: repo.description || 'A GitHub project by Nisha Najihah',
+          technologies: repo.topics || [],
+          language: repo.language,
+          stars: repo.stargazers_count,
+          forks: repo.forks_count,
+          link: repo.html_url,
+          liveSite: repo.homepage
+        }));
+      } else {
+        // Fall back to mock data if API call fails
+        console.warn('Falling back to mock GitHub data');
+        projects = getMockRepositories().map(repo => ({
+          name: repo.name,
+          description: repo.description || 'A GitHub project by Nisha Najihah',
+          technologies: repo.topics || [],
+          language: repo.language,
+          stars: repo.stargazers_count,
+          forks: repo.forks_count,
+          link: repo.html_url,
+          liveSite: repo.homepage
+        }));
+      }
+    } catch (err) {
+      console.error('Error loading GitHub projects:', err);
+      error = 'Failed to load projects. Please try again later.';
+      
+      // Fall back to mock data on error
+      projects = getMockRepositories().map(repo => ({
+        name: repo.name,
+        description: repo.description || 'A GitHub project by Nisha Najihah',
+        technologies: repo.topics || [],
+        language: repo.language,
+        stars: repo.stargazers_count,
+        forks: repo.forks_count,
+        link: repo.html_url,
+        liveSite: repo.homepage
+      }));
+    } finally {
+      isLoading = false;
     }
-  ];
+  }
 
   // State to track which project card is flipped
   let flippedCard = -1;
@@ -54,21 +72,24 @@
     flippedCard = flippedCard === index ? -1 : index;
   }
 
-  onMount(() => {
-    // Animate project cards on scroll
+  onMount(async () => {
+    // Load GitHub projects
+    await loadProjects();
+    
+    // Animations for project cards
     gsap.from('.project-card', {
-      y: 100,
       opacity: 0,
+      y: 50,
       stagger: 0.1,
       duration: 0.8,
       scrollTrigger: {
         trigger: '.projects-grid',
-        start: 'top bottom',
-        end: 'center center',
+        start: 'top 80%',
+        end: 'bottom 20%',
         scrub: 1
       }
     });
-
+    
     // Animate skills bars
     gsap.from('.skill-progress', {
       width: 0,
@@ -90,10 +111,19 @@
 
 <section class="code-container">
   <h1 class="code-title">My Code Projects</h1>
-  
-  <div class="projects-grid">
+    <div class="projects-grid">
     {#each projects as project, i}
-      <div class="project-card {flippedCard === i ? 'flipped' : ''}" on:click={() => flipCard(i)}>
+      <button 
+        class="project-card {flippedCard === i ? 'flipped' : ''}" 
+        on:click={() => flipCard(i)}
+        on:keydown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            flipCard(i);
+          }
+        }}
+        aria-pressed={flippedCard === i}
+        aria-label={`View details of ${project.name} project`}
+      >
         <div class="card-inner">
           <div class="card-front">
             <h3>{project.name}</h3>
@@ -225,11 +255,16 @@
     gap: 2rem;
     margin-bottom: 4rem;
   }
-
   .project-card {
     perspective: 1000px;
     height: 300px;
     cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
   }
 
   .card-inner {
