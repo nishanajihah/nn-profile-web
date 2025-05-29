@@ -1,5 +1,4 @@
-<script lang="ts">
-	// Import necessary components and styles
+<script lang="ts">	// Import necessary components and styles
 	import '../app.css';
 	import { onMount, afterUpdate } from 'svelte';
 	import { browser } from '$app/environment';
@@ -11,6 +10,7 @@
 	// Components
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import HomeFooter from '$lib/components/home/HomeFooter.svelte';
 	import MusicPlayer from '$lib/components/MusicPlayer.svelte';
 	
 	// Add page transition animations with TypeScript type annotation
@@ -54,25 +54,29 @@
 </svelte:head>
 
 <div class="flex min-h-screen flex-col bg-[#050505]">
-	<!-- Header is fixed position -->
-	<Header />
-	
-	{#key currentPath}
+	<!-- Header conditionally rendered - hidden on homepage -->
+	{#if currentPath !== '/'}
+		<Header />
+	{/if}
+		{#key currentPath}
 		<main 
 			bind:this={mainContent} 
-			class="flex-grow"
+			class="flex-grow {currentPath !== '/' ? 'pt-24' : ''}"
 			in:fade={{ duration: 400, delay: 200, easing: quintOut }}
 			out:fade={{ duration: 300 }}
 		>
 			<slot />
 		</main>
 	{/key}
-
 	<!-- Music Player (conditionally rendered based on state) -->
 	<MusicPlayer />
 	
-	<!-- Footer positioned absolutely on homepage and normally on other pages -->
-	<div class={currentPath === '/' ? 'absolute bottom-0 left-0 right-0 z-10' : ''}>
+	<!-- Conditional Footer: HomeFooter for homepage, standard Footer for other pages -->
+	{#if currentPath === '/'}
+		<div class="absolute bottom-0 left-0 right-0 z-10">
+			<HomeFooter />
+		</div>
+	{:else}
 		<Footer />
-	</div>
+	{/if}
 </div>

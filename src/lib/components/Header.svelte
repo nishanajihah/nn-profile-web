@@ -14,21 +14,25 @@
 
 	// Mobile menu state
 	let isMenuOpen = false;
-	let headerElement: HTMLElement;
-	let isScrolled = false;
+	let headerElement: HTMLElement;	let isScrolled = false;
 	let logoElement: HTMLElement;
 	let navContainer: HTMLElement;
+	
+	// Expose header background state - default to semi-transparent
+	export let headerBg = 'bg-black/30 backdrop-blur-sm';
 
 	// Toggle mobile menu
 	function toggleMenu() {
 		isMenuOpen = !isMenuOpen;
 	}
-
 	// Track scroll position for header transparency with improved animation
 	function handleScroll() {
 		const prevScrolled = isScrolled;
 		isScrolled = window.scrollY > 10;
 		const isHomepage = $page.url.pathname === '/';
+		
+		// Update header background based on scroll position
+		headerBg = isScrolled ? 'bg-black/70 backdrop-blur-md' : 'bg-black/30 backdrop-blur-sm';
 
 		// Animate header background when scrolling
 		if (isScrolled !== prevScrolled && headerElement) {
@@ -91,7 +95,7 @@
 
 <header
 	bind:this={headerElement}
-	class="fixed top-0 right-0 left-0 z-50 transition-all duration-300"
+	class="fixed top-0 right-0 left-0 z-50 transition-all duration-300 {headerBg}"
 >
 	<div class="container-custom flex h-24 items-center justify-between">
 		<!-- Logo with glow effect -->

@@ -270,17 +270,11 @@
 >
 	<!-- Three.js Background -->
 	<ThreeBackground 
-		mainColor="#5ce1e6" 
-		accentColor1="#7d5fff" 
-		accentColor2="#38b6ff"
+		mainColor="#0066ff" 
+		accentColor1="#ffde21" 
+		accentColor2="#ffffff"
 		density={70}
 		interactivity={0.8}
-		useVortexEffect={true}
-		useWaveEffect={true}
-		useNebulaEffect={true}
-		useBloom={true}
-		colorTransition={true}
-		interactiveIntensity={0.9}
 	/>
 
 	<!-- Ambient Floating Particles -->
@@ -297,7 +291,7 @@
 
 	<!-- Content Container with vertical centering -->
 	<div
-		class="container-custom relative z-10 flex h-full flex-col items-center justify-center pt-20 pb-24"
+		class="container-custom relative z-10 flex h-full flex-col items-center justify-center pb-24"
 	>
 		<!-- Main Content Area -->
 		<div class="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 lg:grid-cols-5">
