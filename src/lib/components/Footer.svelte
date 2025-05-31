@@ -91,22 +91,27 @@
 	});
 </script>
 
-<footer bind:this={footerElement} class="backdrop-blur-lg bg-black/40 border-t border-[#ffde21]/10 py-8">
+<footer
+	bind:this={footerElement}
+	class="border-t border-[var(--border-light)] bg-[var(--bg-card)] py-8 backdrop-blur-lg"
+>
 	<div class="container-custom">
 		<!-- Modern compact footer layout -->
-		<div class="flex flex-col md:flex-row justify-between items-center gap-8">
+		<div class="flex flex-col items-center justify-between gap-8 md:flex-row">
 			<!-- Brand section with logo -->
 			<div class="footer-section text-center md:text-left">
-				<div class="inline-block relative">
-					<h3 class="text-2xl font-bold text-white mb-2 relative">
+				<div class="relative inline-block">
+					<h3 class="relative mb-2 text-2xl font-bold text-white">
 						Nisha <span class="text-[#ffde21]">Najihah</span>
 						<!-- Yellow underline accent -->
-						<span class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#ffde21] to-transparent"></span>
+						<span
+							class="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-[#ffde21] to-transparent"
+						></span>
 					</h3>
 				</div>
-				
+
 				<!-- Social Links with hover effects -->
-				<div class="flex space-x-3 mt-4">
+				<div class="mt-4 flex space-x-3">
 					{#each socialLinks as link}
 						<a
 							href={link.href}
@@ -116,10 +121,14 @@
 							aria-label={link.label}
 						>
 							<!-- Hover background effect -->
-							<span class="absolute inset-0 rounded-full bg-[#ffde21] opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
-							
+							<span
+								class="absolute inset-0 rounded-full bg-[#ffde21] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+							></span>
+
 							<!-- Icon container -->
-							<span class="relative z-10 text-white group-hover:text-black transition-colors duration-300">
+							<span
+								class="relative z-10 text-white transition-colors duration-300 group-hover:text-black"
+							>
 								{#if link.icon === 'github'}
 									<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
 										<path
@@ -149,15 +158,17 @@
 
 			<!-- Center section - Quick Links with modern hover effects -->
 			<div class="footer-section">
-				<div class="flex space-x-6 flex-wrap justify-center">
+				<div class="flex flex-wrap justify-center space-x-6">
 					{#each quickLinks as link}
-						<a 
-							href={link.href} 
-							class="footer-link relative text-white transition-all hover:text-[#ffde21] px-2 py-1"
+						<a
+							href={link.href}
+							class="footer-link relative px-2 py-1 text-white transition-all hover:text-[#ffde21]"
 						>
 							{link.label}
 							<!-- Animated underline on hover -->
-							<span class="absolute bottom-0 left-0 w-0 h-px bg-[#ffde21] group-hover:w-full transition-all duration-300 hover:w-full"></span>
+							<span
+								class="absolute bottom-0 left-0 h-px w-0 bg-[#ffde21] transition-all duration-300 group-hover:w-full hover:w-full"
+							></span>
 						</a>
 					{/each}
 				</div>
@@ -170,8 +181,10 @@
 					class="footer-link group relative overflow-hidden rounded-full border border-[#ffde21]/30 px-6 py-2 text-sm font-medium text-white transition-all hover:border-[#ffde21] hover:shadow-[0_0_15px_rgba(255,222,33,0.2)]"
 				>
 					<!-- Button background with hover effect -->
-					<span class="absolute inset-0 bg-[#ffde21]/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
-					
+					<span
+						class="absolute inset-0 bg-[#ffde21]/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+					></span>
+
 					<!-- Button content -->
 					<span class="relative z-10 flex items-center">
 						Get in Touch
@@ -188,13 +201,16 @@
 		</div>
 
 		<!-- Bottom copyright bar -->
-		<div class="mt-6 pt-6 border-t border-[#ffde21]/5">
-			<div class="flex flex-col md:flex-row items-center justify-between">
+		<div class="mt-6 border-t border-[#ffde21]/5 pt-6">
+			<div class="flex flex-col items-center justify-between md:flex-row">
 				<!-- Copyright text with subtle glow -->
-				<div class="footer-copyright mb-4 md:mb-0 text-sm text-white/40 hover:text-white/70 transition-colors">
-					© {currentYear} <span class="text-[#ffde21]/70">Nisha Najihah</span>. All rights reserved.
+				<div
+					class="footer-copyright mb-4 text-sm text-white/40 transition-colors hover:text-white/70 md:mb-0"
+				>
+					© {currentYear} <span class="text-[#ffde21]/70">Nisha Najihah</span>. All rights
+					reserved.
 				</div>
-				
+
 				<!-- Ko-fi button with animated border effect -->
 				<a
 					href={`https://ko-fi.com/${import.meta.env.VITE_KOFI_USERNAME || 'nishanajihah'}`}
@@ -203,13 +219,19 @@
 					rel="noreferrer noopener"
 				>
 					<!-- Animated border effect -->
-					<span class="absolute inset-0 rounded-full border border-[#ffde21]/30 transition-all group-hover:border-[#ffde21] group-hover:shadow-[0_0_10px_rgba(255,222,33,0.3)]"></span>
-					
+					<span
+						class="absolute inset-0 rounded-full border border-[#ffde21]/30 transition-all group-hover:border-[#ffde21] group-hover:shadow-[0_0_10px_rgba(255,222,33,0.3)]"
+					></span>
+
 					<!-- Background gradient -->
-					<span class="absolute inset-0 bg-gradient-to-r from-black/40 to-[#ffde21]/10 opacity-0 transition-opacity group-hover:opacity-100"></span>
-					
+					<span
+						class="absolute inset-0 bg-gradient-to-r from-black/40 to-[#ffde21]/10 opacity-0 transition-opacity group-hover:opacity-100"
+					></span>
+
 					<!-- Button content -->
-					<span class="relative z-10 flex items-center text-white/70 group-hover:text-white transition-colors">
+					<span
+						class="relative z-10 flex items-center text-white/70 transition-colors group-hover:text-white"
+					>
 						<svg class="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
 							<path
 								d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 3.011.723 4.311z"

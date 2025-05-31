@@ -53,7 +53,7 @@
 	});
 </script>
 
-<footer bind:this={footerElement} class="w-full py-6 z-20">
+<footer bind:this={footerElement} class="w-full py-6 z-20 backdrop-blur-md bg-[var(--bg-card)]/50">
 	<div class="container-custom">
 		<!-- Minimalist footer design for homepage -->
 		<div class="flex flex-col items-center justify-center">
