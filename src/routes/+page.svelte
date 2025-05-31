@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { gsap } from 'gsap';
-	import ThreeBackground from '$lib/components/home/ThreeBackground.svelte';
 	import { playerStore } from '$lib/stores/musicStore';
 
 	// Define proper typings for DOM elements
@@ -268,15 +267,6 @@
 	bind:this={homepageContent}
 	class="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden"
 >
-	<!-- Three.js Background -->
-	<ThreeBackground 
-		mainColor="#0066ff" 
-		accentColor1="#ffde21" 
-		accentColor2="#ffffff"
-		density={70}
-		interactivity={0.8}
-	/>
-
 	<!-- Ambient Floating Particles -->
 	<div
 		bind:this={particleContainer}
@@ -291,7 +281,7 @@
 
 	<!-- Content Container with vertical centering -->
 	<div
-		class="container-custom relative z-10 flex h-full flex-col items-center justify-center pb-24"
+		class="container-custom relative z-10 flex h-full flex-col items-center justify-center pt-20 pb-24"
 	>
 		<!-- Main Content Area -->
 		<div class="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 lg:grid-cols-5">
