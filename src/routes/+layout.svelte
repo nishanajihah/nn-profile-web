@@ -1,4 +1,5 @@
-<script lang="ts">	// Import necessary components and styles
+<script lang="ts">
+	// Import necessary components and styles
 	import '../app.css';
 	import { onMount, afterUpdate } from 'svelte';
 	import { browser } from '$app/environment';
@@ -12,12 +13,12 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import HomeFooter from '$lib/components/home/HomeFooter.svelte';
 	import MusicPlayer from '$lib/components/MusicPlayer.svelte';
-	
+
 	// Add page transition animations with TypeScript type annotation
 	let mainContent: HTMLElement;
 	let currentPath = '';
 	let isTransitioning = false;
-		// Handle route changes for page transitions
+	// Handle route changes for page transitions
 	$: if ($page.url.pathname !== currentPath) {
 		currentPath = $page.url.pathname;
 		isTransitioning = true;
@@ -29,19 +30,19 @@
 			}
 		}, 400);
 	}
-	
+
 	onMount(() => {
 		// Animate content on initial load
 		if (mainContent) {
-			gsap.from(mainContent, { 
-				opacity: 0, 
-				y: 20, 
+			gsap.from(mainContent, {
+				opacity: 0,
+				y: 20,
 				duration: 0.7,
-				ease: "power2.out",
+				ease: 'power2.out',
 				delay: 0.3
 			});
 		}
-		
+
 		// Set initial path
 		currentPath = $page.url.pathname;
 	});
@@ -50,17 +51,20 @@
 <!-- Apply global styles -->
 <svelte:head>
 	<title>Nisha Najihah | Music Producer & Developer</title>
-	<meta name="description" content="Creative developer and music producer crafting digital experiences and atmospheric sounds." />
+	<meta
+		name="description"
+		content="Creative developer and music producer crafting digital experiences and atmospheric sounds."
+	/>
 </svelte:head>
 
-<div class="flex min-h-screen flex-col bg-[#050505]">
+<div class="flex min-h-screen flex-col" style="background-color: var(--bg-main);">
 	<!-- Header conditionally rendered - hidden on homepage -->
 	{#if currentPath !== '/'}
 		<Header />
 	{/if}
-		{#key currentPath}
-		<main 
-			bind:this={mainContent} 
+	{#key currentPath}
+		<main
+			bind:this={mainContent}
 			class="flex-grow {currentPath !== '/' ? 'pt-24' : ''}"
 			in:fade={{ duration: 400, delay: 200, easing: quintOut }}
 			out:fade={{ duration: 300 }}
@@ -70,10 +74,10 @@
 	{/key}
 	<!-- Music Player (conditionally rendered based on state) -->
 	<MusicPlayer />
-	
+
 	<!-- Conditional Footer: HomeFooter for homepage, standard Footer for other pages -->
 	{#if currentPath === '/'}
-		<div class="absolute bottom-0 left-0 right-0 z-10">
+		<div class="absolute right-0 bottom-0 left-0 z-10">
 			<HomeFooter />
 		</div>
 	{:else}

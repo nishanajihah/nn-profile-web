@@ -3,11 +3,10 @@
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import { playerStore, type Track } from '$lib/stores/musicStore';
-
+	import PageLayout from '$lib/components/PageLayout.svelte';
 	// Register GSAP plugins
 	gsap.registerPlugin(ScrollTrigger);
 	// Reference elements for animations
-	let headerSection: HTMLElement;
 	let featuredSection: HTMLElement;
 	let projectsSection: HTMLElement;
 
@@ -139,19 +138,7 @@
 			const data = await fetchSpotifyData();
 			featuredProject = data.featured as MusicTrack;
 			musicProjects = data.projects as MusicTrack[];
-			isLoading = false;
-
-			// Animate elements when they come into view
-			if (headerSection) {
-				gsap.from(headerSection.querySelectorAll('.animate-item'), {
-					y: 30,
-					opacity: 0,
-					stagger: 0.2,
-					duration: 0.8,
-					ease: 'power2.out',
-					delay: 0.2
-				});
-			}
+			isLoading = false;			// Header animations are now handled by the PageLayout component
 
 			if (featuredSection) {
 				gsap.from(featuredSection, {
@@ -187,16 +174,9 @@
 	});
 </script>
 
-<div class="min-h-screen py-16 md:py-20">
+<PageLayout title="Musical Journey" subtitle="Explore my music projects and releases - a blend of electronic, ambient, and experimental sounds">
 	<div class="container-custom">
-		<!-- Header Section -->
-		<header bind:this={headerSection} class="mb-16 text-center">
-			<h1 class="animate-item mb-4 text-4xl font-bold text-white md:text-5xl">Musical Journey</h1>
-			<p class="animate-item mx-auto max-w-2xl text-lg text-gray-300">
-				Explore my music projects and releases - a blend of electronic, ambient, and experimental
-				sounds crafted to create immersive sonic experiences.
-			</p>
-		</header>
+		<!-- Content Sections -->
 
 		{#if isLoading}
 			<!-- Loading State -->
@@ -480,9 +460,8 @@
 							/>
 						</svg>
 						<span>Bandcamp</span>
-					</a>
-				</div>
+					</a>				</div>
 			</section>
 		{/if}
 	</div>
-</div>
+</PageLayout>
