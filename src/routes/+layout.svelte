@@ -44,9 +44,17 @@
 		}
 
 		// Set initial path
-		currentPath = $page.url.pathname;
-	});
+		currentPath = $page.url.pathname;	});
 </script>
+
+<style>
+	/* Ensure header container is always visible */
+	:global(.header-container) {
+		opacity: 1 !important;
+		visibility: visible !important;
+		z-index: 50;
+	}
+</style>
 
 <!-- Apply global styles -->
 <svelte:head>
@@ -57,10 +65,11 @@
 	/>
 </svelte:head>
 
-<div class="flex min-h-screen flex-col" style="background-color: var(--bg-main);">
-	<!-- Header conditionally rendered - hidden on homepage -->
+<div class="flex min-h-screen flex-col" style="background-color: var(--bg-main);">	<!-- Header conditionally rendered - hidden on homepage -->
 	{#if currentPath !== '/'}
-		<Header />
+		<div class="header-container z-50">
+			<Header />
+		</div>
 	{/if}
 	{#key currentPath}
 		<main

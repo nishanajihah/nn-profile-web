@@ -99,28 +99,58 @@
 
 		particlesGenerated = true;
 	}
-
 	onMount(() => {
 		// Add mouse movement listener for glow effect
 		pageContent?.addEventListener('mousemove', handleMouseMove);
 
 		// Generate ambient particles
 		if (withParticles) {
-			generateParticles();
+			// Set a small delay before generating particles to ensure DOM is ready
+			setTimeout(() => {
+				generateParticles();
+			}, 100);
 		}
 
-		// Set up ambient animation for glow when not interacting
-		gsap.to(glowEffect, {
-			opacity: 0.5,
-			scale: 1.2,
-			duration: 4,
-			repeat: -1,
-			yoyo: true,
-			ease: 'sine.inOut'
-		});
+		// Set up ambient animation for glow when not interacting with enhanced persistence
+		if (glowEffect) {
+			// Ensure the glow effect is immediately visible on page load
+			gsap.set(glowEffect, {
+				opacity: 0.6,
+				scale: 1.0
+			});
 
-		// Animate page title and content entrance
-		const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+			// Create a more persistent ambient glow animation
+			gsap.to(glowEffect, {
+				opacity: 0.5,
+				scale: 1.2,
+				duration: 4,
+				repeat: -1,
+				yoyo: true,
+				ease: 'sine.inOut',
+				immediateRender: true // Ensures the animation renders immediately on page load
+			});
+		}
+
+		// Animate page title and content entrance with improved timing
+		const tl = gsap.timeline({
+			defaults: { ease: 'power3.out' },
+			onComplete: () => {
+				// After initial animation completes, ensure all elements are fully visible
+				if (title) {
+					const titleElement = document.querySelector('.page-title');
+					if (titleElement) {
+						gsap.set(titleElement, { clearProps: 'all' });
+					}
+				}
+
+				if (subtitle) {
+					const subtitleElement = document.querySelector('.page-subtitle');
+					if (subtitleElement) {
+						gsap.set(subtitleElement, { clearProps: 'all' });
+					}
+				}
+			}
+		});
 
 		if (title) {
 			const titleElement = document.querySelector('.page-title');
@@ -128,8 +158,8 @@
 				tl.fromTo(
 					titleElement,
 					{ y: 30, opacity: 0, scale: 0.95 },
-					{ y: 0, opacity: 1, scale: 1, duration: 1.2 },
-					0.3
+					{ y: 0, opacity: 1, scale: 1, duration: 1.0 },
+					0.2
 				);
 			}
 		}
@@ -137,7 +167,7 @@
 		if (subtitle) {
 			const subtitleElement = document.querySelector('.page-subtitle');
 			if (subtitleElement) {
-				tl.fromTo(subtitleElement, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, 0.7);
+				tl.fromTo(subtitleElement, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, 0.5);
 			}
 		}
 

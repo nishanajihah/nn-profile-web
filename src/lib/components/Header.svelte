@@ -1,7 +1,7 @@
 <script lang="ts">
 	// Active route tracking for navigation highlighting
 	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
+	import { onMount, afterUpdate } from 'svelte';
 	import { gsap } from 'gsap';
 
 	// Navigation links with their paths and labels
@@ -25,6 +25,7 @@
 	function toggleMenu() {
 		isMenuOpen = !isMenuOpen;
 	}
+	
 	// Track scroll position for header transparency with improved animation
 	function handleScroll() {
 		const prevScrolled = isScrolled;
@@ -77,27 +78,111 @@
 			}
 		}
 	}
-
+	// Function to update active navigation state
+	function updateActiveNavigation() {
+		// First make sure all nav items are visible
+		document.querySelectorAll('.nav-item').forEach((item) => {
+			(item as HTMLElement).style.opacity = '1';
+			(item as HTMLElement).style.visibility = 'visible';
+		});
+		
+		const navItems = document.querySelectorAll('.nav-item');
+		navItems.forEach((item) => {
+			const path = (item as HTMLElement).dataset.path;
+			if (path && ($page.url.pathname === path || 
+                        ($page.url.pathname.startsWith(path) && path !== '/'))) {
+				item.classList.add('active-nav');
+				// Also ensure the background stays visible
+				const bg = item.querySelector('.nav-bg');
+				if (bg) {
+					bg.classList.add('opacity-100');
+					(bg as HTMLElement).style.opacity = '1';
+				}
+			} else {
+				item.classList.remove('active-nav');
+			}
+		});
+		
+		// Ensure the header itself is visible
+		if (headerElement) {
+			headerElement.style.opacity = '1';
+			headerElement.style.visibility = 'visible';
+		}
+	}
 	onMount(() => {
 		// Add scroll event listener
 		window.addEventListener('scroll', handleScroll);
 
-		// Initial animation for header elements
+		// Run the scroll handler immediately to properly initialize header state
+		handleScroll();
+
+		// Initial animation for header elements with improved persistence
 		const navItems = document.querySelectorAll('.nav-item');
-		const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+		const tl = gsap.timeline({
+			defaults: { ease: 'power3.out' },
+			onComplete: () => {
+				// After animation completes, ensure nav items have proper styling
+				updateActiveNavigation();
+
+				// Force header to update its styling based on current scroll position
+				isScrolled = window.scrollY > 10;
+				headerBg = isScrolled
+					? 'bg-[var(--bg-card-hover)] backdrop-blur-md'
+					: 'bg-[var(--bg-card)] backdrop-blur-sm';
+			}
+		});
 
 		tl.from(headerElement, { y: -20, opacity: 0, duration: 0.5 });
 		tl.from(navItems, { y: -10, opacity: 0, stagger: 0.1, duration: 0.3 });
+
+		// Check and apply active state to current navigation item
+		updateActiveNavigation();
 
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
 		};
 	});
+		// Update active navigation whenever the page changes
+	afterUpdate(() => {
+		updateActiveNavigation();
+		// Also reapply scroll styling
+		handleScroll();
+	});
 </script>
+
+<style>
+/* Add persistent styles for active navigation */
+:global(.nav-item.active-nav) {
+  color: #000 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+:global(.nav-item.active-nav .nav-bg) {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Ensure all nav items are visible */
+:global(.nav-item) {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Fix for when CSS transitions get reset during page transitions */
+@keyframes ensure-visibility {
+  0%, 100% { opacity: 1; visibility: visible; }
+}
+
+:global(header) {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+</style>
 
 <header
 	bind:this={headerElement}
-	class="fixed top-0 right-0 left-0 z-50 transition-all duration-300 {headerBg}"
+	class="fixed top-0 right-0 left-0 z-50 transition-all duration-300 {headerBg} !opacity-100 !visible"
 >
 	<div class="container-custom flex h-24 items-center justify-between">
 		<!-- Logo with glow effect -->
@@ -123,18 +208,25 @@
 			{#each navLinks as link}
 				<a
 					href={link.path}
-					class="nav-item relative overflow-hidden rounded-md px-4 py-2 text-sm font-medium transition-all
-						{$page.url.pathname === link.path ? 'text-black' : 'text-white hover:text-black'}"
-					aria-current={$page.url.pathname === link.path ? 'page' : undefined}
-				>
-					<!-- Background layer with transition -->
+					data-path={link.path}
+					class="nav-item group relative overflow-hidden rounded-md px-4 py-2 text-sm font-medium transition-all
+						{$page.url.pathname === link.path || ($page.url.pathname.startsWith(link.path) && link.path !== '/')
+						? 'text-black'
+						: 'text-white hover:text-black'}"
+					aria-current={$page.url.pathname === link.path ||
+					($page.url.pathname.startsWith(link.path) && link.path !== '/')
+						? 'page'
+						: undefined}
+				>					<!-- Background layer with transition -->
 					<span
-						class="absolute inset-0 bg-[#ffde21] opacity-0 transition-opacity duration-300
-						{$page.url.pathname === link.path ? 'opacity-100' : 'group-hover:opacity-100'}"
+						class="nav-bg absolute inset-0 bg-[#ffde21] opacity-0 transition-opacity duration-300
+						{$page.url.pathname === link.path || ($page.url.pathname.startsWith(link.path) && link.path !== '/')
+							? 'opacity-100'
+							: 'group-hover:opacity-100'}"
 					></span>
 
 					<!-- Active indicator dot -->
-					{#if $page.url.pathname === link.path}
+					{#if $page.url.pathname === link.path || ($page.url.pathname.startsWith(link.path) && link.path !== '/')}
 						<span class="absolute top-1 right-1 h-1 w-1 rounded-full bg-black"></span>
 					{/if}
 
@@ -194,18 +286,20 @@
 				<!-- Decorative accent -->
 				<div
 					class="absolute top-0 right-0 h-24 w-1 bg-gradient-to-b from-[#ffde21]/80 to-transparent"
-				></div>
-
-				{#each navLinks as link}
+				></div>				{#each navLinks as link}
 					<a
 						href={link.path}
-						class="group relative block overflow-hidden rounded-lg px-4 py-3 text-base font-medium transition-all"
-						aria-current={$page.url.pathname === link.path ? 'page' : undefined}
+						data-path={link.path}
+						class="nav-item group relative block overflow-hidden rounded-lg px-4 py-3 text-base font-medium transition-all"
+						aria-current={$page.url.pathname === link.path ||
+						($page.url.pathname.startsWith(link.path) && link.path !== '/')
+							? 'page'
+							: undefined}
 						on:click={() => (isMenuOpen = false)}
-					>
-						<!-- Background element -->
+					>						<!-- Background element -->
 						<span
-							class="absolute inset-0 {$page.url.pathname === link.path
+							class="nav-bg absolute inset-0 {$page.url.pathname === link.path ||
+							($page.url.pathname.startsWith(link.path) && link.path !== '/')
 								? 'bg-[#ffde21]'
 								: 'bg-black/40 group-hover:bg-[#ffde21]/20'} transition-colors duration-300"
 						></span>
@@ -213,14 +307,15 @@
 						<!-- Link content -->
 						<span
 							class="relative z-10 flex items-center justify-between {$page.url.pathname ===
-							link.path
+								link.path ||
+							($page.url.pathname.startsWith(link.path) && link.path !== '/')
 								? 'text-black'
 								: 'text-white'}"
 						>
 							{link.label}
 
 							<!-- Active indicator -->
-							{#if $page.url.pathname === link.path}
+							{#if $page.url.pathname === link.path || ($page.url.pathname.startsWith(link.path) && link.path !== '/')}
 								<svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
 									<path
 										fill-rule="evenodd"
