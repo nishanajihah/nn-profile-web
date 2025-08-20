@@ -6,7 +6,7 @@
 
 	// Register GSAP plugins
 	gsap.registerPlugin(ScrollTrigger);
-	
+
 	// Reference elements for animations
 	let projectsSection: HTMLElement;
 	let skillsSection: HTMLElement;
@@ -40,50 +40,167 @@
 	let githubEvents: any[] = [];
 	let contributionsData = { total: 0, lastYear: 0, streak: 0, publicRepos: 0 };
 	let contributionActivity: Array<{
-		month: string, 
-		monthKey: string, 
-		count: number, 
-		level: number, 
-		isCurrentMonth: boolean,
-		days: Array<{date: string, day: number, count: number, level: number, isToday: boolean}>
+		month: string;
+		monthKey: string;
+		count: number;
+		level: number;
+		isCurrentMonth: boolean;
+		days: Array<{ date: string; day: number; count: number; level: number; isToday: boolean }>;
 	}> = [];
 	let selectedMonth: string | null = null;
 	let showAllProjects = false;
 	let projectSearchQuery = '';
+	let hoveredCategory: string | null = null;
 
 	// Skills visualization data with categories
 	const skills = [
-		{ category: 'Frontend', name: 'JavaScript', level: 90, color: '#f7df1e', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
-		{ category: 'Frontend', name: 'TypeScript', level: 85, color: '#3178c6', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg' },
-		{ category: 'Frontend', name: 'React', level: 88, color: '#61dafb', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
-		{ category: 'Frontend', name: 'Svelte', level: 78, color: '#ff3e00', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/svelte/svelte-original.svg' },
-		{ category: 'Frontend', name: 'HTML/CSS', level: 92, color: '#e34c26', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
-		{ category: 'Frontend', name: 'TailwindCSS', level: 85, color: '#06b6d4', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg' },
-		{ category: 'Backend', name: 'Node.js', level: 82, color: '#339933', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg' },
-		{ category: 'Backend', name: 'Express', level: 80, color: '#000000', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg' },
-		{ category: 'Backend', name: 'GraphQL', level: 75, color: '#e535ab', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg' },
-		{ category: 'Backend', name: 'PostgreSQL', level: 75, color: '#336791', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' },
-		{ category: 'Tools', name: 'Git', level: 88, color: '#f34f29', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg' },
-		{ category: 'Tools', name: 'Docker', level: 72, color: '#2496ed', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
-		{ category: 'Tools', name: 'VS Code', level: 90, color: '#007acc', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg' },
-		{ category: 'Languages', name: 'Python', level: 70, color: '#3572A5', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
-		{ category: 'Languages', name: 'Java', level: 65, color: '#f89820', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg' }
+		{
+			category: 'Frontend',
+			name: 'JavaScript',
+			level: 90,
+			color: '#f7df1e',
+			logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg'
+		},
+		{
+			category: 'Frontend',
+			name: 'TypeScript',
+			level: 85,
+			color: '#3178c6',
+			logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg'
+		},
+		{
+			category: 'Frontend',
+			name: 'React',
+			level: 88,
+			color: '#61dafb',
+			logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg'
+		},
+		{
+			category: 'Frontend',
+			name: 'Svelte',
+			level: 78,
+			color: '#ff3e00',
+			logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/svelte/svelte-original.svg'
+		},
+		{
+			category: 'Frontend',
+			name: 'HTML/CSS',
+			level: 92,
+			color: '#e34c26',
+			logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg'
+		},
+		{
+			category: 'Frontend',
+			name: 'TailwindCSS',
+			level: 85,
+			color: '#06b6d4',
+			logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg'
+		},
+		{
+			category: 'Backend',
+			name: 'Node.js',
+			level: 82,
+			color: '#339933',
+			logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg'
+		},
+		{
+			category: 'Backend',
+			name: 'Express',
+			level: 80,
+			color: '#000000',
+			logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg'
+		},
+		{
+			category: 'Backend',
+			name: 'GraphQL',
+			level: 75,
+			color: '#e535ab',
+			logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg'
+		},
+		{
+			category: 'Backend',
+			name: 'PostgreSQL',
+			level: 75,
+			color: '#336791',
+			logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg'
+		},
+		{
+			category: 'Tools',
+			name: 'Git',
+			level: 88,
+			color: '#f34f29',
+			logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg'
+		},
+		{
+			category: 'Tools',
+			name: 'Docker',
+			level: 72,
+			color: '#2496ed',
+			logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg'
+		},
+		{
+			category: 'Tools',
+			name: 'VS Code',
+			level: 90,
+			color: '#007acc',
+			logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg'
+		},
+		{
+			category: 'Languages',
+			name: 'Python',
+			level: 70,
+			color: '#3572A5',
+			logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg'
+		},
+		{
+			category: 'Languages',
+			name: 'Java',
+			level: 65,
+			color: '#f89820',
+			logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg'
+		}
 	];
 
-	// Group skills by category
-	const skillCategories = skills.reduce((acc, skill) => {
-		if (!acc[skill.category]) {
-			acc[skill.category] = [];
+	// Create a shuffled version of skills for random display
+	const shuffleArray = (array: typeof skills) => {
+		const shuffled = [...array];
+		for (let i = shuffled.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
 		}
-		acc[skill.category].push(skill);
-		return acc;
-	}, {} as Record<string, typeof skills>);
+		return shuffled;
+	};
+
+	// Get skill level label based on percentage
+	const getSkillLevel = (level: number): string => {
+		if (level >= 80) return 'Advanced';
+		if (level >= 60) return 'Intermediate';
+		if (level >= 40) return 'Beginner';
+		return 'Learning';
+	};
+
+	const randomizedSkills = shuffleArray(skills);
+
+	// Group skills by category
+	const skillCategories = skills.reduce(
+		(acc, skill) => {
+			if (!acc[skill.category]) {
+				acc[skill.category] = [];
+			}
+			acc[skill.category].push(skill);
+			return acc;
+		},
+		{} as Record<string, typeof skills>
+	);
 
 	// Filter projects based on search query
-	$: filteredProjects = projects.filter(project => 
-		project.name.toLowerCase().includes(projectSearchQuery.toLowerCase()) ||
-		(project.description && project.description.toLowerCase().includes(projectSearchQuery.toLowerCase())) ||
-		(project.language && project.language.toLowerCase().includes(projectSearchQuery.toLowerCase()))
+	$: filteredProjects = projects.filter(
+		(project) =>
+			project.name.toLowerCase().includes(projectSearchQuery.toLowerCase()) ||
+			(project.description &&
+				project.description.toLowerCase().includes(projectSearchQuery.toLowerCase())) ||
+			(project.language &&
+				project.language.toLowerCase().includes(projectSearchQuery.toLowerCase()))
 	);
 
 	// Display projects (limit to 15 unless showing all)
@@ -115,14 +232,14 @@
 	async function fetchGithubData() {
 		try {
 			const response = await fetch('/api/github-data');
-			
+
 			if (!response.ok) {
 				const errorData = await response.json();
 				throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
 			}
-			
+
 			const data = await response.json();
-			
+
 			return {
 				repos: data.repos || [],
 				pinnedRepos: data.pinnedRepos || [],
@@ -133,8 +250,8 @@
 		} catch (err) {
 			console.error('Error fetching GitHub data:', err);
 			throw new Error(
-				err instanceof Error 
-					? `Failed to load GitHub data: ${err.message}` 
+				err instanceof Error
+					? `Failed to load GitHub data: ${err.message}`
 					: 'Failed to load GitHub data. Please try again later.'
 			);
 		}
@@ -159,21 +276,25 @@
 		// Animate skills section
 		if (skillsSection) {
 			// Animate the central hub
-			gsap.fromTo(skillsSection.querySelector('.central-hub'), {
-				scale: 0,
-				rotation: -180,
-				opacity: 0
-			}, {
-				scale: 1,
-				rotation: 0,
-				opacity: 1,
-				duration: 1.5,
-				ease: 'elastic.out(1, 0.5)',
-				scrollTrigger: {
-					trigger: skillsSection,
-					start: 'top bottom-=100'
+			gsap.fromTo(
+				skillsSection.querySelector('.central-hub'),
+				{
+					scale: 0,
+					rotation: -180,
+					opacity: 0
+				},
+				{
+					scale: 1,
+					rotation: 0,
+					opacity: 1,
+					duration: 1.5,
+					ease: 'elastic.out(1, 0.5)',
+					scrollTrigger: {
+						trigger: skillsSection,
+						start: 'top bottom-=100'
+					}
 				}
-			});
+			);
 
 			// Animate category planets
 			gsap.from(skillsSection.querySelectorAll('.category-planet'), {
@@ -314,24 +435,33 @@
 				<!-- Featured Projects -->
 				{#if pinnedProjects.length > 0}
 					<section>
-						<div class="text-center mb-12">
-							<h2 class="text-4xl font-bold text-white mb-4">Featured Projects</h2>
-							<p class="text-xl text-gray-400 max-w-2xl mx-auto">Showcasing my best work that combines creativity with technical excellence</p>
+						<div class="mb-12 text-center">
+							<h2 class="mb-4 text-4xl font-bold text-white">Featured Projects</h2>
+							<p class="mx-auto max-w-2xl text-xl text-gray-400">
+								Showcasing my best work that combines creativity with technical excellence
+							</p>
 						</div>
-						<div bind:this={projectsSection} class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+						<div
+							bind:this={projectsSection}
+							class="grid grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3"
+						>
 							{#each pinnedProjects as project (project.id)}
-								<article class="project-card group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-sm border border-gray-700/50 hover:border-primary/50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10">
+								<article
+									class="project-card group hover:border-primary/50 hover:shadow-primary/10 relative overflow-hidden rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+								>
 									<!-- Project Image Placeholder -->
 									<div class="relative aspect-video overflow-hidden">
 										{#if project.readme_image}
 											<img
 												src={project.readme_image}
 												alt="{project.name} preview"
-												class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+												class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
 											/>
 										{:else}
-											<div class="w-full h-full bg-gradient-to-br from-primary/20 to-purple-600/20 flex items-center justify-center">
-												<div class="text-6xl text-primary/30">
+											<div
+												class="from-primary/20 flex h-full w-full items-center justify-center bg-gradient-to-br to-purple-600/20"
+											>
+												<div class="text-primary/30 text-6xl">
 													{#if project.language === 'TypeScript'}📘
 													{:else if project.language === 'JavaScript'}📙
 													{:else if project.language === 'Python'}🐍
@@ -340,31 +470,45 @@
 												</div>
 											</div>
 										{/if}
-										<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+										<div
+											class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+										></div>
 									</div>
 
 									<!-- Content -->
 									<div class="p-6">
-										<h3 class="text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors duration-300">{project.name}</h3>
-										<p class="text-gray-400 mb-4 line-clamp-3">{project.description || 'No description available'}</p>
-										
+										<h3
+											class="group-hover:text-primary mb-3 text-xl font-bold text-white transition-colors duration-300"
+										>
+											{project.name}
+										</h3>
+										<p class="mb-4 line-clamp-3 text-gray-400">
+											{project.description || 'No description available'}
+										</p>
+
 										<!-- Language & Topics -->
 										{#if project.language}
-											<div class="flex items-center gap-2 mb-3">
-												<span class="inline-block w-3 h-3 rounded-full {getLanguageColorClass(project.language)}"></span>
+											<div class="mb-3 flex items-center gap-2">
+												<span
+													class="inline-block h-3 w-3 rounded-full {getLanguageColorClass(
+														project.language
+													)}"
+												></span>
 												<span class="text-sm text-gray-300">{project.language}</span>
 											</div>
 										{/if}
 
 										{#if project.topics && project.topics.length > 0}
-											<div class="flex flex-wrap gap-2 mb-4">
+											<div class="mb-4 flex flex-wrap gap-2">
 												{#each project.topics.slice(0, 3) as topic}
-													<span class="px-2 py-1 text-xs bg-primary/10 text-primary rounded-full border border-primary/20">
+													<span
+														class="bg-primary/10 text-primary border-primary/20 rounded-full border px-2 py-1 text-xs"
+													>
 														{topic}
 													</span>
 												{/each}
 												{#if project.topics.length > 3}
-													<span class="px-2 py-1 text-xs bg-gray-700/50 text-gray-400 rounded-full">
+													<span class="rounded-full bg-gray-700/50 px-2 py-1 text-xs text-gray-400">
 														+{project.topics.length - 3}
 													</span>
 												{/if}
@@ -372,7 +516,7 @@
 										{/if}
 
 										<!-- Stats & Actions -->
-										<div class="flex items-center justify-between pt-4 border-t border-gray-700/30">
+										<div class="flex items-center justify-between border-t border-gray-700/30 pt-4">
 											<div class="flex items-center gap-4 text-sm text-gray-400">
 												<span class="flex items-center gap-1">
 													⭐ {project.stargazers_count}
@@ -387,7 +531,7 @@
 														href={project.homepage}
 														target="_blank"
 														rel="noopener noreferrer"
-														class="px-3 py-1 text-sm bg-primary hover:bg-primary/80 text-white rounded-lg transition-all duration-300 hover:scale-105"
+														class="bg-primary hover:bg-primary/80 rounded-lg px-3 py-1 text-sm text-white transition-all duration-300 hover:scale-105"
 													>
 														Demo
 													</a>
@@ -396,7 +540,7 @@
 													href={project.html_url}
 													target="_blank"
 													rel="noopener noreferrer"
-													class="px-3 py-1 text-sm bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-all duration-300 hover:scale-105"
+													class="rounded-lg bg-gray-700 px-3 py-1 text-sm text-white transition-all duration-300 hover:scale-105 hover:bg-gray-600"
 												>
 													Code
 												</a>
@@ -405,8 +549,10 @@
 									</div>
 
 									<!-- Floating Elements for Animation -->
-									<div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform group-hover:rotate-12">
-										<div class="w-8 h-8 bg-primary/20 rounded-full animate-pulse"></div>
+									<div
+										class="absolute top-4 right-4 transform opacity-0 transition-all duration-500 group-hover:rotate-12 group-hover:opacity-100"
+									>
+										<div class="bg-primary/20 h-8 w-8 animate-pulse rounded-full"></div>
 									</div>
 								</article>
 							{/each}
@@ -415,9 +561,9 @@
 				{:else}
 					<!-- No Pinned Projects Fallback -->
 					<section>
-						<div class="text-center py-12">
-							<div class="text-6xl mb-4">🚀</div>
-							<h3 class="text-2xl font-bold text-white mb-2">No Featured Projects Yet</h3>
+						<div class="py-12 text-center">
+							<div class="mb-4 text-6xl">🚀</div>
+							<h3 class="mb-2 text-2xl font-bold text-white">No Featured Projects Yet</h3>
 							<p class="text-gray-400">Check back soon for featured projects!</p>
 						</div>
 					</section>
@@ -426,30 +572,36 @@
 				<!-- All Projects -->
 				{#if projects.length > 0}
 					<section>
-						<div class="text-center mb-12">
-							<h2 class="text-4xl font-bold text-white mb-4">All Projects</h2>
-							<p class="text-xl text-gray-400 max-w-2xl mx-auto">Browse all my repositories</p>
+						<div class="mb-12 text-center">
+							<h2 class="mb-4 text-4xl font-bold text-white">All Projects</h2>
+							<p class="mx-auto max-w-2xl text-xl text-gray-400">Browse all my repositories</p>
 						</div>
-						
+
 						{#if showAllProjects}
 							<div class="mb-6">
 								<input
 									type="text"
 									placeholder="Search projects..."
 									bind:value={projectSearchQuery}
-									class="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white"
+									class="w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-2 text-white"
 								/>
 							</div>
 						{/if}
 
-						<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+						<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
 							{#each displayedProjects as project (project.id)}
-								<div class="bg-gray-900/50 rounded-xl p-6 border border-gray-700/50">
-									<h3 class="text-lg font-bold text-white mb-2">{project.name}</h3>
-									<p class="text-gray-400 text-sm mb-4 line-clamp-2">{project.description || 'No description'}</p>
+								<div class="rounded-xl border border-gray-700/50 bg-gray-900/50 p-6">
+									<h3 class="mb-2 text-lg font-bold text-white">{project.name}</h3>
+									<p class="mb-4 line-clamp-2 text-sm text-gray-400">
+										{project.description || 'No description'}
+									</p>
 									<div class="flex items-center justify-between">
 										<span class="text-xs text-gray-500">{project.language}</span>
-										<a href={project.html_url} target="_blank" class="text-primary text-sm hover:text-primary/80">
+										<a
+											href={project.html_url}
+											target="_blank"
+											class="text-primary hover:text-primary/80 text-sm"
+										>
 											View
 										</a>
 									</div>
@@ -458,10 +610,10 @@
 						</div>
 
 						{#if !showAllProjects && projects.length > 15}
-							<div class="text-center mt-8">
+							<div class="mt-8 text-center">
 								<button
-									on:click={() => showAllProjects = true}
-									class="bg-primary hover:bg-primary/80 px-6 py-3 rounded-lg text-white font-medium"
+									on:click={() => (showAllProjects = true)}
+									class="bg-primary hover:bg-primary/80 rounded-lg px-6 py-3 font-medium text-white"
 								>
 									View All {projects.length} Repositories
 								</button>
@@ -473,45 +625,100 @@
 				<!-- Skills Section -->
 				<section bind:this={skillsSection} class="relative overflow-hidden">
 					<!-- Tech Laboratory Background -->
-					<div class="absolute inset-0 pointer-events-none">
+					<div class="pointer-events-none absolute inset-0">
 						<!-- Circuit Board Pattern -->
 						<div class="absolute inset-0 opacity-10">
-							<svg class="w-full h-full" viewBox="0 0 800 600">
+							<svg class="h-full w-full" viewBox="0 0 800 600">
 								<defs>
-									<pattern id="circuit" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-										<path d="M10,10 L90,10 L90,90 L10,90 Z" fill="none" stroke="currentColor" stroke-width="1"/>
-										<circle cx="50" cy="50" r="3" fill="currentColor"/>
+									<pattern
+										id="circuit"
+										x="0"
+										y="0"
+										width="100"
+										height="100"
+										patternUnits="userSpaceOnUse"
+									>
+										<path
+											d="M10,10 L90,10 L90,90 L10,90 Z"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="1"
+										/>
+										<circle cx="50" cy="50" r="3" fill="currentColor" />
 									</pattern>
 								</defs>
-								<rect width="100%" height="100%" fill="url(#circuit)" class="text-primary"/>
+								<rect width="100%" height="100%" fill="url(#circuit)" class="text-primary" />
 							</svg>
 						</div>
-						
+
 						<!-- Floating Particles -->
-						<div class="particle absolute top-1/4 left-10 w-2 h-2 bg-primary/60 rounded-full animate-pulse"></div>
-						<div class="particle absolute top-3/4 right-20 w-3 h-3 bg-green-400/60 rounded-full animate-bounce"></div>
-						<div class="particle absolute top-1/2 left-1/3 w-1 h-1 bg-yellow-400/60 rounded-full animate-ping"></div>
-						<div class="particle absolute bottom-1/4 right-1/3 w-2 h-2 bg-blue-400/60 rounded-full animate-pulse"></div>
-						
+						<div
+							class="particle bg-primary/60 absolute top-1/4 left-10 h-2 w-2 animate-pulse rounded-full"
+						></div>
+						<div
+							class="particle absolute top-3/4 right-20 h-3 w-3 animate-bounce rounded-full bg-green-400/60"
+						></div>
+						<div
+							class="particle absolute top-1/2 left-1/3 h-1 w-1 animate-ping rounded-full bg-yellow-400/60"
+						></div>
+						<div
+							class="particle absolute right-1/3 bottom-1/4 h-2 w-2 animate-pulse rounded-full bg-blue-400/60"
+						></div>
+
 						<!-- Energy Streams -->
-						<div class="absolute top-20 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent animate-pulse"></div>
-						<div class="absolute bottom-20 left-0 w-full h-px bg-gradient-to-r from-transparent via-green-400/30 to-transparent animate-pulse" style="animation-delay: 1s;"></div>
+						<div
+							class="via-primary/30 absolute top-20 left-0 h-px w-full animate-pulse bg-gradient-to-r from-transparent to-transparent"
+						></div>
+						<div
+							class="absolute bottom-20 left-0 h-px w-full animate-pulse bg-gradient-to-r from-transparent via-green-400/30 to-transparent"
+							style="animation-delay: 1s;"
+						></div>
 					</div>
 
-					<div class="text-center mb-12 relative z-10">
+					<div class="relative z-10 mb-12 text-center">
 						<div class="skill-title-container mb-8">
-							<h2 class="text-6xl font-bold text-white skill-title perspective-1000">
-								<span class="inline-block hover:animate-bounce transition-all duration-300 cursor-default transform hover:scale-110 hover:rotate-12 hover:text-yellow-300">S</span>
-								<span class="inline-block hover:animate-bounce transition-all duration-300 cursor-default transform hover:scale-110 hover:rotate-12 hover:text-yellow-400" style="animation-delay: 0.1s;">k</span>
-								<span class="inline-block hover:animate-bounce transition-all duration-300 cursor-default transform hover:scale-110 hover:rotate-12 hover:text-yellow-300" style="animation-delay: 0.2s;">i</span>
-								<span class="inline-block hover:animate-bounce transition-all duration-300 cursor-default transform hover:scale-110 hover:rotate-12 hover:text-yellow-400" style="animation-delay: 0.3s;">l</span>
-								<span class="inline-block hover:animate-bounce transition-all duration-300 cursor-default transform hover:scale-110 hover:rotate-12 hover:text-yellow-300" style="animation-delay: 0.4s;">l</span>
-								<span class="inline-block hover:animate-bounce transition-all duration-300 cursor-default transform hover:scale-110 hover:rotate-12 hover:text-yellow-400" style="animation-delay: 0.5s;">s</span>
-								<span class="mx-6 text-primary animate-spin-slow text-7xl">⚡</span>
-								<span class="inline-block hover:animate-bounce transition-all duration-300 cursor-default transform hover:scale-110 hover:rotate-12 hover:text-yellow-300" style="animation-delay: 0.6s;">T</span>
-								<span class="inline-block hover:animate-bounce transition-all duration-300 cursor-default transform hover:scale-110 hover:rotate-12 hover:text-yellow-400" style="animation-delay: 0.7s;">e</span>
-								<span class="inline-block hover:animate-bounce transition-all duration-300 cursor-default transform hover:scale-110 hover:rotate-12 hover:text-yellow-300" style="animation-delay: 0.8s;">c</span>
-								<span class="inline-block hover:animate-bounce transition-all duration-300 cursor-default transform hover:scale-110 hover:rotate-12 hover:text-yellow-400" style="animation-delay: 0.9s;">h</span>
+							<h2 class="skill-title perspective-1000 text-6xl font-bold text-white">
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									>S</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 0.1s;">k</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									style="animation-delay: 0.2s;">i</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 0.3s;">l</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									style="animation-delay: 0.4s;">l</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 0.5s;">s</span
+								>
+								<span class="text-primary animate-spin-slow mx-6 text-7xl">⚡</span>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									style="animation-delay: 0.6s;">T</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 0.7s;">e</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									style="animation-delay: 0.8s;">c</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 0.9s;">h</span
+								>
 							</h2>
 							<div class="modern-subtitle">
 								<div class="subtitle-row">
@@ -525,28 +732,34 @@
 								</div>
 							</div>
 						</div>
-						
 					</div>
 
 					<!-- Skills Section - All Skills Mixed Together -->
 					<div class="mixed-skills-section">
-						
 						<!-- All Individual Skills Mixed - No Categories -->
 						<div class="all-skills-container">
 							<div class="skills-mixed-row">
-								{#each skills as skill, skillIndex}
-									<div class="skill-bubble" 
-										 style="
-											 --random-offset: {(skillIndex % 5 - 2) * 10}px;
-											 --random-rotation: {(skillIndex % 7 - 3) * 2}deg;
-										 ">
+								{#each randomizedSkills as skill, skillIndex}
+									<div
+										class="skill-bubble"
+										class:skill-highlighted={hoveredCategory === skill.category}
+										class:skill-dimmed={hoveredCategory && hoveredCategory !== skill.category}
+										style="
+											 --random-offset: {((skillIndex % 6) - 3) * 8}px;
+											 --random-rotation: {((skillIndex % 5) - 2) * 1.5}deg;
+											 --random-vertical: {((skillIndex % 4) - 2) * 5}px;
+										 "
+									>
 										<div class="bubble-content">
 											<div class="skill-logo">
 												<img src={skill.logo} alt={skill.name} />
 											</div>
 											<div class="skill-info">
 												<div class="skill-name">{skill.name}</div>
-												<div class="skill-level">{skill.level}%</div>
+												<div class="skill-level">
+													<span class="skill-percentage">{skill.level}%</span>
+													<span class="skill-label">{getSkillLevel(skill.level)}</span>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -557,25 +770,27 @@
 						<!-- Category Dashboard - 4 in a Row -->
 						<div class="category-dashboard">
 							{#each Object.entries(skillCategories) as [category, categorySkills], categoryIndex}
-								<div class="category-panel" data-category={category}>
+								<div
+									class="category-panel"
+									class:highlight-skills={hoveredCategory === category}
+									data-category={category}
+									role="button"
+									tabindex="0"
+									on:mouseenter={() => (hoveredCategory = category)}
+									on:mouseleave={() => (hoveredCategory = null)}
+								>
 									<div class="panel-header">
 										<div class="category-badge">
-											<div class="badge-icon">
-												{#if category === 'Frontend'}🎨
-												{:else if category === 'Backend'}⚙️
-												{:else if category === 'Tools'}🔧
-												{:else if category === 'Languages'}💻
-												{:else}📚{/if}
+											<div class="badge-title">
+												<span class="category-name">{category}</span>
+												<span class="skill-count">{categorySkills.length} skills</span>
 											</div>
-											<div class="badge-title">{category}</div>
 										</div>
 									</div>
 									<div class="category-skills">
 										{#each categorySkills as skill}
 											<div class="mini-skill-item">
 												<img src={skill.logo} alt={skill.name} class="mini-skill-logo" />
-												<span class="mini-skill-name">{skill.name}</span>
-												<span class="mini-skill-level">{skill.level}%</span>
 											</div>
 										{/each}
 									</div>
@@ -583,52 +798,60 @@
 							{/each}
 						</div>
 					</div>
-										
 				</section>
 
 				<!-- GitHub Activity -->
 				<section>
-					<div class="text-center mb-12">
-						<h2 class="text-4xl font-bold text-white mb-4">GitHub Activity</h2>
-						<p class="text-xl text-gray-400 max-w-2xl mx-auto">My contributions and recent activity</p>
+					<div class="mb-12 text-center">
+						<h2 class="mb-4 text-4xl font-bold text-white">GitHub Activity</h2>
+						<p class="mx-auto max-w-2xl text-xl text-gray-400">
+							My contributions and recent activity
+						</p>
 					</div>
 
-					<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+					<div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
 						<!-- Contribution Stats -->
-						<div bind:this={contributionsSection} class="bg-gray-900/50 rounded-2xl p-8 border border-gray-700/50">
-							<h3 class="text-2xl font-bold text-white mb-6">Contribution Stats</h3>
+						<div
+							bind:this={contributionsSection}
+							class="rounded-2xl border border-gray-700/50 bg-gray-900/50 p-8"
+						>
+							<h3 class="mb-6 text-2xl font-bold text-white">Contribution Stats</h3>
 							<div class="grid grid-cols-3 gap-6">
 								<div class="text-center">
-									<div class="text-primary text-3xl font-bold mb-2">{contributionsData.total}</div>
+									<div class="text-primary mb-2 text-3xl font-bold">{contributionsData.total}</div>
 									<div class="text-sm text-gray-400">Total Stars</div>
 								</div>
 								<div class="text-center">
-									<div class="text-primary text-3xl font-bold mb-2">{contributionsData.lastYear}</div>
+									<div class="text-primary mb-2 text-3xl font-bold">
+										{contributionsData.lastYear}
+									</div>
 									<div class="text-sm text-gray-400">Recent Events</div>
 								</div>
 								<div class="text-center">
-									<div class="text-primary text-3xl font-bold mb-2">{contributionsData.streak}</div>
+									<div class="text-primary mb-2 text-3xl font-bold">{contributionsData.streak}</div>
 									<div class="text-sm text-gray-400">Activity Streak</div>
 								</div>
 							</div>
 						</div>
 
 						<!-- Recent Activity -->
-						<div class="bg-gray-900/50 rounded-2xl p-8 border border-gray-700/50">
-							<h3 class="text-2xl font-bold text-white mb-6">Recent Activity</h3>
-							<div class="space-y-4 max-h-80 overflow-y-auto">
+						<div class="rounded-2xl border border-gray-700/50 bg-gray-900/50 p-8">
+							<h3 class="mb-6 text-2xl font-bold text-white">Recent Activity</h3>
+							<div class="max-h-80 space-y-4 overflow-y-auto">
 								{#each githubEvents.slice(0, 8) as event}
-									<div class="flex items-start gap-3 p-3 rounded-lg bg-gray-800/30">
-										<div class="w-2 h-2 rounded-full bg-primary mt-2"></div>
+									<div class="flex items-start gap-3 rounded-lg bg-gray-800/30 p-3">
+										<div class="bg-primary mt-2 h-2 w-2 rounded-full"></div>
 										<div>
 											<p class="text-sm text-gray-300">
-												<span class="font-medium text-white">{event.type?.replace(/([A-Z])/g, ' $1').trim()}</span>
+												<span class="font-medium text-white"
+													>{event.type?.replace(/([A-Z])/g, ' $1').trim()}</span
+												>
 												{#if event.repo}
 													in <span class="text-primary">{event.repo.name}</span>
 												{/if}
 											</p>
 											{#if event.created_at}
-												<p class="text-xs text-gray-500 mt-1">
+												<p class="mt-1 text-xs text-gray-500">
 													{new Date(event.created_at).toLocaleDateString()}
 												</p>
 											{/if}
@@ -636,7 +859,7 @@
 									</div>
 								{/each}
 								{#if githubEvents.length === 0}
-									<p class="text-gray-400 text-center py-8">No recent activity available</p>
+									<p class="py-8 text-center text-gray-400">No recent activity available</p>
 								{/if}
 							</div>
 						</div>
@@ -661,75 +884,158 @@
 	}
 
 	@keyframes float {
-		0%, 100% { transform: translateY(0px) rotate(0deg); }
-		25% { transform: translateY(-15px) rotate(90deg); }
-		50% { transform: translateY(-20px) rotate(180deg); }
-		75% { transform: translateY(-10px) rotate(270deg); }
+		0%,
+		100% {
+			transform: translateY(0px) rotate(0deg);
+		}
+		25% {
+			transform: translateY(-15px) rotate(90deg);
+		}
+		50% {
+			transform: translateY(-20px) rotate(180deg);
+		}
+		75% {
+			transform: translateY(-10px) rotate(270deg);
+		}
 	}
 
 	@keyframes float-reverse {
-		0%, 100% { transform: translateY(0px) rotate(360deg); }
-		25% { transform: translateY(-10px) rotate(270deg); }
-		50% { transform: translateY(-15px) rotate(180deg); }
-		75% { transform: translateY(-8px) rotate(90deg); }
+		0%,
+		100% {
+			transform: translateY(0px) rotate(360deg);
+		}
+		25% {
+			transform: translateY(-10px) rotate(270deg);
+		}
+		50% {
+			transform: translateY(-15px) rotate(180deg);
+		}
+		75% {
+			transform: translateY(-8px) rotate(90deg);
+		}
 	}
 
 	@keyframes shine {
-		0% { transform: translateX(-100%) skewX(-12deg); }
-		100% { transform: translateX(200%) skewX(-12deg); }
+		0% {
+			transform: translateX(-100%) skewX(-12deg);
+		}
+		100% {
+			transform: translateX(200%) skewX(-12deg);
+		}
 	}
 
 	@keyframes count-up {
-		from { transform: scale(0.5); opacity: 0; }
-		to { transform: scale(1); opacity: 1; }
+		from {
+			transform: scale(0.5);
+			opacity: 0;
+		}
+		to {
+			transform: scale(1);
+			opacity: 1;
+		}
 	}
 
 	@keyframes fade-in-up {
-		from { opacity: 0; transform: translateY(20px); }
-		to { opacity: 1; transform: translateY(0); }
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
 	}
 
 	@keyframes wiggle {
-		0%, 7% { transform: rotateZ(0); }
-		15% { transform: rotateZ(-15deg); }
-		20% { transform: rotateZ(10deg); }
-		25% { transform: rotateZ(-10deg); }
-		30% { transform: rotateZ(6deg); }
-		35% { transform: rotateZ(-4deg); }
-		40%, 100% { transform: rotateZ(0); }
+		0%,
+		7% {
+			transform: rotateZ(0);
+		}
+		15% {
+			transform: rotateZ(-15deg);
+		}
+		20% {
+			transform: rotateZ(10deg);
+		}
+		25% {
+			transform: rotateZ(-10deg);
+		}
+		30% {
+			transform: rotateZ(6deg);
+		}
+		35% {
+			transform: rotateZ(-4deg);
+		}
+		40%,
+		100% {
+			transform: rotateZ(0);
+		}
 	}
 
 	@keyframes pulse-glow {
-		0%, 100% { 
-			box-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor;
+		0%,
+		100% {
+			box-shadow:
+				0 0 5px currentColor,
+				0 0 10px currentColor,
+				0 0 15px currentColor;
 			transform: scale(1);
 		}
-		50% { 
-			box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+		50% {
+			box-shadow:
+				0 0 10px currentColor,
+				0 0 20px currentColor,
+				0 0 30px currentColor;
 			transform: scale(1.05);
 		}
 	}
 
 	@keyframes bounce-in {
-		0% { transform: scale(0.3); opacity: 0; }
-		50% { transform: scale(1.05); }
-		70% { transform: scale(0.9); }
-		100% { transform: scale(1); opacity: 1; }
+		0% {
+			transform: scale(0.3);
+			opacity: 0;
+		}
+		50% {
+			transform: scale(1.05);
+		}
+		70% {
+			transform: scale(0.9);
+		}
+		100% {
+			transform: scale(1);
+			opacity: 1;
+		}
 	}
 
 	@keyframes slide-in-left {
-		from { transform: translateX(-50px); opacity: 0; }
-		to { transform: translateX(0); opacity: 1; }
+		from {
+			transform: translateX(-50px);
+			opacity: 0;
+		}
+		to {
+			transform: translateX(0);
+			opacity: 1;
+		}
 	}
 
 	@keyframes typewriter {
-		from { width: 0; }
-		to { width: 100%; }
+		from {
+			width: 0;
+		}
+		to {
+			width: 100%;
+		}
 	}
 
 	@keyframes blink {
-		0%, 50% { opacity: 1; }
-		51%, 100% { opacity: 0; }
+		0%,
+		50% {
+			opacity: 1;
+		}
+		51%,
+		100% {
+			opacity: 0;
+		}
 	}
 
 	/* Floating particles */
@@ -763,8 +1069,7 @@
 	}
 
 	.skill-bubble:hover {
-		transform: translateY(-4px) scale(1.02);
-		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+		transform: translateY(-2px) scale(1.02);
 	}
 
 	/* === Mixed Skills Section === */
@@ -784,7 +1089,7 @@
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-clip: text;
-		text-shadow: 0 4px 20px rgba(255,222,33,0.3);
+		text-shadow: 0 4px 20px rgba(255, 222, 33, 0.3);
 	}
 
 	.skills-section-title::after {
@@ -806,27 +1111,38 @@
 	}
 
 	.skills-mixed-row {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 1rem;
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		gap: 1.5rem;
+		justify-items: center;
 		align-items: flex-start;
 		min-height: 200px;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 1rem;
 	}
+
+	/* With 5 columns, all 15 skills fit perfectly in 3 full rows */
+	/* No special positioning needed - all rows will be complete */
 
 	/* Individual Skill Bubbles - Horizontal Layout */
 	.skill-bubble {
 		opacity: 1;
 		animation: gentleFloat 4s ease-in-out infinite;
-		margin-top: calc(var(--random-offset) * 0.1);
+		margin-top: var(--random-vertical);
 		transform: translateX(var(--random-offset)) rotate(var(--random-rotation));
+		justify-self: center;
+		position: relative;
+		max-width: 180px;
+		width: 100%;
 	}
 
 	.bubble-content {
-		background: linear-gradient(145deg, 
-			rgba(255,255,255,0.1) 0%, 
-			rgba(255,222,33,0.05) 50%,
-			rgba(255,255,255,0.05) 100%
+		background: linear-gradient(
+			145deg,
+			rgba(255, 255, 255, 0.1) 0%,
+			rgba(255, 255, 255, 0.05) 50%,
+			rgba(255, 255, 255, 0.05) 100%
 		);
 		border: 2px solid transparent;
 		background-clip: padding-box;
@@ -835,10 +1151,10 @@
 		min-width: 140px;
 		max-width: 180px;
 		backdrop-filter: blur(15px);
-		box-shadow: 
-			0 4px 20px rgba(0,0,0,0.1),
-			0 0 0 1px rgba(255,222,33,0.2),
-			inset 0 1px 0 rgba(255,255,255,0.2);
+		box-shadow:
+			0 4px 20px rgba(0, 0, 0, 0.1),
+			0 0 0 1px rgba(255, 255, 255, 0.1),
+			inset 0 1px 0 rgba(255, 255, 255, 0.2);
 		transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 		position: relative;
 		overflow: hidden;
@@ -851,27 +1167,56 @@
 		content: '';
 		position: absolute;
 		inset: -2px;
-		background: linear-gradient(45deg, 
-			#ffde21 0%, 
-			#ffd700 50%, 
-			#ffde21 100%
+		background: linear-gradient(
+			45deg,
+			rgba(255, 255, 255, 0.2) 0%,
+			rgba(255, 255, 255, 0.15) 50%,
+			rgba(255, 255, 255, 0.2) 100%
 		);
-		border-radius: 15px;
+		border-radius: 17px;
 		z-index: -1;
 		opacity: 0;
 		transition: opacity 0.3s ease;
 	}
 
 	.skill-bubble:hover .bubble-content {
-		transform: translateY(-3px) scale(1.03);
-		box-shadow: 
-			0 15px 30px rgba(255,222,33,0.2),
-			0 0 30px rgba(255,222,33,0.1),
-			inset 0 1px 0 rgba(255,255,255,0.3);
+		transform: translateY(-1px) scale(1.01);
+		background: rgba(255, 255, 255, 0.08);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		box-shadow:
+			0 6px 20px rgba(255, 255, 255, 0.12),
+			0 0 15px rgba(255, 255, 255, 0.06),
+			0 4px 20px rgba(0, 0, 0, 0.1),
+			0 0 0 1px rgba(255, 255, 255, 0.1),
+			inset 0 1px 0 rgba(255, 255, 255, 0.2);
 	}
 
 	.skill-bubble:hover .bubble-content::before {
-		opacity: 0.7;
+		opacity: 0.2;
+		background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15), transparent);
+	}
+
+	/* Category hover effects for individual skills */
+	.skill-highlighted {
+		transform: scale(1.02) translateY(-2px);
+		z-index: 10;
+	}
+
+	.skill-highlighted .bubble-content {
+		background: rgba(255, 255, 255, 0.08);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		box-shadow:
+			0 6px 20px rgba(255, 255, 255, 0.15),
+			0 0 15px rgba(255, 255, 255, 0.08),
+			0 4px 20px rgba(0, 0, 0, 0.1),
+			0 0 0 1px rgba(255, 255, 255, 0.12),
+			inset 0 1px 0 rgba(255, 255, 255, 0.2);
+	}
+
+	.skill-dimmed {
+		opacity: 0.3;
+		transform: scale(0.95);
+		filter: grayscale(0.8);
 	}
 
 	.skill-logo {
@@ -881,7 +1226,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: rgba(255,222,33,0.1);
+		background: rgba(255, 255, 255, 0.08);
 		border-radius: 8px;
 		padding: 4px;
 	}
@@ -890,7 +1235,7 @@
 		width: 100%;
 		height: 100%;
 		object-fit: contain;
-		filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+		filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 	}
 
 	.skill-info {
@@ -904,21 +1249,43 @@
 		color: white;
 		font-size: 0.85rem;
 		font-weight: 600;
-		text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 		line-height: 1.2;
 	}
 
 	.bubble-content .skill-level {
 		color: #ffde21;
-		font-size: 0.75rem;
+		font-size: 0.8rem;
 		font-weight: 700;
 		font-family: 'JetBrains Mono', monospace;
-		text-shadow: 0 0 8px rgba(255,222,33,0.5);
+		text-shadow: 0 0 8px rgba(255, 222, 33, 0.5);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 6px;
+	}
+
+	.skill-percentage {
+		font-size: 0.8rem;
+	}
+
+	.skill-label {
+		font-size: 0.65rem;
+		color: rgba(255, 255, 255, 0.8);
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
 	}
 
 	@keyframes gentleFloat {
-		0%, 100% { transform: translateY(0) translateX(var(--random-offset)) rotate(var(--random-rotation)); }
-		50% { transform: translateY(-6px) translateX(var(--random-offset)) rotate(calc(var(--random-rotation) + 1deg)); }
+		0%,
+		100% {
+			transform: translateY(0) translateX(var(--random-offset)) rotate(var(--random-rotation));
+		}
+		50% {
+			transform: translateY(-6px) translateX(var(--random-offset))
+				rotate(calc(var(--random-rotation) + 1deg));
+		}
 	}
 
 	/* === Category Dashboard Section === */
@@ -932,22 +1299,23 @@
 	}
 
 	.category-panel {
-		background: linear-gradient(145deg, 
-			rgba(255,255,255,0.1) 0%, 
-			rgba(255,222,33,0.08) 30%,
-			rgba(255,222,33,0.05) 70%,
-			rgba(255,255,255,0.05) 100%
+		background: linear-gradient(
+			145deg,
+			rgba(255, 255, 255, 0.1) 0%,
+			rgba(255, 222, 33, 0.08) 30%,
+			rgba(255, 222, 33, 0.05) 70%,
+			rgba(255, 255, 255, 0.05) 100%
 		);
 		border: 2px solid transparent;
 		background-clip: padding-box;
 		border-radius: 20px;
 		padding: 1rem;
 		backdrop-filter: blur(20px);
-		box-shadow: 
-			0 8px 25px rgba(0,0,0,0.15),
-			0 0 0 1px rgba(255,222,33,0.3),
-			inset 0 1px 0 rgba(255,255,255,0.2),
-			inset 0 -1px 0 rgba(255,222,33,0.1);
+		box-shadow:
+			0 8px 25px rgba(0, 0, 0, 0.15),
+			0 0 0 1px rgba(255, 222, 33, 0.3),
+			inset 0 1px 0 rgba(255, 255, 255, 0.2),
+			inset 0 -1px 0 rgba(255, 222, 33, 0.1);
 		transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 		position: relative;
 		overflow: hidden;
@@ -964,11 +1332,7 @@
 		left: -100%;
 		width: 100%;
 		height: 100%;
-		background: linear-gradient(90deg, 
-			transparent, 
-			rgba(255,222,33,0.15), 
-			transparent
-		);
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
 		transition: left 0.6s ease;
 	}
 
@@ -976,12 +1340,13 @@
 		content: '';
 		position: absolute;
 		inset: -2px;
-		background: linear-gradient(45deg, 
-			#ffde21 0%, 
-			#ffd700 25%,
-			#ffde21 50%, 
-			#ffd700 75%,
-			#ffde21 100%
+		background: linear-gradient(
+			45deg,
+			rgba(255, 255, 255, 0.2) 0%,
+			rgba(255, 255, 255, 0.15) 25%,
+			rgba(255, 255, 255, 0.2) 50%,
+			rgba(255, 255, 255, 0.15) 75%,
+			rgba(255, 255, 255, 0.2) 100%
 		);
 		border-radius: 20px;
 		z-index: -1;
@@ -991,11 +1356,13 @@
 
 	.category-panel:hover {
 		transform: translateY(-5px) scale(1.02);
-		box-shadow: 
-			0 15px 30px rgba(255,222,33,0.25),
-			0 0 30px rgba(255,222,33,0.15),
-			inset 0 2px 0 rgba(255,255,255,0.4),
-			inset 0 -2px 0 rgba(255,222,33,0.2);
+		box-shadow:
+			0 15px 30px rgba(255, 255, 255, 0.1),
+			0 0 20px rgba(255, 255, 255, 0.05),
+			inset 0 2px 0 rgba(255, 255, 255, 0.15),
+			inset 0 -2px 0 rgba(255, 255, 255, 0.08);
+		background: rgba(255, 255, 255, 0.02);
+		border: 1px solid rgba(255, 255, 255, 0.08);
 	}
 
 	.category-panel:hover::before {
@@ -1033,10 +1400,10 @@
 		font-size: 1.2rem;
 		color: #000;
 		font-weight: 900;
-		box-shadow: 
-			0 4px 12px rgba(255,222,33,0.4),
-			inset 0 1px 0 rgba(255,255,255,0.3),
-			inset 0 -1px 0 rgba(0,0,0,0.1);
+		box-shadow:
+			0 4px 12px rgba(255, 222, 33, 0.4),
+			inset 0 1px 0 rgba(255, 255, 255, 0.3),
+			inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 		transition: all 0.3s ease;
 		position: relative;
 	}
@@ -1045,36 +1412,46 @@
 		content: '';
 		position: absolute;
 		inset: 2px;
-		background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+		background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
 		border-radius: 50%;
 		pointer-events: none;
-	}
-
-	.category-panel:hover .badge-icon {
-		transform: scale(1.1) rotate(5deg);
-		box-shadow: 
-			0 6px 15px rgba(255,222,33,0.6),
-			inset 0 2px 0 rgba(255,255,255,0.4),
-			inset 0 -2px 0 rgba(0,0,0,0.15);
 	}
 
 	.badge-title {
 		color: white;
 		font-size: 0.9rem;
 		font-weight: 700;
-		text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 		line-height: 1.2;
 		letter-spacing: 0.5px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 2px;
+	}
+
+	.category-name {
+		font-size: 1.1rem;
+	}
+
+	.skill-count {
+		font-size: 0.8rem;
+		color: rgba(255, 255, 255, 0.7);
+		font-weight: 500;
+		text-transform: lowercase;
+		letter-spacing: 0.3px;
 	}
 
 	.category-skills {
 		flex: 1;
-		display: flex;
-		flex-direction: column;
-		gap: 0.4rem;
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		gap: 0.2rem;
 		overflow-y: auto;
 		scrollbar-width: thin;
-		scrollbar-color: rgba(255,222,33,0.3) transparent;
+		scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+		max-height: 120px; /* Reduced height for tighter spacing */
+		padding: 0.2rem;
 	}
 
 	.category-skills::-webkit-scrollbar {
@@ -1082,7 +1459,7 @@
 	}
 
 	.category-skills::-webkit-scrollbar-thumb {
-		background: linear-gradient(180deg, #ffde21, #ffd700);
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
 		border-radius: 2px;
 	}
 
@@ -1093,14 +1470,16 @@
 	.mini-skill-item {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
-		background: rgba(255,222,33,0.1);
-		border: 1px solid rgba(255,222,33,0.2);
-		border-radius: 12px;
-		padding: 0.4rem 0.6rem;
+		justify-content: center;
+		background: rgba(255, 255, 255, 0.05);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: 8px;
+		padding: 0.3rem;
 		transition: all 0.3s ease;
 		position: relative;
 		overflow: hidden;
+		aspect-ratio: 1;
+		min-height: auto;
 	}
 
 	.mini-skill-item::before {
@@ -1110,15 +1489,16 @@
 		top: 0;
 		height: 100%;
 		width: 3px;
-		background: linear-gradient(180deg, #ffde21, #ffd700);
+		background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
 		transform: scaleY(0);
 		transition: transform 0.3s ease;
 	}
 
 	.mini-skill-item:hover {
-		background: rgba(255,222,33,0.15);
-		border-color: rgba(255,222,33,0.4);
-		transform: translateX(4px);
+		background: rgba(255, 255, 255, 0.1);
+		border-color: rgba(255, 255, 255, 0.3);
+		transform: scale(1.1);
+		box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 	}
 
 	.mini-skill-item:hover::before {
@@ -1126,11 +1506,11 @@
 	}
 
 	.mini-skill-logo {
-		width: 18px;
-		height: 18px;
+		width: 20px;
+		height: 20px;
 		object-fit: contain;
 		flex-shrink: 0;
-		filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+		filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 	}
 
 	.mini-skill-name {
@@ -1138,7 +1518,7 @@
 		font-size: 0.75rem;
 		font-weight: 600;
 		flex: 1;
-		text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 	}
 
 	.mini-skill-level {
@@ -1146,11 +1526,11 @@
 		font-size: 0.7rem;
 		font-weight: 700;
 		font-family: 'JetBrains Mono', monospace;
-		text-shadow: 0 0 6px rgba(255,222,33,0.5);
-		background: rgba(255,222,33,0.2);
+		text-shadow: 0 0 6px rgba(255, 222, 33, 0.5);
+		background: rgba(255, 222, 33, 0.2);
 		padding: 0.1rem 0.4rem;
 		border-radius: 8px;
-		border: 1px solid rgba(255,222,33,0.3);
+		border: 1px solid rgba(255, 222, 33, 0.3);
 		flex-shrink: 0;
 	}
 
@@ -1161,7 +1541,7 @@
 			gap: 0.8rem;
 			max-width: 600px;
 		}
-		
+
 		.category-panel {
 			min-height: 200px;
 			max-height: 250px;
@@ -1174,58 +1554,59 @@
 			gap: 0.8rem;
 			max-width: 350px;
 		}
-		
+
 		.category-panel {
 			min-height: 180px;
 			max-height: 220px;
 			padding: 0.8rem;
 		}
-		
+
 		.badge-icon {
 			width: 35px;
 			height: 35px;
 			font-size: 1rem;
 		}
-		
+
 		.badge-title {
 			font-size: 0.8rem;
 		}
-		
+
 		.mini-skill-item {
 			padding: 0.3rem 0.5rem;
 			gap: 0.4rem;
 		}
-		
+
 		.mini-skill-logo {
 			width: 16px;
 			height: 16px;
 		}
-		
+
 		.mini-skill-name {
 			font-size: 0.7rem;
 		}
-		
+
 		.mini-skill-level {
 			font-size: 0.65rem;
 			padding: 0.1rem 0.3rem;
 		}
-		
+
 		.skills-mixed-row {
+			grid-template-columns: repeat(3, 1fr);
 			gap: 0.6rem;
 		}
-		
+
 		.bubble-content {
 			min-width: 120px;
 			max-width: 150px;
 			padding: 0.6rem 0.8rem;
 			gap: 0.6rem;
 		}
-		
+
 		.skill-logo {
 			width: 28px;
 			height: 28px;
 		}
-		
+
 		.bubble-content .skill-name {
 			font-size: 0.8rem;
 		}
@@ -1237,7 +1618,7 @@
 		max-height: 250px;
 		overflow-y: auto;
 		scrollbar-width: thin;
-		scrollbar-color: rgba(0,245,255,0.4) transparent;
+		scrollbar-color: rgba(0, 245, 255, 0.4) transparent;
 		padding-right: 0.5rem;
 	}
 
@@ -1251,7 +1632,7 @@
 	}
 
 	.category-skills-list::-webkit-scrollbar-track {
-		background: rgba(255,255,255,0.05);
+		background: rgba(255, 255, 255, 0.05);
 		border-radius: 3px;
 	}
 
@@ -1261,9 +1642,9 @@
 		align-items: center;
 		padding: 0.75rem;
 		margin-bottom: 0.5rem;
-		border: 1px solid rgba(255,255,255,0.08);
+		border: 1px solid rgba(255, 255, 255, 0.08);
 		border-radius: 15px;
-		background: rgba(255,255,255,0.03);
+		background: rgba(255, 255, 255, 0.03);
 		transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 		position: relative;
 		overflow: hidden;
@@ -1282,53 +1663,24 @@
 	}
 
 	.category-skill-item:hover {
-		background: rgba(0,245,255,0.08);
-		border-color: rgba(0,245,255,0.2);
+		background: rgba(0, 245, 255, 0.08);
+		border-color: rgba(0, 245, 255, 0.2);
 		transform: translateX(5px) scale(1.02);
-		box-shadow: 0 5px 15px rgba(0,245,255,0.1);
+		box-shadow: 0 5px 15px rgba(0, 245, 255, 0.1);
 	}
 
 	.category-skill-item:hover::before {
 		transform: scaleY(1);
 	}
 
-	.category-skill-item .skill-name {
-		color: rgba(255,255,255,0.95);
-		font-size: 0.9rem;
-		font-weight: 600;
-		transition: color 0.3s ease;
-	}
-
-	.category-skill-item:hover .skill-name {
-		color: white;
-	}
-
-	.category-skill-item .skill-percentage {
-		color: #00f5ff;
-		font-size: 0.85rem;
-		font-weight: 800;
-		font-family: 'JetBrains Mono', monospace;
-		background: rgba(0,245,255,0.1);
-		padding: 0.25rem 0.5rem;
-		border-radius: 10px;
-		border: 1px solid rgba(0,245,255,0.2);
-		transition: all 0.3s ease;
-	}
-
-	.category-skill-item:hover .skill-percentage {
-		background: rgba(0,245,255,0.2);
-		transform: scale(1.1);
-		text-shadow: 0 0 8px rgba(0,245,255,0.5);
-	}
-
 	/* Category Stats - More Fun */
 	.category-stats {
 		display: flex;
 		justify-content: space-around;
-		background: rgba(0,0,0,0.3);
+		background: rgba(0, 0, 0, 0.3);
 		border-radius: 20px;
 		padding: 1.5rem;
-		border: 2px solid rgba(255,255,255,0.08);
+		border: 2px solid rgba(255, 255, 255, 0.08);
 		position: relative;
 		overflow: hidden;
 	}
@@ -1340,11 +1692,7 @@
 		left: -100%;
 		width: 100%;
 		height: 100%;
-		background: linear-gradient(90deg, 
-			transparent, 
-			rgba(0,245,255,0.1), 
-			transparent
-		);
+		background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.1), transparent);
 		animation: statsShine 3s ease-in-out infinite;
 	}
 
@@ -1355,7 +1703,7 @@
 	}
 
 	.stat-label {
-		color: rgba(255,255,255,0.7);
+		color: rgba(255, 255, 255, 0.7);
 		font-size: 0.8rem;
 		margin-bottom: 0.5rem;
 		font-weight: 600;
@@ -1368,19 +1716,30 @@
 		font-weight: 800;
 		font-family: 'JetBrains Mono', monospace;
 		font-size: 1.1rem;
-		text-shadow: 0 0 10px rgba(0,245,255,0.4);
+		text-shadow: 0 0 10px rgba(0, 245, 255, 0.4);
 		animation: statPulse 2s ease-in-out infinite;
 	}
 
 	@keyframes statsShine {
-		0% { left: -100%; }
-		50% { left: 100%; }
-		100% { left: 100%; }
+		0% {
+			left: -100%;
+		}
+		50% {
+			left: 100%;
+		}
+		100% {
+			left: 100%;
+		}
 	}
 
 	@keyframes statPulse {
-		0%, 100% { transform: scale(1); }
-		50% { transform: scale(1.05); }
+		0%,
+		100% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(1.05);
+		}
 	}
 
 	/* Responsive Design */
@@ -1388,7 +1747,7 @@
 		.category-dashboard {
 			grid-template-columns: repeat(2, 1fr);
 		}
-		
+
 		.floating-skill-bubble {
 			--random-offset: calc(var(--random-offset) * 0.5);
 		}
@@ -1398,40 +1757,45 @@
 		.mixed-skills-section {
 			padding: 2rem 0;
 		}
-		
+
 		.skills-section-title {
 			font-size: 2.2rem;
 		}
-		
+
+		.skills-mixed-row {
+			grid-template-columns: repeat(4, 1fr);
+			gap: 0.8rem;
+		}
+
 		.mixed-skills-container,
 		.category-dashboard {
 			padding: 0 1rem;
 		}
-		
+
 		.category-dashboard {
 			grid-template-columns: 1fr;
 			gap: 1.5rem;
 		}
-		
+
 		.skills-scattered-row {
 			gap: 1rem;
 		}
-		
+
 		.bubble-content {
 			min-width: 150px;
 			padding: 1rem;
 		}
-		
+
 		.category-panel {
 			padding: 1.5rem;
 		}
-		
+
 		.panel-header {
 			flex-direction: column;
 			gap: 1rem;
 			text-align: center;
 		}
-		
+
 		.floating-skill-bubble {
 			--random-offset: 0px;
 			--random-rotation: 0deg;
@@ -1442,32 +1806,32 @@
 		.skills-section-title {
 			font-size: 1.8rem;
 		}
-		
+
 		.category-label {
 			font-size: 1.2rem;
 		}
-		
+
 		.bubble-content {
 			min-width: 130px;
 			padding: 0.8rem;
 		}
-		
+
 		.skill-emoji {
 			width: 40px;
 			height: 40px;
 			font-size: 1.2rem;
 		}
-		
+
 		.category-panel {
 			padding: 1rem;
 		}
-		
+
 		.badge-icon {
 			width: 50px;
 			height: 50px;
 			font-size: 1.5rem;
 		}
-		
+
 		.badge-title {
 			font-size: 1.2rem;
 		}
@@ -1510,7 +1874,10 @@
 	/* Skill title animation */
 	.skill-title span:hover {
 		color: #00f5ff;
-		text-shadow: 0 0 10px #00f5ff, 0 0 20px #00f5ff, 0 0 30px #00f5ff;
+		text-shadow:
+			0 0 10px #00f5ff,
+			0 0 20px #00f5ff,
+			0 0 30px #00f5ff;
 		transform: scale(1.2) rotateY(360deg);
 	}
 
@@ -1532,25 +1899,37 @@
 	}
 
 	/* Enhanced staggered animations */
-	.category-section:nth-child(1) { 
-		animation-delay: 0.2s; 
+	.category-section:nth-child(1) {
+		animation-delay: 0.2s;
 	}
-	.category-section:nth-child(2) { 
-		animation-delay: 0.4s; 
+	.category-section:nth-child(2) {
+		animation-delay: 0.4s;
 	}
-	.category-section:nth-child(3) { 
-		animation-delay: 0.6s; 
+	.category-section:nth-child(3) {
+		animation-delay: 0.6s;
 	}
-	.category-section:nth-child(4) { 
-		animation-delay: 0.8s; 
+	.category-section:nth-child(4) {
+		animation-delay: 0.8s;
 	}
 
-	.skill-item:nth-child(1) { animation-delay: 0.1s; }
-	.skill-item:nth-child(2) { animation-delay: 0.2s; }
-	.skill-item:nth-child(3) { animation-delay: 0.3s; }
-	.skill-item:nth-child(4) { animation-delay: 0.4s; }
-	.skill-item:nth-child(5) { animation-delay: 0.5s; }
-	.skill-item:nth-child(6) { animation-delay: 0.6s; }
+	.skill-item:nth-child(1) {
+		animation-delay: 0.1s;
+	}
+	.skill-item:nth-child(2) {
+		animation-delay: 0.2s;
+	}
+	.skill-item:nth-child(3) {
+		animation-delay: 0.3s;
+	}
+	.skill-item:nth-child(4) {
+		animation-delay: 0.4s;
+	}
+	.skill-item:nth-child(5) {
+		animation-delay: 0.5s;
+	}
+	.skill-item:nth-child(6) {
+		animation-delay: 0.6s;
+	}
 
 	/* Project card hover effects */
 	.project-card::before {
@@ -1602,7 +1981,8 @@
 	}
 
 	@keyframes morph {
-		0%, 100% {
+		0%,
+		100% {
 			border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
 			transform: translate(0, 0) rotate(0deg);
 		}
@@ -1621,7 +2001,8 @@
 	}
 
 	@keyframes morph-reverse {
-		0%, 100% {
+		0%,
+		100% {
 			border-radius: 40% 60% 70% 30% / 40% 70% 30% 60%;
 			transform: translate(0, 0) rotate(360deg);
 		}
@@ -1640,7 +2021,8 @@
 	}
 
 	@keyframes morph-slow {
-		0%, 100% {
+		0%,
+		100% {
 			border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
 			transform: scale(1) rotate(0deg);
 		}
@@ -1655,32 +2037,52 @@
 	}
 
 	@keyframes pulse-glow {
-		0%, 100% {
+		0%,
+		100% {
 			box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
 		}
 		50% {
-			box-shadow: 0 0 40px rgba(0, 245, 255, 0.6), 0 0 60px rgba(0, 245, 255, 0.3);
+			box-shadow:
+				0 0 40px rgba(0, 245, 255, 0.6),
+				0 0 60px rgba(0, 245, 255, 0.3);
 		}
 	}
 
 	@keyframes spin-slow {
-		from { transform: rotate(0deg); }
-		to { transform: rotate(360deg); }
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
 	}
 
 	@keyframes spin-reverse {
-		from { transform: rotate(360deg); }
-		to { transform: rotate(0deg); }
+		from {
+			transform: rotate(360deg);
+		}
+		to {
+			transform: rotate(0deg);
+		}
 	}
 
 	@keyframes text-gradient {
-		0%, 100% { background-position: 0% 50%; }
-		50% { background-position: 100% 50%; }
+		0%,
+		100% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
 	}
 
 	@keyframes shine {
-		0% { transform: translateX(-100%) skewX(-12deg); }
-		100% { transform: translateX(200%) skewX(-12deg); }
+		0% {
+			transform: translateX(-100%) skewX(-12deg);
+		}
+		100% {
+			transform: translateX(200%) skewX(-12deg);
+		}
 	}
 
 	/* Enhanced skill animations */
@@ -1741,7 +2143,7 @@
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-clip: text;
-		text-shadow: 0 2px 10px rgba(255,222,33,0.3);
+		text-shadow: 0 2px 10px rgba(255, 222, 33, 0.3);
 		letter-spacing: 1px;
 		animation: subtitleGlow 3s ease-in-out infinite;
 		white-space: nowrap;
@@ -1760,9 +2162,9 @@
 		height: 8px;
 		background: linear-gradient(135deg, #ffde21, #ffd700);
 		border-radius: 50%;
-		box-shadow: 
-			0 0 10px rgba(255,222,33,0.6),
-			0 0 20px rgba(255,222,33,0.3);
+		box-shadow:
+			0 0 10px rgba(255, 222, 33, 0.6),
+			0 0 20px rgba(255, 222, 33, 0.3);
 		animation: dotFloat 2s ease-in-out infinite;
 	}
 
@@ -1773,46 +2175,65 @@
 	.accent-line {
 		width: 40px;
 		height: 2px;
-		background: linear-gradient(90deg, 
-			transparent, 
-			#ffde21, 
-			#ffd700, 
-			#ffde21, 
-			transparent
-		);
+		background: linear-gradient(90deg, transparent, #ffde21, #ffd700, #ffde21, transparent);
 		border-radius: 1px;
 		animation: lineExtend 3s ease-in-out infinite;
 	}
 
 	@keyframes subtitleGlow {
-		0%, 100% { 
-			text-shadow: 0 2px 10px rgba(255,222,33,0.3);
+		0%,
+		100% {
+			text-shadow: 0 2px 10px rgba(255, 222, 33, 0.3);
 			transform: scale(1);
 		}
-		50% { 
-			text-shadow: 0 4px 20px rgba(255,222,33,0.6);
+		50% {
+			text-shadow: 0 4px 20px rgba(255, 222, 33, 0.6);
 			transform: scale(1.02);
 		}
 	}
 
 	@keyframes accentPulse {
-		0%, 100% { opacity: 1; transform: scale(1); }
-		50% { opacity: 0.7; transform: scale(1.1); }
+		0%,
+		100% {
+			opacity: 1;
+			transform: scale(1);
+		}
+		50% {
+			opacity: 0.7;
+			transform: scale(1.1);
+		}
 	}
 
 	@keyframes dotFloat {
-		0%, 100% { transform: translateY(0); }
-		50% { transform: translateY(-5px); }
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-5px);
+		}
 	}
 
 	@keyframes lineExtend {
-		0%, 100% { transform: scaleX(1); opacity: 1; }
-		50% { transform: scaleX(1.2); opacity: 0.8; }
+		0%,
+		100% {
+			transform: scaleX(1);
+			opacity: 1;
+		}
+		50% {
+			transform: scaleX(1.2);
+			opacity: 0.8;
+		}
 	}
 
 	@keyframes fadeInOut {
-		0%, 100% { opacity: 0.8; }
-		50% { opacity: 1; }
+		0%,
+		100% {
+			opacity: 0.8;
+		}
+		50% {
+			opacity: 1;
+		}
 	}
 
 	.animate-shine {
@@ -1907,14 +2328,9 @@
 			grid-template-columns: 1fr 1fr;
 			gap: 2rem;
 		}
-		
+
 		.skill-satellite {
 			--orbit-radius: 60px;
-		}
-		
-		.central-hub .w-32 {
-			width: 6rem;
-			height: 6rem;
 		}
 	}
 
@@ -1922,7 +2338,7 @@
 		.skills-orbit-container {
 			grid-template-columns: 1fr;
 		}
-		
+
 		.skill-satellite {
 			--orbit-radius: 50px;
 		}
