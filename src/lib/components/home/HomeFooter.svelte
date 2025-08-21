@@ -4,8 +4,8 @@
 
 	// Social media links with updated style for homepage
 	const socialLinks = [
-		{ href: 'https://github.com/', label: 'GitHub', icon: 'github' },
-		{ href: 'https://ko-fi.com/', label: 'Ko-fi', icon: 'kofi' },
+		{ href: 'https://github.com/nishanajihah', label: 'GitHub', icon: 'github' },
+		{ href: 'https://ko-fi.com/nishanajihah', label: 'Ko-fi', icon: 'kofi' },
 		{ href: 'https://open.spotify.com/', label: 'Spotify', icon: 'spotify' }
 	];
 

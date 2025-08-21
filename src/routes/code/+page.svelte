@@ -212,12 +212,39 @@
 		{:else}
 			<!-- Main Content -->
 			<div class="space-y-24">
+				<!-- Main Projects Title -->
+				<section class="text-center">
+					<div class="projects-main-title-container mb-8">
+						<h1 class="projects-main-title text-6xl font-bold text-white mb-6">
+							<span class="smooth-letter" style="animation-delay: 0.1s;">P</span>
+							<span class="smooth-letter" style="animation-delay: 0.15s;">r</span>
+							<span class="smooth-letter" style="animation-delay: 0.2s;">o</span>
+							<span class="smooth-letter" style="animation-delay: 0.25s;">j</span>
+							<span class="smooth-letter" style="animation-delay: 0.3s;">e</span>
+							<span class="smooth-letter" style="animation-delay: 0.35s;">c</span>
+							<span class="smooth-letter" style="animation-delay: 0.4s;">t</span>
+							<span class="smooth-letter" style="animation-delay: 0.45s;">s</span>
+						</h1>
+						<div class="modern-subtitle projects-subtitle">
+							<div class="subtitle-row">
+								<span class="subtitle-text">From Concept To Deployment</span>
+								<div class="subtitle-accent">
+									<span class="accent-dot"></span>
+									<span class="accent-line"></span>
+									<span class="accent-dot"></span>
+								</div>
+								<span class="subtitle-text">Bringing Ideas To Life</span>
+							</div>
+						</div>
+					</div>
+				</section>
+
 				<!-- Featured Projects -->
 				{#if pinnedProjects.length > 0}
 					<section>
-						<div class="mb-12 text-center">
-							<h2 class="mb-4 text-4xl font-bold text-white">Featured Projects</h2>
-							<p class="mx-auto max-w-2xl text-xl text-gray-400">
+						<div class="mb-12 text-left">
+							<h2 class="mb-4 text-4xl font-bold text-white subsection-title-left">Featured Projects</h2>
+							<p class="max-w-2xl text-xl text-gray-400">
 								Showcasing my best work that combines creativity with technical excellence
 							</p>
 						</div>
@@ -225,115 +252,173 @@
 							bind:this={projectsSection}
 							class="grid grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3"
 						>
-							{#each pinnedProjects as project (project.id)}
+							{#each pinnedProjects as project, index (project.id)}
 								<article
-									class="project-card group hover:border-primary/50 hover:shadow-primary/10 relative overflow-hidden rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+									class="featured-project-card group relative overflow-hidden rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-sm transition-all duration-700 hover:-translate-y-4 hover:border-primary/60 hover:shadow-2xl hover:shadow-primary/20 flex flex-col"
+									style="animation-delay: {index * 0.2}s"
 								>
-									<!-- Project Image Placeholder -->
+									<!-- Project Image with Enhanced Effects -->
 									<div class="relative aspect-video overflow-hidden">
 										{#if project.readme_image}
 											<img
 												src={project.readme_image}
 												alt="{project.name} preview"
-												class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+												class="h-full w-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
 											/>
 										{:else}
 											<div
-												class="from-primary/20 flex h-full w-full items-center justify-center bg-gradient-to-br to-purple-600/20"
+												class="from-primary/20 flex h-full w-full items-center justify-center bg-gradient-to-br to-purple-600/20 transition-all duration-500 group-hover:from-primary/30 group-hover:to-purple-600/30"
 											>
-												<div class="text-primary/30 text-6xl">
-													{#if project.language === 'TypeScript'}📘
-													{:else if project.language === 'JavaScript'}📙
-													{:else if project.language === 'Python'}🐍
-													{:else if project.language === 'HTML'}🌐
-													{:else}📁{/if}
+												<!-- Clean gradient background, no icon -->
+											</div>
+										{/if}
+										
+										<!-- Live Site Badge -->
+										{#if project.homepage}
+											<div class="absolute top-3 right-3 opacity-0 transition-all duration-300 group-hover:opacity-100">
+												<div class="flex items-center gap-1 rounded-full bg-green-500/90 px-2 py-1 text-xs font-medium text-white backdrop-blur-sm">
+													<span class="h-2 w-2 animate-pulse rounded-full bg-green-300"></span>
+													Live
 												</div>
 											</div>
 										{/if}
-										<div
-											class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-										></div>
+										
+										<!-- Overlay Effects -->
+										<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-all duration-500 group-hover:opacity-100"></div>
+										<div class="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-purple-600/10 opacity-0 transition-all duration-500 group-hover:opacity-100"></div>
 									</div>
 
-									<!-- Content -->
-									<div class="p-6">
-										<h3
-											class="group-hover:text-primary mb-3 text-xl font-bold text-white transition-colors duration-300"
-										>
+									<!-- Enhanced Content -->
+									<div class="p-6 flex-1 flex flex-col">
+										<!-- Project Title with Glow Effect -->
+										<h3 class="group-hover:text-primary mb-3 text-xl font-bold text-white transition-all duration-300 group-hover:text-shadow-glow">
 											{project.name}
 										</h3>
-										<p class="mb-4 line-clamp-3 text-gray-400">
-											{project.description || 'No description available'}
-										</p>
+										
+										<!-- Description - Fixed Height -->
+										<div class="mb-4 h-16 flex items-start">
+											{#if project.description && project.description.trim() !== '' && project.description !== 'No description available'}
+												<p class="line-clamp-3 text-gray-400 transition-colors duration-300 group-hover:text-gray-300">
+													{project.description}
+												</p>
+											{:else}
+												<!-- Empty state - no text displayed -->
+												<div class="w-full"></div>
+											{/if}
+										</div>
 
-										<!-- Language & Topics -->
-										{#if project.language}
-											<div class="mb-3 flex items-center gap-2">
-												<span
-													class="inline-block h-3 w-3 rounded-full {getLanguageColorClass(
-														project.language
-													)}"
-												></span>
-												<span class="text-sm text-gray-300">{project.language}</span>
+										<!-- Tech Stack Section -->
+										<div class="mb-4 min-h-[80px] flex flex-col justify-start">
+											<!-- Primary Language -->
+											{#if project.language}
+												<div class="mb-3 flex items-center gap-2">
+													<span class="inline-block h-3 w-3 rounded-full {getLanguageColorClass(project.language)} shadow-lg"></span>
+													<span class="text-sm font-medium text-gray-300">{project.language}</span>
+													<span class="text-xs text-gray-500">• Primary</span>
+												</div>
+											{/if}
+
+											<!-- Languages Used -->
+											<div class="flex-1">
+												<div class="mb-2 text-xs font-medium text-gray-400 uppercase tracking-wide">Other Languages</div>
+												<div class="flex flex-wrap gap-2">
+													{#if project.topics && project.topics.length > 0}
+														{#each project.topics.filter(topic => topic.toLowerCase() !== project.language?.toLowerCase()) as lang}
+															<span class="tech-badge bg-gray-700 text-white border-gray-600 rounded-full border px-3 py-1 text-xs font-medium transition-all duration-300 hover:scale-105">
+																{lang}
+															</span>
+														{/each}
+													{:else}
+														<span class="text-xs text-gray-500 italic">No additional languages detected</span>
+													{/if}
+												</div>
+											</div>
+										</div>
+
+										<!-- Stats Section -->
+										<div class="mb-4 flex items-center gap-4 text-sm text-gray-400">
+											<div class="flex items-center gap-1 transition-colors duration-300 hover:text-yellow-400">
+												<span>⭐</span>
+												<span class="font-medium">{project.stargazers_count}</span>
+												<span class="text-xs">stars</span>
+											</div>
+											{#if project.homepage}
+												<div class="flex items-center gap-1 text-green-400">
+													<span>�</span>
+													<span class="text-xs font-medium">Live Site</span>
+												</div>
+											{/if}
+										</div>
+
+										<!-- Live URL Display -->
+										{#if project.homepage}
+											<div class="mb-4 rounded-xl bg-gradient-to-r from-yellow-400/20 via-yellow-300/10 to-yellow-400/20 p-4 border-2 border-yellow-400/60 shadow-lg flex flex-col items-start gap-2">
+												<span class="text-xs font-extrabold text-yellow-400 uppercase tracking-wide mb-1">Live Web URL</span>
+												<a 
+													href={project.homepage} 
+													target="_blank" 
+													rel="noopener noreferrer"
+													class="block w-full text-yellow-300 hover:text-yellow-500 text-xs font-mono break-all transition-all duration-200 bg-gray-900/80 rounded-lg px-3 py-2 shadow-inner border border-yellow-400/30 hover:bg-yellow-400/10"
+												>
+													{project.homepage}
+												</a>
 											</div>
 										{/if}
 
-										{#if project.topics && project.topics.length > 0}
-											<div class="mb-4 flex flex-wrap gap-2">
-												{#each project.topics.slice(0, 3) as topic}
-													<span
-														class="bg-primary/10 text-primary border-primary/20 rounded-full border px-2 py-1 text-xs"
-													>
-														{topic}
-													</span>
-												{/each}
-												{#if project.topics.length > 3}
-													<span class="rounded-full bg-gray-700/50 px-2 py-1 text-xs text-gray-400">
-														+{project.topics.length - 3}
-													</span>
-												{/if}
-											</div>
-										{/if}
-
-										<!-- Stats & Actions -->
-										<div class="flex items-center justify-between border-t border-gray-700/30 pt-4">
-											<div class="flex items-center gap-4 text-sm text-gray-400">
-												<span class="flex items-center gap-1">
-													⭐ {project.stargazers_count}
-												</span>
-												<span class="flex items-center gap-1">
-													🍴 {project.forks_count}
-												</span>
-											</div>
-											<div class="flex gap-2">
-												{#if project.homepage}
-													<a
-														href={project.homepage}
-														target="_blank"
-														rel="noopener noreferrer"
-														class="bg-primary hover:bg-primary/80 rounded-lg px-3 py-1 text-sm text-white transition-all duration-300 hover:scale-105"
-													>
-														Demo
-													</a>
-												{/if}
+										<!-- Action Buttons -->
+										<div class="flex gap-3 border-t border-gray-700/30 pt-4 mt-auto">
+											{#if project.homepage && project.html_url}
+												<!-- Both live site and code available -->
+												<a
+													href={project.homepage}
+													target="_blank"
+													rel="noopener noreferrer"
+													class="flex-1 bg-yellow-400 hover:bg-yellow-500 flex items-center justify-center rounded-full px-6 py-2 text-sm font-extrabold text-gray-900 transition-all duration-200 shadow-lg border-2 border-yellow-400/80 tracking-wide hover:scale-105 hover:shadow-xl animate-pulse"
+												>
+													Live Web
+												</a>
 												<a
 													href={project.html_url}
 													target="_blank"
 													rel="noopener noreferrer"
-													class="rounded-lg bg-gray-700 px-3 py-1 text-sm text-white transition-all duration-300 hover:scale-105 hover:bg-gray-600"
+													class="flex-1 group/btn flex items-center justify-center rounded-full bg-gray-700/80 backdrop-blur-sm px-6 py-2 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-gray-600/80 hover:shadow-xl border border-gray-600/30"
 												>
-													Code
+													View Code
 												</a>
-											</div>
+											{:else if project.homepage}
+												<!-- Only live site available -->
+												<a
+													href={project.homepage}
+													target="_blank"
+													rel="noopener noreferrer"
+													class="w-full bg-yellow-400 hover:bg-yellow-500 flex items-center justify-center rounded-full px-6 py-2 text-sm font-extrabold text-gray-900 transition-all duration-200 shadow-lg border-2 border-yellow-400/80 tracking-wide hover:scale-105 hover:shadow-xl animate-pulse"
+												>
+													Live Web
+												</a>
+											{:else if project.html_url}
+												<!-- Only code available -->
+												<a
+													href={project.html_url}
+													target="_blank"
+													rel="noopener noreferrer"
+													class="w-full group/btn flex items-center justify-center rounded-full bg-gray-700/80 backdrop-blur-sm px-6 py-2 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-gray-600/80 hover:shadow-xl border border-gray-600/30"
+												>
+													View Source Code
+												</a>
+											{/if}
 										</div>
 									</div>
 
-									<!-- Floating Elements for Animation -->
-									<div
-										class="absolute top-4 right-4 transform opacity-0 transition-all duration-500 group-hover:rotate-12 group-hover:opacity-100"
-									>
-										<div class="bg-primary/20 h-8 w-8 animate-pulse rounded-full"></div>
+									<!-- Enhanced Floating Elements -->
+									<div class="absolute top-4 left-4 opacity-0 transition-all duration-700 group-hover:opacity-100">
+										<div class="bg-primary/30 h-3 w-3 animate-ping rounded-full"></div>
 									</div>
+									<div class="absolute bottom-4 right-4 opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:animate-pulse">
+										<div class="bg-yellow-400/40 h-4 w-4 rounded-full"></div>
+									</div>
+									
+									<!-- Shimmer Effect -->
+									<div class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-1000 group-hover:translate-x-full"></div>
 								</article>
 							{/each}
 						</div>
@@ -352,9 +437,9 @@
 				<!-- All Projects -->
 				{#if projects.length > 0}
 					<section>
-						<div class="mb-12 text-center">
-							<h2 class="mb-4 text-4xl font-bold text-white">All Projects</h2>
-							<p class="mx-auto max-w-2xl text-xl text-gray-400">Browse all my repositories</p>
+						<div class="mb-12 text-right">
+							<h2 class="mb-4 text-4xl font-bold text-white subsection-title-right">All Projects</h2>
+							<p class="max-w-2xl text-xl text-gray-400 ml-auto">Browse all my repositories</p>
 						</div>
 
 						{#if showAllProjects}
@@ -502,13 +587,13 @@
 							</h2>
 							<div class="modern-subtitle">
 								<div class="subtitle-row">
-									<span class="subtitle-text">Transforming Ideas Into Reality</span>
+									<span class="subtitle-text">Learning New skills</span>
 									<div class="subtitle-accent">
 										<span class="accent-dot"></span>
 										<span class="accent-line"></span>
 										<span class="accent-dot"></span>
 									</div>
-									<span class="subtitle-text">Through Code & Creativity</span>
+									<span class="subtitle-text">Leveling Up Border Horizon</span>
 								</div>
 							</div>
 						</div>
@@ -816,6 +901,189 @@
 			0 0 20px #ffd700,
 			0 0 30px #ffde21;
 		transform: scale(1.2) rotateY(360deg);
+	}
+
+	/* ===== PROJECTS MAIN TITLE ANIMATIONS ===== */
+	/* Clean and simple animation for main Projects title */
+	@keyframes smoothSlideUp {
+		0% {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.projects-main-title {
+		animation: fadeInUp 0.8s ease-out forwards;
+	}
+
+	.smooth-letter {
+		display: inline-block;
+		opacity: 0;
+		animation: smoothSlideUp 0.8s ease-out forwards;
+		cursor: default;
+		transition: all 0.3s ease;
+	}
+
+	.smooth-letter:hover {
+		color: #ffde21;
+		text-shadow: 0 0 20px #ffde21;
+		transform: translateY(-5px);
+	}
+
+	/* Projects subtitle styling */
+	.projects-subtitle {
+		opacity: 0;
+		animation: fadeInUp 1s ease-out forwards;
+		animation-delay: 0.8s;
+	}
+
+	.projects-subtitle .subtitle-text {
+		animation-delay: 1s;
+	}
+
+	.projects-subtitle .subtitle-accent {
+		animation-delay: 1.2s;
+	}
+
+	/* ===== FEATURED PROJECTS ANIMATIONS ===== */
+	/* Enhanced featured project card animations */
+	@keyframes featuredCardEntrance {
+		0% {
+			opacity: 0;
+			transform: translateY(40px) scale(0.95);
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(0) scale(1);
+		}
+	}
+
+	.featured-project-card {
+		opacity: 0;
+		animation: featuredCardEntrance 0.8s ease-out forwards;
+		position: relative;
+	}
+
+	.featured-project-card::before {
+		content: '';
+		position: absolute;
+		top: -2px;
+		left: -2px;
+		right: -2px;
+		bottom: -2px;
+		background: linear-gradient(45deg, transparent, rgba(0, 245, 255, 0.1), transparent);
+		border-radius: inherit;
+		opacity: 0;
+		transition: opacity 0.5s ease;
+		z-index: -1;
+	}
+
+	.featured-project-card:hover::before {
+		opacity: 1;
+	}
+
+	/* Tech badge animations */
+	.tech-badge {
+		position: relative;
+		overflow: hidden;
+	}
+
+	.tech-badge::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: -100%;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+		transition: left 0.5s ease;
+	}
+
+	.tech-badge:hover::before {
+		left: 100%;
+	}
+
+	/* Text glow effect */
+	.text-shadow-glow {
+		text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+	}
+
+	/* Subsection titles animations */
+	.subsection-title-left {
+		opacity: 0;
+		animation: slideInFromLeft 0.8s ease-out forwards;
+		animation-delay: 1.4s;
+		position: relative;
+	}
+
+	.subsection-title-left::before {
+		content: '';
+		position: absolute;
+		left: -20px;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 4px;
+		height: 0;
+		background: linear-gradient(to bottom, #ffde21, #ffd700);
+		border-radius: 2px;
+		animation: lineGrowDown 0.6s ease-out forwards;
+		animation-delay: 2s;
+	}
+
+	.subsection-title-right {
+		opacity: 0;
+		animation: slideInFromRight 0.8s ease-out forwards;
+		animation-delay: 1.6s;
+		position: relative;
+	}
+
+	.subsection-title-right::after {
+		content: '';
+		position: absolute;
+		right: -20px;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 4px;
+		height: 0;
+		background: linear-gradient(to bottom, #ffde21, #ffd700);
+		border-radius: 2px;
+		animation: lineGrowDown 0.6s ease-out forwards;
+		animation-delay: 2.2s;
+	}
+
+	@keyframes slideInFromLeft {
+		0% {
+			opacity: 0;
+			transform: translateX(-30px);
+		}
+		100% {
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+
+	@keyframes slideInFromRight {
+		0% {
+			opacity: 0;
+			transform: translateX(30px);
+		}
+		100% {
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+
+	@keyframes lineGrowDown {
+		0% {
+			height: 0;
+		}
+		100% {
+			height: 40px;
+		}
 	}
 
 	/* Category icon animations */
