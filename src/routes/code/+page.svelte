@@ -1,4 +1,5 @@
 <script lang="ts">
+	// ===== IMPORTS =====
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -7,12 +8,7 @@
 	// Register GSAP plugins
 	gsap.registerPlugin(ScrollTrigger);
 
-	// Reference elements for animations
-	let projectsSection: HTMLElement;
-	let skillsSection: HTMLElement;
-	let contributionsSection: HTMLElement;
-
-	// Define types for our data structures
+	// ===== TYPES & INTERFACES =====
 	interface Project {
 		id: number;
 		name: string;
@@ -32,27 +28,60 @@
 		size: number;
 	}
 
-	// State management
+	// ===== GLOBAL STATE =====
 	let isLoading = true;
 	let error: string | null = null;
+
+	// ===== ANIMATION REFERENCES =====
+	let projectsSection: HTMLElement;
+	let skillsSection: HTMLElement;
+	let contributionsSection: HTMLElement;
+
+	// ===== PROJECTS SECTION - TypeScript =====
 	let projects: Project[] = [];
 	let pinnedProjects: Project[] = [];
-	let githubEvents: any[] = [];
-	let contributionsData = { total: 0, lastYear: 0, streak: 0, publicRepos: 0 };
-	let contributionActivity: Array<{
-		month: string;
-		monthKey: string;
-		count: number;
-		level: number;
-		isCurrentMonth: boolean;
-		days: Array<{ date: string; day: number; count: number; level: number; isToday: boolean }>;
-	}> = [];
-	let selectedMonth: string | null = null;
 	let showAllProjects = false;
 	let projectSearchQuery = '';
+
+	// Project filtering logic
+	$: filteredProjects = projects.filter(
+		(project) =>
+			project.name.toLowerCase().includes(projectSearchQuery.toLowerCase()) ||
+			(project.description &&
+				project.description.toLowerCase().includes(projectSearchQuery.toLowerCase())) ||
+			(project.language &&
+				project.language.toLowerCase().includes(projectSearchQuery.toLowerCase()))
+	);
+
+	// Display projects (limit to 15 unless showing all)
+	$: displayedProjects = showAllProjects ? filteredProjects : filteredProjects.slice(0, 15);
+
+	function getLanguageColorClass(language: string): string {
+		const colorMap: Record<string, string> = {
+			TypeScript: 'bg-blue-500',
+			JavaScript: 'bg-yellow-400',
+			Python: 'bg-blue-700',
+			HTML: 'bg-orange-600',
+			CSS: 'bg-blue-500',
+			Svelte: 'bg-orange-600',
+			Vue: 'bg-green-500',
+			Ruby: 'bg-red-600',
+			Go: 'bg-blue-400',
+			Rust: 'bg-orange-700',
+			'C#': 'bg-green-600',
+			Java: 'bg-amber-600',
+			Kotlin: 'bg-purple-600',
+			Swift: 'bg-orange-500',
+			PHP: 'bg-indigo-600'
+		};
+
+		return colorMap[language] || 'bg-gray-500';
+	}
+
+	// ===== SKILLS SECTION - TypeScript =====
 	let hoveredCategory: string | null = null;
 
-	// Skills visualization data with categories
+	// Skills data with categories
 	const skills = [
 		{
 			category: 'Frontend',
@@ -161,7 +190,7 @@
 		}
 	];
 
-	// Create a shuffled version of skills for random display
+	// Skills utility functions
 	const shuffleArray = (array: typeof skills) => {
 		const shuffled = [...array];
 		for (let i = shuffled.length - 1; i > 0; i--) {
@@ -171,7 +200,6 @@
 		return shuffled;
 	};
 
-	// Get skill level label based on percentage
 	const getSkillLevel = (level: number): string => {
 		if (level >= 80) return 'Advanced';
 		if (level >= 60) return 'Intermediate';
@@ -179,9 +207,9 @@
 		return 'Learning';
 	};
 
+	// Skills derived data
 	const randomizedSkills = shuffleArray(skills);
 
-	// Group skills by category
 	const skillCategories = skills.reduce(
 		(acc, skill) => {
 			if (!acc[skill.category]) {
@@ -193,41 +221,17 @@
 		{} as Record<string, typeof skills>
 	);
 
-	// Filter projects based on search query
-	$: filteredProjects = projects.filter(
-		(project) =>
-			project.name.toLowerCase().includes(projectSearchQuery.toLowerCase()) ||
-			(project.description &&
-				project.description.toLowerCase().includes(projectSearchQuery.toLowerCase())) ||
-			(project.language &&
-				project.language.toLowerCase().includes(projectSearchQuery.toLowerCase()))
-	);
-
-	// Display projects (limit to 15 unless showing all)
-	$: displayedProjects = showAllProjects ? filteredProjects : filteredProjects.slice(0, 15);
-
-	function getLanguageColorClass(language: string): string {
-		const colorMap: Record<string, string> = {
-			TypeScript: 'bg-blue-500',
-			JavaScript: 'bg-yellow-400',
-			Python: 'bg-blue-700',
-			HTML: 'bg-orange-600',
-			CSS: 'bg-blue-500',
-			Svelte: 'bg-orange-600',
-			Vue: 'bg-green-500',
-			Ruby: 'bg-red-600',
-			Go: 'bg-blue-400',
-			Rust: 'bg-orange-700',
-			'C#': 'bg-green-600',
-			Java: 'bg-amber-600',
-			Kotlin: 'bg-purple-600',
-			Swift: 'bg-orange-500',
-			PHP: 'bg-indigo-600'
-		};
-
-		return colorMap[language] || 'bg-gray-500';
-	}
-
+	// ===== GITHUB SECTION - TypeScript =====
+	let githubEvents: any[] = [];
+	let contributionsData = { total: 0, lastYear: 0, streak: 0, publicRepos: 0 };
+	let contributionActivity: Array<{
+		month: string;
+		monthKey: string;
+		count: number;
+		level: number;
+		isCurrentMonth: boolean;
+		days: Array<{ date: string; day: number; count: number; level: number; isToday: boolean }>;
+	}> = [];
 	// Fetch GitHub data from our API route
 	async function fetchGithubData() {
 		try {
@@ -257,7 +261,7 @@
 		}
 	}
 
-	// Initialize animations
+	// ===== ANIMATIONS =====
 	function initAnimations() {
 		// Animate featured projects
 		if (projectsSection) {
@@ -270,98 +274,6 @@
 					trigger: projectsSection,
 					start: 'top bottom-=100'
 				}
-			});
-		}
-
-		// Animate skills section
-		if (skillsSection) {
-			// Animate the central hub
-			gsap.fromTo(
-				skillsSection.querySelector('.central-hub'),
-				{
-					scale: 0,
-					rotation: -180,
-					opacity: 0
-				},
-				{
-					scale: 1,
-					rotation: 0,
-					opacity: 1,
-					duration: 1.5,
-					ease: 'elastic.out(1, 0.5)',
-					scrollTrigger: {
-						trigger: skillsSection,
-						start: 'top bottom-=100'
-					}
-				}
-			);
-
-			// Animate category planets
-			gsap.from(skillsSection.querySelectorAll('.category-planet'), {
-				y: 100,
-				opacity: 0,
-				scale: 0,
-				rotation: 360,
-				stagger: 0.2,
-				duration: 1,
-				ease: 'back.out(1.7)',
-				delay: 0.5,
-				scrollTrigger: {
-					trigger: skillsSection,
-					start: 'top bottom-=50'
-				}
-			});
-
-			// Animate skill satellites
-			gsap.from(skillsSection.querySelectorAll('.skill-satellite'), {
-				scale: 0,
-				opacity: 0,
-				stagger: {
-					amount: 2,
-					from: 'random'
-				},
-				duration: 0.8,
-				ease: 'power2.out',
-				delay: 1,
-				scrollTrigger: {
-					trigger: skillsSection,
-					start: 'top bottom-=50'
-				}
-			});
-
-			// Animate floating stats
-			gsap.from(skillsSection.querySelectorAll('.stat-item'), {
-				y: 50,
-				opacity: 0,
-				stagger: 0.1,
-				duration: 0.8,
-				ease: 'power2.out',
-				scrollTrigger: {
-					trigger: skillsSection,
-					start: 'top bottom-=100'
-				}
-			});
-
-			// Animate morphing blobs
-			gsap.to(skillsSection.querySelectorAll('.morphing-blob'), {
-				x: 'random(-50, 50)',
-				y: 'random(-30, 30)',
-				scale: 'random(0.8, 1.2)',
-				duration: 'random(3, 6)',
-				ease: 'sine.inOut',
-				repeat: -1,
-				yoyo: true,
-				stagger: 0.5
-			});
-
-			// Create floating animation for skill orbs
-			gsap.to(skillsSection.querySelectorAll('.skill-orb'), {
-				y: 'random(-5, 5)',
-				duration: 'random(2, 4)',
-				ease: 'sine.inOut',
-				repeat: -1,
-				yoyo: true,
-				stagger: 0.1
 			});
 		}
 
@@ -379,6 +291,7 @@
 		}
 	}
 
+	// ===== LIFECYCLE =====
 	onMount(async () => {
 		try {
 			const data = await fetchGithubData();
@@ -871,6 +784,8 @@
 </PageLayout>
 
 <style>
+	/* ===== GLOBAL CSS ===== */
+	/* ===== ANIMATIONS ===== */
 	/* Enhanced animations and effects */
 	@keyframes fadeInUp {
 		from {
@@ -1072,6 +987,7 @@
 		transform: translateY(-2px) scale(1.02);
 	}
 
+	/* ===== SKILLS SECTION - CSS ===== */
 	/* === Mixed Skills Section === */
 	.mixed-skills-section {
 		position: relative;
@@ -1856,6 +1772,7 @@
 		opacity: 0;
 	}
 
+	/* ===== PROJECTS SECTION - CSS ===== */
 	/* Project card animations */
 	.project-card {
 		transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2249,41 +2166,12 @@
 		transform-style: preserve-3d;
 	}
 
-	.skill-satellite {
-		transform-origin: 50% 50%;
-		will-change: transform;
-	}
-
-	.skill-orb {
-		backdrop-filter: blur(10px);
-		transform-style: preserve-3d;
-		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	}
-
-	.skill-orb:hover {
-		transform: translateZ(20px) scale(1.2);
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-	}
-
 	.skill-tooltip {
 		z-index: 1000;
 		pointer-events: none;
 	}
 
-	/* Interactive elements */
-	.central-hub {
-		filter: drop-shadow(0 10px 30px rgba(0, 245, 255, 0.3));
-	}
-
-	.category-planet {
-		transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-	}
-
-	.category-planet:hover {
-		transform: translateY(-10px) scale(1.1);
-		filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.3));
-	}
-
+	/* ===== GITHUB SECTION - CSS ===== */
 	.stats-container {
 		perspective: 1000px;
 	}
@@ -2313,6 +2201,7 @@
 		--primary-rgb: 0, 245, 255;
 	}
 
+	/* ===== UTILITIES ===== */
 	/* Utility classes */
 	.line-clamp-2 {
 		display: -webkit-box;
@@ -2322,25 +2211,4 @@
 		overflow: hidden;
 	}
 
-	/* Responsive adjustments */
-	@media (max-width: 768px) {
-		.skills-orbit-container {
-			grid-template-columns: 1fr 1fr;
-			gap: 2rem;
-		}
-
-		.skill-satellite {
-			--orbit-radius: 60px;
-		}
-	}
-
-	@media (max-width: 480px) {
-		.skills-orbit-container {
-			grid-template-columns: 1fr;
-		}
-
-		.skill-satellite {
-			--orbit-radius: 50px;
-		}
-	}
 </style>
