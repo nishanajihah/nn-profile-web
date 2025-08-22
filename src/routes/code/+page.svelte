@@ -352,17 +352,18 @@
 
 										<!-- Live URL Display -->
 										{#if project.homepage}
-											<div class="mb-4 rounded-xl bg-gradient-to-r from-yellow-400/20 via-yellow-300/10 to-yellow-400/20 p-4 border-2 border-yellow-400/60 shadow-lg flex flex-col items-start gap-2">
-												<span class="text-xs font-extrabold text-yellow-400 uppercase tracking-wide mb-1">Live Web URL</span>
-												<a 
-													href={project.homepage} 
-													target="_blank" 
-													rel="noopener noreferrer"
-													class="block w-full text-yellow-300 hover:text-yellow-500 text-xs font-mono break-all transition-all duration-200 bg-gray-900/80 rounded-lg px-3 py-2 shadow-inner border border-yellow-400/30 hover:bg-yellow-400/10"
-												>
-													{project.homepage}
-												</a>
-											</div>
+												<div class="mb-4 rounded-xl p-4 shadow-2xl flex flex-col items-start gap-2" style="background: rgba(255,255,255,0.08); box-shadow: 8px 8px 24px #2226, -8px -8px 24px #fff2;">
+													<span class="text-xs font-semibold text-white uppercase tracking-wide mb-1" style="text-shadow: 0 1px 6px #fff4, 0 1px 2px #2222;">Live Web URL</span>
+													<a 
+														href={project.homepage} 
+														target="_blank" 
+														rel="noopener noreferrer"
+														class="block w-full text-white hover:text-gray-300 text-xs font-mono break-all transition-all duration-200 rounded-lg px-3 py-2 font-semibold"
+														style="background: rgba(255,255,255,0.18); box-shadow: 4px 4px 16px #2224, -4px -4px 16px #fff2; border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(8px) saturate(160%);"
+													>
+														{project.homepage}
+													</a>
+												</div>
 										{/if}
 
 										<!-- Action Buttons -->
@@ -373,7 +374,7 @@
 													href={project.homepage}
 													target="_blank"
 													rel="noopener noreferrer"
-													class="flex-1 bg-yellow-400 hover:bg-yellow-500 flex items-center justify-center rounded-full px-6 py-2 text-sm font-extrabold text-gray-900 transition-all duration-200 shadow-lg border-2 border-yellow-400/80 tracking-wide hover:scale-105 hover:shadow-xl animate-pulse"
+													class="flex-1 bg-gradient-to-r from-white via-gray-300 to-white hover:from-gray-300 hover:to-white flex items-center justify-center rounded-full px-6 py-2 text-sm font-semibold text-black transition-all duration-200 shadow-xl border-2 border-white/60 tracking-wide hover:scale-105"
 												>
 													Live Web
 												</a>
@@ -391,7 +392,7 @@
 													href={project.homepage}
 													target="_blank"
 													rel="noopener noreferrer"
-													class="w-full bg-yellow-400 hover:bg-yellow-500 flex items-center justify-center rounded-full px-6 py-2 text-sm font-extrabold text-gray-900 transition-all duration-200 shadow-lg border-2 border-yellow-400/80 tracking-wide hover:scale-105 hover:shadow-xl animate-pulse"
+													class="w-full bg-gradient-to-r from-white via-gray-300 to-white hover:from-gray-300 hover:to-white flex items-center justify-center rounded-full px-6 py-2 text-sm font-semibold text-black transition-all duration-200 shadow-xl border-2 border-white/60 tracking-wide hover:scale-105"
 												>
 													Live Web
 												</a>
