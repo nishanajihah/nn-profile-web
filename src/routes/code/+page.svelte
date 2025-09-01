@@ -67,6 +67,11 @@
 	let showAllProjects = false;
 	let projectSearchQuery = '';
 
+	// Carousel state for featured projects
+	let currentProjectIndex = 0;
+	let carouselContainer: HTMLElement;
+	let isCarouselMode = false;
+
 	// GitHub activity state (passed to component)
 	let githubEvents: any[] = [];
 	let contributionsData = { total: 0, lastYear: 0, streak: 0, publicRepos: 0 };
@@ -92,6 +97,28 @@
 
 	// Limit displayed projects to 15 unless user requests all
 	$: displayedProjects = showAllProjects ? filteredProjects : filteredProjects.slice(0, 15);
+
+	// Determine if carousel mode should be active (more than 3 projects)
+	$: isCarouselMode = pinnedProjects.length > 3;
+
+	// Carousel navigation functions
+	function nextProject() {
+		if (isCarouselMode) {
+			currentProjectIndex = (currentProjectIndex + 1) % pinnedProjects.length;
+		}
+	}
+
+	function prevProject() {
+		if (isCarouselMode) {
+			currentProjectIndex = currentProjectIndex === 0 ? pinnedProjects.length - 1 : currentProjectIndex - 1;
+		}
+	}
+
+	function goToProject(index: number) {
+		if (isCarouselMode) {
+			currentProjectIndex = index;
+		}
+	}
 
 	// ===== UTILITY FUNCTIONS =====
 	// Map programming languages to Tailwind CSS color classes
@@ -264,224 +291,269 @@
 				<!-- Featured Projects -->
 				{#if pinnedProjects.length > 0}
 					<section>
-						<div class="mb-12 text-left">
+						<div class="mb-8 text-left">
 							<h2 class="subsection-title-left mb-4 text-4xl font-bold text-white">
 								Featured Projects
 							</h2>
-							<p class="max-w-2xl text-xl text-gray-400">
-								Showcasing my best work that combines creativity with technical excellence
+							<p class="max-w-2xl text-lg text-gray-400">
+								Showcasing my best work
 							</p>
 						</div>
-						<div
-							bind:this={projectsSection}
-							class="grid grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3"
-						>
-							{#each pinnedProjects as project, index (project.id)}
-								<article
-									class="featured-project-card group hover:border-primary/60 hover:shadow-primary/20 relative flex flex-col overflow-hidden rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-sm transition-all duration-700 hover:-translate-y-4 hover:shadow-2xl"
-									style="animation-delay: {index * 0.2}s"
-								>
-									<!-- Project Image with Enhanced Effects -->
-									<div class="relative aspect-video overflow-hidden">
-										{#if project.readme_image}
-											<img
-												src={project.readme_image}
-												alt="{project.name} preview"
-												class="h-full w-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
-											/>
-										{:else}
-											<div
-												class="from-primary/20 group-hover:from-primary/30 flex h-full w-full items-center justify-center bg-gradient-to-br to-purple-600/20 transition-all duration-500 group-hover:to-purple-600/30"
-											>
-												<!-- Clean gradient background, no icon -->
-											</div>
-										{/if}
 
-										<!-- Live Site Badge -->
-										{#if project.homepage}
-											<div
-												class="absolute top-3 right-3 opacity-0 transition-all duration-300 group-hover:opacity-100"
-											>
-												<div
-													class="flex items-center gap-1 rounded-full bg-green-500/90 px-2 py-1 text-xs font-medium text-white backdrop-blur-sm"
-												>
-													<span class="h-2 w-2 animate-pulse rounded-full bg-green-300"></span>
-													Live
+						<!-- Carousel Container -->
+						<div class="relative">
+							{#if isCarouselMode}
+								<!-- Carousel Mode (More than 3 projects) -->
+								<div class="overflow-hidden rounded-3xl">
+									<div 
+										class="flex transition-transform duration-500 ease-in-out"
+										style="transform: translateX(-{currentProjectIndex * (100 / 3)}%)"
+									>
+										{#each pinnedProjects as project, index (project.id)}
+											<div class="w-1/3 flex-shrink-0 px-3">
+												<div class="featured-project-premium group cursor-pointer">
+													<!-- Premium Featured Card -->
+													<div class="featured-neuro-card relative overflow-hidden">
+														<!-- Project Image Section -->
+														<div class="image-section relative">
+															{#if project.readme_image}
+																<img
+																	src={project.readme_image}
+																	alt="{project.name} preview"
+																	class="project-image"
+																/>
+															{:else}
+																<div class="gradient-placeholder">
+																	<div class="placeholder-pattern"></div>
+																	<div class="project-icon">
+																		<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+																			<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+																		</svg>
+																	</div>
+																</div>
+															{/if}
+															
+															<!-- Live Site Overlay Badge -->
+															{#if project.homepage}
+																<div class="live-badge">
+																	<div class="live-indicator"></div>
+																	<span>Live Site</span>
+																</div>
+															{/if}
+
+															<!-- Glassmorphism Overlay -->
+															<div class="image-overlay group-hover:opacity-100"></div>
+														</div>
+
+														<!-- Content Section -->
+														<div class="content-section">
+															<h3 class="featured-title">{project.name}</h3>
+															
+															{#if project.description}
+																<p class="featured-desc">{project.description}</p>
+															{/if}
+
+															<!-- Live Web URL Display -->
+															{#if project.homepage}
+																<div class="live-url-display">
+																	<div class="url-label">Live Web URL</div>
+																	<a
+																		href={project.homepage}
+																		target="_blank"
+																		rel="noopener noreferrer"
+																		class="url-link"
+																		on:click|stopPropagation
+																	>
+																		{project.homepage}
+																	</a>
+																</div>
+															{/if}
+
+															<!-- Tech & Stats Row -->
+															<div class="tech-stats-row">
+																{#if project.language}
+																	<div class="primary-tech">
+																		<span class="tech-dot {getLanguageColorClass(project.language)}"></span>
+																		<span class="tech-name">{project.language}</span>
+																	</div>
+																{/if}
+																<div class="stats-mini">
+																	<span class="star-count">⭐ {project.stargazers_count}</span>
+																</div>
+															</div>
+
+															<!-- Action Buttons -->
+															<div class="featured-actions">
+																{#if project.homepage}
+																	<a
+																		href={project.homepage}
+																		target="_blank"
+																		rel="noopener noreferrer"
+																		class="btn-primary"
+																		on:click|stopPropagation
+																	>
+																		View Live Site
+																	</a>
+																{/if}
+																{#if project.html_url}
+																	<a
+																		href={project.html_url}
+																		target="_blank"
+																		rel="noopener noreferrer"
+																		class="btn-secondary"
+																		on:click|stopPropagation
+																	>
+																		Source Code
+																	</a>
+																{/if}
+															</div>
+														</div>
+													</div>
 												</div>
 											</div>
-										{/if}
+										{/each}
+									</div>
+								</div>
 
-										<!-- Overlay Effects -->
-										<div
-											class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-all duration-500 group-hover:opacity-100"
-										></div>
-										<div
-											class="from-primary/10 absolute inset-0 bg-gradient-to-r via-transparent to-purple-600/10 opacity-0 transition-all duration-500 group-hover:opacity-100"
-										></div>
+								<!-- Carousel Controls -->
+								<div class="flex items-center justify-center mt-6 space-x-4">
+									<button
+										on:click={prevProject}
+										class="neuro-button p-3 text-white hover:text-blue-400 transition-all duration-200"
+										aria-label="Previous project"
+									>
+										<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+											<path d="M15.5 17l-5-5 5-5v10z"/>
+										</svg>
+									</button>
+
+									<!-- Dots Indicator -->
+									<div class="flex space-x-2">
+										{#each pinnedProjects as _, index}
+											<button
+												on:click={() => goToProject(index)}
+												class="w-2 h-2 rounded-full transition-all duration-200 {index === currentProjectIndex ? 'bg-white' : 'bg-white/30 hover:bg-white/60'}"
+												aria-label="Go to project {index + 1}"
+											></button>
+										{/each}
 									</div>
 
-									<!-- Enhanced Content -->
-									<div class="flex flex-1 flex-col p-6">
-										<!-- Project Title with Glow Effect -->
-										<h3
-											class="group-hover:text-primary group-hover:text-shadow-glow mb-3 text-xl font-bold text-white transition-all duration-300"
-										>
-											{project.name}
-										</h3>
-
-										<!-- Description - Fixed Height -->
-										<div class="mb-4 flex h-16 items-start">
-											{#if project.description && project.description.trim() !== '' && project.description !== 'No description available'}
-												<p
-													class="line-clamp-3 text-gray-400 transition-colors duration-300 group-hover:text-gray-300"
-												>
-													{project.description}
-												</p>
-											{:else}
-												<!-- Empty state - no text displayed -->
-												<div class="w-full"></div>
-											{/if}
-										</div>
-
-										<!-- Tech Stack Section -->
-										<div class="mb-4 flex min-h-[80px] flex-col justify-start">
-											<!-- Primary Language -->
-											{#if project.language}
-												<div class="mb-3 flex items-center gap-2">
-													<span
-														class="inline-block h-3 w-3 rounded-full {getLanguageColorClass(
-															project.language
-														)} shadow-lg"
-													></span>
-													<span class="text-sm font-medium text-gray-300">{project.language}</span>
-													<span class="text-xs text-gray-500">• Primary</span>
-												</div>
-											{/if}
-
-											<!-- Languages Used -->
-											<div class="flex-1">
-												<div class="mb-2 text-xs font-medium tracking-wide text-gray-400 uppercase">
-													Other Languages
-												</div>
-												<div class="flex flex-wrap gap-2">
-													{#if project.languages && project.languages.length > 0}
-														{#each project.languages as lang}
-															<span
-																class="tech-badge rounded-full border border-gray-600 bg-gray-700 px-3 py-1 text-xs font-medium text-white transition-all duration-300 hover:scale-105"
-															>
-																{lang}
-															</span>
-														{/each}
+									<button
+										on:click={nextProject}
+										class="neuro-button p-3 text-white hover:text-blue-400 transition-all duration-200"
+										aria-label="Next project"
+									>
+										<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+											<path d="M8.5 7l5 5-5 5V7z"/>
+										</svg>
+									</button>
+								</div>
+							{:else}
+								<!-- Grid Mode (3 or fewer projects) -->
+								<div bind:this={projectsSection} class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+									{#each pinnedProjects as project, index (project.id)}
+										<div class="featured-project-premium group cursor-pointer" style="animation-delay: {index * 0.1}s">
+											<!-- Premium Featured Card -->
+											<div class="featured-neuro-card relative overflow-hidden">
+												<!-- Project Image Section -->
+												<div class="image-section relative">
+													{#if project.readme_image}
+														<img
+															src={project.readme_image}
+															alt="{project.name} preview"
+															class="project-image"
+														/>
 													{:else}
-														<span class="text-xs text-gray-500 italic"
-															>No additional languages detected</span
-														>
+														<div class="gradient-placeholder">
+															<div class="placeholder-pattern"></div>
+															<div class="project-icon">
+																<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+																	<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+																</svg>
+															</div>
+														</div>
 													{/if}
+													
+													<!-- Live Site Overlay Badge -->
+													{#if project.homepage}
+														<div class="live-badge">
+															<div class="live-indicator"></div>
+															<span>Live Site</span>
+														</div>
+													{/if}
+
+													<!-- Glassmorphism Overlay -->
+													<div class="image-overlay group-hover:opacity-100"></div>
+												</div>
+
+												<!-- Content Section -->
+												<div class="content-section">
+													<h3 class="featured-title">{project.name}</h3>
+													
+													{#if project.description}
+														<p class="featured-desc">{project.description}</p>
+													{/if}
+
+													<!-- Live Web URL Display -->
+													{#if project.homepage}
+														<div class="live-url-display">
+															<div class="url-label">Live Web URL</div>
+															<a
+																href={project.homepage}
+																target="_blank"
+																rel="noopener noreferrer"
+																class="url-link"
+																on:click|stopPropagation
+															>
+																{project.homepage}
+															</a>
+														</div>
+													{/if}
+
+													<!-- Tech & Stats Row -->
+													<div class="tech-stats-row">
+														{#if project.language}
+															<div class="primary-tech">
+																<span class="tech-dot {getLanguageColorClass(project.language)}"></span>
+																<span class="tech-name">{project.language}</span>
+															</div>
+														{/if}
+														<div class="stats-mini">
+															<span class="star-count">⭐ {project.stargazers_count}</span>
+														</div>
+													</div>
+
+													<!-- Action Buttons -->
+													<div class="featured-actions">
+														{#if project.homepage}
+															<a
+																href={project.homepage}
+																target="_blank"
+																rel="noopener noreferrer"
+																class="btn-primary"
+																on:click|stopPropagation
+															>
+																View Live Site
+															</a>
+														{/if}
+														{#if project.html_url}
+															<a
+																href={project.html_url}
+																target="_blank"
+																rel="noopener noreferrer"
+																class="btn-secondary"
+																on:click|stopPropagation
+															>
+																Source Code
+															</a>
+														{/if}
+													</div>
 												</div>
 											</div>
 										</div>
-
-										<!-- Stats Section -->
-										<div class="mb-4 flex items-center gap-4 text-sm text-gray-400">
-											<div
-												class="flex items-center gap-1 transition-colors duration-300 hover:text-yellow-400"
-											>
-												<span>⭐</span>
-												<span class="font-medium">{project.stargazers_count}</span>
-												<span class="text-xs">stars</span>
-											</div>
-											{#if project.homepage}
-												<div class="flex items-center gap-1 text-green-400">
-													<span>�</span>
-													<span class="text-xs font-medium">Live Site</span>
-												</div>
-											{/if}
-										</div>
-
-										<!-- Live URL Display -->
-										{#if project.homepage}
-											<div
-												class="mb-4 flex flex-col items-start gap-2 rounded-xl p-4"
-												style="background: rgba(255,255,255,0.08); box-shadow: 0 2px 12px 0 rgba(31,38,135,0.18);"
-											>
-												<span
-													class="mb-1 text-xs font-semibold tracking-wide text-white uppercase"
-													style="text-shadow: 0 1px 6px #fff4, 0 1px 2px #2222;">Live Web URL</span
-												>
-												<a
-													href={project.homepage}
-													target="_blank"
-													rel="noopener noreferrer"
-													class="block w-full rounded-lg px-3 py-2 font-mono text-xs font-semibold break-all text-white transition-all duration-200 hover:text-gray-300"
-													style="background: rgba(255,255,255,0.18); box-shadow: 4px 4px 16px #2224, -4px -4px 16px #fff2; backdrop-filter: blur(8px) saturate(160%);"
-												>
-													{project.homepage}
-												</a>
-											</div>
-										{/if}
-
-										<!-- Action Buttons -->
-										<div class="mt-auto flex gap-3 border-t border-gray-700/30 pt-4">
-											{#if project.homepage && project.html_url}
-												<!-- Both live site and code available -->
-												<a
-													href={project.homepage}
-													target="_blank"
-													rel="noopener noreferrer"
-													class="flex flex-1 items-center justify-center rounded-full border-2 border-white/60 bg-gradient-to-r from-white via-gray-300 to-white px-6 py-2 text-sm font-semibold tracking-wide text-black shadow-xl transition-all duration-200 hover:scale-105 hover:from-gray-300 hover:to-white"
-												>
-													Live Web
-												</a>
-												<a
-													href={project.html_url}
-													target="_blank"
-													rel="noopener noreferrer"
-													class="group/btn flex flex-1 items-center justify-center rounded-full border border-gray-600/30 bg-gray-700/80 px-6 py-2 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-gray-600/80 hover:shadow-xl"
-												>
-													View Code
-												</a>
-											{:else if project.homepage}
-												<!-- Only live site available -->
-												<a
-													href={project.homepage}
-													target="_blank"
-													rel="noopener noreferrer"
-													class="flex w-full items-center justify-center rounded-full border-2 border-white/60 bg-gradient-to-r from-white via-gray-300 to-white px-6 py-2 text-sm font-semibold tracking-wide text-black shadow-xl transition-all duration-200 hover:scale-105 hover:from-gray-300 hover:to-white"
-												>
-													Live Web
-												</a>
-											{:else if project.html_url}
-												<!-- Only code available -->
-												<a
-													href={project.html_url}
-													target="_blank"
-													rel="noopener noreferrer"
-													class="group/btn flex w-full items-center justify-center rounded-full border border-gray-600/30 bg-gray-700/80 px-6 py-2 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-gray-600/80 hover:shadow-xl"
-												>
-													View Source Code
-												</a>
-											{/if}
-										</div>
-									</div>
-
-									<!-- Enhanced Floating Elements -->
-									<div
-										class="absolute top-4 left-4 opacity-0 transition-all duration-700 group-hover:opacity-100"
-									>
-										<div class="bg-primary/30 h-3 w-3 animate-ping rounded-full"></div>
-									</div>
-									<div
-										class="absolute right-4 bottom-4 opacity-0 transition-all duration-700 group-hover:animate-pulse group-hover:opacity-100"
-									>
-										<div class="h-4 w-4 rounded-full bg-yellow-400/40"></div>
-									</div>
-
-									<!-- Shimmer Effect -->
-									<div
-										class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-1000 group-hover:translate-x-full"
-									></div>
-								</article>
-							{/each}
+									{/each}
+								</div>
+							{/if}
 						</div>
 					</section>
 				{:else}
@@ -1004,12 +1076,18 @@
 		animation-delay: 1.2s;
 	}
 
-	/* ===== FEATURED PROJECTS ANIMATIONS ===== */
-	/* Enhanced featured project card animations */
-	@keyframes featuredCardEntrance {
+	/* ===== FEATURED PROJECTS PREMIUM DESIGN ===== */
+	/* Premium neumorphism and glassmorphism design for featured projects */
+	
+	.featured-project-premium {
+		opacity: 0;
+		animation: fadeInUpPremium 0.8s ease-out forwards;
+	}
+
+	@keyframes fadeInUpPremium {
 		0% {
 			opacity: 0;
-			transform: translateY(40px) scale(0.95);
+			transform: translateY(30px) scale(0.95);
 		}
 		100% {
 			opacity: 1;
@@ -1017,54 +1095,353 @@
 		}
 	}
 
-	.featured-project-card {
-		opacity: 0;
-		animation: featuredCardEntrance 0.8s ease-out forwards;
+	/* Premium Featured Card Container */
+	.featured-neuro-card {
+		background: rgba(255, 255, 255, 0.04);
+		backdrop-filter: blur(16px) saturate(180%);
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		border-radius: 28px;
+		box-shadow: 
+			8px 8px 24px rgba(0, 0, 0, 0.4),
+			-8px -8px 24px rgba(255, 255, 255, 0.03),
+			inset 2px 2px 12px rgba(255, 255, 255, 0.06),
+			inset -2px -2px 12px rgba(0, 0, 0, 0.1);
+		transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		overflow: hidden;
+		height: auto;
+		min-height: 480px;
+	}
+
+	.featured-neuro-card:hover {
+		box-shadow: 
+			12px 12px 32px rgba(0, 0, 0, 0.5),
+			-12px -12px 32px rgba(255, 255, 255, 0.04),
+			inset 3px 3px 16px rgba(255, 255, 255, 0.08),
+			inset -3px -3px 16px rgba(0, 0, 0, 0.15);
+		transform: translateY(-4px);
+		border-color: rgba(255, 255, 255, 0.18);
+	}
+
+	/* Image Section */
+	.image-section {
+		height: 200px;
 		position: relative;
+		overflow: hidden;
+		border-radius: 24px 24px 0 0;
 	}
 
-	.featured-project-card::before {
-		content: '';
-		position: absolute;
-		top: -2px;
-		left: -2px;
-		right: -2px;
-		bottom: -2px;
-		background: linear-gradient(45deg, transparent, rgba(0, 245, 255, 0.1), transparent);
-		border-radius: inherit;
-		opacity: 0;
-		transition: opacity 0.5s ease;
-		z-index: -1;
+	.project-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 	}
 
-	.featured-project-card:hover::before {
-		opacity: 1;
+	.featured-project-premium:hover .project-image {
+		transform: scale(1.05);
+		filter: brightness(1.1) saturate(1.2);
 	}
 
-	/* Tech badge animations */
-	.tech-badge {
+	/* Gradient Placeholder for projects without images */
+	.gradient-placeholder {
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(135deg, 
+			rgba(99, 102, 241, 0.3) 0%,
+			rgba(168, 85, 247, 0.3) 35%,
+			rgba(236, 72, 153, 0.3) 70%,
+			rgba(251, 146, 60, 0.3) 100%);
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		position: relative;
 		overflow: hidden;
 	}
 
-	.tech-badge::before {
-		content: '';
+	.placeholder-pattern {
 		position: absolute;
-		top: 0;
-		left: -100%;
-		width: 100%;
-		height: 100%;
-		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-		transition: left 0.5s ease;
+		inset: 0;
+		background: 
+			radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+			radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
 	}
 
-	.tech-badge:hover::before {
-		left: 100%;
+	.project-icon {
+		color: rgba(255, 255, 255, 0.6);
+		z-index: 2;
+		position: relative;
 	}
 
-	/* Text glow effect */
-	.text-shadow-glow {
-		text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+	/* Live Site Badge */
+	.live-badge {
+		position: absolute;
+		top: 16px;
+		right: 16px;
+		background: rgba(34, 197, 94, 0.9);
+		backdrop-filter: blur(8px);
+		border: 1px solid rgba(34, 197, 94, 0.3);
+		border-radius: 20px;
+		padding: 6px 12px;
+		font-size: 11px;
+		font-weight: 600;
+		color: white;
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+		z-index: 3;
+	}
+
+	.live-indicator {
+		width: 6px;
+		height: 6px;
+		background: #4ade80;
+		border-radius: 50%;
+		animation: pulse 2s infinite;
+	}
+
+	/* Image Overlay */
+	.image-overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(
+			135deg,
+			rgba(0, 0, 0, 0.1) 0%,
+			rgba(255, 255, 255, 0.05) 50%,
+			rgba(0, 0, 0, 0.1) 100%
+		);
+		opacity: 0;
+		transition: opacity 0.4s ease;
+	}
+
+	/* Content Section */
+	.content-section {
+		padding: 24px;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		height: calc(100% - 200px);
+	}
+
+	.featured-title {
+		font-size: 20px;
+		font-weight: 700;
+		color: white;
+		margin: 0;
+		line-height: 1.3;
+	}
+
+	.featured-desc {
+		font-size: 14px;
+		color: rgba(255, 255, 255, 0.7);
+		line-height: 1.5;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	/* Live URL Display */
+	.live-url-display {
+		background: rgba(255, 255, 255, 0.08);
+		backdrop-filter: blur(12px) saturate(160%);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		border-radius: 16px;
+		padding: 12px;
+		box-shadow: 
+			0 4px 16px rgba(0, 0, 0, 0.2),
+			inset 0 1px 4px rgba(255, 255, 255, 0.1);
+	}
+
+	.url-label {
+		font-size: 10px;
+		font-weight: 600;
+		color: rgba(255, 255, 255, 0.8);
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		margin-bottom: 6px;
+	}
+
+	.url-link {
+		display: block;
+		font-family: 'Monaco', 'Menlo', monospace;
+		font-size: 11px;
+		font-weight: 500;
+		color: white;
+		background: rgba(255, 255, 255, 0.12);
+		backdrop-filter: blur(8px);
+		border-radius: 8px;
+		padding: 8px 10px;
+		text-decoration: none;
+		transition: all 0.3s ease;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	.url-link:hover {
+		background: rgba(255, 255, 255, 0.18);
+		color: #e0e7ff;
+		border-color: rgba(255, 255, 255, 0.2);
+		transform: translateY(-1px);
+	}
+
+	/* Tech & Stats Row */
+	.tech-stats-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.primary-tech {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.tech-dot {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+	}
+
+	.tech-name {
+		font-size: 13px;
+		font-weight: 500;
+		color: rgba(255, 255, 255, 0.9);
+	}
+
+	.stats-mini {
+		display: flex;
+		gap: 12px;
+	}
+
+	.star-count {
+		font-size: 12px;
+		color: rgba(255, 255, 255, 0.6);
+		font-weight: 500;
+	}
+
+	/* Action Buttons */
+	.featured-actions {
+		display: flex;
+		gap: 12px;
+		margin-top: auto;
+	}
+
+	.btn-primary {
+		flex: 1;
+		background: linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%);
+		color: #1f2937;
+		border: none;
+		border-radius: 24px;
+		padding: 12px 20px;
+		font-size: 13px;
+		font-weight: 700;
+		text-align: center;
+		text-decoration: none;
+		transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		box-shadow: 
+			0 4px 12px rgba(0, 0, 0, 0.2),
+			0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+
+	.btn-primary:hover {
+		background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);
+		transform: translateY(-2px);
+		box-shadow: 
+			0 6px 20px rgba(0, 0, 0, 0.3),
+			0 4px 8px rgba(0, 0, 0, 0.15);
+	}
+
+	.btn-secondary {
+		flex: 1;
+		background: rgba(255, 255, 255, 0.1);
+		color: white;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		border-radius: 24px;
+		padding: 12px 20px;
+		font-size: 13px;
+		font-weight: 600;
+		text-align: center;
+		text-decoration: none;
+		backdrop-filter: blur(8px);
+		transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		box-shadow: 
+			0 4px 12px rgba(0, 0, 0, 0.2),
+			inset 0 1px 2px rgba(255, 255, 255, 0.1);
+	}
+
+	.btn-secondary:hover {
+		background: rgba(255, 255, 255, 0.15);
+		border-color: rgba(255, 255, 255, 0.3);
+		transform: translateY(-2px);
+		box-shadow: 
+			0 6px 20px rgba(0, 0, 0, 0.3),
+			inset 0 2px 4px rgba(255, 255, 255, 0.15);
+	}
+
+	/* Carousel specific styles */
+	.featured-neuro-card {
+		min-height: 400px;
+	}
+
+	/* Responsive adjustments */
+	@media (max-width: 768px) {
+		.featured-neuro-card {
+			min-height: 420px;
+		}
+		
+		.image-section {
+			height: 160px;
+		}
+		
+		.content-section {
+			padding: 20px;
+			height: calc(100% - 160px);
+		}
+		
+		.featured-title {
+			font-size: 18px;
+		}
+		
+		.featured-actions {
+			flex-direction: column;
+		}
+	}
+
+	/* ===== CAROUSEL CONTROLS ===== */
+	/* Neumorphism button design for carousel */
+	.neuro-button {
+		background: rgba(255, 255, 255, 0.05);
+		backdrop-filter: blur(8px);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: 16px;
+		box-shadow: 
+			4px 4px 12px rgba(0, 0, 0, 0.3),
+			-4px -4px 12px rgba(255, 255, 255, 0.02),
+			inset 1px 1px 4px rgba(255, 255, 255, 0.05),
+			inset -1px -1px 4px rgba(0, 0, 0, 0.1);
+		transition: all 0.2s ease;
+	}
+
+	.neuro-button:hover {
+		box-shadow: 
+			2px 2px 8px rgba(0, 0, 0, 0.4),
+			-2px -2px 8px rgba(255, 255, 255, 0.03),
+			inset 2px 2px 6px rgba(255, 255, 255, 0.08),
+			inset -2px -2px 6px rgba(0, 0, 0, 0.15);
+		transform: translateY(1px);
+	}
+
+	.neuro-button:active {
+		box-shadow: 
+			inset 3px 3px 8px rgba(0, 0, 0, 0.2),
+			inset -3px -3px 8px rgba(255, 255, 255, 0.05);
+		transform: translateY(2px);
 	}
 
 	/* Subsection titles animations */

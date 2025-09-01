@@ -120,7 +120,7 @@ export async function GET(event: RequestEvent) {
 			pinnedRepos.map(async (repo) => {
 				let readme_image = null;
 				let readme_live_url = null;
-				let languages: string[] = [];
+				// languages removed for simplicity
 
 				try {
 					// Fetch README
@@ -170,25 +170,25 @@ export async function GET(event: RequestEvent) {
 					// Silently handle README parsing errors
 				}
 
-				// Fetch languages for each repo
-				try {
-					const langRes = await event.fetch(
-						`https://api.github.com/repos/nishanajihah/${repo.name}/languages`,
-						{ headers }
-					);
-					if (langRes.ok) {
-						const langData = await langRes.json();
-						languages = Object.keys(langData).filter(l => l !== repo.language);
-					}
-				} catch {
-					// Silently handle language API errors
-				}
+				// Fetch languages for each repo - commented out to reduce complexity
+				// try {
+				// 	const langRes = await event.fetch(
+				// 		`https://api.github.com/repos/nishanajihah/${repo.name}/languages`,
+				// 		{ headers }
+				// 	);
+				// 	if (langRes.ok) {
+				// 		const langData = await langRes.json();
+				// 		languages = Object.keys(langData).filter(l => l !== repo.language);
+				// 	}
+				// } catch {
+				// 	// Silently handle language API errors
+				// }
 
 				return {
 					...repo,
 					readme_image,
-					readme_live_url,
-					languages
+					readme_live_url
+					// languages removed for simplicity
 				};
 			})
 		);
