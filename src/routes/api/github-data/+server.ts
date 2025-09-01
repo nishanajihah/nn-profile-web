@@ -120,24 +120,23 @@ export async function GET(event: RequestEvent) {
 			pinnedRepos.map(async (repo) => {
 				let readme_image = null;
 				let readme_live_url = null;
+				let languages: string[] = [];
 
 				try {
-					// Try to fetch README for each pinned repo
+					// Fetch README
 					const readmeRes = await event.fetch(
 						`https://api.github.com/repos/nishanajihah/${repo.name}/readme`,
 						{ headers }
 					);
-
 					if (readmeRes.ok) {
 						const readmeData = await readmeRes.json();
 						const readmeContent = atob(readmeData.content);
-
+						// ...existing code for image and live url extraction...
 						// Extract first image from README markdown
 						const imageMatch = readmeContent.match(/!\[.*?\]\((.*?)\)|<img[^>]+src="([^"]+)"/);
 						if (imageMatch) {
 							let imageUrl = imageMatch[1] || imageMatch[2];
 							if (imageUrl) {
-								// Convert relative URLs to absolute GitHub URLs
 								if (imageUrl.startsWith('./') || imageUrl.startsWith('/')) {
 									imageUrl = `https://raw.githubusercontent.com/nishanajihah/${repo.name}/main/${imageUrl.replace('./', '')}`;
 								} else if (!imageUrl.startsWith('http')) {
@@ -146,57 +145,50 @@ export async function GET(event: RequestEvent) {
 								readme_image = imageUrl;
 							}
 						}
-
 						// Extract live URL from README content
-						// Look for common patterns like "Live Demo:", "Website:", "Demo:", etc.
 						const liveUrlPatterns = [
 							/(?:Live\s+Demo|Website|Demo|Live\s+Site|Visit|App):\s*\[.*?\]\((https?:\/\/[^\s)]+)\)/gi,
 							/(?:Live\s+Demo|Website|Demo|Live\s+Site|Visit|App):\s*(https?:\/\/[^\s)]+)/gi,
 							/\[(?:Live\s+Demo|Website|Demo|Live\s+Site|Visit|App)\]\((https?:\/\/[^\s)]+)\)/gi,
 							/(?:🚀|🌐|🔗|➡️)\s*\[.*?\]\((https?:\/\/[^\s)]+)\)/gi,
 							/(?:🚀|🌐|🔗|➡️)\s*(https?:\/\/[^\s)]+)/gi,
-							// More flexible patterns for onrender.com specifically
 							/(https?:\/\/[a-zA-Z0-9-]+\.onrender\.com[^\s)]*)/gi,
-							// Pattern for markdown links with onrender
 							/\[.*?\]\((https?:\/\/[a-zA-Z0-9-]+\.onrender\.com[^\s)]*)\)/gi
 						];
-
-						// Debug for trend-compass-ai specifically
-						if (repo.name.toLowerCase().includes('trend')) {
-							console.log(`=== README DEBUG for ${repo.name} ===`);
-							console.log('README content length:', readmeContent.length);
-							console.log('README snippet:', readmeContent.substring(0, 500));
-							console.log('Looking for onrender.com...');
-						}
-
 						for (const pattern of liveUrlPatterns) {
 							const match = readmeContent.match(pattern);
 							if (match) {
-								// Extract URL from the match
 								const urlMatch = match[0].match(/(https?:\/\/[^\s)]+)/);
 								if (urlMatch) {
 									readme_live_url = urlMatch[1];
-									if (repo.name.toLowerCase().includes('trend')) {
-										console.log(`Found live URL for ${repo.name}: ${readme_live_url}`);
-									}
 									break;
 								}
 							}
-						}
-
-						if (repo.name.toLowerCase().includes('trend')) {
-							console.log(`Final result for ${repo.name}: readme_live_url=${readme_live_url}`);
-							console.log('==================================');
 						}
 					}
 				} catch {
 					// Silently handle README parsing errors
 				}
 
+				// Fetch languages for each repo
+				try {
+					const langRes = await event.fetch(
+						`https://api.github.com/repos/nishanajihah/${repo.name}/languages`,
+						{ headers }
+					);
+					if (langRes.ok) {
+						const langData = await langRes.json();
+						languages = Object.keys(langData).filter(l => l !== repo.language);
+					}
+				} catch {
+					// Silently handle language API errors
+				}
+
 				return {
 					...repo,
 					readme_image,
-					readme_live_url
+					readme_live_url,
+					languages
 				};
 			})
 		);

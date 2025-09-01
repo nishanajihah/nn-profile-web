@@ -1,15 +1,37 @@
 <script lang="ts">
+	/*
+	 * ===== CODE & PROJECTS PAGE =====
+	 * 
+	 * This component displays:
+	 * - Featured/pinned projects from GitHub
+	 * - All projects with search functionality
+	 * - Skills section with tech stack
+	 * - GitHub activity and contribution calendar
+	 * 
+	 * Architecture:
+	 * 1. Types & Interfaces
+	 * 2. State Management (DOM refs, projects, GitHub data)
+	 * 3. Reactive Computations (filtering, display logic)
+	 * 4. Utility Functions (language colors, etc.)
+	 * 5. Interaction Handlers (scroll, navigation)
+	 * 6. API Functions (GitHub data fetching)
+	 * 7. Animation Functions (GSAP setup)
+	 * 8. Component Lifecycle (onMount initialization)
+	 */
+
 	// ===== IMPORTS =====
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
 	import PageLayout from '$lib/components/PageLayout.svelte';
 	import SkillsSection from '$lib/components/code/SkillsSection.svelte';
+	import GitHubActivitySection from '$lib/components/code/GitHubActivitySection.svelte';
 
 	// Register GSAP plugins
 	gsap.registerPlugin(ScrollTrigger);
 
 	// ===== TYPES & INTERFACES =====
+	// Main project interface matching GitHub API response
 	interface Project {
 		id: number;
 		name: string;
@@ -27,24 +49,38 @@
 		pushed_at: string;
 		homepage?: string;
 		size: number;
+		languages?: string[];
 	}
 
-	// ===== GLOBAL STATE =====
+	// ===== STATE MANAGEMENT =====
+	// Global state
 	let isLoading = true;
 	let error: string | null = null;
 
-	// ===== ANIMATION REFERENCES =====
+	// DOM references for animations
 	let projectsSection: HTMLElement;
 	let skillsSection: HTMLElement;
-	let contributionsSection: HTMLElement;
 
-	// ===== PROJECTS SECTION - TypeScript =====
+	// Projects state
 	let projects: Project[] = [];
 	let pinnedProjects: Project[] = [];
 	let showAllProjects = false;
 	let projectSearchQuery = '';
 
-	// Project filtering logic
+	// GitHub activity state (passed to component)
+	let githubEvents: any[] = [];
+	let contributionsData = { total: 0, lastYear: 0, streak: 0, publicRepos: 0 };
+	let contributionActivity: Array<{
+		month: string;
+		monthKey: string;
+		count: number;
+		level: number;
+		isCurrentMonth: boolean;
+		days: Array<{ date: string; day: number; count: number; level: number; isToday: boolean }>;
+	}> = [];
+
+	// ===== REACTIVE COMPUTATIONS =====
+	// Filter projects based on search query (name, description, language, topics)
 	$: filteredProjects = projects.filter(
 		(project) =>
 			project.name.toLowerCase().includes(projectSearchQuery.toLowerCase()) ||
@@ -54,9 +90,11 @@
 				project.language.toLowerCase().includes(projectSearchQuery.toLowerCase()))
 	);
 
-	// Display projects (limit to 15 unless showing all)
+	// Limit displayed projects to 15 unless user requests all
 	$: displayedProjects = showAllProjects ? filteredProjects : filteredProjects.slice(0, 15);
 
+	// ===== UTILITY FUNCTIONS =====
+	// Map programming languages to Tailwind CSS color classes
 	function getLanguageColorClass(language: string): string {
 		const colorMap: Record<string, string> = {
 			TypeScript: 'bg-blue-500',
@@ -79,18 +117,11 @@
 		return colorMap[language] || 'bg-gray-500';
 	}
 
-	// ===== GITHUB SECTION - TypeScript =====
-	let githubEvents: any[] = [];
-	let contributionsData = { total: 0, lastYear: 0, streak: 0, publicRepos: 0 };
-	let contributionActivity: Array<{
-		month: string;
-		monthKey: string;
-		count: number;
-		level: number;
-		isCurrentMonth: boolean;
-		days: Array<{ date: string; day: number; count: number; level: number; isToday: boolean }>;
-	}> = [];
-	// Fetch GitHub data from our API route
+	// ===== INTERACTION HANDLERS =====
+	// (GitHub Activity interactions are now handled by the component)
+
+	// ===== API FUNCTIONS =====
+	// Fetch all GitHub data (repos, events, contributions) from backend API
 	async function fetchGithubData() {
 		try {
 			console.log('Making request to /api/github-data');
@@ -123,9 +154,10 @@
 		}
 	}
 
-	// ===== ANIMATIONS =====
+	// ===== ANIMATION FUNCTIONS =====
+	// Setup GSAP animations for smooth page element reveals
 	function initAnimations() {
-		// Animate featured projects
+		// Animate featured project cards with staggered entrance
 		if (projectsSection) {
 			gsap.from(projectsSection.querySelectorAll('.project-card'), {
 				y: 40,
@@ -139,21 +171,11 @@
 			});
 		}
 
-		// Animate contributions section
-		if (contributionsSection) {
-			gsap.from(contributionsSection, {
-				y: 30,
-				opacity: 0,
-				duration: 0.8,
-				scrollTrigger: {
-					trigger: contributionsSection,
-					start: 'top bottom-=50'
-				}
-			});
-		}
+		// GitHub Activity animations are now handled by the component
 	}
 
-	// ===== LIFECYCLE =====
+	// ===== COMPONENT LIFECYCLE =====
+	// Load GitHub data and initialize animations when component mounts
 	onMount(async () => {
 		try {
 			console.log('Fetching GitHub data...');
@@ -215,7 +237,7 @@
 				<!-- Main Projects Title -->
 				<section class="text-center">
 					<div class="projects-main-title-container mb-8">
-						<h1 class="projects-main-title text-6xl font-bold text-white mb-6">
+						<h1 class="projects-main-title mb-6 text-6xl font-bold text-white">
 							<span class="smooth-letter" style="animation-delay: 0.1s;">P</span>
 							<span class="smooth-letter" style="animation-delay: 0.15s;">r</span>
 							<span class="smooth-letter" style="animation-delay: 0.2s;">o</span>
@@ -243,7 +265,9 @@
 				{#if pinnedProjects.length > 0}
 					<section>
 						<div class="mb-12 text-left">
-							<h2 class="mb-4 text-4xl font-bold text-white subsection-title-left">Featured Projects</h2>
+							<h2 class="subsection-title-left mb-4 text-4xl font-bold text-white">
+								Featured Projects
+							</h2>
 							<p class="max-w-2xl text-xl text-gray-400">
 								Showcasing my best work that combines creativity with technical excellence
 							</p>
@@ -254,7 +278,7 @@
 						>
 							{#each pinnedProjects as project, index (project.id)}
 								<article
-									class="featured-project-card group relative overflow-hidden rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-sm transition-all duration-700 hover:-translate-y-4 hover:border-primary/60 hover:shadow-2xl hover:shadow-primary/20 flex flex-col"
+									class="featured-project-card group hover:border-primary/60 hover:shadow-primary/20 relative flex flex-col overflow-hidden rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-sm transition-all duration-700 hover:-translate-y-4 hover:shadow-2xl"
 									style="animation-delay: {index * 0.2}s"
 								>
 									<!-- Project Image with Enhanced Effects -->
@@ -267,38 +291,50 @@
 											/>
 										{:else}
 											<div
-												class="from-primary/20 flex h-full w-full items-center justify-center bg-gradient-to-br to-purple-600/20 transition-all duration-500 group-hover:from-primary/30 group-hover:to-purple-600/30"
+												class="from-primary/20 group-hover:from-primary/30 flex h-full w-full items-center justify-center bg-gradient-to-br to-purple-600/20 transition-all duration-500 group-hover:to-purple-600/30"
 											>
 												<!-- Clean gradient background, no icon -->
 											</div>
 										{/if}
-										
+
 										<!-- Live Site Badge -->
 										{#if project.homepage}
-											<div class="absolute top-3 right-3 opacity-0 transition-all duration-300 group-hover:opacity-100">
-												<div class="flex items-center gap-1 rounded-full bg-green-500/90 px-2 py-1 text-xs font-medium text-white backdrop-blur-sm">
+											<div
+												class="absolute top-3 right-3 opacity-0 transition-all duration-300 group-hover:opacity-100"
+											>
+												<div
+													class="flex items-center gap-1 rounded-full bg-green-500/90 px-2 py-1 text-xs font-medium text-white backdrop-blur-sm"
+												>
 													<span class="h-2 w-2 animate-pulse rounded-full bg-green-300"></span>
 													Live
 												</div>
 											</div>
 										{/if}
-										
+
 										<!-- Overlay Effects -->
-										<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-all duration-500 group-hover:opacity-100"></div>
-										<div class="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-purple-600/10 opacity-0 transition-all duration-500 group-hover:opacity-100"></div>
+										<div
+											class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-all duration-500 group-hover:opacity-100"
+										></div>
+										<div
+											class="from-primary/10 absolute inset-0 bg-gradient-to-r via-transparent to-purple-600/10 opacity-0 transition-all duration-500 group-hover:opacity-100"
+										></div>
 									</div>
 
 									<!-- Enhanced Content -->
-									<div class="p-6 flex-1 flex flex-col">
+									<div class="flex flex-1 flex-col p-6">
 										<!-- Project Title with Glow Effect -->
-										<h3 class="group-hover:text-primary mb-3 text-xl font-bold text-white transition-all duration-300 group-hover:text-shadow-glow">
+										<h3
+											class="group-hover:text-primary group-hover:text-shadow-glow mb-3 text-xl font-bold text-white transition-all duration-300"
+										>
 											{project.name}
 										</h3>
-										
+
 										<!-- Description - Fixed Height -->
-										<div class="mb-4 h-16 flex items-start">
+										<div class="mb-4 flex h-16 items-start">
 											{#if project.description && project.description.trim() !== '' && project.description !== 'No description available'}
-												<p class="line-clamp-3 text-gray-400 transition-colors duration-300 group-hover:text-gray-300">
+												<p
+													class="line-clamp-3 text-gray-400 transition-colors duration-300 group-hover:text-gray-300"
+												>
 													{project.description}
 												</p>
 											{:else}
@@ -308,11 +344,15 @@
 										</div>
 
 										<!-- Tech Stack Section -->
-										<div class="mb-4 min-h-[80px] flex flex-col justify-start">
+										<div class="mb-4 flex min-h-[80px] flex-col justify-start">
 											<!-- Primary Language -->
 											{#if project.language}
 												<div class="mb-3 flex items-center gap-2">
-													<span class="inline-block h-3 w-3 rounded-full {getLanguageColorClass(project.language)} shadow-lg"></span>
+													<span
+														class="inline-block h-3 w-3 rounded-full {getLanguageColorClass(
+															project.language
+														)} shadow-lg"
+													></span>
 													<span class="text-sm font-medium text-gray-300">{project.language}</span>
 													<span class="text-xs text-gray-500">• Primary</span>
 												</div>
@@ -320,16 +360,22 @@
 
 											<!-- Languages Used -->
 											<div class="flex-1">
-												<div class="mb-2 text-xs font-medium text-gray-400 uppercase tracking-wide">Other Languages</div>
+												<div class="mb-2 text-xs font-medium tracking-wide text-gray-400 uppercase">
+													Other Languages
+												</div>
 												<div class="flex flex-wrap gap-2">
-													{#if project.topics && project.topics.length > 0}
-														{#each project.topics.filter(topic => topic.toLowerCase() !== project.language?.toLowerCase()) as lang}
-															<span class="tech-badge bg-gray-700 text-white border-gray-600 rounded-full border px-3 py-1 text-xs font-medium transition-all duration-300 hover:scale-105">
+													{#if project.languages && project.languages.length > 0}
+														{#each project.languages as lang}
+															<span
+																class="tech-badge rounded-full border border-gray-600 bg-gray-700 px-3 py-1 text-xs font-medium text-white transition-all duration-300 hover:scale-105"
+															>
 																{lang}
 															</span>
 														{/each}
 													{:else}
-														<span class="text-xs text-gray-500 italic">No additional languages detected</span>
+														<span class="text-xs text-gray-500 italic"
+															>No additional languages detected</span
+														>
 													{/if}
 												</div>
 											</div>
@@ -337,7 +383,9 @@
 
 										<!-- Stats Section -->
 										<div class="mb-4 flex items-center gap-4 text-sm text-gray-400">
-											<div class="flex items-center gap-1 transition-colors duration-300 hover:text-yellow-400">
+											<div
+												class="flex items-center gap-1 transition-colors duration-300 hover:text-yellow-400"
+											>
 												<span>⭐</span>
 												<span class="font-medium">{project.stargazers_count}</span>
 												<span class="text-xs">stars</span>
@@ -352,29 +400,35 @@
 
 										<!-- Live URL Display -->
 										{#if project.homepage}
-												<div class="mb-4 rounded-xl p-4 shadow-2xl flex flex-col items-start gap-2" style="background: rgba(255,255,255,0.08); box-shadow: 8px 8px 24px #2226, -8px -8px 24px #fff2;">
-													<span class="text-xs font-semibold text-white uppercase tracking-wide mb-1" style="text-shadow: 0 1px 6px #fff4, 0 1px 2px #2222;">Live Web URL</span>
-													<a 
-														href={project.homepage} 
-														target="_blank" 
-														rel="noopener noreferrer"
-														class="block w-full text-white hover:text-gray-300 text-xs font-mono break-all transition-all duration-200 rounded-lg px-3 py-2 font-semibold"
-														style="background: rgba(255,255,255,0.18); box-shadow: 4px 4px 16px #2224, -4px -4px 16px #fff2; border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(8px) saturate(160%);"
-													>
-														{project.homepage}
-													</a>
-												</div>
+											<div
+												class="mb-4 flex flex-col items-start gap-2 rounded-xl p-4"
+												style="background: rgba(255,255,255,0.08); box-shadow: 0 2px 12px 0 rgba(31,38,135,0.18);"
+											>
+												<span
+													class="mb-1 text-xs font-semibold tracking-wide text-white uppercase"
+													style="text-shadow: 0 1px 6px #fff4, 0 1px 2px #2222;">Live Web URL</span
+												>
+												<a
+													href={project.homepage}
+													target="_blank"
+													rel="noopener noreferrer"
+													class="block w-full rounded-lg px-3 py-2 font-mono text-xs font-semibold break-all text-white transition-all duration-200 hover:text-gray-300"
+													style="background: rgba(255,255,255,0.18); box-shadow: 4px 4px 16px #2224, -4px -4px 16px #fff2; backdrop-filter: blur(8px) saturate(160%);"
+												>
+													{project.homepage}
+												</a>
+											</div>
 										{/if}
 
 										<!-- Action Buttons -->
-										<div class="flex gap-3 border-t border-gray-700/30 pt-4 mt-auto">
+										<div class="mt-auto flex gap-3 border-t border-gray-700/30 pt-4">
 											{#if project.homepage && project.html_url}
 												<!-- Both live site and code available -->
 												<a
 													href={project.homepage}
 													target="_blank"
 													rel="noopener noreferrer"
-													class="flex-1 bg-gradient-to-r from-white via-gray-300 to-white hover:from-gray-300 hover:to-white flex items-center justify-center rounded-full px-6 py-2 text-sm font-semibold text-black transition-all duration-200 shadow-xl border-2 border-white/60 tracking-wide hover:scale-105"
+													class="flex flex-1 items-center justify-center rounded-full border-2 border-white/60 bg-gradient-to-r from-white via-gray-300 to-white px-6 py-2 text-sm font-semibold tracking-wide text-black shadow-xl transition-all duration-200 hover:scale-105 hover:from-gray-300 hover:to-white"
 												>
 													Live Web
 												</a>
@@ -382,7 +436,7 @@
 													href={project.html_url}
 													target="_blank"
 													rel="noopener noreferrer"
-													class="flex-1 group/btn flex items-center justify-center rounded-full bg-gray-700/80 backdrop-blur-sm px-6 py-2 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-gray-600/80 hover:shadow-xl border border-gray-600/30"
+													class="group/btn flex flex-1 items-center justify-center rounded-full border border-gray-600/30 bg-gray-700/80 px-6 py-2 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-gray-600/80 hover:shadow-xl"
 												>
 													View Code
 												</a>
@@ -392,7 +446,7 @@
 													href={project.homepage}
 													target="_blank"
 													rel="noopener noreferrer"
-													class="w-full bg-gradient-to-r from-white via-gray-300 to-white hover:from-gray-300 hover:to-white flex items-center justify-center rounded-full px-6 py-2 text-sm font-semibold text-black transition-all duration-200 shadow-xl border-2 border-white/60 tracking-wide hover:scale-105"
+													class="flex w-full items-center justify-center rounded-full border-2 border-white/60 bg-gradient-to-r from-white via-gray-300 to-white px-6 py-2 text-sm font-semibold tracking-wide text-black shadow-xl transition-all duration-200 hover:scale-105 hover:from-gray-300 hover:to-white"
 												>
 													Live Web
 												</a>
@@ -402,7 +456,7 @@
 													href={project.html_url}
 													target="_blank"
 													rel="noopener noreferrer"
-													class="w-full group/btn flex items-center justify-center rounded-full bg-gray-700/80 backdrop-blur-sm px-6 py-2 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-gray-600/80 hover:shadow-xl border border-gray-600/30"
+													class="group/btn flex w-full items-center justify-center rounded-full border border-gray-600/30 bg-gray-700/80 px-6 py-2 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:scale-105 hover:bg-gray-600/80 hover:shadow-xl"
 												>
 													View Source Code
 												</a>
@@ -411,15 +465,21 @@
 									</div>
 
 									<!-- Enhanced Floating Elements -->
-									<div class="absolute top-4 left-4 opacity-0 transition-all duration-700 group-hover:opacity-100">
+									<div
+										class="absolute top-4 left-4 opacity-0 transition-all duration-700 group-hover:opacity-100"
+									>
 										<div class="bg-primary/30 h-3 w-3 animate-ping rounded-full"></div>
 									</div>
-									<div class="absolute bottom-4 right-4 opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:animate-pulse">
-										<div class="bg-yellow-400/40 h-4 w-4 rounded-full"></div>
+									<div
+										class="absolute right-4 bottom-4 opacity-0 transition-all duration-700 group-hover:animate-pulse group-hover:opacity-100"
+									>
+										<div class="h-4 w-4 rounded-full bg-yellow-400/40"></div>
 									</div>
-									
+
 									<!-- Shimmer Effect -->
-									<div class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-1000 group-hover:translate-x-full"></div>
+									<div
+										class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-1000 group-hover:translate-x-full"
+									></div>
 								</article>
 							{/each}
 						</div>
@@ -437,49 +497,80 @@
 
 				<!-- All Projects -->
 				{#if projects.length > 0}
-					<section>
+					<section class="all-projects-section">
 						<div class="mb-12 text-right">
-							<h2 class="mb-4 text-4xl font-bold text-white subsection-title-right">All Projects</h2>
-							<p class="max-w-2xl text-xl text-gray-400 ml-auto">Browse all my repositories</p>
+							<h2 class="subsection-title-right mb-4 text-4xl font-bold text-white">
+								All Projects
+							</h2>
+							<p class="ml-auto max-w-2xl text-xl text-gray-400">Browse all my repositories</p>
 						</div>
 
 						{#if showAllProjects}
-							<div class="mb-6">
-								<input
-									type="text"
-									placeholder="Search projects..."
-									bind:value={projectSearchQuery}
-									class="w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-2 text-white"
-								/>
+							<div class="mb-8">
+								<div class="search-container">
+									<input
+										type="text"
+										placeholder="🔍 Search projects..."
+										bind:value={projectSearchQuery}
+										class="search-input"
+									/>
+								</div>
 							</div>
 						{/if}
 
-						<div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+						<div class="projects-grid">
 							{#each displayedProjects as project (project.id)}
-								<div class="rounded-xl border border-gray-700/50 bg-gray-900/50 p-6">
-									<h3 class="mb-2 text-lg font-bold text-white">{project.name}</h3>
-									<p class="mb-4 line-clamp-2 text-sm text-gray-400">
-										{project.description || 'No description'}
-									</p>
-									<div class="flex items-center justify-between">
-										<span class="text-xs text-gray-500">{project.language}</span>
-										<a
-											href={project.html_url}
-											target="_blank"
-											class="text-primary hover:text-primary/80 text-sm"
-										>
-											View
-										</a>
+								<article class="project-card-minimal">
+									<!-- Simple content layout -->
+									<div class="card-header">
+										<h3 class="project-title">{project.name}</h3>
+										{#if project.language}
+											<span class="language-tag {getLanguageColorClass(project.language)}">
+												{project.language}
+											</span>
+										{/if}
 									</div>
-								</div>
+
+									<p class="project-desc">
+										{project.description || 'No description available'}
+									</p>
+
+									<div class="project-footer">
+										<div class="project-stats-simple">
+											<span class="stat">⭐ {project.stargazers_count}</span>
+											<span class="stat">🍴 {project.forks_count}</span>
+										</div>
+										
+										<div class="project-links">
+											{#if project.homepage}
+												<a
+													href={project.homepage}
+													target="_blank"
+													rel="noopener noreferrer"
+													class="link-btn live-btn"
+												>
+													Live
+												</a>
+											{/if}
+											<a
+												href={project.html_url}
+												target="_blank"
+												rel="noopener noreferrer"
+												class="link-btn code-btn"
+											>
+												Code
+											</a>
+										</div>
+									</div>
+								</article>
 							{/each}
 						</div>
 
 						{#if !showAllProjects && projects.length > 15}
-							<div class="mt-8 text-center">
+							<div class="mt-12 text-center">
 								<button
 									on:click={() => (showAllProjects = true)}
-									class="bg-primary hover:bg-primary/80 rounded-lg px-6 py-3 font-medium text-white"
+									class="view-all-minimal"
 								>
 									View All {projects.length} Repositories
 								</button>
@@ -607,67 +698,44 @@
 				<!-- GitHub Activity -->
 				<section>
 					<div class="mb-12 text-center">
-						<h2 class="mb-4 text-4xl font-bold text-white">GitHub Activity</h2>
-						<p class="mx-auto max-w-2xl text-xl text-gray-400">
-							My contributions and recent activity
-						</p>
-					</div>
-
-					<div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
-						<!-- Contribution Stats -->
-						<div
-							bind:this={contributionsSection}
-							class="rounded-2xl border border-gray-700/50 bg-gray-900/50 p-8"
-						>
-							<h3 class="mb-6 text-2xl font-bold text-white">Contribution Stats</h3>
-							<div class="grid grid-cols-3 gap-6">
-								<div class="text-center">
-									<div class="text-primary mb-2 text-3xl font-bold">{contributionsData.total}</div>
-									<div class="text-sm text-gray-400">Total Stars</div>
-								</div>
-								<div class="text-center">
-									<div class="text-primary mb-2 text-3xl font-bold">
-										{contributionsData.lastYear}
+						<div class="github-main-title-container mb-4">
+							<h2 class="github-main-title">
+								<span class="smooth-letter" style="animation-delay: 0s;">G</span>
+								<span class="smooth-letter" style="animation-delay: 0.1s;">i</span>
+								<span class="smooth-letter" style="animation-delay: 0.2s;">t</span>
+								<span class="smooth-letter" style="animation-delay: 0.3s;">H</span>
+								<span class="smooth-letter" style="animation-delay: 0.4s;">u</span>
+								<span class="smooth-letter" style="animation-delay: 0.5s;">b</span>
+								<span class="circle-swirl-icon">◉</span>
+								<span class="smooth-letter" style="animation-delay: 0.7s;">A</span>
+								<span class="smooth-letter" style="animation-delay: 0.8s;">c</span>
+								<span class="smooth-letter" style="animation-delay: 0.9s;">t</span>
+								<span class="smooth-letter" style="animation-delay: 1s;">i</span>
+								<span class="smooth-letter" style="animation-delay: 1.1s;">v</span>
+								<span class="smooth-letter" style="animation-delay: 1.2s;">i</span>
+								<span class="smooth-letter" style="animation-delay: 1.3s;">t</span>
+								<span class="smooth-letter" style="animation-delay: 1.4s;">y</span>
+							</h2>
+							<div class="modern-subtitle github-subtitle">
+								<div class="subtitle-row">
+									<span class="subtitle-text">Code Contributions</span>
+									<div class="subtitle-accent">
+										<span class="accent-dot"></span>
+										<span class="accent-line"></span>
+										<span class="accent-dot"></span>
 									</div>
-									<div class="text-sm text-gray-400">Recent Events</div>
-								</div>
-								<div class="text-center">
-									<div class="text-primary mb-2 text-3xl font-bold">{contributionsData.streak}</div>
-									<div class="text-sm text-gray-400">Activity Streak</div>
+									<span class="subtitle-text">Development Journey</span>
 								</div>
 							</div>
 						</div>
-
-						<!-- Recent Activity -->
-						<div class="rounded-2xl border border-gray-700/50 bg-gray-900/50 p-8">
-							<h3 class="mb-6 text-2xl font-bold text-white">Recent Activity</h3>
-							<div class="max-h-80 space-y-4 overflow-y-auto">
-								{#each githubEvents.slice(0, 8) as event}
-									<div class="flex items-start gap-3 rounded-lg bg-gray-800/30 p-3">
-										<div class="bg-primary mt-2 h-2 w-2 rounded-full"></div>
-										<div>
-											<p class="text-sm text-gray-300">
-												<span class="font-medium text-white"
-													>{event.type?.replace(/([A-Z])/g, ' $1').trim()}</span
-												>
-												{#if event.repo}
-													in <span class="text-primary">{event.repo.name}</span>
-												{/if}
-											</p>
-											{#if event.created_at}
-												<p class="mt-1 text-xs text-gray-500">
-													{new Date(event.created_at).toLocaleDateString()}
-												</p>
-											{/if}
-										</div>
-									</div>
-								{/each}
-								{#if githubEvents.length === 0}
-									<p class="py-8 text-center text-gray-400">No recent activity available</p>
-								{/if}
-							</div>
-						</div>
 					</div>
+
+					<!-- GitHub Activity Component -->
+					<GitHubActivitySection 
+						{githubEvents}
+						{contributionsData}
+						projectsCount={projects.length}
+					/>
 				</section>
 			</div>
 		{/if}
@@ -919,20 +987,6 @@
 
 	.projects-main-title {
 		animation: fadeInUp 0.8s ease-out forwards;
-	}
-
-	.smooth-letter {
-		display: inline-block;
-		opacity: 0;
-		animation: smoothSlideUp 0.8s ease-out forwards;
-		cursor: default;
-		transition: all 0.3s ease;
-	}
-
-	.smooth-letter:hover {
-		color: #ffde21;
-		text-shadow: 0 0 20px #ffde21;
-		transform: translateY(-5px);
 	}
 
 	/* Projects subtitle styling */
@@ -1490,7 +1544,6 @@
 		--primary-rgb: 0, 245, 255;
 	}
 
-	/* ===== UTILITIES ===== */
 	/* Utility classes */
 	.line-clamp-2 {
 		display: -webkit-box;
@@ -1500,4 +1553,418 @@
 		overflow: hidden;
 	}
 
+	/* Utility classes */
+	.line-clamp-2 {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	/* ===== ALL PROJECTS SECTION - MINIMAL DESIGN ===== */
+	.all-projects-section {
+		position: relative;
+		padding: 1rem 0;
+	}
+
+	/* Simple Search Input */
+	.search-container {
+		max-width: 500px;
+		margin: 0 auto;
+	}
+
+	.search-input {
+		width: 100%;
+		padding: 1rem 1.5rem;
+		background: rgba(255, 255, 255, 0.05);
+		border: 1px solid rgba(255, 222, 33, 0.2);
+		border-radius: 12px;
+		color: white;
+		font-size: 1rem;
+		backdrop-filter: blur(10px);
+		transition: all 0.3s ease;
+		outline: none;
+	}
+
+	.search-input:focus {
+		border-color: rgba(255, 222, 33, 0.5);
+		box-shadow: 0 0 20px rgba(255, 222, 33, 0.2);
+	}
+
+	.search-input::placeholder {
+		color: #888;
+	}
+
+	/* Simple Grid Layout */
+	.projects-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+		gap: 1.5rem;
+		margin-top: 2rem;
+	}
+
+	/* Minimal Project Cards */
+	.project-card-minimal {
+		background: rgba(255, 255, 255, 0.03);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		border-radius: 16px;
+		padding: 1.5rem;
+		backdrop-filter: blur(10px);
+		transition: all 0.3s ease;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		min-height: 180px;
+	}
+
+	.project-card-minimal:hover {
+		transform: translateY(-4px);
+		border-color: rgba(255, 222, 33, 0.3);
+		box-shadow: 0 8px 32px rgba(255, 222, 33, 0.1);
+		background: rgba(255, 255, 255, 0.06);
+	}
+
+	/* Card Header */
+	.card-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.project-title {
+		font-size: 1.2rem;
+		font-weight: 600;
+		color: white;
+		transition: all 0.3s ease;
+		flex: 1;
+		min-width: 0;
+	}
+
+	.project-card-minimal:hover .project-title {
+		color: #ffde21;
+	}
+
+	.language-tag {
+		padding: 0.3rem 0.8rem;
+		border-radius: 8px;
+		font-size: 0.8rem;
+		font-weight: 500;
+		color: white;
+		opacity: 0.9;
+		transition: all 0.3s ease;
+	}
+
+	.project-card-minimal:hover .language-tag {
+		opacity: 1;
+		transform: scale(1.05);
+	}
+
+	/* Project Description */
+	.project-desc {
+		color: #bbb;
+		font-size: 0.9rem;
+		line-height: 1.5;
+		flex: 1;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		transition: color 0.3s ease;
+	}
+
+	.project-card-minimal:hover .project-desc {
+		color: #ddd;
+	}
+
+	/* Card Footer */
+	.project-footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-top: 1px solid rgba(255, 255, 255, 0.08);
+		padding-top: 1rem;
+		margin-top: auto;
+	}
+
+	/* Simple Stats */
+	.project-stats-simple {
+		display: flex;
+		gap: 1rem;
+	}
+
+	.stat {
+		font-size: 0.8rem;
+		color: #999;
+		transition: color 0.3s ease;
+	}
+
+	.project-card-minimal:hover .stat {
+		color: #ccc;
+	}
+
+	/* Project Links */
+	.project-links {
+		display: flex;
+		gap: 0.8rem;
+	}
+
+	.link-btn {
+		padding: 0.4rem 1rem;
+		border-radius: 8px;
+		text-decoration: none;
+		font-size: 0.8rem;
+		font-weight: 500;
+		transition: all 0.3s ease;
+		border: 1px solid transparent;
+	}
+
+	.live-btn {
+		background: rgba(255, 222, 33, 0.1);
+		color: #ffde21;
+		border-color: rgba(255, 222, 33, 0.2);
+	}
+
+	.live-btn:hover {
+		background: rgba(255, 222, 33, 0.2);
+		border-color: rgba(255, 222, 33, 0.4);
+		transform: scale(1.05);
+	}
+
+	.code-btn {
+		background: rgba(255, 255, 255, 0.05);
+		color: #ccc;
+		border-color: rgba(255, 255, 255, 0.1);
+	}
+
+	.code-btn:hover {
+		background: rgba(255, 255, 255, 0.1);
+		color: white;
+		border-color: rgba(255, 255, 255, 0.2);
+		transform: scale(1.05);
+	}
+
+	/* Simple View All Button */
+	.view-all-minimal {
+		background: rgba(255, 222, 33, 0.1);
+		border: 1px solid rgba(255, 222, 33, 0.3);
+		color: #ffde21;
+		padding: 1rem 2rem;
+		border-radius: 12px;
+		font-size: 1rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition: all 0.3s ease;
+		backdrop-filter: blur(10px);
+	}
+
+	.view-all-minimal:hover {
+		background: rgba(255, 222, 33, 0.2);
+		border-color: rgba(255, 222, 33, 0.5);
+		transform: translateY(-2px);
+		box-shadow: 0 8px 25px rgba(255, 222, 33, 0.2);
+	}
+
+	/* Responsive Design */
+	@media (max-width: 768px) {
+		.projects-grid {
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
+
+		.card-header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.8rem;
+		}
+
+		.project-footer {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 1rem;
+		}
+
+		.project-links {
+			width: 100%;
+			justify-content: flex-end;
+		}
+	}
+
+	/* ===== TITLE AND SUBTITLE STYLES FOR GITHUB ACTIVITY ===== */
+	/* Keep title and subtitle styles since they remain in the main page */
+	
+	/* Animated Title Styling - Matching Projects Section */
+	.github-main-title-container {
+		position: relative;
+		padding: 0.5rem 0;
+	}
+
+	.github-main-title {
+		font-family: 'JetBrains Mono', monospace;
+		position: relative;
+		display: inline-block;
+		color: white !important;
+		text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+		filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
+		font-size: 4rem;
+		font-weight: 700;
+		letter-spacing: -0.05em; /* Tighten letter spacing */
+	}
+
+	.circle-swirl-icon {
+		display: inline-block;
+		font-size: 2.5rem;
+		color: #facc15;
+		margin: 0 0.8rem;
+		animation: continuousRotate 3s linear infinite;
+		transform-origin: center;
+		opacity: 0.8;
+		transition: all 0.3s ease;
+	}
+
+	.circle-swirl-icon:hover {
+		opacity: 1;
+		color: #ffde21;
+		transform: scale(1.2);
+		animation: fastRotate 0.5s linear infinite;
+	}
+
+	@keyframes continuousRotate {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+
+	@keyframes fastRotate {
+		0% {
+			transform: scale(1.2) rotate(0deg);
+		}
+		100% {
+			transform: scale(1.2) rotate(360deg);
+		}
+	}
+
+	.smooth-letter {
+		display: inline-block;
+		opacity: 1;
+		color: white !important;
+		animation: simpleSlideIn 0.6s ease-out forwards;
+		transition: all 0.5s ease;
+		cursor: pointer;
+		transform-origin: center; /* Ensure proper rotation center */
+		margin: 0 -0.02em; /* Slight negative margin to bring letters closer */
+	}
+
+	.smooth-letter:hover {
+		color: #facc15 !important;
+		transform: translateY(-5px) scale(1.1) rotateZ(360deg);
+		text-shadow: 0 0 20px rgba(250, 204, 21, 0.8);
+		filter: drop-shadow(0 8px 25px rgba(250, 204, 21, 0.6));
+		animation: letterSpin 0.6s ease-in-out;
+	}
+
+	@keyframes letterSpin {
+		0% {
+			transform: translateY(0) scale(1) rotateZ(0deg);
+		}
+		50% {
+			transform: translateY(-8px) scale(1.15) rotateZ(180deg);
+		}
+		100% {
+			transform: translateY(-5px) scale(1.1) rotateZ(360deg);
+		}
+	}
+
+	@keyframes simpleSlideIn {
+		0% {
+			opacity: 0;
+			transform: translateX(-30px);
+		}
+		100% {
+			opacity: 1;
+			transform: translateX(0);
+		}
+	}
+
+	/* Modern Subtitle - Matching Projects */
+	.modern-subtitle.github-subtitle {
+		position: relative;
+		padding: 0.5rem 0; /* Reduced from 1rem to 0.5rem */
+	}
+
+	.modern-subtitle .subtitle-row {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1.5rem;
+		flex-wrap: wrap;
+	}
+
+	.modern-subtitle .subtitle-text {
+		font-size: 1.25rem;
+		color: rgba(255, 255, 255, 0.8);
+		font-weight: 500;
+		letter-spacing: 0.05em;
+		position: relative;
+	}
+
+	.modern-subtitle .subtitle-accent {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		position: relative;
+	}
+
+	.modern-subtitle .accent-dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: linear-gradient(45deg, #facc15, #eab308);
+		box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+		animation: pulse 2s ease-in-out infinite;
+	}
+
+	.modern-subtitle .accent-line {
+		width: 60px;
+		height: 2px;
+		background: linear-gradient(90deg, transparent, #facc15, transparent);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.modern-subtitle .accent-line::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: -100%;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+		animation: shimmer 3s ease-in-out infinite;
+	}
+
+	@keyframes shimmer {
+		0% { left: -100%; }
+		50% { left: 100%; }
+		100% { left: 100%; }
+	}
+
+	/* Responsive Design for Title */
+	@media (max-width: 768px) {
+		.github-main-title {
+			font-size: 3rem;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.github-main-title {
+			font-size: 2.5rem;
+		}
+	}
 </style>
