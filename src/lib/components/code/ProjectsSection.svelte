@@ -62,6 +62,7 @@
 </script>
 
 <!-- Featured Projects -->
+<!-- DEBUG: Always show featured projects section to check if data is being passed -->
 {#if pinnedProjects.length > 0}
 	<section>
 		<div class="mb-8 text-left">
@@ -83,58 +84,78 @@
 						style="transform: translateX(-{currentProjectIndex * (100 / 3)}%)"
 					>
 						{#each pinnedProjects as project, index (project.id)}
-							<div class="w-1/3 flex-shrink-0 px-3">
-								<div class="featured-project-premium group cursor-pointer">
+							<div class="w-full sm:w-1/2 md:w-1/3 flex-shrink-0 px-3">
+								<div class="group cursor-pointer opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
 									<!-- Premium Featured Card -->
-									<div class="featured-neuro-card relative overflow-hidden">
-										<!-- Project Image Section -->
-										<div class="image-section relative">
+									<div class="relative overflow-hidden bg-gradient-to-br from-slate-800/95 to-slate-900/90 backdrop-blur-xl rounded-3xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.3),0_0_0_1px_rgba(255,255,255,0.1)] transition-all duration-500 hover:translate-y-[-8px] hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,193,7,0.3)] hover:border-yellow-400/30">
+										<!-- Project Image Section with proper rounded corners -->
+										<div class="relative h-48 overflow-hidden rounded-t-3xl bg-gradient-to-br from-gray-700 to-gray-800">
 											{#if project.readme_image}
 												<img
 													src={project.readme_image}
 													alt="{project.name} preview"
-													class="project-image"
+													class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+													on:error={(e) => {
+														const target = e.currentTarget as HTMLImageElement;
+														const fallback = target.nextElementSibling as HTMLElement;
+														if (target && fallback) {
+															target.style.display = 'none';
+															fallback.style.display = 'flex';
+														}
+													}}
 												/>
-											{:else}
-												<div class="gradient-placeholder">
-													<div class="placeholder-pattern"></div>
-													<div class="project-icon">
-														<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+												<!-- Gradient fallback (hidden by default, shown when image fails) -->
+												<div class="absolute inset-0 bg-gradient-to-br from-yellow-400/20 via-orange-500/20 to-purple-600/20 flex items-center justify-center" style="display: none;">
+													<div class="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,0.1)_1px,transparent_1px),radial-gradient(circle_at_75%_75%,rgba(255,193,7,0.15)_1px,transparent_1px)] bg-[length:20px_20px] animate-pulse"></div>
+													<div class="text-white/80 z-10 flex flex-col items-center gap-2">
+														<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="drop-shadow-lg">
 															<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
 														</svg>
+														<span class="text-sm font-medium">{project.name}</span>
+													</div>
+												</div>
+											{:else}
+												<!-- Default gradient when no image -->
+												<div class="w-full h-full bg-gradient-to-br from-yellow-400/20 via-orange-500/20 to-purple-600/20 flex items-center justify-center relative overflow-hidden">
+													<div class="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,0.1)_1px,transparent_1px),radial-gradient(circle_at_75%_75%,rgba(255,193,7,0.15)_1px,transparent_1px)] bg-[length:20px_20px] animate-pulse"></div>
+													<div class="text-white/80 z-10 flex flex-col items-center gap-2">
+														<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="drop-shadow-lg">
+															<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+														</svg>
+														<span class="text-sm font-medium">{project.name}</span>
 													</div>
 												</div>
 											{/if}
 											
 											<!-- Live Site Overlay Badge -->
 											{#if project.homepage}
-												<div class="live-badge">
-													<div class="live-indicator"></div>
+												<div class="absolute top-3 right-3 bg-yellow-400 text-black text-sm font-bold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-lg shadow-yellow-400/20 z-10 border-2 border-yellow-400">
+													<div class="w-1.5 h-1.5 bg-black rounded-full animate-pulse"></div>
 													<span>Live Site</span>
 												</div>
 											{/if}
 
 											<!-- Glassmorphism Overlay -->
-											<div class="image-overlay group-hover:opacity-100"></div>
+											<div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 										</div>
 
 										<!-- Content Section -->
-										<div class="content-section">
-											<h3 class="featured-title">{project.name}</h3>
+										<div class="p-6">
+											<h3 class="text-xl font-bold text-white mb-3 leading-tight">{project.name}</h3>
 											
 											{#if project.description}
-												<p class="featured-desc">{project.description}</p>
+												<p class="text-white/80 text-sm leading-relaxed mb-4 line-clamp-3">{project.description}</p>
 											{/if}
 
 											<!-- Live Web URL Display -->
 											{#if project.homepage}
-												<div class="live-url-display">
-													<div class="url-label">Live Web URL</div>
+												<div class="bg-white/5 border border-white/10 rounded-xl p-3 mb-4">
+													<div class="text-xs font-semibold text-yellow-400 uppercase tracking-wide mb-1">Live Web URL</div>
 													<a
 														href={project.homepage}
 														target="_blank"
 														rel="noopener noreferrer"
-														class="url-link"
+														class="text-white font-medium text-sm break-all hover:text-yellow-400 transition-colors duration-200"
 														on:click|stopPropagation
 													>
 														{project.homepage}
@@ -143,26 +164,26 @@
 											{/if}
 
 											<!-- Tech & Stats Row -->
-											<div class="tech-stats-row">
+											<div class="flex items-center justify-between mb-5">
 												{#if project.language}
-													<div class="primary-tech">
-														<span class="tech-dot {getLanguageColorClass(project.language)}"></span>
-														<span class="tech-name">{project.language}</span>
+													<div class="flex items-center gap-2">
+														<span class="w-3 h-3 rounded-full {getLanguageColorClass(project.language)}"></span>
+														<span class="text-white/90 font-medium text-sm">{project.language}</span>
 													</div>
 												{/if}
-												<div class="stats-mini">
-													<span class="star-count">⭐ {project.stargazers_count}</span>
+												<div class="flex gap-3">
+													<span class="text-white/70 text-sm font-medium">⭐ {project.stargazers_count}</span>
 												</div>
 											</div>
 
 											<!-- Action Buttons -->
-											<div class="featured-actions">
+											<div class="flex gap-3">
 												{#if project.homepage}
 													<a
 														href={project.homepage}
 														target="_blank"
 														rel="noopener noreferrer"
-														class="btn-primary"
+														class="flex-1 bg-yellow-400 text-black font-bold text-sm px-5 py-2.5 rounded-xl text-center transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-yellow-400/25 border-2 border-yellow-400"
 														on:click|stopPropagation
 													>
 														View Live Site
@@ -173,7 +194,7 @@
 														href={project.html_url}
 														target="_blank"
 														rel="noopener noreferrer"
-														class="btn-secondary"
+														class="flex-1 bg-white/10 text-white font-semibold text-sm px-5 py-2.5 rounded-xl text-center border border-white/20 backdrop-blur-lg transition-all duration-300 hover:bg-white/15 hover:border-white/30 hover:-translate-y-0.5"
 														on:click|stopPropagation
 													>
 														Source Code
@@ -225,57 +246,77 @@
 				<!-- Grid Mode (3 or fewer projects) -->
 				<div bind:this={projectsSection} class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 					{#each pinnedProjects as project, index (project.id)}
-						<div class="featured-project-premium group cursor-pointer" style="animation-delay: {index * 0.1}s">
+						<div class="group cursor-pointer opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]" style="animation-delay: {index * 0.1}s">
 							<!-- Premium Featured Card -->
-							<div class="featured-neuro-card relative overflow-hidden">
-								<!-- Project Image Section -->
-								<div class="image-section relative">
+							<div class="relative overflow-hidden bg-gradient-to-br from-slate-800/95 to-slate-900/90 backdrop-blur-xl rounded-3xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.3),0_0_0_1px_rgba(255,255,255,0.1)] transition-all duration-500 hover:translate-y-[-8px] hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,193,7,0.3)] hover:border-yellow-400/30">
+								<!-- Project Image Section with proper rounded corners -->
+								<div class="relative h-48 overflow-hidden rounded-t-3xl bg-gradient-to-br from-gray-700 to-gray-800">
 									{#if project.readme_image}
 										<img
 											src={project.readme_image}
 											alt="{project.name} preview"
-											class="project-image"
+											class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+											on:error={(e) => {
+												const target = e.currentTarget as HTMLImageElement;
+												const fallback = target.nextElementSibling as HTMLElement;
+												if (target && fallback) {
+													target.style.display = 'none';
+													fallback.style.display = 'flex';
+												}
+											}}
 										/>
-									{:else}
-										<div class="gradient-placeholder">
-											<div class="placeholder-pattern"></div>
-											<div class="project-icon">
-												<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+										<!-- Gradient fallback (hidden by default, shown when image fails) -->
+										<div class="absolute inset-0 bg-gradient-to-br from-yellow-400/20 via-orange-500/20 to-purple-600/20 flex items-center justify-center" style="display: none;">
+											<div class="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,0.1)_1px,transparent_1px),radial-gradient(circle_at_75%_75%,rgba(255,193,7,0.15)_1px,transparent_1px)] bg-[length:20px_20px] animate-pulse"></div>
+											<div class="text-white/80 z-10 flex flex-col items-center gap-2">
+												<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="drop-shadow-lg">
 													<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
 												</svg>
+												<span class="text-sm font-medium">{project.name}</span>
+											</div>
+										</div>
+									{:else}
+										<!-- Default gradient when no image -->
+										<div class="w-full h-full bg-gradient-to-br from-yellow-400/20 via-orange-500/20 to-purple-600/20 flex items-center justify-center relative overflow-hidden">
+											<div class="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,0.1)_1px,transparent_1px),radial-gradient(circle_at_75%_75%,rgba(255,193,7,0.15)_1px,transparent_1px)] bg-[length:20px_20px] animate-pulse"></div>
+											<div class="text-white/80 z-10 flex flex-col items-center gap-2">
+												<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="drop-shadow-lg">
+													<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+												</svg>
+												<span class="text-sm font-medium">{project.name}</span>
 											</div>
 										</div>
 									{/if}
 									
 									<!-- Live Site Overlay Badge -->
 									{#if project.homepage}
-										<div class="live-badge">
-											<div class="live-indicator"></div>
+										<div class="absolute top-4 right-4 bg-yellow-400 text-black text-sm font-bold px-4 py-2 rounded-full flex items-center gap-2 shadow-lg shadow-yellow-400/20 z-10 border-2 border-yellow-400">
+											<div class="w-2 h-2 bg-black rounded-full animate-pulse"></div>
 											<span>Live Site</span>
 										</div>
 									{/if}
 
 									<!-- Glassmorphism Overlay -->
-									<div class="image-overlay group-hover:opacity-100"></div>
+									<div class="absolute inset-0 bg-gradient-to-br from-yellow-400/5 to-orange-500/5 backdrop-blur-sm opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 								</div>
 
 								<!-- Content Section -->
-								<div class="content-section">
-									<h3 class="featured-title">{project.name}</h3>
+								<div class="p-6 flex flex-col">
+									<h3 class="text-xl font-bold text-white mb-3 leading-tight">{project.name}</h3>
 									
 									{#if project.description}
-										<p class="featured-desc">{project.description}</p>
+										<p class="text-white/80 text-sm leading-relaxed mb-4 line-clamp-3">{project.description}</p>
 									{/if}
 
 									<!-- Live Web URL Display -->
 									{#if project.homepage}
-										<div class="live-url-display">
-											<div class="url-label">Live Web URL</div>
+										<div class="bg-white/5 border border-white/10 rounded-xl p-3 mb-4">
+											<div class="text-xs font-semibold text-yellow-400 uppercase tracking-wide mb-1">Live Web URL</div>
 											<a
 												href={project.homepage}
 												target="_blank"
 												rel="noopener noreferrer"
-												class="url-link"
+												class="text-white font-medium text-sm break-all hover:text-yellow-400 transition-colors duration-200"
 												on:click|stopPropagation
 											>
 												{project.homepage}
@@ -284,29 +325,29 @@
 									{/if}
 
 									<!-- Tech & Stats Row -->
-									<div class="tech-stats-row">
+									<div class="flex items-center justify-between mb-5">
 										{#if project.language}
-											<div class="primary-tech">
-												<span class="tech-dot {getLanguageColorClass(project.language)}"></span>
-												<span class="tech-name">{project.language}</span>
+											<div class="flex items-center gap-2">
+												<span class="w-3 h-3 rounded-full {getLanguageColorClass(project.language)}"></span>
+												<span class="text-white/90 font-medium text-sm">{project.language}</span>
 											</div>
 										{/if}
-										<div class="stats-mini">
-											<span class="star-count">⭐ {project.stargazers_count}</span>
+										<div class="flex gap-3">
+											<span class="text-white/70 text-sm font-medium">⭐ {project.stargazers_count}</span>
 										</div>
 									</div>
 
 									<!-- Action Buttons -->
-									<div class="featured-actions">
+									<div class="flex gap-3">
 										{#if project.homepage}
 											<a
 												href={project.homepage}
 												target="_blank"
 												rel="noopener noreferrer"
-												class="btn-primary"
+												class="flex-1 bg-yellow-400 text-black font-bold text-sm px-4 py-2.5 rounded-xl text-center transition-all duration-300 hover:bg-yellow-300 hover:scale-105 hover:shadow-lg hover:shadow-yellow-400/25"
 												on:click|stopPropagation
 											>
-												View Live Site
+												Live Site
 											</a>
 										{/if}
 										{#if project.html_url}
@@ -314,10 +355,10 @@
 												href={project.html_url}
 												target="_blank"
 												rel="noopener noreferrer"
-												class="btn-secondary"
+												class="flex-1 bg-white/10 text-white font-semibold text-sm px-4 py-2.5 rounded-xl text-center border border-white/20 backdrop-blur-lg transition-all duration-300 hover:bg-white/15 hover:border-white/30 hover:scale-105"
 												on:click|stopPropagation
 											>
-												Source Code
+												Code
 											</a>
 										{/if}
 									</div>
@@ -352,47 +393,53 @@
 
 		{#if showAllProjects}
 			<div class="mb-8">
-				<div class="search-container">
+				<div class="flex justify-center">
 					<input
 						type="text"
 						placeholder="🔍 Search projects..."
 						bind:value={projectSearchQuery}
-						class="search-input"
+						class="w-full max-w-md bg-white/10 text-white placeholder-gray-400 px-6 py-3 rounded-xl border border-white/20 backdrop-blur-lg focus:outline-none focus:border-yellow-400/50 focus:ring-2 focus:ring-yellow-400/20 transition-all duration-300"
 					/>
 				</div>
 			</div>
 		{/if}
 
-		<div class="projects-grid">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 			{#each displayedProjects as project (project.id)}
-				<article class="project-card-minimal">
+				<article class="bg-gradient-to-br from-slate-800/50 to-slate-900/30 backdrop-blur-xl rounded-2xl p-6 border border-white/10 transition-all duration-300 hover:border-yellow-400/30 hover:-translate-y-1 hover:shadow-xl hover:shadow-yellow-400/10">
 					<!-- Simple content layout -->
-					<div class="card-header">
-						<h3 class="project-title">{project.name}</h3>
+					<div class="flex items-start justify-between mb-4">
+						<h3 class="text-lg font-bold text-white leading-tight flex-grow pr-3">{project.name}</h3>
 						{#if project.language}
-							<span class="language-tag {getLanguageColorClass(project.language)}">
+							<span class="text-xs px-2.5 py-1 rounded-full font-medium {getLanguageColorClass(project.language)} bg-opacity-20 border border-current shrink-0">
 								{project.language}
 							</span>
 						{/if}
 					</div>
 
-					<p class="project-desc">
+					<p class="text-gray-300 text-sm leading-relaxed mb-6 line-clamp-3">
 						{project.description || 'No description available'}
 					</p>
 
-					<div class="project-footer">
-						<div class="project-stats-simple">
-							<span class="stat">⭐ {project.stargazers_count}</span>
-							<span class="stat">🍴 {project.forks_count}</span>
+					<div class="flex items-center justify-between mt-auto">
+						<div class="flex items-center gap-4 text-sm text-gray-400">
+							<span class="flex items-center gap-1">
+								<span>⭐</span>
+								<span>{project.stargazers_count}</span>
+							</span>
+							<span class="flex items-center gap-1">
+								<span>🍴</span>
+								<span>{project.forks_count}</span>
+							</span>
 						</div>
 						
-						<div class="project-links">
+						<div class="flex items-center gap-2">
 							{#if project.homepage}
 								<a
 									href={project.homepage}
 									target="_blank"
 									rel="noopener noreferrer"
-									class="link-btn live-btn"
+									class="bg-yellow-400 text-black text-xs font-bold px-3 py-1.5 rounded-lg transition-all duration-200 hover:bg-yellow-500 hover:-translate-y-0.5"
 								>
 									Live
 								</a>
@@ -401,7 +448,7 @@
 								href={project.html_url}
 								target="_blank"
 								rel="noopener noreferrer"
-								class="link-btn code-btn"
+								class="bg-white/10 text-white text-xs font-semibold px-3 py-1.5 rounded-lg border border-white/20 transition-all duration-200 hover:bg-white/15 hover:border-white/30 hover:-translate-y-0.5"
 							>
 								Code
 							</a>
@@ -415,7 +462,7 @@
 			<div class="mt-12 text-center">
 				<button
 					on:click={() => (showAllProjects = true)}
-					class="view-all-minimal"
+					class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-bold px-8 py-3 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-yellow-400/25 border-2 border-yellow-400"
 				>
 					View All {projects.length} Repositories
 				</button>
@@ -424,6 +471,4 @@
 	</section>
 {/if}
 
-<style>
-	@import '../../../css/code/projectsSection.css';
-</style>
+

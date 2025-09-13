@@ -112,8 +112,11 @@
 			contributionsData = data.contributions;
 			contributionActivity = data.contributionActivity || [];
 
-			console.log('Pinned projects:', pinnedProjects);
-			console.log('All projects:', projects);
+			console.log('Data loaded successfully:');
+			console.log('Projects:', projects.length);
+			console.log('Pinned projects:', pinnedProjects.length);
+			console.log('GitHub events:', githubEvents.length);
+			console.log('Contributions data:', contributionsData);
 
 			isLoading = false;
 		} catch (err: unknown) {
@@ -132,7 +135,7 @@
 	title="Code & Projects"
 	subtitle="Exploring the intersection of code and creativity through web development, audio applications, and innovative digital experiences"
 >
-	<div class="container-custom">
+	<div class="w-full max-w-[var(--container-width)] mx-auto px-4">
 		{#if isLoading}
 			<!-- Loading State -->
 			<div class="flex flex-col items-center justify-center py-20">
@@ -160,8 +163,13 @@
 			<div class="space-y-24">
 				<!-- Main Projects Title -->
 				<section class="text-center">
-					<div class="projects-main-title-container mb-8">
-						<h1 class="projects-main-title mb-6 text-6xl font-bold text-white">
+					<div class="mb-8">
+						<h1 class="mb-6 text-6xl font-bold text-white"
+						style="background: linear-gradient(135deg, #ffffff 0%, #ffde21 50%, #ffd700 100%); 
+						-webkit-background-clip: text; 
+						-webkit-text-fill-color: transparent; 
+						background-clip: text; 
+						text-shadow: 0 4px 20px rgba(255, 222, 33, 0.3);">
 							<span class="smooth-letter" style="animation-delay: 0.1s;">P</span>
 							<span class="smooth-letter" style="animation-delay: 0.15s;">r</span>
 							<span class="smooth-letter" style="animation-delay: 0.2s;">o</span>
@@ -171,15 +179,15 @@
 							<span class="smooth-letter" style="animation-delay: 0.4s;">t</span>
 							<span class="smooth-letter" style="animation-delay: 0.45s;">s</span>
 						</h1>
-						<div class="modern-subtitle projects-subtitle">
-							<div class="subtitle-row">
-								<span class="subtitle-text">From Concept To Deployment</span>
-								<div class="subtitle-accent">
-									<span class="accent-dot"></span>
-									<span class="accent-line"></span>
-									<span class="accent-dot"></span>
+						<div class="flex items-center justify-center gap-8 mt-4">
+							<div class="flex items-center gap-3">
+								<span class="text-xl text-gray-300 font-medium tracking-wide">From Concept To Deployment</span>
+								<div class="flex items-center gap-2">
+									<span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+									<span class="w-12 h-[1px] bg-gradient-to-r from-yellow-400 to-transparent"></span>
+									<span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
 								</div>
-								<span class="subtitle-text">Bringing Ideas To Life</span>
+								<span class="text-xl text-gray-300 font-medium tracking-wide">Bringing Ideas To Life</span>
 							</div>
 						</div>
 					</div>
@@ -189,7 +197,7 @@
 				<ProjectsSection {projects} {pinnedProjects} />
 
 				<!-- Skills Section -->
-				<section bind:this={skillsSection} class="relative overflow-hidden">
+				<section bind:this={skillsSection} class="relative overflow-hidden px-4 w-full">
 					<!-- Tech Laboratory Background -->
 					<div class="pointer-events-none absolute inset-0">
 						<!-- Circuit Board Pattern -->
@@ -241,9 +249,9 @@
 						></div>
 					</div>
 
-					<div class="relative z-10 mb-12 text-center">
-						<div class="skill-title-container mb-8">
-							<h2 class="skill-title perspective-1000 text-6xl font-bold text-white">
+					<div class="relative z-10 mb-12 text-center w-full">
+						<div class="skill-title-container mb-8 w-full">
+							<h2 class="skill-title perspective-1000 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white">
 								<span
 									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
 									>S</span
@@ -286,15 +294,15 @@
 									style="animation-delay: 0.9s;">h</span
 								>
 							</h2>
-							<div class="modern-subtitle">
-								<div class="subtitle-row">
-									<span class="subtitle-text">Learning New skills</span>
-									<div class="subtitle-accent">
+							<div class="modern-subtitle w-full">
+								<div class="subtitle-row flex flex-wrap gap-2 sm:gap-4 justify-center items-center w-full">
+									<span class="subtitle-text text-sm sm:text-base md:text-lg lg:text-xl">Learning New skills</span>
+									<div class="subtitle-accent flex gap-1 sm:gap-2">
 										<span class="accent-dot"></span>
 										<span class="accent-line"></span>
 										<span class="accent-dot"></span>
 									</div>
-									<span class="subtitle-text">Leveling Up Border Horizon</span>
+									<span class="subtitle-text text-sm sm:text-base md:text-lg lg:text-xl">Leveling Up Border Horizon</span>
 								</div>
 							</div>
 						</div>
@@ -333,7 +341,7 @@
 										<span class="accent-line"></span>
 										<span class="accent-dot"></span>
 									</div>
-									<span class="subtitle-text">Development Journey</span>
+									<span class="subtitle-text">Code Journey</span>
 								</div>
 							</div>
 						</div>
@@ -352,6 +360,41 @@
 </PageLayout>
 
 <style>
+@media (max-width: 640px) {
+	.skill-title {
+		font-size: 2.5rem !important;
+	}
+	.modern-subtitle .subtitle-text {
+		font-size: 1rem !important;
+	}
+}
+@media (max-width: 480px) {
+	.skill-title {
+		font-size: 1.8rem !important;
+	}
+	.modern-subtitle .subtitle-text {
+		font-size: 0.9rem !important;
+	}
+}
+@media (max-width: 640px) {
+	.skill-title {
+		font-size: 2rem !important;
+	}
+	.modern-subtitle .subtitle-text {
+		font-size: 1rem !important;
+	}
+	.subtitle-row {
+		gap: 0.5rem !important;
+	}
+}
+@media (max-width: 480px) {
+	.skill-title {
+		font-size: 1.3rem !important;
+	}
+	.modern-subtitle .subtitle-text {
+		font-size: 0.9rem !important;
+	}
+}
 	/* ===== GLOBAL CSS ===== */
 	/* ===== ANIMATIONS ===== */
 	/* Enhanced animations and effects */
@@ -496,25 +539,6 @@
 			opacity: 1;
 			transform: translateY(0);
 		}
-	}
-
-	.projects-main-title {
-		animation: fadeInUp 0.8s ease-out forwards;
-	}
-
-	/* Projects subtitle styling */
-	.projects-subtitle {
-		opacity: 0;
-		animation: fadeInUp 1s ease-out forwards;
-		animation-delay: 0.8s;
-	}
-
-	.projects-subtitle .subtitle-text {
-		animation-delay: 1s;
-	}
-
-	.projects-subtitle .subtitle-accent {
-		animation-delay: 1.2s;
 	}
 
 	@keyframes slideInFromLeft {

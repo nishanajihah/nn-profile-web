@@ -38,137 +38,137 @@
 </script>
 
 <!-- GitHub Activity Section -->
-<section class="github-activity-section">
+<section class="relative py-16 bg-gradient-to-br from-gray-900/15 to-gray-800/10 rounded-3xl my-16 border border-slate-600/10 backdrop-blur-md">
 	<!-- Activity Overview Cards -->
-	<div class="activity-overview-grid">
-		<!-- Total Stars -->
-		<div class="stats-card-minimal">
-			<div class="stat-header">
-				<span class="stat-icon">⭐</span>
-				<span class="stat-label">Total Stars</span>
+	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 px-8">
+		<!-- Total Contributions -->
+		<div class="bg-white/[0.03] border border-white/10 rounded-xl p-6 backdrop-blur-md transition-all duration-300 flex flex-col gap-4 relative overflow-hidden hover:translate-y-[-2px] hover:border-yellow-400/30 hover:bg-white/[0.06] before:content-[''] before:absolute before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-gradient-to-r before:from-transparent before:via-yellow-400/5 before:to-transparent before:transition-all before:duration-500 hover:before:left-full">
+			<div class="flex items-center gap-3">
+				<span class="text-xl opacity-80 transition-opacity duration-300 hover:opacity-100">📊</span>
+				<span class="text-gray-300 font-medium">Total Contributions</span>
 			</div>
-			<div class="stat-number">{contributionsData.total}</div>
+			<div class="text-3xl font-bold text-white">{contributionsData.total}</div>
 		</div>
 
-		<!-- Recent Events - Clickable -->
-		<div 
-			class="stats-card-minimal clickable-card" 
-			on:click={handleRecentEventsClick} 
-			on:keydown={handleKeyDown} 
-			role="button" 
-			tabindex="0"
-			aria-label="View recent GitHub activity"
-		>
-			<div class="stat-header">
-				<span class="stat-icon">📈</span>
-				<span class="stat-label">Recent Events</span>
+		<!-- This Year -->
+		<div class="bg-white/[0.03] border border-white/10 rounded-xl p-6 backdrop-blur-md transition-all duration-300 flex flex-col gap-4 relative overflow-hidden hover:translate-y-[-2px] hover:border-yellow-400/30 hover:bg-white/[0.06] before:content-[''] before:absolute before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-gradient-to-r before:from-transparent before:via-yellow-400/5 before:to-transparent before:transition-all before:duration-500 hover:before:left-full">
+			<div class="flex items-center gap-3">
+				<span class="text-xl opacity-80 transition-opacity duration-300 hover:opacity-100">📈</span>
+				<span class="text-gray-300 font-medium">This Year</span>
 			</div>
-			<div class="stat-number">{contributionsData.lastYear}</div>
-			<div class="click-indicator">Click to view →</div>
+			<div class="text-3xl font-bold text-white">{contributionsData.lastYear}</div>
 		</div>
 
 		<!-- Activity Streak -->
-		<div class="stats-card-minimal">
-			<div class="stat-header">
-				<span class="stat-icon">🔥</span>
-				<span class="stat-label">Activity Streak</span>
+		<div class="bg-white/[0.03] border border-white/10 rounded-xl p-6 backdrop-blur-md transition-all duration-300 flex flex-col gap-4 relative overflow-hidden hover:translate-y-[-2px] hover:border-yellow-400/30 hover:bg-white/[0.06] before:content-[''] before:absolute before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-gradient-to-r before:from-transparent before:via-yellow-400/5 before:to-transparent before:transition-all before:duration-500 hover:before:left-full">
+			<div class="flex items-center gap-3">
+				<span class="text-xl opacity-80 transition-opacity duration-300 hover:opacity-100">🔥</span>
+				<span class="text-gray-300 font-medium">Activity Streak</span>
 			</div>
-			<div class="stat-number">{contributionsData.streak}</div>
+			<div class="text-3xl font-bold text-white">{contributionsData.streak}</div>
 		</div>
 
 		<!-- Public Repos -->
-		<div class="stats-card-minimal">
-			<div class="stat-header">
-				<span class="stat-icon">📂</span>
-				<span class="stat-label">Public Repos</span>
+		<div class="bg-white/[0.03] border border-white/10 rounded-xl p-6 backdrop-blur-md transition-all duration-300 flex flex-col gap-4 relative overflow-hidden hover:translate-y-[-2px] hover:border-yellow-400/30 hover:bg-white/[0.06] before:content-[''] before:absolute before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-gradient-to-r before:from-transparent before:via-yellow-400/5 before:to-transparent before:transition-all before:duration-500 hover:before:left-full">
+			<div class="flex items-center gap-3">
+				<span class="text-xl opacity-80 transition-opacity duration-300 hover:opacity-100">📂</span>
+				<span class="text-gray-300 font-medium">Public Repos</span>
 			</div>
-			<div class="stat-number">{projectsCount}</div>
+			<div class="text-3xl font-bold text-white">{projectsCount}</div>
 		</div>
 	</div>
 
 	<!-- GitHub-style Contribution Graph -->
-	<div class="contribution-section">
-		<div class="contribution-card">
-			<div class="contribution-header">
-				<h3 class="contribution-title">Contribution Activity</h3>
-				<div class="contribution-legend">
-					<span class="legend-text">Less</span>
-					<div class="legend-squares">
-						<div class="legend-square level-0"></div>
-						<div class="legend-square level-1"></div>
-						<div class="legend-square level-2"></div>
-						<div class="legend-square level-3"></div>
-						<div class="legend-square level-4"></div>
+	<div class="mb-12 px-8">
+		<div class="bg-white/[0.02] border border-white/10 rounded-2xl p-8 backdrop-blur-md">
+			<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+				<h3 class="text-2xl font-bold text-white">Contribution Activity (Debug: {githubEvents.length} events)</h3>
+				<div class="flex items-center gap-3 text-sm">
+					<span class="text-gray-400">Less</span>
+					<div class="flex gap-1">
+						<div class="w-3 h-3 rounded-sm bg-gray-800 border border-gray-700"></div>
+						<div class="w-3 h-3 rounded-sm bg-yellow-900/50 border border-yellow-800/50"></div>
+						<div class="w-3 h-3 rounded-sm bg-yellow-700/70 border border-yellow-600/70"></div>
+						<div class="w-3 h-3 rounded-sm bg-yellow-500/80 border border-yellow-400/80"></div>
+						<div class="w-3 h-3 rounded-sm bg-yellow-400 border border-yellow-300"></div>
 					</div>
-					<span class="legend-text">More</span>
+					<span class="text-gray-400">More</span>
 				</div>
 			</div>
 			
 			<!-- GitHub-style contribution graph -->
-			<div class="contribution-graph">
+			<div class="relative overflow-x-auto">
 				<!-- Week day labels -->
-				<div class="weekday-labels">
-					<div class="weekday-label"></div>
-					<div class="weekday-label">Mon</div>
-					<div class="weekday-label"></div>
-					<div class="weekday-label">Wed</div>
-					<div class="weekday-label"></div>
-					<div class="weekday-label">Fri</div>
-					<div class="weekday-label"></div>
-				</div>
-				
-				<!-- Contribution grid -->
-				<div class="contribution-grid">
-					{#each Array(53) as _, weekIndex}
-						<div class="week-column">
-							{#each Array(7) as _, dayIndex}
-								{@const randomLevel = Math.floor(Math.random() * 5)}
-								{@const isToday = weekIndex === 52 && dayIndex === new Date().getDay()}
-								<div 
-									class="contribution-square level-{randomLevel} {isToday ? 'today' : ''}"
-									title="Contributions on this day"
-								></div>
-							{/each}
-						</div>
-					{/each}
+				<div class="flex">
+					<div class="flex flex-col gap-1 mr-3 text-xs text-gray-500">
+						<div class="h-3"></div>
+						<div class="h-3 flex items-center">Mon</div>
+						<div class="h-3"></div>
+						<div class="h-3 flex items-center">Wed</div>
+						<div class="h-3"></div>
+						<div class="h-3 flex items-center">Fri</div>
+						<div class="h-3"></div>
+					</div>
+					
+					<!-- Contribution grid -->
+					<div class="flex gap-1">
+						{#each Array(53) as _, weekIndex}
+							<div class="flex flex-col gap-1">
+								{#each Array(7) as _, dayIndex}
+									{@const randomLevel = Math.floor(Math.random() * 5)}
+									{@const isToday = weekIndex === 52 && dayIndex === new Date().getDay()}
+									<div 
+										class="w-3 h-3 rounded-sm border transition-all duration-200 hover:scale-110 cursor-pointer
+											{randomLevel === 0 ? 'bg-gray-800 border-gray-700' : ''}
+											{randomLevel === 1 ? 'bg-yellow-900/50 border-yellow-800/50' : ''}
+											{randomLevel === 2 ? 'bg-yellow-700/70 border-yellow-600/70' : ''}
+											{randomLevel === 3 ? 'bg-yellow-500/80 border-yellow-400/80' : ''}
+											{randomLevel === 4 ? 'bg-yellow-400 border-yellow-300' : ''}
+											{isToday ? 'ring-2 ring-yellow-400/50' : ''}"
+										title="Contributions on this day"
+									></div>
+								{/each}
+							</div>
+						{/each}
+					</div>
 				</div>
 				
 				<!-- Month labels -->
-				<div class="month-labels">
-					<div class="month-label">Jan</div>
-					<div class="month-label">Feb</div>
-					<div class="month-label">Mar</div>
-					<div class="month-label">Apr</div>
-					<div class="month-label">May</div>
-					<div class="month-label">Jun</div>
-					<div class="month-label">Jul</div>
-					<div class="month-label">Aug</div>
-					<div class="month-label">Sep</div>
-					<div class="month-label">Oct</div>
-					<div class="month-label">Nov</div>
-					<div class="month-label">Dec</div>
+				<div class="flex mt-2 ml-10 gap-1 text-xs text-gray-500">
+					<div class="w-12 text-center">Jan</div>
+					<div class="w-12 text-center">Feb</div>
+					<div class="w-12 text-center">Mar</div>
+					<div class="w-12 text-center">Apr</div>
+					<div class="w-12 text-center">May</div>
+					<div class="w-12 text-center">Jun</div>
+					<div class="w-12 text-center">Jul</div>
+					<div class="w-12 text-center">Aug</div>
+					<div class="w-12 text-center">Sep</div>
+					<div class="w-12 text-center">Oct</div>
+					<div class="w-12 text-center">Nov</div>
+					<div class="w-12 text-center">Dec</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Recent Activity Feed -->
-	<div class="activity-feed-section" bind:this={recentActivitySection}>
-		<div class="activity-feed-card">
-			<h3 class="feed-title">Recent Activity</h3>
-			<div class="activity-list">
+	<div class="px-8" bind:this={recentActivitySection}>
+		<div class="bg-white/[0.02] border border-white/10 rounded-2xl p-8 backdrop-blur-md">
+			<h3 class="text-2xl font-bold text-white mb-6">Recent Activity</h3>
+			<div class="space-y-4">
 				{#each githubEvents.slice(0, 8) as event, index}
-					<div class="activity-item-minimal" style="animation-delay: {index * 0.1}s">
-						<div class="activity-info">
-							<span class="activity-type">
+					<div class="flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-xl transition-all duration-300 hover:bg-white/[0.04] hover:border-white/10 opacity-0 animate-[fadeInUp_0.6s_ease-out_forwards]" style="animation-delay: {index * 0.1}s">
+						<div class="flex flex-col gap-1">
+							<span class="text-white font-medium">
 								{event.type?.replace(/([A-Z])/g, ' $1').trim() || 'Activity'}
 							</span>
 							{#if event.repo}
-								<span class="activity-repo">in {event.repo.name}</span>
+								<span class="text-gray-400 text-sm">in {event.repo.name}</span>
 							{/if}
 						</div>
 						{#if event.created_at}
-							<div class="activity-date">
+							<div class="text-gray-500 text-sm">
 								{new Date(event.created_at).toLocaleDateString('en-US', {
 									month: 'short',
 									day: 'numeric'
@@ -178,9 +178,9 @@
 					</div>
 				{/each}
 				{#if githubEvents.length === 0}
-					<div class="no-activity-minimal">
-						<span class="no-activity-icon">💤</span>
-						<p class="no-activity-text">No recent activity available</p>
+					<div class="text-center py-8">
+						<span class="text-4xl mb-4 block">💤</span>
+						<p class="text-gray-400">No recent activity available</p>
 					</div>
 				{/if}
 			</div>
@@ -189,5 +189,15 @@
 </section>
 
 <style>
-	@import '../../../css/code/githubActivity.css';
+	/* Only animations that can't be done with Tailwind */
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
 </style>

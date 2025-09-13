@@ -74,7 +74,7 @@
 	{#key currentPath}
 		<main
 			bind:this={mainContent}
-			class="flex-grow {currentPath !== '/' ? 'pt-24' : ''}"
+			class="flex-grow w-full {currentPath !== '/' ? 'pt-24' : ''}"
 			in:fade={{ duration: 400, delay: 200, easing: quintOut }}
 			out:fade={{ duration: 300 }}
 		>

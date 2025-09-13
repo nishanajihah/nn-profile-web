@@ -242,8 +242,8 @@
 			1.5
 		);
 
-		// Disable scrolling on homepage for single-screen design
-		if (browser && document.body) {
+		// Disable scrolling only if on homepage for single-screen design
+		if (browser && document.body && window.location.pathname === '/') {
 			document.body.style.overflow = 'hidden';
 		}
 
@@ -254,8 +254,8 @@
 				clearTimeout(mouseMoveTimeout);
 				mouseMoveTimeout = null;
 			}
-			// Re-enable scrolling when leaving homepage
-			if (browser && document.body) {
+			// Re-enable scrolling only if leaving homepage
+			if (browser && document.body && window.location.pathname !== '/') {
 				document.body.style.overflow = '';
 			}
 		};
@@ -265,7 +265,7 @@
 <!-- Full height, single-screen homepage with no scrolling -->
 <div
 	bind:this={homepageContent}
-	class="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden"
+	class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden"
 >
 	<!-- Ambient Floating Particles -->
 	<div
@@ -281,10 +281,10 @@
 
 	<!-- Content Container with vertical centering -->
 	<div
-		class="container-custom relative z-10 flex h-full flex-col items-center justify-center pt-20 pb-24"
+		class="container-custom relative z-10 flex h-full w-full flex-col items-center justify-center pt-20 pb-24"
 	>
 		<!-- Main Content Area -->
-		<div class="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 lg:grid-cols-5">
+		<div class="mx-auto grid w-full max-w-none grid-cols-1 items-center gap-8 sm:max-w-3xl md:max-w-5xl lg:max-w-7xl lg:grid-cols-5">
 			<!-- Left Side: Hero Content -->
 			<div class="text-center lg:col-span-2 lg:text-left">
 				<!-- Title with enhanced gradient effect -->
