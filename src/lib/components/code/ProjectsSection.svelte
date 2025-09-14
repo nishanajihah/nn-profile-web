@@ -1,15 +1,5 @@
 <script lang="ts">
-	/*
-	 * ===== PROJECTS SECTION COMPONENT =====
-	 * 
-	 * Displays:
-	 * - Featured/pinned projects with premium design
-	 * - All projects with search functionality
-	 * - Carousel for 3+ featured projects
-	 */
-
 	// ===== IMPORTS =====
-	import { createEventDispatcher } from 'svelte';
 	import { 
 		type Project, 
 		getLanguageColorClass, 
@@ -62,14 +52,13 @@
 </script>
 
 <!-- Featured Projects -->
-<!-- DEBUG: Always show featured projects section to check if data is being passed -->
 {#if pinnedProjects.length > 0}
 	<section>
 		<div class="mb-8 text-left">
-			<h2 class="mb-4 text-4xl font-bold text-white">
+			<h2 class="mb-4 text-4xl font-bold text-white drop-shadow-lg">
 				Featured Projects
 			</h2>
-			<p class="max-w-2xl text-lg text-gray-400">
+			<p class="max-w-2xl text-lg text-gray-300">
 				Showcasing my best work
 			</p>
 		</div>
@@ -85,16 +74,16 @@
 					>
 						{#each pinnedProjects as project, index (project.id)}
 							<div class="w-full sm:w-1/2 md:w-1/3 flex-shrink-0 px-3">
-								<div class="group cursor-pointer opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]">
+								<div class="group cursor-pointer">
 									<!-- Premium Featured Card -->
-									<div class="relative overflow-hidden bg-gradient-to-br from-slate-800/95 to-slate-900/90 backdrop-blur-xl rounded-3xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.3),0_0_0_1px_rgba(255,255,255,0.1)] transition-all duration-500 hover:translate-y-[-8px] hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,193,7,0.3)] hover:border-yellow-400/30">
+									<div class="relative overflow-hidden bg-gradient-to-br from-gray-800/70 to-black/90 backdrop-blur-xl rounded-3xl border border-gray-700/30 shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.1)] transition-all duration-500 hover:translate-y-[-8px] hover:brightness-110 hover:shadow-[0_20px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,193,7,0.3)] hover:border-yellow-400/30">
 										<!-- Project Image Section with proper rounded corners -->
-										<div class="relative h-48 overflow-hidden rounded-t-3xl bg-gradient-to-br from-gray-700 to-gray-800">
+										<div class="relative h-48 overflow-hidden rounded-t-3xl bg-gradient-to-br from-gray-700/50 to-gray-900/70">
 											{#if project.readme_image}
 												<img
 													src={project.readme_image}
 													alt="{project.name} preview"
-													class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+													class="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
 													on:error={(e) => {
 														const target = e.currentTarget as HTMLImageElement;
 														const fallback = target.nextElementSibling as HTMLElement;
@@ -105,24 +94,40 @@
 													}}
 												/>
 												<!-- Gradient fallback (hidden by default, shown when image fails) -->
-												<div class="absolute inset-0 bg-gradient-to-br from-yellow-400/20 via-orange-500/20 to-purple-600/20 flex items-center justify-center" style="display: none;">
-													<div class="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,0.1)_1px,transparent_1px),radial-gradient(circle_at_75%_75%,rgba(255,193,7,0.15)_1px,transparent_1px)] bg-[length:20px_20px] animate-pulse"></div>
-													<div class="text-white/80 z-10 flex flex-col items-center gap-2">
-														<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="drop-shadow-lg">
-															<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-														</svg>
-														<span class="text-sm font-medium">{project.name}</span>
+												<div class="absolute inset-0 bg-gradient-to-br from-gray-700/50 via-gray-800/60 to-black/70 flex items-center justify-center group-hover:from-yellow-400/20 group-hover:via-orange-500/15 group-hover:to-red-600/20 transition-all duration-500" style="display: none;">
+													<div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,255,255,0.1)_1px,transparent_1px),radial-gradient(circle_at_70%_60%,rgba(255,193,7,0.15)_1px,transparent_1px)] bg-[length:40px_40px] group-hover:animate-pulse"></div>
+													<!-- Centered Content Container -->
+													<div class="text-white/95 z-10 flex flex-col items-center justify-center gap-4 group-hover:scale-110 transition-transform duration-500 w-full h-full px-6 py-8">
+														<div class="relative flex-shrink-0">
+															<div class="absolute inset-0 bg-yellow-400/30 rounded-full blur-xl group-hover:bg-orange-500/40 transition-colors duration-500"></div>
+															<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="relative text-gray-300 group-hover:text-yellow-400 drop-shadow-lg transition-colors duration-500">
+																<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+																<polyline points="14,2 14,8 20,8"/>
+																<line x1="16" y1="13" x2="8" y2="13"/>
+																<line x1="16" y1="17" x2="8" y2="17"/>
+																<polyline points="10,9 9,9 8,9"/>
+															</svg>
+														</div>
+														<span class="text-base font-semibold text-gray-200 group-hover:text-white transition-colors duration-500 text-center leading-tight">{project.name}</span>
 													</div>
 												</div>
 											{:else}
 												<!-- Default gradient when no image -->
-												<div class="w-full h-full bg-gradient-to-br from-yellow-400/20 via-orange-500/20 to-purple-600/20 flex items-center justify-center relative overflow-hidden">
-													<div class="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,0.1)_1px,transparent_1px),radial-gradient(circle_at_75%_75%,rgba(255,193,7,0.15)_1px,transparent_1px)] bg-[length:20px_20px] animate-pulse"></div>
-													<div class="text-white/80 z-10 flex flex-col items-center gap-2">
-														<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="drop-shadow-lg">
-															<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-														</svg>
-														<span class="text-sm font-medium">{project.name}</span>
+												<div class="w-full h-full bg-gradient-to-br from-gray-700/50 via-gray-800/60 to-black/70 flex items-center justify-center relative overflow-hidden group-hover:from-yellow-400/20 group-hover:via-orange-500/15 group-hover:to-red-600/20 transition-all duration-500">
+													<div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,255,255,0.1)_1px,transparent_1px),radial-gradient(circle_at_70%_60%,rgba(255,193,7,0.15)_1px,transparent_1px)] bg-[length:40px_40px] group-hover:animate-pulse"></div>
+													<!-- Centered Content Container -->
+													<div class="text-white/95 z-10 flex flex-col items-center justify-center gap-4 group-hover:scale-110 transition-transform duration-500 w-full h-full px-6 py-8">
+														<div class="relative flex-shrink-0">
+															<div class="absolute inset-0 bg-yellow-400/30 rounded-full blur-xl group-hover:bg-orange-500/40 transition-colors duration-500"></div>
+															<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="relative text-gray-300 group-hover:text-yellow-400 drop-shadow-lg transition-colors duration-500">
+																<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+																<polyline points="14,2 14,8 20,8"/>
+																<line x1="16" y1="13" x2="8" y2="13"/>
+																<line x1="16" y1="17" x2="8" y2="17"/>
+																<polyline points="10,9 9,9 8,9"/>
+															</svg>
+														</div>
+														<span class="text-lg font-semibold text-gray-200 group-hover:text-white transition-colors duration-500 text-center leading-tight">{project.name}</span>
 													</div>
 												</div>
 											{/if}
@@ -136,7 +141,7 @@
 											{/if}
 
 											<!-- Glassmorphism Overlay -->
-											<div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+											<div class="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-orange-500/10 backdrop-blur-sm opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 										</div>
 
 										<!-- Content Section -->
@@ -246,16 +251,16 @@
 				<!-- Grid Mode (3 or fewer projects) -->
 				<div bind:this={projectsSection} class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 					{#each pinnedProjects as project, index (project.id)}
-						<div class="group cursor-pointer opacity-0 animate-[fadeInUp_0.8s_ease-out_forwards]" style="animation-delay: {index * 0.1}s">
+						<div class="group cursor-pointer">
 							<!-- Premium Featured Card -->
-							<div class="relative overflow-hidden bg-gradient-to-br from-slate-800/95 to-slate-900/90 backdrop-blur-xl rounded-3xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.3),0_0_0_1px_rgba(255,255,255,0.1)] transition-all duration-500 hover:translate-y-[-8px] hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,193,7,0.3)] hover:border-yellow-400/30">
+							<div class="relative overflow-hidden bg-gradient-to-br from-gray-800/70 to-black/90 backdrop-blur-xl rounded-3xl border border-gray-700/30 shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.1)] transition-all duration-500 hover:translate-y-[-8px] hover:brightness-110 hover:shadow-[0_20px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,193,7,0.3)] hover:border-yellow-400/30">
 								<!-- Project Image Section with proper rounded corners -->
-								<div class="relative h-48 overflow-hidden rounded-t-3xl bg-gradient-to-br from-gray-700 to-gray-800">
+								<div class="relative h-48 overflow-hidden rounded-t-3xl bg-gradient-to-br from-gray-700/50 to-gray-900/70">
 									{#if project.readme_image}
 										<img
 											src={project.readme_image}
 											alt="{project.name} preview"
-											class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+											class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
 											on:error={(e) => {
 												const target = e.currentTarget as HTMLImageElement;
 												const fallback = target.nextElementSibling as HTMLElement;
@@ -266,24 +271,40 @@
 											}}
 										/>
 										<!-- Gradient fallback (hidden by default, shown when image fails) -->
-										<div class="absolute inset-0 bg-gradient-to-br from-yellow-400/20 via-orange-500/20 to-purple-600/20 flex items-center justify-center" style="display: none;">
-											<div class="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,0.1)_1px,transparent_1px),radial-gradient(circle_at_75%_75%,rgba(255,193,7,0.15)_1px,transparent_1px)] bg-[length:20px_20px] animate-pulse"></div>
-											<div class="text-white/80 z-10 flex flex-col items-center gap-2">
-												<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="drop-shadow-lg">
-													<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-												</svg>
-												<span class="text-sm font-medium">{project.name}</span>
+										<div class="absolute inset-0 bg-gradient-to-br from-gray-700/50 via-gray-800/60 to-black/70 flex items-center justify-center group-hover:from-yellow-400/20 group-hover:via-orange-500/15 group-hover:to-red-600/20 transition-all duration-500" style="display: none;">
+											<div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,255,255,0.1)_1px,transparent_1px),radial-gradient(circle_at_70%_60%,rgba(255,193,7,0.15)_1px,transparent_1px)] bg-[length:40px_40px] group-hover:animate-pulse"></div>
+											<!-- Centered Content Container -->
+											<div class="text-white/95 z-10 flex flex-col items-center justify-center gap-4 group-hover:scale-110 transition-transform duration-500 w-full h-full px-6 py-8">
+												<div class="relative flex-shrink-0">
+													<div class="absolute inset-0 bg-yellow-400/30 rounded-full blur-xl group-hover:bg-orange-500/40 transition-colors duration-500"></div>
+													<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="relative text-gray-300 group-hover:text-yellow-400 drop-shadow-lg transition-colors duration-500">
+														<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+														<polyline points="14,2 14,8 20,8"/>
+														<line x1="16" y1="13" x2="8" y2="13"/>
+														<line x1="16" y1="17" x2="8" y2="17"/>
+														<polyline points="10,9 9,9 8,9"/>
+													</svg>
+												</div>
+												<span class="text-lg font-semibold text-gray-200 group-hover:text-white transition-colors duration-500 text-center leading-tight">{project.name}</span>
 											</div>
 										</div>
 									{:else}
 										<!-- Default gradient when no image -->
-										<div class="w-full h-full bg-gradient-to-br from-yellow-400/20 via-orange-500/20 to-purple-600/20 flex items-center justify-center relative overflow-hidden">
-											<div class="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(255,255,255,0.1)_1px,transparent_1px),radial-gradient(circle_at_75%_75%,rgba(255,193,7,0.15)_1px,transparent_1px)] bg-[length:20px_20px] animate-pulse"></div>
-											<div class="text-white/80 z-10 flex flex-col items-center gap-2">
-												<svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" class="drop-shadow-lg">
-													<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-												</svg>
-												<span class="text-sm font-medium">{project.name}</span>
+										<div class="w-full h-full bg-gradient-to-br from-gray-700/50 via-gray-800/60 to-black/70 flex items-center justify-center relative overflow-hidden group-hover:from-yellow-400/20 group-hover:via-orange-500/15 group-hover:to-red-600/20 transition-all duration-500">
+											<div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,255,255,0.1)_1px,transparent_1px),radial-gradient(circle_at_70%_60%,rgba(255,193,7,0.15)_1px,transparent_1px)] bg-[length:40px_40px] group-hover:animate-pulse"></div>
+											<!-- Centered Content Container -->
+											<div class="text-white/95 z-10 flex flex-col items-center justify-center gap-4 group-hover:scale-110 transition-transform duration-500 w-full h-full px-6 py-8">
+												<div class="relative flex-shrink-0">
+													<div class="absolute inset-0 bg-yellow-400/30 rounded-full blur-xl group-hover:bg-orange-500/40 transition-colors duration-500"></div>
+													<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="relative text-gray-300 group-hover:text-yellow-400 drop-shadow-lg transition-colors duration-500">
+														<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+														<polyline points="14,2 14,8 20,8"/>
+														<line x1="16" y1="13" x2="8" y2="13"/>
+														<line x1="16" y1="17" x2="8" y2="17"/>
+														<polyline points="10,9 9,9 8,9"/>
+													</svg>
+												</div>
+												<span class="text-lg font-semibold text-gray-200 group-hover:text-white transition-colors duration-500 text-center leading-tight">{project.name}</span>
 											</div>
 										</div>
 									{/if}
@@ -384,11 +405,11 @@
 <!-- All Projects -->
 {#if projects.length > 0}
 	<section class="all-projects-section">
-		<div class="mb-12 text-right">
-			<h2 class="mb-4 text-4xl font-bold text-white">
+		<div class="mb-12 text-center">
+			<h2 class="mb-4 text-5xl font-bold text-white drop-shadow-2xl tracking-tight">
 				All Projects
 			</h2>
-			<p class="ml-auto max-w-2xl text-xl text-gray-400">Browse all my repositories</p>
+			<p class="mx-auto max-w-2xl text-xl text-gray-300 font-medium">Browse all my repositories and open source contributions</p>
 		</div>
 
 		{#if showAllProjects}
@@ -406,12 +427,12 @@
 
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 			{#each displayedProjects as project (project.id)}
-				<article class="bg-gradient-to-br from-slate-800/50 to-slate-900/30 backdrop-blur-xl rounded-2xl p-6 border border-white/10 transition-all duration-300 hover:border-yellow-400/30 hover:-translate-y-1 hover:shadow-xl hover:shadow-yellow-400/10">
+				<article class="bg-gradient-to-br from-gray-800/60 to-black/80 backdrop-blur-xl rounded-2xl p-6 border border-gray-700/30 transition-all duration-300 hover:border-yellow-400/30 hover:-translate-y-1 hover:shadow-xl hover:shadow-yellow-400/10">
 					<!-- Simple content layout -->
 					<div class="flex items-start justify-between mb-4">
 						<h3 class="text-lg font-bold text-white leading-tight flex-grow pr-3">{project.name}</h3>
 						{#if project.language}
-							<span class="text-xs px-2.5 py-1 rounded-full font-medium {getLanguageColorClass(project.language)} bg-opacity-20 border border-current shrink-0">
+							<span class="text-xs px-3 py-1.5 rounded-full font-semibold text-white {getLanguageColorClass(project.language)} shadow-lg shrink-0">
 								{project.language}
 							</span>
 						{/if}

@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { skills, randomizedSkills, skillCategories, getSkillLevel } from '../../../ts/code/skillsSection';
+	// ===== IMPORTS =====
+	import { 
+		skills, 
+		randomizedSkills, 
+		skillCategories, 
+		getSkillLevel 
+	} from '../../../ts/code/skillsSection';
 	import type { Skill } from '../../../ts/code/skillsSection';
 
 	// Component state

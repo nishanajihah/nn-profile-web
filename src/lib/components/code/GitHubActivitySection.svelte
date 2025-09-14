@@ -1,24 +1,23 @@
 <script lang="ts">
-	// ===== GITHUB ACTIVITY COMPONENT =====
-	// Displays GitHub contribution calendar, stats overview, and recent activity feed
-	
+	// ===== IMPORTS =====
 	import type { 
 		GitHubEvent, 
 		ContributionsData
-		// ContributionActivity  // TODO: Will be used when implementing real contribution data
+	} from '../../../ts/code/githubActivitySection';
+	import { 
+		formatEventDate,
+		getEventAction
 	} from '../../../ts/code/githubActivitySection';
 	
 	// ===== COMPONENT PROPS =====
 	export let githubEvents: GitHubEvent[] = [];
 	export let contributionsData: ContributionsData = { total: 0, lastYear: 0, streak: 0, publicRepos: 0 };
-	// export let contributionActivity: ContributionActivity = []; // TODO: Implement real contribution data
 	export let projectsCount: number = 0;
 	
 	// ===== DOM REFERENCES =====
 	let recentActivitySection: HTMLElement;
 	
 	// ===== INTERACTION HANDLERS =====
-	// Handle clicking on Recent Events card to scroll to activity feed
 	function handleRecentEventsClick() {
 		if (recentActivitySection) {
 			recentActivitySection.scrollIntoView({ 
@@ -38,11 +37,11 @@
 </script>
 
 <!-- GitHub Activity Section -->
-<section class="relative py-16 bg-gradient-to-br from-gray-900/15 to-gray-800/10 rounded-3xl my-16 border border-slate-600/10 backdrop-blur-md">
+<section class="relative py-16 bg-gradient-to-br from-gray-800/40 to-black/60 rounded-3xl my-16 border border-gray-700/20 backdrop-blur-md">
 	<!-- Activity Overview Cards -->
 	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 px-8">
 		<!-- Total Contributions -->
-		<div class="bg-white/[0.03] border border-white/10 rounded-xl p-6 backdrop-blur-md transition-all duration-300 flex flex-col gap-4 relative overflow-hidden hover:translate-y-[-2px] hover:border-yellow-400/30 hover:bg-white/[0.06] before:content-[''] before:absolute before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-gradient-to-r before:from-transparent before:via-yellow-400/5 before:to-transparent before:transition-all before:duration-500 hover:before:left-full">
+		<div class="bg-gradient-to-br from-gray-800/60 to-black/80 border border-gray-700/30 rounded-xl p-6 backdrop-blur-md transition-all duration-300 flex flex-col gap-4 relative overflow-hidden hover:translate-y-[-2px] hover:border-yellow-400/30 hover:from-gray-700/70 hover:to-black/90 before:content-[''] before:absolute before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-gradient-to-r before:from-transparent before:via-yellow-400/5 before:to-transparent before:transition-all before:duration-500 hover:before:left-full">
 			<div class="flex items-center gap-3">
 				<span class="text-xl opacity-80 transition-opacity duration-300 hover:opacity-100">📊</span>
 				<span class="text-gray-300 font-medium">Total Contributions</span>
@@ -51,7 +50,7 @@
 		</div>
 
 		<!-- This Year -->
-		<div class="bg-white/[0.03] border border-white/10 rounded-xl p-6 backdrop-blur-md transition-all duration-300 flex flex-col gap-4 relative overflow-hidden hover:translate-y-[-2px] hover:border-yellow-400/30 hover:bg-white/[0.06] before:content-[''] before:absolute before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-gradient-to-r before:from-transparent before:via-yellow-400/5 before:to-transparent before:transition-all before:duration-500 hover:before:left-full">
+		<div class="bg-gradient-to-br from-gray-800/60 to-black/80 border border-gray-700/30 rounded-xl p-6 backdrop-blur-md transition-all duration-300 flex flex-col gap-4 relative overflow-hidden hover:translate-y-[-2px] hover:border-yellow-400/30 hover:from-gray-700/70 hover:to-black/90 before:content-[''] before:absolute before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-gradient-to-r before:from-transparent before:via-yellow-400/5 before:to-transparent before:transition-all before:duration-500 hover:before:left-full">
 			<div class="flex items-center gap-3">
 				<span class="text-xl opacity-80 transition-opacity duration-300 hover:opacity-100">📈</span>
 				<span class="text-gray-300 font-medium">This Year</span>
@@ -60,7 +59,7 @@
 		</div>
 
 		<!-- Activity Streak -->
-		<div class="bg-white/[0.03] border border-white/10 rounded-xl p-6 backdrop-blur-md transition-all duration-300 flex flex-col gap-4 relative overflow-hidden hover:translate-y-[-2px] hover:border-yellow-400/30 hover:bg-white/[0.06] before:content-[''] before:absolute before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-gradient-to-r before:from-transparent before:via-yellow-400/5 before:to-transparent before:transition-all before:duration-500 hover:before:left-full">
+		<div class="bg-gradient-to-br from-gray-800/60 to-black/80 border border-gray-700/30 rounded-xl p-6 backdrop-blur-md transition-all duration-300 flex flex-col gap-4 relative overflow-hidden hover:translate-y-[-2px] hover:border-yellow-400/30 hover:from-gray-700/70 hover:to-black/90 before:content-[''] before:absolute before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-gradient-to-r before:from-transparent before:via-yellow-400/5 before:to-transparent before:transition-all before:duration-500 hover:before:left-full">
 			<div class="flex items-center gap-3">
 				<span class="text-xl opacity-80 transition-opacity duration-300 hover:opacity-100">🔥</span>
 				<span class="text-gray-300 font-medium">Activity Streak</span>
@@ -69,7 +68,7 @@
 		</div>
 
 		<!-- Public Repos -->
-		<div class="bg-white/[0.03] border border-white/10 rounded-xl p-6 backdrop-blur-md transition-all duration-300 flex flex-col gap-4 relative overflow-hidden hover:translate-y-[-2px] hover:border-yellow-400/30 hover:bg-white/[0.06] before:content-[''] before:absolute before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-gradient-to-r before:from-transparent before:via-yellow-400/5 before:to-transparent before:transition-all before:duration-500 hover:before:left-full">
+		<div class="bg-gradient-to-br from-gray-800/60 to-black/80 border border-gray-700/30 rounded-xl p-6 backdrop-blur-md transition-all duration-300 flex flex-col gap-4 relative overflow-hidden hover:translate-y-[-2px] hover:border-yellow-400/30 hover:from-gray-700/70 hover:to-black/90 before:content-[''] before:absolute before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-gradient-to-r before:from-transparent before:via-yellow-400/5 before:to-transparent before:transition-all before:duration-500 hover:before:left-full">
 			<div class="flex items-center gap-3">
 				<span class="text-xl opacity-80 transition-opacity duration-300 hover:opacity-100">📂</span>
 				<span class="text-gray-300 font-medium">Public Repos</span>
@@ -82,7 +81,7 @@
 	<div class="mb-12 px-8">
 		<div class="bg-white/[0.02] border border-white/10 rounded-2xl p-8 backdrop-blur-md">
 			<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
-				<h3 class="text-2xl font-bold text-white">Contribution Activity (Debug: {githubEvents.length} events)</h3>
+				<h3 class="text-2xl font-bold text-white drop-shadow-lg">Contribution Activity (Debug: {githubEvents.length} events)</h3>
 				<div class="flex items-center gap-3 text-sm">
 					<span class="text-gray-400">Less</span>
 					<div class="flex gap-1">
@@ -155,10 +154,10 @@
 	<!-- Recent Activity Feed -->
 	<div class="px-8" bind:this={recentActivitySection}>
 		<div class="bg-white/[0.02] border border-white/10 rounded-2xl p-8 backdrop-blur-md">
-			<h3 class="text-2xl font-bold text-white mb-6">Recent Activity</h3>
+			<h3 class="text-2xl font-bold text-white drop-shadow-lg mb-6">Recent Activity</h3>
 			<div class="space-y-4">
 				{#each githubEvents.slice(0, 8) as event, index}
-					<div class="flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-xl transition-all duration-300 hover:bg-white/[0.04] hover:border-white/10 opacity-0 animate-[fadeInUp_0.6s_ease-out_forwards]" style="animation-delay: {index * 0.1}s">
+					<div class="flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-xl transition-all duration-300 hover:bg-white/[0.04] hover:border-white/10">
 						<div class="flex flex-col gap-1">
 							<span class="text-white font-medium">
 								{event.type?.replace(/([A-Z])/g, ' $1').trim() || 'Activity'}

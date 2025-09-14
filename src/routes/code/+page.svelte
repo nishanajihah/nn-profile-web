@@ -17,30 +17,10 @@
 	import SkillsSection from '$lib/components/code/SkillsSection.svelte';
 	import GitHubActivitySection from '$lib/components/code/GitHubActivitySection.svelte';
 	import ProjectsSection from '$lib/components/code/ProjectsSection.svelte';
+	import type { Project } from '../../ts/code/projectsSection';
 
 	// Register GSAP plugins
 	gsap.registerPlugin(ScrollTrigger);
-
-	// ===== TYPES & INTERFACES =====
-	interface Project {
-		id: number;
-		name: string;
-		description: string;
-		html_url: string;
-		stargazers_count: number;
-		forks_count: number;
-		language: string;
-		languageColor: string;
-		topics: string[];
-		demo_url?: string;
-		readme_image?: string;
-		created_at: string;
-		updated_at: string;
-		pushed_at: string;
-		homepage?: string;
-		size: number;
-		languages?: string[];
-	}
 
 	// ===== STATE MANAGEMENT =====
 	// Loading and error states
@@ -112,11 +92,11 @@
 			contributionsData = data.contributions;
 			contributionActivity = data.contributionActivity || [];
 
-			console.log('Data loaded successfully:');
-			console.log('Projects:', projects.length);
-			console.log('Pinned projects:', pinnedProjects.length);
-			console.log('GitHub events:', githubEvents.length);
-			console.log('Contributions data:', contributionsData);
+			console.log('Final data assignments:');
+			console.log('- projects:', projects.length);
+			console.log('- pinnedProjects:', pinnedProjects.length);
+			console.log('- githubEvents:', githubEvents.length);
+			console.log('- contributionsData:', contributionsData);
 
 			isLoading = false;
 		} catch (err: unknown) {
