@@ -112,17 +112,71 @@
 </script>
 
 <PageLayout
-	title="Code & Projects"
+	title=""
 	subtitle="Exploring the intersection of code and creativity through web development, audio applications, and innovative digital experiences"
 >
-	<div class="w-full max-w-[var(--container-width)] mx-auto px-4">
+	<!-- Main Container with Sidebar Layout -->
+	<div class="flex">
+		<!-- Left Sidebar - Vertical CODE Title -->
+		<div class="absolute left-4 top-20 z-50 flex flex-col items-center h-screen justify-center">
+			<div class="flex flex-col space-y-4">
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">C</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">O</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">D</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">E</span>
+			</div>
+		</div>
+
+		<!-- Right Sidebar - Vertical LANGUAGE Title (positioned at Skills section level) -->
+		<div class="fixed right-48 z-50 flex flex-col items-center" style="top: 180vh;">
+			<div class="flex flex-col space-y-6">
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">L</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">A</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">N</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">G</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">U</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">A</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">G</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">E</span>
+			</div>
+		</div>
+
+		<!-- Left Sidebar - Vertical PROGRESS Title (positioned at GitHub section level) -->
+		<div class="absolute left-4 z-50 flex flex-col items-center" style="top: 300vh;">
+			<div class="flex flex-col space-y-4">
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">P</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">R</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">O</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">G</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">R</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">E</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">S</span>
+				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">S</span>
+			</div>
+		</div>
+		
+		<!-- Main Content Area with Left and Right Margins -->
+		<div class="w-full ml-40 lg:ml-48 mr-48 lg:mr-56">
+			<div class="w-full max-w-[var(--container-width)] mx-auto px-4">
 		{#if isLoading}
-			<!-- Loading State -->
-			<div class="flex flex-col items-center justify-center py-20">
-				<div
-					class="border-primary mb-6 h-16 w-16 animate-spin rounded-full border-t-2 border-b-2"
-				></div>
-				<p class="text-lg text-gray-400">Loading projects...</p>
+			<!-- Enhanced Loading State -->
+			<div class="loading-container">
+				<div class="loading-content">
+					<div class="loading-spinner">
+						<div class="spinner-ring"></div>
+						<div class="spinner-ring"></div>
+						<div class="spinner-ring"></div>
+					</div>
+					<div class="loading-text">
+						<h3>Loading Portfolio</h3>
+						<p>Fetching projects and data...</p>
+						<div class="loading-dots">
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
+					</div>
+				</div>
 			</div>
 		{:else if error}
 			<!-- Error State -->
@@ -400,26 +454,168 @@
 				</section>
 			</div>
 		{/if}
+		</div>
 	</div>
+</div>
 </PageLayout>
 
 <style>
-@media (max-width: 640px) {
-	.skill-title {
-		font-size: 2.5rem !important;
-	}
-	.modern-subtitle .subtitle-text {
-		font-size: 1rem !important;
-	}
+/* ===== LOADING STYLES ===== */
+.loading-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 400px;
+	padding: 2rem;
 }
-@media (max-width: 480px) {
-	.skill-title {
-		font-size: 1.8rem !important;
-	}
-	.modern-subtitle .subtitle-text {
-		font-size: 0.9rem !important;
-	}
+
+.loading-content {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
 }
+
+.loading-spinner {
+	position: relative;
+	width: 80px;
+	height: 80px;
+}
+
+.spinner-ring {
+	position: absolute;
+	border: 4px solid transparent;
+	border-radius: 50%;
+	animation: spin 2s linear infinite;
+}
+
+.spinner-ring:nth-child(1) {
+	width: 80px;
+	height: 80px;
+	border-top-color: #fbbf24;
+}
+
+.spinner-ring:nth-child(2) {
+	width: 60px;
+	height: 60px;
+	top: 10px;
+	left: 10px;
+	border-top-color: #f59e0b;
+	animation-delay: -0.5s;
+	animation-direction: reverse;
+}
+
+.spinner-ring:nth-child(3) {
+	width: 40px;
+	height: 40px;
+	top: 20px;
+	left: 20px;
+	border-top-color: #fbbf24;
+	animation-delay: -1s;
+}
+
+.loading-text h3 {
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: white;
+	margin-bottom: 0.5rem;
+}
+
+.loading-text p {
+	color: #9ca3af;
+	margin-bottom: 1rem;
+}
+
+.loading-dots {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.loading-dots span {
+	width: 8px;
+	height: 8px;
+	background: #fbbf24;
+	border-radius: 50%;
+	animation: loadingDots 1.4s ease-in-out infinite both;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+.loading-dots span:nth-child(3) { animation-delay: 0s; }
+
+/* ===== SKILL TITLE STYLES ===== */
+.skill-title span:hover {
+	color: #ffde21;
+	text-shadow: 0 0 10px #ffde21, 0 0 20px #ffd700, 0 0 30px #ffde21;
+	transform: scale(1.2) rotateY(360deg);
+}
+
+/* ===== MODERN SUBTITLE STYLES ===== */
+.modern-subtitle {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 1.5rem;
+}
+
+.subtitle-row {
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.subtitle-text {
+	font-size: 1.2rem;
+	font-weight: 700;
+	color: white;
+	background: linear-gradient(135deg, #ffffff 0%, #ffde21 50%, #ffd700 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	text-shadow: 0 2px 10px rgba(255, 222, 33, 0.3);
+	letter-spacing: 1px;
+	animation: subtitleGlow 3s ease-in-out infinite;
+	white-space: nowrap;
+}
+
+.subtitle-accent {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+	animation: accentPulse 2s ease-in-out infinite;
+	flex-shrink: 0;
+}
+
+.accent-dot {
+	width: 8px;
+	height: 8px;
+	background: linear-gradient(135deg, #ffde21, #ffd700);
+	border-radius: 50%;
+	box-shadow: 0 0 10px rgba(255, 222, 33, 0.6), 0 0 20px rgba(255, 222, 33, 0.3);
+	animation: dotFloat 2s ease-in-out infinite;
+}
+
+.accent-dot:nth-child(3) {
+	animation-delay: 1s;
+}
+
+.accent-line {
+	width: 40px;
+	height: 2px;
+	background: linear-gradient(90deg, transparent, #ffde21, #ffd700, #ffde21, transparent);
+	border-radius: 1px;
+	animation: lineExtend 3s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+	animation: spin-slow 10s linear infinite;
+}
+
+/* ===== RESPONSIVE STYLES ===== */
 @media (max-width: 640px) {
 	.skill-title {
 		font-size: 2rem !important;
@@ -431,6 +627,7 @@
 		gap: 0.5rem !important;
 	}
 }
+
 @media (max-width: 480px) {
 	.skill-title {
 		font-size: 1.3rem !important;
@@ -439,541 +636,68 @@
 		font-size: 0.9rem !important;
 	}
 }
-	/* ===== GLOBAL CSS ===== */
-	/* ===== ANIMATIONS ===== */
-	/* Enhanced animations and effects */
-	@keyframes fadeInUp {
-		from {
-			opacity: 0;
-			transform: translateY(30px) scale(0.9);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0) scale(1);
-		}
-	}
 
-	@keyframes float {
-		0%,
-		100% {
-			transform: translateY(0px) rotate(0deg);
-		}
-		25% {
-			transform: translateY(-15px) rotate(90deg);
-		}
-		50% {
-			transform: translateY(-20px) rotate(180deg);
-		}
-		75% {
-			transform: translateY(-10px) rotate(270deg);
-		}
-	}
+/* ===== ANIMATIONS ===== */
+@keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
 
-	@keyframes float-reverse {
-		0%,
-		100% {
-			transform: translateY(0px) rotate(360deg);
-		}
-		25% {
-			transform: translateY(-10px) rotate(270deg);
-		}
-		50% {
-			transform: translateY(-15px) rotate(180deg);
-		}
-		75% {
-			transform: translateY(-8px) rotate(90deg);
-		}
-	}
+@keyframes spin-slow {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
 
-	@keyframes shine {
-		0% {
-			transform: translateX(-100%) skewX(-12deg);
-		}
-		100% {
-			transform: translateX(200%) skewX(-12deg);
-		}
+@keyframes loadingDots {
+	0%, 80%, 100% {
+		transform: scale(0);
+		opacity: 0.5;
 	}
-
-	@keyframes count-up {
-		from {
-			transform: scale(0.5);
-			opacity: 0;
-		}
-		to {
-			transform: scale(1);
-			opacity: 1;
-		}
+	40% {
+		transform: scale(1);
+		opacity: 1;
 	}
+}
 
-	@keyframes fade-in-up {
-		from {
-			opacity: 0;
-			transform: translateY(20px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
-	@keyframes pulse-glow {
-		0%,
-		100% {
-			box-shadow:
-				0 0 5px currentColor,
-				0 0 10px currentColor,
-				0 0 15px currentColor;
-			transform: scale(1);
-		}
-		50% {
-			box-shadow:
-				0 0 10px currentColor,
-				0 0 20px currentColor,
-				0 0 30px currentColor;
-			transform: scale(1.05);
-		}
-	}
-
-	@keyframes bounce-in {
-		0% {
-			transform: scale(0.3);
-			opacity: 0;
-		}
-		50% {
-			transform: scale(1.05);
-		}
-		70% {
-			transform: scale(0.9);
-		}
-		100% {
-			transform: scale(1);
-			opacity: 1;
-		}
-	}
-
-	@keyframes slide-in-left {
-		from {
-			transform: translateX(-50px);
-			opacity: 0;
-		}
-		to {
-			transform: translateX(0);
-			opacity: 1;
-		}
-	}
-
-	/* Skill title animation */
-	.skill-title span:hover {
-		color: #ffde21;
-		text-shadow:
-			0 0 10px #ffde21,
-			0 0 20px #ffd700,
-			0 0 30px #ffde21;
-		transform: scale(1.2) rotateY(360deg);
-	}
-
-	/* ===== PROJECTS MAIN TITLE ANIMATIONS ===== */
-	/* Clean and simple animation for main Projects title */
-	@keyframes smoothSlideUp {
-		0% {
-			opacity: 0;
-			transform: translateY(30px);
-		}
-		100% {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
-	@keyframes slideInFromLeft {
-		0% {
-			opacity: 0;
-			transform: translateX(-30px);
-		}
-		100% {
-			opacity: 1;
-			transform: translateX(0);
-		}
-	}
-
-	@keyframes slideInFromRight {
-		0% {
-			opacity: 0;
-			transform: translateX(30px);
-		}
-		100% {
-			opacity: 1;
-			transform: translateX(0);
-		}
-	}
-
-	@keyframes lineGrowDown {
-		0% {
-			height: 0;
-		}
-		100% {
-			height: 40px;
-		}
-	}
-
-	/* CSS Variables for dynamic colors */
-	:root {
-		--primary-rgb: 0, 245, 255;
-	}
-
-	@keyframes pulse-glow {
-		0%,
-		100% {
-			box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
-		}
-		50% {
-			box-shadow:
-				0 0 40px rgba(0, 245, 255, 0.6),
-				0 0 60px rgba(0, 245, 255, 0.3);
-		}
-	}
-
-	@keyframes spin-slow {
-		from {
-			transform: rotate(0deg);
-		}
-		to {
-			transform: rotate(360deg);
-		}
-	}
-
-	@keyframes spin-reverse {
-		from {
-			transform: rotate(360deg);
-		}
-		to {
-			transform: rotate(0deg);
-		}
-	}
-
-	@keyframes text-gradient {
-		0%,
-		100% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-	}
-
-	@keyframes shine {
-		0% {
-			transform: translateX(-100%) skewX(-12deg);
-		}
-		100% {
-			transform: translateX(200%) skewX(-12deg);
-		}
-	}
-
-	.animate-spin-slow {
-		animation: spin-slow 10s linear infinite;
-	}
-
-	/* Modern Subtitle Design */
-	.modern-subtitle {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		margin-top: 1.5rem;
-	}
-
-	.subtitle-row {
-		display: flex;
-		align-items: center;
-		gap: 1.5rem;
-		flex-wrap: wrap;
-		justify-content: center;
-	}
-
-	.subtitle-text {
-		font-size: 1.2rem;
-		font-weight: 700;
-		color: white;
-		background: linear-gradient(135deg, #ffffff 0%, #ffde21 50%, #ffd700 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
+@keyframes subtitleGlow {
+	0%, 100% {
 		text-shadow: 0 2px 10px rgba(255, 222, 33, 0.3);
-		letter-spacing: 1px;
-		animation: subtitleGlow 3s ease-in-out infinite;
-		white-space: nowrap;
+		transform: scale(1);
 	}
-
-	.subtitle-accent {
-		display: flex;
-		align-items: center;
-		gap: 0.8rem;
-		animation: accentPulse 2s ease-in-out infinite;
-		flex-shrink: 0;
+	50% {
+		text-shadow: 0 4px 20px rgba(255, 222, 33, 0.6);
+		transform: scale(1.02);
 	}
+}
 
-	.accent-dot {
-		width: 8px;
-		height: 8px;
-		background: linear-gradient(135deg, #ffde21, #ffd700);
-		border-radius: 50%;
-		box-shadow:
-			0 0 10px rgba(255, 222, 33, 0.6),
-			0 0 20px rgba(255, 222, 33, 0.3);
-		animation: dotFloat 2s ease-in-out infinite;
+@keyframes accentPulse {
+	0%, 100% {
+		opacity: 1;
+		transform: scale(1);
 	}
-
-	.accent-dot:nth-child(3) {
-		animation-delay: 1s;
+	50% {
+		opacity: 0.7;
+		transform: scale(1.1);
 	}
+}
 
-	.accent-line {
-		width: 40px;
-		height: 2px;
-		background: linear-gradient(90deg, transparent, #ffde21, #ffd700, #ffde21, transparent);
-		border-radius: 1px;
-		animation: lineExtend 3s ease-in-out infinite;
+@keyframes dotFloat {
+	0%, 100% {
+		transform: translateY(0);
 	}
-
-	@keyframes subtitleGlow {
-		0%,
-		100% {
-			text-shadow: 0 2px 10px rgba(255, 222, 33, 0.3);
-			transform: scale(1);
-		}
-		50% {
-			text-shadow: 0 4px 20px rgba(255, 222, 33, 0.6);
-			transform: scale(1.02);
-		}
+	50% {
+		transform: translateY(-5px);
 	}
+}
 
-	@keyframes accentPulse {
-		0%,
-		100% {
-			opacity: 1;
-			transform: scale(1);
-		}
-		50% {
-			opacity: 0.7;
-			transform: scale(1.1);
-		}
+@keyframes lineExtend {
+	0%, 100% {
+		transform: scaleX(1);
+		opacity: 1;
 	}
-
-	@keyframes dotFloat {
-		0%,
-		100% {
-			transform: translateY(0);
-		}
-		50% {
-			transform: translateY(-5px);
-		}
-	}
-
-	@keyframes lineExtend {
-		0%,
-		100% {
-			transform: scaleX(1);
-			opacity: 1;
-		}
-		50% {
-			transform: scaleX(1.2);
-			opacity: 0.8;
-		}
-	}
-
-	@keyframes fadeInOut {
-		0%,
-		100% {
-			opacity: 0.8;
-		}
-		50% {
-			opacity: 1;
-		}
-	}
-
-	/* CSS Variables for dynamic colors */
-	:root {
-		--primary-rgb: 0, 245, 255;
-	}
-
-	/* ===== TITLE AND SUBTITLE STYLES FOR GITHUB ACTIVITY ===== */
-	/* Keep title and subtitle styles since they remain in the main page */
-
-	/* Animated Title Styling - Matching Projects Section */
-	.github-main-title-container {
-		position: relative;
-		padding: 0.5rem 0;
-	}
-
-	.github-main-title {
-		font-family: 'JetBrains Mono', monospace;
-		position: relative;
-		display: inline-block;
-		color: white !important;
-		text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-		filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
-		font-size: 4rem;
-		font-weight: 700;
-		letter-spacing: -0.05em; /* Tighten letter spacing */
-	}
-
-	.circle-swirl-icon {
-		display: inline-block;
-		font-size: 2.5rem;
-		color: #facc15;
-		margin: 0 0.8rem;
-		animation: continuousRotate 3s linear infinite;
-		transform-origin: center;
+	50% {
+		transform: scaleX(1.2);
 		opacity: 0.8;
-		transition: all 0.3s ease;
 	}
-
-	.circle-swirl-icon:hover {
-		opacity: 1;
-		color: #ffde21;
-		transform: scale(1.2);
-		animation: fastRotate 0.5s linear infinite;
-	}
-
-	@keyframes continuousRotate {
-		0% {
-			transform: rotate(0deg);
-		}
-		100% {
-			transform: rotate(360deg);
-		}
-	}
-
-	@keyframes fastRotate {
-		0% {
-			transform: scale(1.2) rotate(0deg);
-		}
-		100% {
-			transform: scale(1.2) rotate(360deg);
-		}
-	}
-
-	.smooth-letter {
-		display: inline-block;
-		opacity: 1;
-		color: white !important;
-		animation: simpleSlideIn 0.6s ease-out forwards;
-		transition: all 0.5s ease;
-		cursor: pointer;
-		transform-origin: center; /* Ensure proper rotation center */
-		margin: 0 -0.02em; /* Slight negative margin to bring letters closer */
-	}
-
-	.smooth-letter:hover {
-		color: #facc15 !important;
-		transform: translateY(-5px) scale(1.1) rotateZ(360deg);
-		text-shadow: 0 0 20px rgba(250, 204, 21, 0.8);
-		filter: drop-shadow(0 8px 25px rgba(250, 204, 21, 0.6));
-		animation: letterSpin 0.6s ease-in-out;
-	}
-
-	@keyframes letterSpin {
-		0% {
-			transform: translateY(0) scale(1) rotateZ(0deg);
-		}
-		50% {
-			transform: translateY(-8px) scale(1.15) rotateZ(180deg);
-		}
-		100% {
-			transform: translateY(-5px) scale(1.1) rotateZ(360deg);
-		}
-	}
-
-	@keyframes simpleSlideIn {
-		0% {
-			opacity: 0;
-			transform: translateX(-30px);
-		}
-		100% {
-			opacity: 1;
-			transform: translateX(0);
-		}
-	}
-
-	/* Modern Subtitle - Matching Projects */
-	.modern-subtitle.github-subtitle {
-		position: relative;
-		padding: 0.5rem 0; /* Reduced from 1rem to 0.5rem */
-	}
-
-	.modern-subtitle .subtitle-row {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 1.5rem;
-		flex-wrap: wrap;
-	}
-
-	.modern-subtitle .subtitle-text {
-		font-size: 1.25rem;
-		color: rgba(255, 255, 255, 0.8);
-		font-weight: 500;
-		letter-spacing: 0.05em;
-		position: relative;
-	}
-
-	.modern-subtitle .subtitle-accent {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		position: relative;
-	}
-
-	.modern-subtitle .accent-dot {
-		width: 8px;
-		height: 8px;
-		border-radius: 50%;
-		background: linear-gradient(45deg, #facc15, #eab308);
-		box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
-		animation: pulse 2s ease-in-out infinite;
-	}
-
-	.modern-subtitle .accent-line {
-		width: 60px;
-		height: 2px;
-		background: linear-gradient(90deg, transparent, #facc15, transparent);
-		position: relative;
-		overflow: hidden;
-	}
-
-	.modern-subtitle .accent-line::after {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: -100%;
-		width: 100%;
-		height: 100%;
-		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-		animation: shimmer 3s ease-in-out infinite;
-	}
-
-	@keyframes shimmer {
-		0% {
-			left: -100%;
-		}
-		50% {
-			left: 100%;
-		}
-		100% {
-			left: 100%;
-		}
-	}
-
-	/* Responsive Design for Title */
-	@media (max-width: 768px) {
-		.github-main-title {
-			font-size: 3rem;
-		}
-	}
-
-	@media (max-width: 480px) {
-		.github-main-title {
-			font-size: 2.5rem;
-		}
-	}
+}
 </style>
