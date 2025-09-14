@@ -144,30 +144,52 @@
 				<!-- Main Projects Title -->
 				<section class="text-center">
 					<div class="mb-8">
-						<h1 class="mb-6 text-6xl font-bold text-white"
-						style="background: linear-gradient(135deg, #ffffff 0%, #ffde21 50%, #ffd700 100%); 
-						-webkit-background-clip: text; 
-						-webkit-text-fill-color: transparent; 
-						background-clip: text; 
-						text-shadow: 0 4px 20px rgba(255, 222, 33, 0.3);">
-							<span class="smooth-letter" style="animation-delay: 0.1s;">P</span>
-							<span class="smooth-letter" style="animation-delay: 0.15s;">r</span>
-							<span class="smooth-letter" style="animation-delay: 0.2s;">o</span>
-							<span class="smooth-letter" style="animation-delay: 0.25s;">j</span>
-							<span class="smooth-letter" style="animation-delay: 0.3s;">e</span>
-							<span class="smooth-letter" style="animation-delay: 0.35s;">c</span>
-							<span class="smooth-letter" style="animation-delay: 0.4s;">t</span>
-							<span class="smooth-letter" style="animation-delay: 0.45s;">s</span>
-						</h1>
-						<div class="flex items-center justify-center gap-8 mt-4">
-							<div class="flex items-center gap-3">
-								<span class="text-xl text-gray-300 font-medium tracking-wide">From Concept To Deployment</span>
-								<div class="flex items-center gap-2">
-									<span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
-									<span class="w-12 h-[1px] bg-gradient-to-r from-yellow-400 to-transparent"></span>
-									<span class="w-2 h-2 bg-yellow-400 rounded-full"></span>
+						<div class="skill-title-container mb-8 w-full">
+							<h1 class="skill-title perspective-1000 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									>P</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 0.1s;">r</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									style="animation-delay: 0.2s;">o</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 0.3s;">j</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									style="animation-delay: 0.4s;">e</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 0.5s;">c</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									style="animation-delay: 0.6s;">t</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 0.7s;">s</span
+								>
+								<span class="text-primary animate-spin-slow mx-6 text-7xl">🚀</span>
+							</h1>
+							<div class="modern-subtitle w-full">
+								<div class="subtitle-row flex flex-wrap gap-2 sm:gap-4 justify-center items-center w-full">
+									<span class="subtitle-text text-sm sm:text-base md:text-lg lg:text-xl">From Concept To Deployment</span>
+									<div class="subtitle-accent flex gap-1 sm:gap-2">
+										<span class="accent-dot"></span>
+										<span class="accent-line"></span>
+										<span class="accent-dot"></span>
+									</div>
+									<span class="subtitle-text text-sm sm:text-base md:text-lg lg:text-xl">Bringing Ideas To Life</span>
 								</div>
-								<span class="text-xl text-gray-300 font-medium tracking-wide">Bringing Ideas To Life</span>
 							</div>
 						</div>
 					</div>
@@ -295,33 +317,75 @@
 				<!-- GitHub Activity -->
 				<section>
 					<div class="mb-12 text-center">
-						<div class="github-main-title-container mb-4">
-							<h2 class="github-main-title">
-								<span class="smooth-letter" style="animation-delay: 0s;">G</span>
-								<span class="smooth-letter" style="animation-delay: 0.1s;">i</span>
-								<span class="smooth-letter" style="animation-delay: 0.2s;">t</span>
-								<span class="smooth-letter" style="animation-delay: 0.3s;">H</span>
-								<span class="smooth-letter" style="animation-delay: 0.4s;">u</span>
-								<span class="smooth-letter" style="animation-delay: 0.5s;">b</span>
-								<span class="circle-swirl-icon">◉</span>
-								<span class="smooth-letter" style="animation-delay: 0.7s;">A</span>
-								<span class="smooth-letter" style="animation-delay: 0.8s;">c</span>
-								<span class="smooth-letter" style="animation-delay: 0.9s;">t</span>
-								<span class="smooth-letter" style="animation-delay: 1s;">i</span>
-								<span class="smooth-letter" style="animation-delay: 1.1s;">v</span>
-								<span class="smooth-letter" style="animation-delay: 1.2s;">i</span>
-								<span class="smooth-letter" style="animation-delay: 1.3s;">t</span>
-								<span class="smooth-letter" style="animation-delay: 1.4s;">y</span>
+						<div class="skill-title-container mb-8 w-full">
+							<h2 class="skill-title perspective-1000 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									>G</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 0.1s;">i</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									style="animation-delay: 0.2s;">t</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 0.3s;">H</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									style="animation-delay: 0.4s;">u</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 0.5s;">b</span
+								>
+								<span class="text-primary animate-spin-slow mx-6 text-7xl">💻</span>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									style="animation-delay: 0.6s;">A</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 0.7s;">c</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									style="animation-delay: 0.8s;">t</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 0.9s;">i</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									style="animation-delay: 1.0s;">v</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 1.1s;">i</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
+									style="animation-delay: 1.2s;">t</span
+								>
+								<span
+									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-400"
+									style="animation-delay: 1.3s;">y</span
+								>
 							</h2>
-							<div class="modern-subtitle github-subtitle">
-								<div class="subtitle-row">
-									<span class="subtitle-text">Code Contributions</span>
-									<div class="subtitle-accent">
+							<div class="modern-subtitle w-full">
+								<div class="subtitle-row flex flex-wrap gap-2 sm:gap-4 justify-center items-center w-full">
+									<span class="subtitle-text text-sm sm:text-base md:text-lg lg:text-xl">Code Contributions</span>
+									<div class="subtitle-accent flex gap-1 sm:gap-2">
 										<span class="accent-dot"></span>
 										<span class="accent-line"></span>
 										<span class="accent-dot"></span>
 									</div>
-									<span class="subtitle-text">Code Journey</span>
+									<span class="subtitle-text text-sm sm:text-base md:text-lg lg:text-xl">Code Journey</span>
 								</div>
 							</div>
 						</div>

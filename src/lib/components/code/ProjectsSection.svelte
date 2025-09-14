@@ -405,11 +405,11 @@
 <!-- All Projects -->
 {#if projects.length > 0}
 	<section class="all-projects-section">
-		<div class="mb-12 text-center">
+		<div class="mb-12 text-right">
 			<h2 class="mb-4 text-5xl font-bold text-white drop-shadow-2xl tracking-tight">
 				All Projects
 			</h2>
-			<p class="mx-auto max-w-2xl text-xl text-gray-300 font-medium">Browse all my repositories and open source contributions</p>
+			<p class="ml-auto max-w-2xl text-xl text-gray-300 font-medium">Browse all my repositories and open source contributions</p>
 		</div>
 
 		{#if showAllProjects}
