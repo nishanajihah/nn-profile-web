@@ -26,6 +26,7 @@
 	// Loading and error states
 	let isLoading = true;
 	let error: string | null = null;
+	let contentReady = false;
 
 	// DOM references
 	let skillsSection: HTMLElement;
@@ -98,7 +99,11 @@
 			console.log('- githubEvents:', githubEvents.length);
 			console.log('- contributionsData:', contributionsData);
 
-			isLoading = false;
+			// Small delay to ensure smooth transition
+			setTimeout(() => {
+				isLoading = false;
+				contentReady = true;
+			}, 500);
 		} catch (err: unknown) {
 			console.error('Error in onMount:', err);
 			if (err instanceof Error) {
@@ -115,65 +120,77 @@
 	title=""
 	subtitle="Exploring the intersection of code and creativity through web development, audio applications, and innovative digital experiences"
 >
-	<!-- Main Container with Sidebar Layout -->
+	<!-- Main Container with Responsive Sidebar Layout -->
 	<div class="flex">
-		<!-- Left Sidebar - Vertical CODE Title -->
-		<div class="absolute left-4 top-20 z-50 flex flex-col items-center h-screen justify-center">
-			<div class="flex flex-col space-y-4">
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">C</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">O</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">D</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">E</span>
+		{#if contentReady}
+			<!-- Mobile: Only CODE title at top for page identification -->
+			<div class="md:hidden fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+				<h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500 tracking-wider" 
+					style="-webkit-text-stroke: 2px #fbbf24; text-stroke: 2px #fbbf24;">
+					CODE
+				</h1>
 			</div>
-		</div>
 
-		<!-- Right Sidebar - Vertical LANGUAGE Title (positioned at Skills section level) -->
-		<div class="fixed right-48 z-50 flex flex-col items-center" style="top: 180vh;">
-			<div class="flex flex-col space-y-6">
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">L</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">A</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">N</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">G</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">U</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">A</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">G</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">E</span>
-			</div>
-		</div>
+			<!-- Desktop: All three vertical titles -->
+			<div class="hidden md:block">
+				<!-- Left Sidebar - Vertical CODE Title (always visible on scroll) -->
+				<div class="fixed left-4 top-20 z-50 flex flex-col items-center">
+					<div class="flex flex-col space-y-2">
+						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">C</span>
+						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">O</span>
+						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">D</span>
+						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">E</span>
+					</div>
+				</div>
 
-		<!-- Left Sidebar - Vertical PROGRESS Title (positioned at GitHub section level) -->
-		<div class="absolute left-4 z-50 flex flex-col items-center" style="top: 300vh;">
-			<div class="flex flex-col space-y-4">
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">P</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">R</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">O</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">G</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">R</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">E</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">S</span>
-				<span class="block leading-none text-transparent font-black text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">S</span>
+				<!-- Right Sidebar - Vertical LANGUAGE Title (positioned relative to skills section) -->
+				<div class="absolute z-40 flex flex-col items-center" style="right: 2rem; top: 180vh;">
+					<div class="flex flex-col space-y-4 lg:space-y-6">
+						<span class="block leading-none text-transparent font-black text-[12vh] lg:text-[15vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 4px #fbbf24; text-stroke: 4px #fbbf24;">L</span>
+						<span class="block leading-none text-transparent font-black text-[12vh] lg:text-[15vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 4px #fbbf24; text-stroke: 4px #fbbf24;">A</span>
+						<span class="block leading-none text-transparent font-black text-[12vh] lg:text-[15vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 4px #fbbf24; text-stroke: 4px #fbbf24;">N</span>
+						<span class="block leading-none text-transparent font-black text-[12vh] lg:text-[15vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 4px #fbbf24; text-stroke: 4px #fbbf24;">G</span>
+						<span class="block leading-none text-transparent font-black text-[12vh] lg:text-[15vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 4px #fbbf24; text-stroke: 4px #fbbf24;">U</span>
+						<span class="block leading-none text-transparent font-black text-[12vh] lg:text-[15vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 4px #fbbf24; text-stroke: 4px #fbbf24;">A</span>
+						<span class="block leading-none text-transparent font-black text-[12vh] lg:text-[15vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 4px #fbbf24; text-stroke: 4px #fbbf24;">G</span>
+						<span class="block leading-none text-transparent font-black text-[12vh] lg:text-[15vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 4px #fbbf24; text-stroke: 4px #fbbf24;">E</span>
+					</div>
+				</div>
+
+				<!-- Left Sidebar - Vertical PROGRESS Title (positioned relative to GitHub section) -->
+				<div class="absolute left-4 z-40 flex flex-col items-center" style="top: 300vh;">
+					<div class="flex flex-col space-y-3 lg:space-y-4">
+						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">P</span>
+						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">R</span>
+						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">O</span>
+						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">G</span>
+						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">R</span>
+						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">E</span>
+						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">S</span>
+						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">S</span>
+					</div>
+				</div>
 			</div>
-		</div>
+		{/if} <!-- Close contentReady conditional -->
 		
-		<!-- Main Content Area with Left and Right Margins -->
-		<div class="w-full ml-40 lg:ml-48 mr-48 lg:mr-56">
+		<!-- Main Content Area with Responsive Margins -->
+		<div class="w-full ml-4 md:ml-40 lg:ml-48 mr-4 md:mr-16 lg:mr-20">
 			<div class="w-full max-w-[var(--container-width)] mx-auto px-4">
 		{#if isLoading}
-			<!-- Enhanced Loading State -->
-			<div class="loading-container">
-				<div class="loading-content">
-					<div class="loading-spinner">
-						<div class="spinner-ring"></div>
-						<div class="spinner-ring"></div>
-						<div class="spinner-ring"></div>
-					</div>
-					<div class="loading-text">
-						<h3>Loading Portfolio</h3>
-						<p>Fetching projects and data...</p>
-						<div class="loading-dots">
-							<span></span>
-							<span></span>
-							<span></span>
+			<!-- Tailwind CSS Loading State -->
+			<div class="flex items-center justify-center min-h-screen">
+				<div class="text-center">
+					<!-- Spinning loader -->
+					<div class="inline-block animate-spin rounded-full h-16 w-16 border-4 border-amber-400 border-t-transparent mb-4"></div>
+					<!-- Loading text -->
+					<div class="space-y-2">
+						<h3 class="text-xl font-semibold text-white">Loading Portfolio</h3>
+						<p class="text-gray-300">Fetching projects and data...</p>
+						<!-- Animated dots -->
+						<div class="flex justify-center space-x-1">
+							<div class="w-2 h-2 bg-amber-400 rounded-full animate-bounce"></div>
+							<div class="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+							<div class="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
 						</div>
 					</div>
 				</div>
@@ -454,104 +471,12 @@
 				</section>
 			</div>
 		{/if}
-		</div>
-	</div>
-</div>
+		</div> <!-- Close max-w container -->
+	</div> <!-- Close main content area -->
+</div> <!-- Close flex container -->
 </PageLayout>
 
 <style>
-/* ===== LOADING STYLES ===== */
-.loading-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-height: 400px;
-	padding: 2rem;
-}
-
-.loading-content {
-	text-align: center;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 2rem;
-}
-
-.loading-spinner {
-	position: relative;
-	width: 80px;
-	height: 80px;
-}
-
-.spinner-ring {
-	position: absolute;
-	border: 4px solid transparent;
-	border-radius: 50%;
-	animation: spin 2s linear infinite;
-}
-
-.spinner-ring:nth-child(1) {
-	width: 80px;
-	height: 80px;
-	border-top-color: #fbbf24;
-}
-
-.spinner-ring:nth-child(2) {
-	width: 60px;
-	height: 60px;
-	top: 10px;
-	left: 10px;
-	border-top-color: #f59e0b;
-	animation-delay: -0.5s;
-	animation-direction: reverse;
-}
-
-.spinner-ring:nth-child(3) {
-	width: 40px;
-	height: 40px;
-	top: 20px;
-	left: 20px;
-	border-top-color: #fbbf24;
-	animation-delay: -1s;
-}
-
-.loading-text h3 {
-	font-size: 1.5rem;
-	font-weight: 700;
-	color: white;
-	margin-bottom: 0.5rem;
-}
-
-.loading-text p {
-	color: #9ca3af;
-	margin-bottom: 1rem;
-}
-
-.loading-dots {
-	display: flex;
-	justify-content: center;
-	gap: 0.5rem;
-}
-
-.loading-dots span {
-	width: 8px;
-	height: 8px;
-	background: #fbbf24;
-	border-radius: 50%;
-	animation: loadingDots 1.4s ease-in-out infinite both;
-}
-
-.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
-.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
-.loading-dots span:nth-child(3) { animation-delay: 0s; }
-
-/* ===== SKILL TITLE STYLES ===== */
-.skill-title span:hover {
-	color: #ffde21;
-	text-shadow: 0 0 10px #ffde21, 0 0 20px #ffd700, 0 0 30px #ffde21;
-	transform: scale(1.2) rotateY(360deg);
-}
-
 /* ===== MODERN SUBTITLE STYLES ===== */
 .modern-subtitle {
 	display: flex;
@@ -637,28 +562,7 @@
 	}
 }
 
-/* ===== ANIMATIONS ===== */
-@keyframes spin {
-	0% { transform: rotate(0deg); }
-	100% { transform: rotate(360deg); }
-}
-
-@keyframes spin-slow {
-	from { transform: rotate(0deg); }
-	to { transform: rotate(360deg); }
-}
-
-@keyframes loadingDots {
-	0%, 80%, 100% {
-		transform: scale(0);
-		opacity: 0.5;
-	}
-	40% {
-		transform: scale(1);
-		opacity: 1;
-	}
-}
-
+/* ===== ANIMATIONS (Keep essential ones for other components) ===== */
 @keyframes subtitleGlow {
 	0%, 100% {
 		text-shadow: 0 2px 10px rgba(255, 222, 33, 0.3);
@@ -678,26 +582,6 @@
 	50% {
 		opacity: 0.7;
 		transform: scale(1.1);
-	}
-}
-
-@keyframes dotFloat {
-	0%, 100% {
-		transform: translateY(0);
-	}
-	50% {
-		transform: translateY(-5px);
-	}
-}
-
-@keyframes lineExtend {
-	0%, 100% {
-		transform: scaleX(1);
-		opacity: 1;
-	}
-	50% {
-		transform: scaleX(1.2);
-		opacity: 0.8;
 	}
 }
 </style>
