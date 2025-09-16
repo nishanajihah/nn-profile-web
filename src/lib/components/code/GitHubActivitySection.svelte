@@ -37,9 +37,9 @@
 </script>
 
 <!-- GitHub Activity Section -->
-<section class="relative py-16 bg-gradient-to-br from-gray-800/40 to-black/60 rounded-3xl my-16 border border-gray-700/20 backdrop-blur-md">
+<section class="relative py-8 bg-gradient-to-br from-gray-800/40 to-black/60 rounded-3xl my-8 border border-gray-700/20 backdrop-blur-md">
 	<!-- Activity Overview Cards -->
-	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 px-8">
+	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 px-8">
 		<!-- Total Contributions -->
 		<div class="bg-gradient-to-br from-gray-800/60 to-black/80 border border-gray-700/30 rounded-xl p-6 backdrop-blur-md transition-all duration-300 flex flex-col gap-4 relative overflow-hidden hover:translate-y-[-2px] hover:border-yellow-400/30 hover:from-gray-700/70 hover:to-black/90 before:content-[''] before:absolute before:top-0 before:left-[-100%] before:w-full before:h-full before:bg-gradient-to-r before:from-transparent before:via-yellow-400/5 before:to-transparent before:transition-all before:duration-500 hover:before:left-full">
 			<div class="flex items-center gap-3">
@@ -78,7 +78,7 @@
 	</div>
 
 	<!-- GitHub-style Contribution Graph -->
-	<div class="mb-12 px-8">
+	<div class="mb-8 px-8">
 		<div class="bg-white/[0.02] border border-white/10 rounded-2xl p-8 backdrop-blur-md">
 			<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
 				<h3 class="text-2xl font-bold text-white drop-shadow-lg">Contribution Activity (Debug: {githubEvents.length} events)</h3>
@@ -154,7 +154,7 @@
 	<!-- Recent Activity Feed -->
 	<div class="px-8" bind:this={recentActivitySection}>
 		<div class="bg-white/[0.02] border border-white/10 rounded-2xl p-8 backdrop-blur-md">
-			<h3 class="text-2xl font-bold text-white drop-shadow-lg mb-6">Recent Activity</h3>
+			<h3 class="text-2xl font-bold text-white drop-shadow-lg mb-4">Recent Activity</h3>
 			<div class="space-y-4">
 				{#each githubEvents.slice(0, 8) as event, index}
 					<div class="flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-xl transition-all duration-300 hover:bg-white/[0.04] hover:border-white/10">
@@ -177,8 +177,8 @@
 					</div>
 				{/each}
 				{#if githubEvents.length === 0}
-					<div class="text-center py-8">
-						<span class="text-4xl mb-4 block">💤</span>
+					<div class="text-center py-4">
+						<span class="text-4xl mb-2 block">💤</span>
 						<p class="text-gray-400">No recent activity available</p>
 					</div>
 				{/if}

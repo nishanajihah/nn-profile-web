@@ -44,17 +44,17 @@
 					 "
 				>
 					<div
-						class="bg-gradient-to-br from-yellow-400/15 via-yellow-400/10 to-yellow-400/5 border-2 border-yellow-400/30 rounded-2xl p-2 sm:p-3 min-w-[120px] sm:min-w-[140px] max-w-[150px] sm:max-w-[180px] backdrop-blur-[15px] relative overflow-hidden flex items-center gap-2 sm:gap-3 transition-all duration-300 hover:translate-y-[-1px] hover:scale-[1.01] hover:bg-yellow-400/20 hover:border-yellow-400/50 {hoveredCategory === skill.category ? 'bg-yellow-400/20 border-yellow-400/50' : ''}"
-						style="box-shadow: 0 4px 20px rgba(0,0,0,0.1), 0 0 0 1px rgba(255,193,7,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -1px 0 rgba(255,193,7,0.2);"
+						class="bg-gradient-to-br from-yellow-400/25 to-yellow-500/20 rounded-2xl p-3 sm:p-4 min-w-[120px] sm:min-w-[140px] max-w-[150px] sm:max-w-[180px] backdrop-blur-sm relative overflow-hidden flex items-center gap-2 sm:gap-3 transition-all duration-300 hover:translate-y-[-3px] hover:scale-[1.02] hover:from-yellow-400/35 hover:to-yellow-500/25 hover:shadow-[0_12px_30px_rgba(255,193,7,0.3)] {hoveredCategory === skill.category ? 'from-yellow-400/30 to-yellow-500/25 shadow-[0_8px_25px_rgba(255,193,7,0.25)]' : ''}"
+						style="box-shadow: 0 8px 25px rgba(0,0,0,0.15), 0 4px 12px rgba(255,193,7,0.1);"
 					>
-						<div class="w-7 h-7 sm:w-8 sm:h-8 flex-shrink-0 flex items-center justify-center bg-yellow-400/20 rounded-lg p-1">
+						<div class="w-8 h-8 sm:w-9 sm:h-9 flex-shrink-0 flex items-center justify-center bg-white/15 rounded-xl p-1.5 shadow-sm backdrop-blur-sm">
 							<img src={skill.logo} alt={skill.name} class="w-full h-full object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]" />
 						</div>
-						<div class="flex-1 flex flex-col gap-1">
-							<div class="text-white text-[0.8rem] sm:text-[0.85rem] font-semibold text-shadow-[0_1px_3px_rgba(0,0,0,0.3)] leading-tight">{skill.name}</div>
-							<div class="text-yellow-400 text-[0.7rem] sm:text-[0.8rem] font-bold font-mono text-shadow-[0_0_8px_rgba(255,222,33,0.5)] flex items-center justify-center gap-1.5">
-								<span class="text-[0.7rem] sm:text-[0.8rem]">{skill.level}%</span>
-								<span class="text-[0.6rem] sm:text-[0.65rem] text-white/80 font-medium uppercase tracking-wider">{getSkillLevel(skill.level)}</span>
+						<div class="flex-1 flex flex-col gap-1 min-w-0">
+							<div class="text-white text-[0.75rem] sm:text-[0.8rem] lg:text-[0.85rem] font-semibold leading-tight truncate">{skill.name}</div>
+							<div class="text-yellow-300 text-[0.65rem] sm:text-[0.7rem] lg:text-[0.75rem] font-bold font-mono flex items-center gap-1">
+								<span class="truncate">{skill.level}%</span>
+								<span class="text-[0.55rem] sm:text-[0.6rem] lg:text-[0.65rem] text-white/70 font-medium uppercase tracking-wide truncate">{getSkillLevel(skill.level)}</span>
 							</div>
 						</div>
 					</div>
@@ -64,29 +64,29 @@
 	</div>
 
 	<!-- Category Dashboard - 4 in a Row -->
-	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 px-4 max-w-[1000px] sm:max-w-[600px] lg:max-w-[1000px] mx-auto">
+	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 px-4 max-w-[1000px] sm:max-w-[600px] lg:max-w-[1000px] mx-auto">
 		{#each Object.entries(skillCategories) as [category, categorySkills], categoryIndex}
 			<div
-				class="bg-gradient-to-br from-yellow-400/15 via-yellow-400/10 to-yellow-400/5 border-2 border-yellow-400/30 rounded-3xl p-3 sm:p-4 backdrop-blur-xl shadow-[0_8px_25px_rgba(0,0,0,0.15),0_0_0_1px_rgba(255,193,7,0.4),inset_0_1px_0_rgba(255,255,255,0.2),inset_0_-1px_0_rgba(255,193,7,0.2)] relative overflow-hidden flex flex-col min-h-[180px] sm:min-h-[200px] lg:min-h-[220px] max-h-[220px] sm:max-h-[250px] lg:max-h-[280px] cursor-pointer transition-all duration-[400ms] cubic-bezier(0.34,1.56,0.64,1) hover:translate-y-[-5px] hover:scale-[1.02] hover:shadow-[0_15px_30px_rgba(255,193,7,0.2),0_0_25px_rgba(255,193,7,0.15),inset_0_2px_0_rgba(255,255,255,0.15),inset_0_-2px_0_rgba(255,193,7,0.15)] hover:bg-gradient-to-br hover:from-yellow-400/20 hover:via-yellow-400/15 hover:to-yellow-400/10 hover:border-yellow-400/50 {hoveredCategory === category ? 'translate-y-[-5px] scale-[1.02] bg-gradient-to-br from-yellow-400/20 via-yellow-400/15 to-yellow-400/10 border-yellow-400/50' : ''}"
-				style="box-shadow: {hoveredCategory === category ? '0 15px 30px rgba(255,193,7,0.2), 0 0 25px rgba(255,193,7,0.15), inset 0 2px 0 rgba(255,255,255,0.15), inset 0 -2px 0 rgba(255,193,7,0.15)' : '0 8px 25px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,193,7,0.4), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -1px 0 rgba(255,193,7,0.2)'};"
+				class="bg-gradient-to-br from-yellow-400/25 to-yellow-500/20 rounded-3xl p-4 sm:p-5 backdrop-blur-sm shadow-[0_15px_40px_rgba(0,0,0,0.2),0_8px_20px_rgba(255,193,7,0.15)] relative overflow-hidden flex flex-col min-h-[160px] sm:min-h-[170px] lg:min-h-[180px] max-h-[180px] sm:max-h-[190px] lg:max-h-[200px] cursor-pointer transition-all duration-[400ms] cubic-bezier(0.34,1.56,0.64,1) hover:translate-y-[-8px] hover:scale-[1.02] hover:shadow-[0_25px_50px_rgba(255,193,7,0.25),0_15px_30px_rgba(0,0,0,0.15)] hover:from-yellow-400/35 hover:to-yellow-500/25 {hoveredCategory === category ? 'translate-y-[-8px] scale-[1.02] from-yellow-400/30 to-yellow-500/25' : ''}"
+				style="box-shadow: {hoveredCategory === category ? '0 20px 45px rgba(255,193,7,0.2), 0 10px 25px rgba(0,0,0,0.12)' : '0 15px 40px rgba(0,0,0,0.2), 0 8px 20px rgba(255,193,7,0.15)'};"
 				data-category={category}
 				role="button"
 				tabindex="0"
 				on:mouseenter={() => handleCategoryHover(category)}
 				on:mouseleave={handleCategoryLeave}
 			>
-				<div class="flex flex-col items-center gap-2 mb-4 flex-shrink-0">
+				<div class="flex flex-col items-center gap-2 mb-3 flex-shrink-0">
 					<div class="flex flex-col items-center gap-1">
-						<div class="text-white text-[0.9rem] font-bold text-shadow-[0_2px_4px_rgba(0,0,0,0.3)] leading-tight tracking-wide flex flex-col items-center gap-0.5">
-							<span class="text-[1.1rem]">{category}</span>
-							<span class="text-[0.8rem] text-white/70 font-medium lowercase tracking-normal">{categorySkills.length} skills</span>
+						<div class="text-white text-[0.85rem] sm:text-[0.9rem] font-bold leading-tight tracking-wide flex flex-col items-center gap-0.5 text-center">
+							<span class="text-[1rem] sm:text-[1.1rem] truncate max-w-full">{category}</span>
+							<span class="text-[0.75rem] sm:text-[0.8rem] text-white/70 font-medium lowercase tracking-normal truncate">{categorySkills.length} skills</span>
 						</div>
 					</div>
 				</div>
-				<div class="flex-1 grid grid-cols-5 gap-1 overflow-y-auto max-h-[120px] p-1 scrollbar-thin scrollbar-thumb-white/30 scrollbar-track-transparent">
+				<div class="flex-1 grid grid-cols-5 gap-1 overflow-y-auto max-h-[100px] p-1 scrollbar-thin scrollbar-thumb-white/30 scrollbar-track-transparent">
 					{#each categorySkills as skill}
-						<div class="flex items-center justify-center bg-yellow-400/10 border border-yellow-400/30 rounded-lg p-1 aspect-square min-h-auto relative overflow-hidden transition-all duration-300 hover:bg-yellow-400/20 hover:border-yellow-400/50 hover:scale-110 hover:shadow-[0_4px_12px_rgba(255,193,7,0.3)] before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-[3px] before:bg-gradient-to-b before:from-yellow-400/80 before:to-yellow-400/50 before:scale-y-0 before:transition-transform before:duration-300 hover:before:scale-y-100">
-							<img src={skill.logo} alt={skill.name} class="w-4 h-4 sm:w-5 sm:h-5 object-contain flex-shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)]" />
+						<div class="flex items-center justify-center bg-white/10 rounded-lg p-1 aspect-square min-h-auto relative overflow-hidden transition-all duration-300 hover:bg-white/15 hover:scale-105 hover:shadow-[0_4px_15px_rgba(255,193,7,0.3)] backdrop-blur-sm">
+							<img src={skill.logo} alt={skill.name} class="w-3 h-3 sm:w-4 sm:h-4 object-contain flex-shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.1)]" />
 						</div>
 					{/each}
 				</div>

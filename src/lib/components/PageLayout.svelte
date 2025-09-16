@@ -26,7 +26,7 @@
 		gsap.to(glowEffect, {
 			x: x,
 			y: y,
-			opacity: 0.8,
+			opacity: 0.4,
 			scale: 1.5,
 			duration: 0.3,
 			ease: 'power1.out'
@@ -41,7 +41,7 @@
 		mouseMoveTimeout = setTimeout(() => {
 			isInteracting = false;
 			gsap.to(glowEffect, {
-				opacity: 0.4,
+				opacity: 0.2,
 				scale: 1,
 				duration: 1.5,
 				ease: 'power2.out'
@@ -115,13 +115,13 @@
 		if (glowEffect) {
 			// Ensure the glow effect is immediately visible on page load
 			gsap.set(glowEffect, {
-				opacity: 0.6,
+				opacity: 0.3,
 				scale: 1.0
 			});
 
 			// Create a more persistent ambient glow animation
 			gsap.to(glowEffect, {
-				opacity: 0.5,
+				opacity: 0.25,
 				scale: 1.2,
 				duration: 4,
 				repeat: -1,
@@ -182,7 +182,7 @@
 	});
 </script>
 
-<div bind:this={pageContent} class="relative min-h-screen w-full overflow-x-hidden">
+<div bind:this={pageContent} class="relative min-h-screen w-full overflow-hidden">
 	{#if withParticles}
 		<!-- Ambient Floating Particles -->
 		<div
@@ -217,7 +217,7 @@
 	{/if}
 
 	<!-- Main Content -->
-	<main class="container-custom relative z-10 pb-24">
+	<main class="container-custom relative z-10 pb-4 overflow-visible">
 		<slot></slot>
 	</main>
 </div>

@@ -74,9 +74,9 @@
 					>
 						{#each pinnedProjects as project, index (project.id)}
 							<div class="w-full sm:w-1/2 md:w-1/3 flex-shrink-0 px-3">
-								<div class="group cursor-pointer">
-									<!-- Premium Featured Card -->
-									<div class="relative overflow-hidden bg-gradient-to-br from-gray-800/70 to-black/90 backdrop-blur-xl rounded-3xl border border-gray-700/30 shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.1)] transition-all duration-500 hover:translate-y-[-8px] hover:brightness-110 hover:shadow-[0_20px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,193,7,0.3)] hover:border-yellow-400/30">
+								<div class="group cursor-pointer h-full">
+									<!-- Premium Featured Card with Fixed Height -->
+									<div class="relative overflow-hidden bg-gradient-to-br from-gray-800/70 to-black/90 backdrop-blur-xl rounded-3xl border border-gray-700/30 shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.1)] transition-all duration-500 hover:translate-y-[-8px] hover:brightness-110 hover:shadow-[0_20px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,193,7,0.3)] hover:border-yellow-400/30 h-[520px] md:h-[560px] lg:h-[580px] flex flex-col">
 										<!-- Project Image Section with proper rounded corners -->
 										<div class="relative h-48 overflow-hidden rounded-t-3xl bg-gradient-to-br from-gray-700/50 to-gray-900/70">
 											{#if project.readme_image}
@@ -144,23 +144,23 @@
 											<div class="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-orange-500/10 backdrop-blur-sm opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 										</div>
 
-										<!-- Content Section -->
-										<div class="p-6">
-											<h3 class="text-xl font-bold text-white mb-3 leading-tight">{project.name}</h3>
+										<!-- Content Section with Flex Layout -->
+										<div class="p-6 flex-1 flex flex-col">
+											<h3 class="text-xl font-bold text-white mb-3 leading-tight line-clamp-2">{project.name}</h3>
 											
 											{#if project.description}
-												<p class="text-white/80 text-sm leading-relaxed mb-4 line-clamp-3">{project.description}</p>
+												<p class="text-white/80 text-sm leading-relaxed mb-4 line-clamp-3 flex-shrink-0">{project.description}</p>
 											{/if}
 
 											<!-- Live Web URL Display -->
 											{#if project.homepage}
-												<div class="bg-white/5 border border-white/10 rounded-xl p-3 mb-4">
+												<div class="bg-white/5 border border-white/10 rounded-xl p-3 mb-4 flex-shrink-0">
 													<div class="text-xs font-semibold text-yellow-400 uppercase tracking-wide mb-1">Live Web URL</div>
 													<a
 														href={project.homepage}
 														target="_blank"
 														rel="noopener noreferrer"
-														class="text-white font-medium text-sm break-all hover:text-yellow-400 transition-colors duration-200"
+														class="text-white font-medium text-sm break-all hover:text-yellow-400 transition-colors duration-200 line-clamp-1"
 														on:click|stopPropagation
 													>
 														{project.homepage}
@@ -168,8 +168,11 @@
 												</div>
 											{/if}
 
+											<!-- Spacer to push bottom content down -->
+											<div class="flex-1"></div>
+
 											<!-- Tech & Stats Row -->
-											<div class="flex items-center justify-between mb-5">
+											<div class="flex items-center justify-between mb-5 flex-shrink-0">
 												{#if project.language}
 													<div class="flex items-center gap-2">
 														<span class="w-3 h-3 rounded-full {getLanguageColorClass(project.language)}"></span>
@@ -182,7 +185,7 @@
 											</div>
 
 											<!-- Action Buttons -->
-											<div class="flex gap-3">
+											<div class="flex gap-3 flex-shrink-0">
 												{#if project.homepage}
 													<a
 														href={project.homepage}
@@ -251,9 +254,9 @@
 				<!-- Grid Mode (3 or fewer projects) -->
 				<div bind:this={projectsSection} class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 					{#each pinnedProjects as project, index (project.id)}
-						<div class="group cursor-pointer">
-							<!-- Premium Featured Card -->
-							<div class="relative overflow-hidden bg-gradient-to-br from-gray-800/70 to-black/90 backdrop-blur-xl rounded-3xl border border-gray-700/30 shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.1)] transition-all duration-500 hover:translate-y-[-8px] hover:brightness-110 hover:shadow-[0_20px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,193,7,0.3)] hover:border-yellow-400/30">
+						<div class="group cursor-pointer h-full">
+							<!-- Premium Featured Card with Fixed Height -->
+							<div class="relative overflow-hidden bg-gradient-to-br from-gray-800/70 to-black/90 backdrop-blur-xl rounded-3xl border border-gray-700/30 shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.1)] transition-all duration-500 hover:translate-y-[-8px] hover:brightness-110 hover:shadow-[0_20px_60px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,193,7,0.3)] hover:border-yellow-400/30 h-[520px] md:h-[560px] lg:h-[580px] flex flex-col">
 								<!-- Project Image Section with proper rounded corners -->
 								<div class="relative h-48 overflow-hidden rounded-t-3xl bg-gradient-to-br from-gray-700/50 to-gray-900/70">
 									{#if project.readme_image}
@@ -321,23 +324,23 @@
 									<div class="absolute inset-0 bg-gradient-to-br from-yellow-400/5 to-orange-500/5 backdrop-blur-sm opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 								</div>
 
-								<!-- Content Section -->
-								<div class="p-6 flex flex-col">
-									<h3 class="text-xl font-bold text-white mb-3 leading-tight">{project.name}</h3>
+								<!-- Content Section with Flex Layout -->
+								<div class="p-6 flex-1 flex flex-col">
+									<h3 class="text-xl font-bold text-white mb-3 leading-tight line-clamp-2">{project.name}</h3>
 									
 									{#if project.description}
-										<p class="text-white/80 text-sm leading-relaxed mb-4 line-clamp-3">{project.description}</p>
+										<p class="text-white/80 text-sm leading-relaxed mb-4 line-clamp-3 flex-shrink-0">{project.description}</p>
 									{/if}
 
 									<!-- Live Web URL Display -->
 									{#if project.homepage}
-										<div class="bg-white/5 border border-white/10 rounded-xl p-3 mb-4">
+										<div class="bg-white/5 border border-white/10 rounded-xl p-3 mb-4 flex-shrink-0">
 											<div class="text-xs font-semibold text-yellow-400 uppercase tracking-wide mb-1">Live Web URL</div>
 											<a
 												href={project.homepage}
 												target="_blank"
 												rel="noopener noreferrer"
-												class="text-white font-medium text-sm break-all hover:text-yellow-400 transition-colors duration-200"
+												class="text-white font-medium text-sm break-all hover:text-yellow-400 transition-colors duration-200 line-clamp-1"
 												on:click|stopPropagation
 											>
 												{project.homepage}
@@ -345,8 +348,11 @@
 										</div>
 									{/if}
 
+									<!-- Spacer to push bottom content down -->
+									<div class="flex-1"></div>
+
 									<!-- Tech & Stats Row -->
-									<div class="flex items-center justify-between mb-5">
+									<div class="flex items-center justify-between mb-5 flex-shrink-0">
 										{#if project.language}
 											<div class="flex items-center gap-2">
 												<span class="w-3 h-3 rounded-full {getLanguageColorClass(project.language)}"></span>
@@ -359,7 +365,7 @@
 									</div>
 
 									<!-- Action Buttons -->
-									<div class="flex gap-3">
+									<div class="flex gap-3 flex-shrink-0">
 										{#if project.homepage}
 											<a
 												href={project.homepage}
@@ -491,5 +497,40 @@
 		{/if}
 	</section>
 {/if}
+
+<style>
+/* ===== TEXT TRUNCATION UTILITIES ===== */
+.line-clamp-1 {
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	line-clamp: 1;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.line-clamp-2 {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.line-clamp-3 {
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+/* ===== RESPONSIVE TEXT ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+	.line-clamp-3 {
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+	}
+}
+</style>
 
 

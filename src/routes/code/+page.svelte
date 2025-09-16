@@ -120,8 +120,8 @@
 	title=""
 	subtitle="Exploring the intersection of code and creativity through web development, audio applications, and innovative digital experiences"
 >
-	<!-- Main Container with Responsive Sidebar Layout -->
-	<div class="flex">
+	<!-- Main Container with Proper Scroll Design -->
+	<div class="w-full">
 		{#if contentReady}
 			<!-- Mobile: Only CODE title at top for page identification -->
 			<div class="md:hidden fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
@@ -131,10 +131,10 @@
 				</h1>
 			</div>
 
-			<!-- Desktop: All three vertical titles -->
+			<!-- Desktop: All three vertical titles with proper positioning -->
 			<div class="hidden md:block">
-				<!-- Left Sidebar - Vertical CODE Title (always visible on scroll) -->
-				<div class="fixed left-4 top-20 z-50 flex flex-col items-center">
+				<!-- Left Sidebar - Vertical CODE Title (positioned relative to content edge) -->
+				<div class="absolute z-50 flex flex-col items-center" style="left: calc(4px - 6rem); top: 40vh;">
 					<div class="flex flex-col space-y-2">
 						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">C</span>
 						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">O</span>
@@ -143,8 +143,8 @@
 					</div>
 				</div>
 
-				<!-- Right Sidebar - Vertical LANGUAGE Title (positioned relative to skills section) -->
-				<div class="absolute z-40 flex flex-col items-center" style="right: 2rem; top: 180vh;">
+				<!-- Right Sidebar - Vertical LANGUAGE Title (positioned relative to content edge) -->
+				<div class="absolute z-40 flex flex-col items-center" style="right: calc(4px - 6rem); top: 220vh;">
 					<div class="flex flex-col space-y-4 lg:space-y-6">
 						<span class="block leading-none text-transparent font-black text-[12vh] lg:text-[15vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 4px #fbbf24; text-stroke: 4px #fbbf24;">L</span>
 						<span class="block leading-none text-transparent font-black text-[12vh] lg:text-[15vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 4px #fbbf24; text-stroke: 4px #fbbf24;">A</span>
@@ -157,8 +157,8 @@
 					</div>
 				</div>
 
-				<!-- Left Sidebar - Vertical PROGRESS Title (positioned relative to GitHub section) -->
-				<div class="absolute left-4 z-40 flex flex-col items-center" style="top: 300vh;">
+				<!-- Left Sidebar - Vertical PROGRESS Title (positioned relative to content edge) -->
+				<div class="absolute z-40 flex flex-col items-center" style="left: calc(4px - 6rem); top: 360vh;">
 					<div class="flex flex-col space-y-3 lg:space-y-4">
 						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">P</span>
 						<span class="block leading-none text-transparent font-black text-[15vh] lg:text-[20vh] hover:scale-110 transition-transform duration-300" style="-webkit-text-stroke: 6px #fbbf24; text-stroke: 6px #fbbf24;">R</span>
@@ -173,9 +173,9 @@
 			</div>
 		{/if} <!-- Close contentReady conditional -->
 		
-		<!-- Main Content Area with Responsive Margins -->
-		<div class="w-full ml-4 md:ml-40 lg:ml-48 mr-4 md:mr-16 lg:mr-20">
-			<div class="w-full max-w-[var(--container-width)] mx-auto px-4">
+		<!-- Main Content Area with Wider Layout and Proper Spacing -->
+		<div class="w-full px-4 md:px-8 lg:px-12 xl:px-16">
+			<div class="w-full max-w-none mx-auto py-4 md:py-6 lg:py-8">
 		{#if isLoading}
 			<!-- Tailwind CSS Loading State -->
 			<div class="flex items-center justify-center min-h-screen">
@@ -210,13 +210,13 @@
 				</button>
 			</div>
 		{:else}
-			<!-- Main Content -->
-			<div class="space-y-24">
+			<!-- Main Content with Proper Padding and Spacing -->
+			<div class="space-y-24 md:space-y-32 lg:space-y-40 pt-8 md:pt-16 pb-0">
 				<!-- Main Projects Title -->
-				<section class="text-center">
-					<div class="mb-8">
+					<section class="text-center px-4 md:px-8">
+					<div class="mb-8 md:mb-12">
 						<div class="skill-title-container mb-8 w-full">
-							<h1 class="skill-title perspective-1000 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+							<h1 class="skill-title perspective-1000 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white px-2 md:px-4">
 								<span
 									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
 									>P</span
@@ -251,7 +251,7 @@
 								>
 								<span class="text-primary animate-spin-slow mx-6 text-7xl">🚀</span>
 							</h1>
-							<div class="modern-subtitle w-full">
+							<div class="modern-subtitle w-full px-4 md:px-8">
 								<div class="subtitle-row flex flex-wrap gap-2 sm:gap-4 justify-center items-center w-full">
 									<span class="subtitle-text text-sm sm:text-base md:text-lg lg:text-xl">From Concept To Deployment</span>
 									<div class="subtitle-accent flex gap-1 sm:gap-2">
@@ -270,7 +270,7 @@
 				<ProjectsSection {projects} {pinnedProjects} />
 
 				<!-- Skills Section -->
-				<section bind:this={skillsSection} class="relative overflow-hidden px-4 w-full">
+				<section bind:this={skillsSection} class="relative overflow-hidden px-6 md:px-12 lg:px-16 w-full py-8 md:py-12">
 					<!-- Tech Laboratory Background -->
 					<div class="pointer-events-none absolute inset-0">
 						<!-- Circuit Board Pattern -->
@@ -322,9 +322,9 @@
 						></div>
 					</div>
 
-					<div class="relative z-10 mb-12 text-center w-full">
+					<div class="relative z-10 mb-12 text-center w-full px-4 md:px-8">
 						<div class="skill-title-container mb-8 w-full">
-							<h2 class="skill-title perspective-1000 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+							<h2 class="skill-title perspective-1000 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white px-2 md:px-4">
 								<span
 									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
 									>S</span
@@ -386,10 +386,10 @@
 				</section>
 
 				<!-- GitHub Activity -->
-				<section>
-					<div class="mb-12 text-center">
+				<section class="px-6 md:px-12 lg:px-16 py-8 md:py-12">
+					<div class="mb-12 text-center px-4 md:px-8">
 						<div class="skill-title-container mb-8 w-full">
-							<h2 class="skill-title perspective-1000 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+							<h2 class="skill-title perspective-1000 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white px-2 md:px-4">
 								<span
 									class="inline-block transform cursor-default transition-all duration-300 hover:scale-110 hover:rotate-12 hover:animate-bounce hover:text-yellow-300"
 									>G</span
@@ -471,9 +471,8 @@
 				</section>
 			</div>
 		{/if}
-		</div> <!-- Close max-w container -->
-	</div> <!-- Close main content area -->
-</div> <!-- Close flex container -->
+	</div>
+</div>
 </PageLayout>
 
 <style>
@@ -583,5 +582,47 @@
 		opacity: 0.7;
 		transform: scale(1.1);
 	}
+}
+
+/* ===== CUSTOM SCROLLBAR DESIGN ===== */
+/* Webkit browsers (Chrome, Safari, Edge) */
+:global(::-webkit-scrollbar) {
+	width: 8px;
+}
+
+:global(::-webkit-scrollbar-track) {
+	background: #1f2937; /* gray-800 */
+	border-radius: 4px;
+}
+
+:global(::-webkit-scrollbar-thumb) {
+	background: linear-gradient(180deg, #f59e0b, #d97706); /* amber-500 to amber-600 */
+	border-radius: 4px;
+	transition: background 0.3s ease;
+}
+
+:global(::-webkit-scrollbar-thumb:hover) {
+	background: linear-gradient(180deg, #fbbf24, #f59e0b); /* amber-400 to amber-500 */
+}
+
+/* Firefox */
+:global(html) {
+	scrollbar-width: thin;
+	scrollbar-color: #f59e0b #1f2937; /* thumb track */
+}
+
+/* Ensure main page container handles all scrolling */
+:global(body) {
+	overflow-x: hidden;
+}
+
+/* Fix potential double scrolling by ensuring page content flows naturally */
+:global(.min-h-screen) {
+	min-height: 100vh !important;
+}
+
+/* Prevent any nested scrolling containers */
+:global(.overflow-x-hidden) {
+	overflow-x: hidden !important;
 }
 </style>
