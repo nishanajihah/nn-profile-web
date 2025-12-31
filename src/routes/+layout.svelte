@@ -44,17 +44,9 @@
 		}
 
 		// Set initial path
-		currentPath = $page.url.pathname;	});
+		currentPath = $page.url.pathname;
+	});
 </script>
-
-<style>
-	/* Ensure header container is always visible */
-	:global(.header-container) {
-		opacity: 1 !important;
-		visibility: visible !important;
-		z-index: 50;
-	}
-</style>
 
 <!-- Apply global styles -->
 <svelte:head>
@@ -65,8 +57,9 @@
 	/>
 </svelte:head>
 
-<div class="flex min-h-screen flex-col" style="background-color: var(--bg-main);">	<!-- Header conditionally rendered - hidden on homepage -->
-	{#if currentPath !== '/'}
+<div class="flex min-h-screen flex-col" style="background-color: var(--bg-main);">
+	<!-- Header conditionally rendered - hidden on homepage and error pages -->
+	{#if currentPath !== '/' && !$page.error}
 		<div class="header-container z-50">
 			<Header />
 		</div>
@@ -74,7 +67,7 @@
 	{#key currentPath}
 		<main
 			bind:this={mainContent}
-			class="flex-grow w-full {currentPath !== '/' ? 'pt-24' : ''}"
+			class="w-full flex-grow {currentPath !== '/' && !$page.error ? 'pt-24' : ''}"
 			in:fade={{ duration: 400, delay: 200, easing: quintOut }}
 			out:fade={{ duration: 300 }}
 		>
@@ -82,14 +75,27 @@
 		</main>
 	{/key}
 	<!-- Music Player (conditionally rendered based on state) -->
-	<MusicPlayer />
+	{#if !$page.error}
+		<MusicPlayer />
+	{/if}
 
-	<!-- Conditional Footer: HomeFooter for homepage, standard Footer for other pages -->
-	{#if currentPath === '/'}
-		<div class="absolute right-0 bottom-0 left-0 z-10">
-			<HomeFooter />
-		</div>
-	{:else}
-		<Footer />
+	<!-- Conditional Footer: HomeFooter for homepage, standard Footer for other pages, hidden on error -->
+	{#if !$page.error}
+		{#if currentPath === '/'}
+			<div class="absolute right-0 bottom-0 left-0 z-10">
+				<HomeFooter />
+			</div>
+		{:else}
+			<Footer />
+		{/if}
 	{/if}
 </div>
+
+<style>
+	/* Ensure header container is always visible */
+	:global(.header-container) {
+		opacity: 1 !important;
+		visibility: visible !important;
+		z-index: 50;
+	}
+</style>

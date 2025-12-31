@@ -1,5 +1,6 @@
 // SvelteKit API route to fetch GitHub data
-import { GITHUB_TOKEN } from '$env/static/private';
+import { env } from '$env/dynamic/private';
+import { dev } from '$app/environment';
 import type { RequestEvent } from '@sveltejs/kit';
 
 interface GitHubRepo {
@@ -46,63 +47,60 @@ interface GitHubEvent {
  * Fetches public repositories and user events from GitHub concurrently.
  * Returns combined data as JSON. Handles errors gracefully.
  */
-export async function GET(event: RequestEvent) {
-	console.log('=== API CALLED ===');
+import { Octokit } from '@octokit/rest';
 
-	const headers = {
-		Authorization: `Bearer ${GITHUB_TOKEN}`,
-		Accept: 'application/vnd.github+json',
-		'X-GitHub-Api-Version': '2022-11-28',
-		'User-Agent': 'nn-profile-web'
-	};
+export async function GET(event: RequestEvent) {
+	let GITHUB_TOKEN = env.GITHUB_TOKEN?.trim(); // Trim to remove accidental spaces/newlines
+
+	console.log('=== API CALLED ===');
+	if (!GITHUB_TOKEN) {
+		console.warn('⚠️ GITHUB_TOKEN is missing. Rate limits will be low.');
+	} else {
+		console.log('📡 GitHub API: Using token starting with:', GITHUB_TOKEN.substring(0, 8) + '...');
+	}
+
+	const octokit = new Octokit({
+		auth: GITHUB_TOKEN
+	});
 
 	try {
-		// Fetch repos, events, and user info concurrently
+		// Fetch data using Octokit for better reliability
 		const [reposRes, eventsRes, userRes] = await Promise.all([
-			event.fetch('https://api.github.com/users/nishanajihah/repos?sort=updated&per_page=100', {
-				headers
+			octokit.repos.listForUser({
+				username: 'nishanajihah',
+				sort: 'updated',
+				per_page: 100
 			}),
-			event.fetch('https://api.github.com/users/nishanajihah/events/public?per_page=30', {
-				headers
+			octokit.activity.listPublicEventsForUser({
+				username: 'nishanajihah',
+				per_page: 30
 			}),
-			event.fetch('https://api.github.com/users/nishanajihah', { headers })
+			octokit.users.getByUsername({
+				username: 'nishanajihah'
+			})
 		]);
 
-		// Check for errors
-		if (!reposRes.ok || !eventsRes.ok || !userRes.ok) {
-			const errorResponse = !reposRes.ok ? reposRes : !eventsRes.ok ? eventsRes : userRes;
-			const errorData = await errorResponse.json();
-			console.error('GitHub API Error:', errorData);
-
-			return new Response(
-				JSON.stringify({
-					error: `GitHub API Error: ${errorData.message || 'Unknown error'}`,
-					status: errorResponse.status
-				}),
-				{
-					status: errorResponse.status,
-					headers: { 'Content-Type': 'application/json' }
-				}
-			);
-		}
-
-		// Parse JSON
-		const [repos, events, userInfo]: [GitHubRepo[], GitHubEvent[], GitHubUser] = await Promise.all([
-			reposRes.json(),
-			eventsRes.json(),
-			userRes.json()
-		]);
+		const repos = reposRes.data;
+		const events = eventsRes.data as unknown as GitHubEvent[];
+		const userInfo = userRes.data as unknown as GitHubUser;
 
 		// Filter out forks and archived repos, sort by stars and recent activity
 		const filteredRepos = repos
 			.filter((repo) => !repo.fork && !repo.archived)
 			.sort((a, b) => {
 				// Sort by stars first, then by updated date
-				if (b.stargazers_count !== a.stargazers_count) {
-					return b.stargazers_count - a.stargazers_count;
+				const starsA = a.stargazers_count ?? 0;
+				const starsB = b.stargazers_count ?? 0;
+
+				if (starsB !== starsA) {
+					return starsB - starsA;
 				}
-				return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+
+				const dateA = new Date(a.updated_at ?? 0).getTime();
+				const dateB = new Date(b.updated_at ?? 0).getTime();
+				return dateB - dateA;
 			});
+
 
 		// Get more repos to increase chances of finding projects with live websites
 		const pinnedRepos = filteredRepos.slice(0, 12); // Take top 12 to filter down to projects with live sites
@@ -123,15 +121,14 @@ export async function GET(event: RequestEvent) {
 				// languages removed for simplicity
 
 				try {
-					// Fetch README
-					const readmeRes = await event.fetch(
-						`https://api.github.com/repos/nishanajihah/${repo.name}/readme`,
-						{ headers }
-					);
-					if (readmeRes.ok) {
-						const readmeData = await readmeRes.json();
-						const readmeContent = atob(readmeData.content);
-						// ...existing code for image and live url extraction...
+					// Fetch README using Octokit
+					const readmeRes = await octokit.repos.getReadme({
+						owner: 'nishanajihah',
+						repo: repo.name
+					});
+
+					if (readmeRes.data.content) {
+						const readmeContent = atob(readmeRes.data.content);
 						// Extract first image from README markdown
 						const imageMatch = readmeContent.match(/!\[.*?\]\((.*?)\)|<img[^>]+src="([^"]+)"/);
 						if (imageMatch) {
@@ -199,10 +196,10 @@ export async function GET(event: RequestEvent) {
 			name: repo.name,
 			description: repo.description || 'No description available',
 			html_url: repo.html_url,
-			homepage: repo.homepage,
-			stargazers_count: repo.stargazers_count,
+			homepage: repo.homepage ?? null,
+			stargazers_count: repo.stargazers_count ?? 0,
 			language: repo.language || 'Unknown',
-			languageColor: getLanguageColor(repo.language),
+			languageColor: getLanguageColor(repo.language ?? null),
 			topics: repo.topics || []
 		}));
 
@@ -219,14 +216,14 @@ export async function GET(event: RequestEvent) {
 				name: repo.name,
 				description: repo.description || 'No description available',
 				html_url: repo.html_url,
-				homepage: finalHomepage,
-				stargazers_count: repo.stargazers_count,
+				homepage: finalHomepage ?? null,
+				stargazers_count: repo.stargazers_count ?? 0,
 				language: repo.language || 'Unknown',
-				languageColor: getLanguageColor(repo.language),
+				languageColor: getLanguageColor(repo.language ?? null),
 				topics: repo.topics || [],
 				readme_image: repo.readme_image,
 				// Add demo_url for pinned repos (you can customize this logic)
-				demo_url: repo.topics.some(
+				demo_url: (repo.topics ?? []).some(
 					(topic) => topic.includes('demo') || topic.includes('live') || topic.includes('website')
 				)
 					? `${repo.html_url}#demo`
@@ -258,7 +255,7 @@ export async function GET(event: RequestEvent) {
 
 		// Calculate contributions data
 		const contributionsData = {
-			total: filteredRepos.reduce((sum, repo) => sum + repo.stargazers_count, 0),
+			total: filteredRepos.reduce((sum, repo) => sum + (repo.stargazers_count ?? 0), 0),
 			lastYear: events.length,
 			streak: calculateContributionStreak(events),
 			publicRepos: userInfo.public_repos
@@ -280,20 +277,22 @@ export async function GET(event: RequestEvent) {
 				status: 200,
 				headers: {
 					'Content-Type': 'application/json',
-					'Cache-Control': 'public, max-age=300' // Cache for 5 minutes
+					'Cache-Control': dev ? 'no-cache' : 'public, max-age=300'
 				}
 			}
 		);
-	} catch (err: unknown) {
-		console.error('Server error:', err);
-		const errorMessage = err instanceof Error ? err.message : 'Unknown server error';
+	} catch (err: any) {
+		console.error('GitHub API Server error:', err);
+		const status = err.status || 500;
+		const message = err.message || 'Unknown server error';
 
 		return new Response(
 			JSON.stringify({
-				error: `Server Error: ${errorMessage}`
+				error: `GitHub API Error: ${message}`,
+				status: status
 			}),
 			{
-				status: 500,
+				status: status,
 				headers: { 'Content-Type': 'application/json' }
 			}
 		);

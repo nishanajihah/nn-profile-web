@@ -401,7 +401,7 @@
 	<!-- No Pinned Projects Fallback -->
 	<section>
 		<div class="py-12 text-center">
-			<div class="mb-4 text-6xl">🚀</div>
+			<div class="mb-4 text-6xl hidden lg:block">🚀</div>
 			<h3 class="mb-2 text-2xl font-bold text-white">No Featured Projects Yet</h3>
 			<p class="text-gray-400">Check back soon for featured projects!</p>
 		</div>
@@ -423,9 +423,9 @@
 				<div class="flex justify-center">
 					<input
 						type="text"
-						placeholder="🔍 Search projects..."
+						placeholder="Search projects..."
 						bind:value={projectSearchQuery}
-						class="w-full max-w-md bg-white/10 text-white placeholder-gray-400 px-6 py-3 rounded-xl border border-white/20 backdrop-blur-lg focus:outline-none focus:border-yellow-400/50 focus:ring-2 focus:ring-yellow-400/20 transition-all duration-300"
+						class="w-full max-w-md bg-white/10 text-white placeholder-gray-400 px-6 py-3 rounded-xl border border-white/20 backdrop-blur-lg focus:outline-none focus:border-yellow-400/50 focus:ring-2 focus:ring-yellow-400/20 transition-all duration-300 md:text-base text-sm"
 					/>
 				</div>
 			</div>
