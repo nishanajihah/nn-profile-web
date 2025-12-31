@@ -1,6 +1,6 @@
 @import 'tailwindcss';
-@import 'tailwindcss/utilities';
 @import './lib/styles/theme.css';
+
 
 /* Base styles */
 html {
@@ -15,7 +15,8 @@ body {
 }
 
 ::selection {
-	background-color: #3b82f6; /* primary */
+	background-color: #3b82f6;
+	/* primary */
 	color: #ffffff;
 }
 
@@ -136,6 +137,7 @@ body {
 	from {
 		opacity: 0;
 	}
+
 	to {
 		opacity: 1;
 	}
@@ -146,6 +148,7 @@ body {
 		opacity: 0;
 		transform: translateY(20px);
 	}
+
 	to {
 		opacity: 1;
 		transform: translateY(0);
@@ -157,10 +160,12 @@ body {
 		transform: translate(0, 0);
 		opacity: 0.2;
 	}
+
 	50% {
 		transform: translate(15px, -15px);
 		opacity: 0.8;
 	}
+
 	100% {
 		transform: translate(0, 0);
 		opacity: 0.2;
@@ -172,6 +177,7 @@ body {
 		transform: translateY(20px);
 		opacity: 0;
 	}
+
 	to {
 		transform: translateY(0);
 		opacity: 1;
