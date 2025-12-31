@@ -1,0 +1,506 @@
+// This file holds the styling for the Homepage.
+// We use descriptive names so you know exactly which page these styles belong to.
+
+.homepage-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; // Allow growth
+  width: 100%;
+  overflow-y: auto; // Allow scrolling if needed (Accessibility fix)
+  position: relative; // Changed from fixed to prevent cutoff
+  background: radial-gradient(
+      circle at top right,
+      rgba(255, 222, 33, 0.05),
+      transparent 40%
+    ),
+    linear-gradient(180deg, #050505 0%, #0a0a0a 100%);
+}
+
+// CINEMATIC WRAPPER
+.cinematic-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+// MASSIVE TYPOGRAPHY
+// MASSIVE 3D TYPOGRAPHY
+.title-3d-wrapper {
+  perspective: 1000px;
+  margin-bottom: 20px;
+  transform-style: preserve-3d;
+}
+
+.cinematic-title {
+  font-family: 'Anta', sans-serif;
+  font-weight: 900;
+  line-height: 0.85;
+  text-align: center;
+  color: #fff;
+  text-transform: uppercase;
+  
+  // Responsive Massive Scaling
+  font-size: clamp(5rem, 18vw, 14rem);
+  
+  background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  filter: drop-shadow(0 0 30px rgba(255, 222, 33, 0.1));
+  
+  filter: drop-shadow(0 0 30px rgba(255, 222, 33, 0.1));
+  
+  filter: drop-shadow(0 0 30px rgba(255, 222, 33, 0.1));
+  
+  // 3D Tilt
+  transform: rotateX(10deg); 
+  transition: transform 0.5s ease-out;
+  white-space: nowrap; // Force single line
+  font-size: clamp(3rem, 9vw, 8rem); // Responsive Single Line
+
+  &:hover {
+    transform: rotateX(0deg) scale(1.02);
+  }
+}
+
+.is-z-10 {
+  z-index: 10;
+}
+
+// New Solo Branding Section
+// New Solo Branding Section
+// IDENTITY DECODER
+.identity-decoder {
+  font-family: 'Roboto Mono', monospace; // Tech vibe for code
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  .decoder-prefix {
+    color: #ffde21;
+    font-weight: 700;
+  }
+
+  .decoder-text {
+    position: relative;
+  }
+}
+
+// Visual Centerpiece Removed
+
+.ambient-container {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+:global(.ambient-particle) {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 222, 33, 0.1);
+}
+
+.home-glow {
+  position: absolute;
+  z-index: 5;
+  width: 55vmin;
+  height: 55vmin;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 222, 33, 0.12) 0%,
+    transparent 70%
+  );
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+// TOP CINEMATIC NAV (Text Portals)
+.top-cinematic-nav {
+  position: absolute;
+  top: 15vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  z-index: 20;
+  
+  @media(max-width: 768px) {
+    top: 10vh;
+    gap: 20px;
+  }
+
+  .nav-divider {
+    width: 1px;
+    height: 20px;
+    background: rgba(255,255,255,0.2);
+  }
+}
+
+.nav-portal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  
+  // Hit area expansion
+  padding: 10px;
+
+  .nav-label {
+    font-family: 'Anta', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.7);
+    transition: all 0.4s ease;
+  }
+
+  .nav-sub {
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.75rem;
+    color: #ffde21; // Accent color
+    letter-spacing: 0.1em;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    position: absolute;
+    top: 100%; // Below label
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  &:hover {
+    .nav-label {
+      color: #fff;
+      transform: translateY(-5px);
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    }
+    
+    .nav-sub {
+      opacity: 1;
+      transform: translateY(2px);
+    }
+  }
+}
+
+// BOTTOM CENTER CONNECT
+.cinematic-controls.bottom-center {
+  position: absolute;
+  bottom: 20vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  z-index: 20;
+}
+
+// NEON PRISM CTA (Holographic Glitch Redesign)
+.connect-prism {
+  position: relative;
+  background: rgba(10, 10, 10, 0.6); // Slightly more transparent for hologram feel
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px; // Slight rounding, not too square, not too pill
+  padding: 18px 40px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 280px;
+
+  // HOLOGRAPHIC BLUR & WAVER
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 10px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 222, 33, 0.05);
+
+  // Wavering Border Animation (Replaced with Smooth Glow)
+  animation: border-pulse-slow 4s infinite ease-in-out;
+
+  .prism-content { 
+    width: 100%; 
+    display: flex; 
+    justify-content: center; 
+    gap: 15px;
+    z-index: 2;
+  } 
+
+  // The "Traveling Light" Shimmer (Kept but subtler)
+  .prism-glow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      90deg, 
+      transparent, 
+      rgba(255, 255, 255, 0.1), 
+      transparent
+    );
+    transform: skewX(-20deg);
+    animation: shimmer-sweep 3s infinite;
+    pointer-events: none;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    background: rgba(20, 20, 20, 0.8);
+    border-color: rgba(255, 222, 33, 0.6);
+    box-shadow: 0 0 40px rgba(255, 222, 33, 0.3);
+    
+    // Smooth glow intense on hover (No Glitch)
+    animation: none; 
+
+    .prism-glow {
+      animation: shimmer-sweep 1s infinite;
+    }
+  }
+}
+
+// Smooth Glow Pulse
+@keyframes border-pulse-slow {
+  0% { box-shadow: 0 0 5px rgba(255, 222, 33, 0.1); border-color: rgba(255, 255, 255, 0.1); }
+  50% { box-shadow: 0 0 20px rgba(255, 222, 33, 0.2); border-color: rgba(255, 222, 33, 0.3); }
+  100% { box-shadow: 0 0 5px rgba(255, 222, 33, 0.1); border-color: rgba(255, 255, 255, 0.1); }
+}
+
+@keyframes shimmer-sweep {
+  0% { left: -100%; opacity: 0; }
+  50% { opacity: 1; }
+  100% { left: 200%; opacity: 0; }
+}
+
+// CONTACT DECK (Morph Stage - Holographic Glitch)
+.contact-deck {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: rgba(20, 20, 20, 0.6); // Matching Transparency
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 30px 40px;
+  border-radius: 12px;
+  
+  // THE FUTURISTIC "GLOW PULSE" (No Glitch)
+  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  backdrop-filter: blur(20px); 
+  animation: border-pulse-slow 4s infinite ease-in-out;
+  
+  align-items: center;
+  min-width: 320px;
+  position: relative;
+  overflow: hidden;
+
+  // Holographic Scanlines
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.03) 3px,
+      rgba(255, 255, 255, 0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+.deck-prompt {
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.2em;
+  margin-bottom: 5px;
+}
+
+.deck-options {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  justify-content: center;
+}
+
+.deck-btn {
+  text-decoration: none;
+  font-family: 'Anta', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  
+  // Clean Text Look (No Icons)
+  .deck-label {
+    letter-spacing: 0.15em;
+    position: relative;
+    z-index: 2;
+  }
+
+  // Hover Glow Bloom
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255, 222, 33, 0.2) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 20px;
+    transform: scale(0.8);
+  }
+
+  &:hover {
+    color: #ffde21;
+    text-shadow: 0 0 15px rgba(255, 222, 33, 0.5);
+    transform: scale(1.1);
+    
+    &::after {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+}
+
+.deck-separator {
+  width: 1px;
+  height: 20px;
+  background: rgba(255,255,255,0.15);
+}
+
+// Close Button (Absolute Top Right)
+.deck-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.9rem;
+  margin: 0; // Reset margin
+
+  &:hover {
+    color: #ff5555;
+    background: rgba(255, 94, 91, 0.1);
+    transform: rotate(90deg) scale(1.1);
+  }
+}
+
+// REMOVE OLD ANIMATIONS
+@keyframes border-waver {
+  0% { box-shadow: 0 0 10px rgba(255, 222, 33, 0.1); border-color: rgba(255, 255, 255, 0.1); }
+  50% { box-shadow: 0 0 20px rgba(255, 222, 33, 0.3); border-color: rgba(255, 222, 33, 0.4); }
+  100% { box-shadow: 0 0 10px rgba(255, 222, 33, 0.1); border-color: rgba(255, 255, 255, 0.1); }
+}
+
+@keyframes scanner-border {
+  0% { mask-position: 0 0; }
+  100% { mask-position: 100% 0; } 
+}
+
+
+
+// Footer Styles
+// Footer Styles
+.home-footer {
+  border-top: none; // Lose the top border
+  background: transparent; // Lose the background
+  backdrop-filter: none; // No blur, just floating icons
+  padding: 1.5rem 1.5rem; 
+  position: absolute; // Fix to bottom of container
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+
+  p {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300; // Elegant, readable light weight
+    font-size: 0.9rem; // Slightly larger
+    color: rgba(255, 255, 255, 0.85); // Higher contrast
+    letter-spacing: 0.04em;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5); // Better readability against blur
+  }
+}
+
+.footer-link {
+  color: rgba(255, 255, 255, 0.3);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .social-icon {
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+
+    svg {
+      transition: all 0.3s ease;
+    }
+  }
+
+  &:hover {
+    color: #ffde21;
+    transform: translateY(-5px);
+    .social-icon {
+      border-color: #ffde21;
+      background: rgba(255, 222, 33, 0.08);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3),
+        0 0 15px rgba(255, 222, 33, 0.1);
+
+      svg {
+        stroke: #ffde21;
+        filter: drop-shadow(0 0 5px rgba(255, 222, 33, 0.5));
+      }
+    }
+
+    &[title="Spotify"] .social-icon {
+      color: #1db954;
+      border-color: #1db954;
+      background: rgba(29, 185, 84, 0.08);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3),
+        0 0 15px rgba(29, 185, 84, 0.2);
+      svg {
+        stroke: #1db954;
+      }
+    }
+
+    &[title="Support on Ko-fi"] .social-icon {
+      color: #ff5e5b;
+      border-color: #ff5e5b;
+      background: rgba(255, 94, 91, 0.08);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3),
+        0 0 15px rgba(255, 94, 91, 0.2);
+      svg {
+        stroke: #ff5e5b;
+      }
+    }
+  }
+}
+

@@ -1,0 +1,17 @@
+{
+	"/": [],
+	"/about": [],
+	"/api/email": [
+		"src/routes/api/email/+server.ts"
+	],
+	"/api/github-data": [
+		"src/routes/api/github-data/+server.ts"
+	],
+	"/api/mailgun": [
+		"src/routes/api/mailgun/+server.ts"
+	],
+	"/code": [
+		"src/routes/code/+page.ts"
+	],
+	"/music": []
+}

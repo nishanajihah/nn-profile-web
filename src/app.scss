@@ -1,0 +1,36 @@
+// Custom Brand Colors
+$primary: #ffde21;
+$black: #0a0a0a;
+$dark: #121212;
+
+// 1. Import Bulma's core with custom theme variables
+@use "bulma/sass" with (
+  $primary: $primary,
+  $black: $black,
+  $dark: $dark,
+  $scheme-main: $black,
+  $scheme-invert: white,
+  $text: #f5f5f5,
+  $title-color: #ffffff,
+  $subtitle-color: #dddddd,
+  $family-primary: '"Roboto", sans-serif',
+  $family-secondary: '"Anta", sans-serif'
+);
+
+// 2. Import Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Anta&family=Roboto:wght@300;400;500;700&display=swap');
+
+// Global Styles
+:root {
+  background-color: $black;
+  color: white;
+}
+
+body {
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+h1, h2, h3, .brand-title {
+  font-family: 'Anta', sans-serif;
+}
