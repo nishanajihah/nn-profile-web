@@ -248,26 +248,30 @@ export function initializeStardust() {
     const container = document.querySelector('.ambient-container');
     if (!container || typeof document === 'undefined') return;
 
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 25; i++) {
         const star = document.createElement('div');
         star.className = 'stardust-particle';
+        // Varied sizes: 60% small (2px), 40% medium (4px)
+        const size = Math.random() < 0.6 ? 2 : 4;
+        const isGold = i % 3 === 0;
         Object.assign(star.style, {
             position: 'absolute',
-            width: '2px',
-            height: '2px',
-            background: i % 3 === 0 ? '#ffde21' : '#ffffff',
+            width: `${size}px`,
+            height: `${size}px`,
+            background: isGold ? '#ffde21' : '#ffffff',
             borderRadius: '50%',
-            opacity: Math.random() * 0.5 + 0.2,
+            opacity: Math.random() * 0.6 + 0.4,
             left: Math.random() * 100 + '%',
             top: Math.random() * 100 + '%',
-            pointerEvents: 'none'
+            pointerEvents: 'none',
+            boxShadow: `0 0 ${size * 2}px ${isGold ? 'rgba(255, 222, 33, 0.8)' : 'rgba(255, 255, 255, 0.6)'}`
         });
         container.appendChild(star);
 
         animate(star, {
-            translateX: () => utils.random(-100, 100),
-            translateY: () => utils.random(-100, 100),
-            opacity: [0.2, 0.8],
+            translateX: () => utils.random(-200, 200),
+            translateY: () => utils.random(-200, 200),
+            opacity: [0.5, 1.0],
             duration: () => utils.random(4000, 8000),
             direction: 'alternate',
             loop: true,
@@ -292,8 +296,8 @@ export function setupHomepageGlowInteraction(elements: { glow: HTMLElement | nul
         gsap.to(elements.glow, {
             x: x,
             y: y,
-            opacity: 0.8,
-            scale: 1.5,
+            opacity: 0.2,
+            scale: 1.2,
             duration: 0.3,
             ease: 'power1.out'
         });
@@ -301,7 +305,7 @@ export function setupHomepageGlowInteraction(elements: { glow: HTMLElement | nul
         if (mouseMoveTimeout !== null) clearTimeout(mouseMoveTimeout);
         mouseMoveTimeout = setTimeout(() => {
             gsap.to(elements.glow, {
-                opacity: 0.4,
+                opacity: 0.2,
                 scale: 1,
                 duration: 1.5,
                 ease: 'power2.out'
