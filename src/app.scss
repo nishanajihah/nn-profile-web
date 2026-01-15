@@ -1,20 +1,13 @@
 // 1. Import Google Fonts first
 @import url('https://fonts.googleapis.com/css2?family=Anta&family=Roboto:wght@300;400;500;700&display=swap');
 
-// 2. Define custom Bulma variables BEFORE importing Bulma
+// 2. Define color variables (formerly Bulma variables)
 $primary: #ffde21;
 $black: #0a0a0a;
 $dark: #121212;
-$scheme-main: $black;
-$scheme-invert: white;
 $text: #f5f5f5;
 $title-color: #ffffff;
 $subtitle-color: #dddddd;
-$family-primary: "Roboto", sans-serif;
-$family-secondary: "Anta", sans-serif;
-
-// 3. Import Bulma (it will use the variables defined above)
-@import "bulma/bulma";
 
 // Global Styles
 :root {
@@ -25,8 +18,124 @@ $family-secondary: "Anta", sans-serif;
 body {
   min-height: 100vh;
   font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 h1, h2, h3, .brand-title {
   font-family: 'Anta', sans-serif;
+}
+
+// Custom Responsive Utilities (replacing Bulma)
+.has-text-centered {
+  text-align: center;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+// Responsive visibility helpers
+.is-hidden-mobile {
+  @media (max-width: 768px) {
+    display: none !important;
+  }
+}
+
+.is-hidden-tablet {
+  @media (min-width: 769px) {
+    display: none !important;
+  }
+}
+
+// Flexbox utilities
+.is-flex {
+  display: flex !important;
+}
+
+.is-flex-grow-1 {
+  flex-grow: 1 !important;
+}
+
+.is-align-items-center {
+  align-items: center !important;
+}
+
+.is-justify-content-center {
+  justify-content: center !important;
+}
+
+// Position utilities
+.is-relative {
+  position: relative !important;
+}
+
+.is-overflow-hidden {
+  overflow: hidden !important;
+}
+
+// Z-index utilities
+.is-z-10 {
+  z-index: 10 !important;
+}
+
+// Color utilities
+.is-black {
+  background-color: $black !important;
+  color: white !important;
+}
+
+// Hero structure
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.hero-body {
+  flex-grow: 1;
+  flex-shrink: 0;
+  padding: 3rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Spacing utilities
+.mb-6 {
+  margin-bottom: 3rem !important;
+}
+
+// Text color utilities
+.has-text-white {
+  color: white !important;
+}
+
+// Default link and button colors
+a {
+  color: white;
+  text-decoration: none;
+  
+  &:hover {
+    color: $primary;
+  }
+}
+
+button {
+  color: white;
+}
+
+// Ensure all text in dark backgrounds is white by default
+.is-black,
+.hero,
+.hero-body {
+  color: white;
+  
+  a, button, span, p, h1, h2, h3, h4, h5, h6 {
+    color: inherit;
+  }
 }
