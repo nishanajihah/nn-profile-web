@@ -11,6 +11,12 @@
     type HomepageElements,
   } from "$lib/logic/homepage-animations";
 
+  import { siteConfig } from "$lib/config/site-config";
+
+  const isPathDisabled = (path: string) =>
+    siteConfig.isBuildingMode &&
+    siteConfig.underConstructionPaths.includes(path);
+
   // Svelte 5 syntax for reactive DOM references
   let homepageContent = $state<HTMLElement | null>(null);
   let titleElement = $state<HTMLHeadingElement | null>(null);
@@ -49,6 +55,10 @@
   });
 </script>
 
+<svelte:head>
+  <title>Nisha Najihah | Home</title>
+</svelte:head>
+
 <div class="homepage-wrapper">
   <div
     bind:this={homepageContent}
@@ -65,21 +75,31 @@
       <!-- Top Cinematic Nav (Text + Subtext Reveal) -->
       <nav class="top-cinematic-nav">
         <!-- Added ID for specific targeting in animation script -->
-        <a href="/about" class="nav-portal" id="about-portal">
+        <a
+          href="/about"
+          class="nav-portal {isPathDisabled('/about') ? 'is-disabled' : ''}"
+          id="about-portal"
+        >
           <span class="nav-label">ABOUT</span>
           <span class="nav-sub">The Identity</span>
         </a>
 
         <div class="nav-divider"></div>
 
-        <a href="/music" class="nav-portal">
+        <a
+          href="/music"
+          class="nav-portal {isPathDisabled('/music') ? 'is-disabled' : ''}"
+        >
           <span class="nav-label">AUDITORY</span>
           <span class="nav-sub">Music Production</span>
         </a>
 
         <div class="nav-divider"></div>
 
-        <a href="/code" class="nav-portal">
+        <a
+          href="/code"
+          class="nav-portal {isPathDisabled('/code') ? 'is-disabled' : ''}"
+        >
           <span class="nav-label">VISUAL</span>
           <span class="nav-sub">Code Development</span>
         </a>
@@ -151,29 +171,70 @@
   <footer class="home-footer has-text-centered">
     <div class="container">
       <div class="footer-single-row">
-        <!-- Privacy Link (LEFT) -->
-        <div class="footer-privacy">
-          <a href="/privacy" class="privacy-link">
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
+        <!-- Links Group (LEFT on desktop) -->
+        <div class="footer-links-group">
+          <!-- Privacy Link -->
+          <div class="footer-privacy">
+            <a href="/privacy" class="privacy-link">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <span class="is-hidden-mobile">Privacy Policy</span>
+              <span class="is-hidden-tablet">Privacy</span>
+            </a>
+          </div>
+
+          <!-- Social Toggle (ONLY visible on mobile, positioned between Privacy and T&C) -->
+          <div class="footer-social-mobile-container is-hidden-tablet">
+            <button
+              class="social-mobile-toggle"
+              onclick={() => (isSocialOpen = !isSocialOpen)}
+              aria-label="Toggle social links"
             >
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-            <span class="is-hidden-mobile">Privacy Policy</span>
-            <span class="is-hidden-tablet">Privacy</span>
-          </a>
+              <span class="toggle-text">Social</span>
+              <div class="toggle-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </button>
+          </div>
+
+          <!-- Terms Link -->
+          <div class="footer-terms">
+            <a href="/terms" class="terms-link">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                ></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+              </svg>
+              <span class="is-hidden-mobile">Terms & Conditions</span>
+              <span class="is-hidden-tablet">T&C</span>
+            </a>
+          </div>
         </div>
 
-        <!-- Social Icons (CENTER) -->
-        <div class="footer-social-wrapper">
-          <!-- Desktop Social Icons -->
-          <div class="footer-social is-hidden-mobile">
+        <!-- Social Icons (CENTER on desktop) -->
+        <div class="footer-social-wrapper is-hidden-mobile">
+          <div class="footer-social">
             <a
               href="https://github.com/nishanajihah"
               target="_blank"
@@ -397,28 +458,18 @@
               </span>
             </a>
           </div>
-
-          <!-- Mobile Social Toggle -->
-          <button
-            class="social-mobile-toggle is-hidden-tablet"
-            onclick={() => (isSocialOpen = !isSocialOpen)}
-            aria-label="Toggle social links"
-          >
-            <span class="toggle-text">Social</span>
-            <div class="toggle-dots">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </button>
         </div>
 
-        <!-- Copyright Text (RIGHT) -->
-        <div class="footer-copyright-text">
-          <span class="copyright-line"
-            >© {new Date().getFullYear()} Nisha Najihah
-          </span>
-          <span class="copyright-credit">&nbsp;|&nbsp; Designed & Built</span>
+        <!-- Copyright Text (RIGHT on desktop) -->
+        <div class="footer-copyright">
+          <div class="copyright-link">
+            <span class="copyright-line"
+              >© {new Date().getFullYear()} Nisha Najihah</span
+            >
+            <span class="copyright-credit"
+              >&nbsp;|&nbsp; Designed & Built</span
+            >
+          </div>
         </div>
       </div>
     </div>
