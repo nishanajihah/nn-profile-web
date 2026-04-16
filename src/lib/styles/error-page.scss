@@ -1,0 +1,266 @@
+// Custom styles for the Error and Building Mode pages
+.error-page-wrapper {
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(
+      circle at top right,
+      rgba(255, 222, 33, 0.15),
+      transparent 40%
+    ),
+    linear-gradient(180deg, #050505 0%, #0a0a0a 100%);
+  color: #ffffff;
+  position: fixed; 
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  z-index: 1000;
+
+  // Centered Ripple Effect
+  // Centered Ripple Effect
+  .ripple-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 222, 33, 0.5); // Yellow tint
+      width: 50px; // Start smaller
+      height: 50px;
+      opacity: 0; 
+      transform: scale(0);
+      mix-blend-mode: screen;
+      box-shadow: 0 0 15px rgba(255, 222, 33, 0.3);
+      animation: ripple-wave 4s infinite cubic-bezier(0.165, 0.84, 0.44, 1);
+      
+      &:nth-child(1) { animation-delay: 0s; }
+      &:nth-child(2) { animation-delay: 1s; }
+      &:nth-child(3) { animation-delay: 2s; }
+    }
+  }
+
+  @keyframes ripple-wave {
+    0% {
+      transform: scale(0);
+      opacity: 0.8;
+      border-width: 4px;
+    }
+    100% {
+      transform: scale(8); // Expand much larger to cover screen
+      opacity: 0;
+      border-width: 0px;
+    }
+  }
+
+  .error-container {
+    position: relative;
+    z-index: 10;
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &.is-mounted {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  // Flanking Icons Layout
+  .maintenance-layout {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+
+    .flanking-icons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3vw;
+      width: 100%;
+      margin-bottom: 10px;
+
+      .side-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffde21;
+        opacity: 0.6;
+        animation: pulse-glow 3s infinite ease-in-out;
+
+        &.left { animation-delay: 0s; }
+        &.right { animation-delay: 1.5s; }
+
+        svg {
+          width: 32px;
+          height: 32px;
+        }
+      }
+
+      .status-code {
+        margin-bottom: 0; // Reset margin for the flanked version
+      }
+    }
+  }
+
+  .status-code {
+    font-family: 'Anta', sans-serif;
+    font-size: clamp(4rem, 12vw, 8rem);
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 20px;
+    color: #ffde21;
+    text-shadow: 0 0 40px rgba(255, 222, 33, 0.5);
+    letter-spacing: -0.02em;
+    animation: status-glitch 5s infinite;
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .error-title {
+    font-family: 'Anta', sans-serif;
+    font-size: clamp(1.2rem, 4vw, 2.22rem); // Specific size request? No, but fine-tuned
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-bottom: 20px;
+    letter-spacing: 0.15em;
+    opacity: 0.9;
+  }
+
+  .error-message {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 500px;
+    padding: 0 20px;
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid rgba(255, 222, 33, 0.3);
+    color: #ffde21;
+    padding: 12px 36px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(255, 222, 33, 0.1);
+      border-color: #ffde21;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(255, 222, 33, 0.15);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.1); opacity: 0.8; filter: drop-shadow(0 0 10px rgba(255, 222, 33, 0.5)); }
+  }
+
+  @keyframes status-glitch {
+    0%, 90%, 100% { transform: translate(0); text-shadow: 0 0 30px rgba(255, 222, 33, 0.4); }
+    92% { transform: translate(-2px, 1px); color: #fff; }
+    94% { transform: translate(2px, -1px); text-shadow: -2px 0 red, 2px 0 blue; }
+    96% { transform: translate(-1px, -1px); }
+  }
+}
+
+.error-header {
+  position: absolute;
+  top: 5vh;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  pointer-events: none;
+
+  .brand-identity {
+    font-family: 'Anta', sans-serif;
+    font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+    letter-spacing: 0.5em;
+    margin-right: -0.5em;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: all 0.4s ease;
+    white-space: nowrap;
+    pointer-events: auto;
+
+    &:hover {
+      color: #ffde21;
+      letter-spacing: 0.6em;
+      text-shadow: 0 0 15px rgba(255, 222, 33, 0.3);
+    }
+  }
+}
+
+// Same as before but kept for clarity
+.nav-portal.is-disabled {
+  position: relative;
+  cursor: not-allowed;
+  pointer-events: none; 
+  
+  .nav-label, .nav-sub {
+    filter: blur(1.5px);
+    opacity: 0.6;
+  }
+
+  &::after {
+    content: 'PAGE IN BUILDING';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-3deg);
+    background: #ffde21;
+    color: #000;
+    padding: 2px 8px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.55rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    border-radius: 2px;
+    z-index: 5;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    opacity: 1;
+  }
+}
