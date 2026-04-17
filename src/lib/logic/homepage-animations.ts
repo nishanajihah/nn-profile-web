@@ -13,12 +13,6 @@ export interface HomepageElements {
  * Initializes the main entrance animation sequence for the homepage.
  */
 export function runHomepageEntranceAnimation(elements: HomepageElements) {
-    // Strict layout lock to prevent accidental scrollers
-    if (typeof document !== 'undefined') {
-        document.body.style.overflow = 'hidden';
-        document.documentElement.style.overflow = 'hidden';
-    }
-
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
     // 1. Animate the Title (Simple & Robust)

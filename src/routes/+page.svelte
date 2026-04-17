@@ -466,9 +466,7 @@
             <span class="copyright-line"
               >© {new Date().getFullYear()} Nisha Najihah</span
             >
-            <span class="copyright-credit"
-              >&nbsp;|&nbsp; Designed & Built</span
-            >
+            <span class="copyright-credit">&nbsp;|&nbsp; Designed & Built</span>
           </div>
         </div>
       </div>
@@ -719,4 +717,12 @@
 
 <style lang="scss">
   @use "$lib/styles/homepage-design.scss";
+
+  // Lock scrolling globally ONLY for this route
+  :global(html),
+  :global(body) {
+    overflow: hidden !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+  }
 </style>
