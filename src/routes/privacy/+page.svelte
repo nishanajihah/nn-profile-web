@@ -184,4 +184,12 @@
       }
     }
   }
+
+  // Force scrollability for this specific route
+  :global(html),
+  :global(body) {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+  }
 </style>
