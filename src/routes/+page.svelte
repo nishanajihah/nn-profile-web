@@ -238,9 +238,8 @@
             <a
               href="https://github.com/nishanajihah"
               target="_blank"
-              class="footer-link"
+              class="footer-link github-link"
               title="GitHub"
-              data-tooltip="GitHub"
             >
               <span class="social-icon">
                 <svg
@@ -257,13 +256,13 @@
                   ></path></svg
                 >
               </span>
+              <span class="footer-label">GitHub</span>
             </a>
             <a
               href="https://www.instagram.com/nisha.najihah"
               target="_blank"
-              class="footer-link"
+              class="footer-link instagram-link"
               title="Instagram"
-              data-tooltip="Instagram"
             >
               <span class="social-icon">
                 <svg
@@ -282,13 +281,13 @@
                   ></line></svg
                 >
               </span>
+              <span class="footer-label">Instagram</span>
             </a>
             <a
               href="https://open.spotify.com/artist/2rI5YRwSaBF0IEwiCN7SEa?si=UCYBvh9dRIyUolcoTZPb9w"
               target="_blank"
-              class="footer-link"
+              class="footer-link spotify-link"
               title="Spotify"
-              data-tooltip="Spotify"
             >
               <span class="social-icon">
                 <svg
@@ -307,13 +306,13 @@
                   ></path></svg
                 >
               </span>
+              <span class="footer-label">Spotify</span>
             </a>
             <a
               href="https://music.apple.com/us/artist/nisha-najihah/1598242580"
               target="_blank"
-              class="footer-link"
+              class="footer-link apple-link"
               title="Apple Music"
-              data-tooltip="Apple Music"
             >
               <span class="social-icon">
                 <svg
@@ -330,13 +329,13 @@
                   ></path></svg
                 >
               </span>
+              <span class="footer-label">Apple Music</span>
             </a>
             <a
               href="https://ko-fi.com/nishanajihah"
               target="_blank"
-              class="footer-link"
+              class="footer-link kofi-link"
               title="Support on Ko-fi"
-              data-tooltip="Ko-fi"
             >
               <span class="social-icon">
                 <svg
@@ -358,13 +357,13 @@
                   ></line><line x1="14" y1="1" x2="14" y2="4"></line></svg
                 >
               </span>
+              <span class="footer-label">Ko-fi</span>
             </a>
             <a
               href="https://www.linkedin.com/in/nisha-najihah"
               target="_blank"
-              class="footer-link"
+              class="footer-link linkedin-link"
               title="LinkedIn"
-              data-tooltip="LinkedIn"
             >
               <span class="social-icon">
                 <svg
@@ -385,13 +384,13 @@
                   ></circle></svg
                 >
               </span>
+              <span class="footer-label">LinkedIn</span>
             </a>
             <a
               href="https://www.youtube.com/@nisha.najihah"
               target="_blank"
-              class="footer-link"
+              class="footer-link youtube-link"
               title="YouTube"
-              data-tooltip="YouTube"
             >
               <span class="social-icon">
                 <svg
@@ -410,13 +409,13 @@
                   ></polygon></svg
                 >
               </span>
+              <span class="footer-label">YouTube</span>
             </a>
             <a
               href="https://www.threads.com/@nisha.najihah"
               target="_blank"
-              class="footer-link"
+              class="footer-link threads-link"
               title="Threads"
-              data-tooltip="Threads"
             >
               <span class="social-icon">
                 <svg
@@ -434,12 +433,12 @@
                   ></path><circle cx="18" cy="6" r="1"></circle></svg
                 >
               </span>
+              <span class="footer-label">Threads</span>
             </a>
             <a
               href="mailto:nishanajihah@gmail.com"
-              class="footer-link"
+              class="footer-link contact-link"
               title="Contact"
-              data-tooltip="Contact"
             >
               <span class="social-icon">
                 <svg
@@ -456,6 +455,7 @@
                   ></path><polyline points="22,6 12,13 2,6"></polyline></svg
                 >
               </span>
+              <span class="footer-label">Email Contact</span>
             </a>
           </div>
         </div>
@@ -503,7 +503,7 @@
           <a
             href="https://github.com/nishanajihah"
             target="_blank"
-            class="popup-link"
+            class="popup-link github-link"
           >
             <span class="popup-icon">
               <svg
@@ -525,7 +525,7 @@
           <a
             href="https://www.instagram.com/nisha.najihah"
             target="_blank"
-            class="popup-link"
+            class="popup-link instagram-link"
           >
             <span class="popup-icon">
               <svg
@@ -549,7 +549,7 @@
           <a
             href="https://open.spotify.com/artist/2rI5YRwSaBF0IEwiCN7SEa"
             target="_blank"
-            class="popup-link"
+            class="popup-link spotify-link"
           >
             <span class="popup-icon">
               <svg
@@ -573,7 +573,7 @@
           <a
             href="https://music.apple.com/us/artist/nisha-najihah/1598242580"
             target="_blank"
-            class="popup-link"
+            class="popup-link apple-link"
           >
             <span class="popup-icon">
               <svg
@@ -594,7 +594,7 @@
           <a
             href="https://ko-fi.com/nishanajihah"
             target="_blank"
-            class="popup-link"
+            class="popup-link kofi-link"
           >
             <span class="popup-icon">
               <svg
@@ -621,7 +621,7 @@
           <a
             href="https://www.linkedin.com/in/nisha-najihah"
             target="_blank"
-            class="popup-link"
+            class="popup-link linkedin-link"
           >
             <span class="popup-icon">
               <svg
@@ -647,7 +647,7 @@
           <a
             href="https://www.youtube.com/@nisha.najihah"
             target="_blank"
-            class="popup-link"
+            class="popup-link youtube-link"
           >
             <span class="popup-icon">
               <svg
@@ -671,7 +671,7 @@
           <a
             href="https://www.threads.com/@nisha.najihah"
             target="_blank"
-            class="popup-link"
+            class="popup-link threads-link"
           >
             <span class="popup-icon">
               <svg
@@ -691,7 +691,10 @@
             </span>
             <span class="link-label">Threads</span>
           </a>
-          <a href="mailto:nishanajihah@gmail.com" class="popup-link">
+          <a
+            href="mailto:nishanajihah@gmail.com"
+            class="popup-link contact-link"
+          >
             <span class="popup-icon">
               <svg
                 width="20"

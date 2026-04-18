@@ -24,6 +24,32 @@ body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
+  
+  // Custom Premium Scrollbar Design
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    border: 2px solid #0a0a0a; // Creates 'piling' effect
+    transition: all 0.3s ease;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 222, 33, 0.4); // Subtle gold glow on hover
+  }
+}
+
+// Firefox Scrollbar Support
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) #0a0a0a;
 }
 
 h1, h2, h3, .brand-title {
@@ -41,15 +67,21 @@ h1, h2, h3, .brand-title {
   padding: 0 1rem;
 }
 
-// Responsive visibility helpers
+// Custom Responsive visibility helpers (Tiered: Mobile < 999 | Tablet < 1337 | Desktop > 1338)
 .is-hidden-mobile {
-  @media (max-width: 768px) {
+  @media (max-width: 999px) {
     display: none !important;
   }
 }
 
 .is-hidden-tablet {
-  @media (min-width: 769px) {
+  @media (min-width: 1000px) {
+    display: none !important;
+  }
+}
+
+.is-hidden-desktop {
+  @media (min-width: 1338px) {
     display: none !important;
   }
 }

@@ -1,12 +1,12 @@
 // This file holds the styling for the Homepage.
-// We use descriptive names so you know exactly which page these styles belong to.
+// Designed with a cinematic, high-end stagnant layout.
 
 .homepage-wrapper {
   display: flex;
   flex-direction: column;
-  height: 100vh; // Fixed viewport height - no scrolling
+  height: 100vh;
   width: 100%;
-  overflow: hidden; // No scroll - single page view
+  overflow: hidden; // Single page view - stagnant
   position: relative;
   background: radial-gradient(
       circle at top right,
@@ -16,25 +16,20 @@
     linear-gradient(180deg, #050505 0%, #0a0a0a 100%);
   user-select: none;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
 }
 
-// CINEMATIC WRAPPER
-// CINEMATIC WRAPPER
 .cinematic-wrapper {
-  flex: 1; // Take available vertical space
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
   z-index: 10;
-  width: 100%; // Ensure full width
-  margin-top: -5vh; // Visual compensation for header weight
+  width: 100%;
+  margin-top: -5vh;
 }
 
-// MASSIVE TYPOGRAPHY
 // MASSIVE 3D TYPOGRAPHY
 .title-3d-wrapper {
   perspective: 1000px;
@@ -49,34 +44,22 @@
   text-align: center;
   color: #fff;
   text-transform: uppercase;
-  margin-bottom: 0; // Remove default margin to close gap with subtitle
-  
-  // Responsive Massive Scaling (Unified Clamp)
+  margin-bottom: 0;
   font-size: clamp(2.5rem, 10vw, 8rem);
-  
   background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0.7) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  
   filter: drop-shadow(0 0 30px rgba(255, 222, 33, 0.1));
-  
-  // 3D Tilt
   transform: rotateX(10deg); 
   transition: transform 0.5s ease-out;
-  white-space: nowrap; // Force single line
+  white-space: nowrap;
 
   &:hover {
     transform: rotateX(0deg) scale(1.02);
   }
 }
 
-.is-z-10 {
-  z-index: 10;
-}
-
-// New Solo Branding Section
-// New Solo Branding Section
 // IDENTITY DECODER
 .identity-decoder {
   font-family: 'Roboto Mono', monospace;
@@ -84,34 +67,30 @@
   letter-spacing: 0.1em;
   color: rgba(255, 255, 255, 0.7);
   display: flex;
-  justify-content: center; // Ensure horizontal centering
+  justify-content: center;
   gap: 10px;
   align-items: center;
-  margin-top: 3px; // Minimal gap - almost touching title
+  margin-top: 3px;
   
-  @media (max-width: 768px) {
+  @media (max-width: 1337px) {
     font-size: 1.1rem;
     flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 2px; // Very close on tablet
+    margin-top: 2px;
   }
   
   @media (max-width: 480px) {
     font-size: 1rem;
-    text-align: center;
-    margin-top: 2px; // Very close on mobile
+    margin-top: 2px;
   }
 
-  
   .decoder-text {
     position: relative;
   }
 }
 
-// Visual Centerpiece Removed
-
+// AMBIENT EFFECTS
 .ambient-container {
-  position: fixed; // Fixed to viewport so it never scrolls away
+  position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
@@ -126,7 +105,7 @@
 }
 
 .home-glow {
-  position: fixed; // Fixed to viewport
+  position: fixed;
   z-index: 5;
   width: 55vmin;
   height: 55vmin;
@@ -141,7 +120,7 @@
   pointer-events: none;
 }
 
-// TOP CINEMATIC NAV (Text Portals)
+// TOP CINEMATIC NAV
 .top-cinematic-nav {
   position: absolute;
   top: 15vh;
@@ -153,8 +132,8 @@
   width: auto;
   z-index: 50;
   
-  @media (max-width: 992px) {
-    top: 5vh; // Higher on mobile
+  @media (max-width: 1337px) {
+    top: 5vh;
     gap: 1.5rem;
   }
 
@@ -172,8 +151,6 @@
   text-decoration: none;
   cursor: pointer;
   position: relative;
-  
-  // Hit area expansion
   padding: 10px;
 
   .nav-label {
@@ -188,13 +165,13 @@
   .nav-sub {
     font-family: 'Roboto', sans-serif;
     font-size: 0.75rem;
-    color: #ffde21; // Accent color
+    color: #ffde21;
     letter-spacing: 0.1em;
     opacity: 0;
     transform: translateY(-5px);
     transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     position: absolute;
-    top: 100%; // Below label
+    top: 100%;
     white-space: nowrap;
     text-transform: uppercase;
   }
@@ -213,27 +190,26 @@
   }
 }
 
-// BOTTOM CENTER CONNECT
+// CONNECT PRISM CTA
 .cinematic-controls.bottom-center {
   position: absolute;
-  bottom: 28vh; // Desktop position
+  bottom: 28vh;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   justify-content: center;
   z-index: 20;
   
-  @media (max-width: 992px) {
-    bottom: 35vh; // Lowered as requested (was 42vh)
+  @media (max-width: 1337px) {
+    bottom: 35vh;
   }
 }
 
-// NEON PRISM CTA (Holographic Glitch Redesign)
 .connect-prism {
   position: relative;
-  background: rgba(10, 10, 10, 0.6); // Slightly more transparent for hologram feel
+  background: rgba(10, 10, 10, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px; // Slight rounding, not too square, not too pill
+  border-radius: 8px;
   padding: 18px 40px;
   cursor: pointer;
   overflow: hidden;
@@ -242,21 +218,15 @@
   align-items: center;
   justify-content: center;
   min-width: 280px;
-  
-  @media (max-width: 992px) {
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 10px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 222, 33, 0.05);
+  animation: border-pulse-slow 4s infinite ease-in-out;
+  color: white;
+
+  @media (max-width: 1337px) {
     min-width: 200px;
     padding: 14px 30px;
   }
-
-  // HOLOGRAPHIC BLUR & WAVER
-  backdrop-filter: blur(15px);
-  box-shadow: 0 0 10px rgba(0,0,0,0.5), inset 0 0 20px rgba(255, 222, 33, 0.05);
-
-  // Wavering Border Animation (Replaced with Smooth Glow)
-  animation: border-pulse-slow 4s infinite ease-in-out;
-  
-  // Ensure white text
-  color: white;
 
   .prism-content { 
     width: 100%; 
@@ -264,22 +234,16 @@
     justify-content: center; 
     gap: 15px;
     z-index: 2;
-    color: white; // Explicit white for button text
+    color: white;
   } 
 
-  // The "Traveling Light" Shimmer (Kept but subtler)
   .prism-glow {
     position: absolute;
     top: 0;
     left: -100%;
     width: 50%;
     height: 100%;
-    background: linear-gradient(
-      90deg, 
-      transparent, 
-      rgba(255, 255, 255, 0.1), 
-      transparent
-    );
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
     transform: skewX(-20deg);
     animation: shimmer-sweep 3s infinite;
     pointer-events: none;
@@ -290,8 +254,6 @@
     background: rgba(20, 20, 20, 0.8);
     border-color: rgba(255, 222, 33, 0.6);
     box-shadow: 0 0 40px rgba(255, 222, 33, 0.3);
-    
-    // Smooth glow intense on hover (No Glitch)
     animation: none; 
 
     .prism-glow {
@@ -300,11 +262,9 @@
   }
 }
 
-// Smooth Glow Pulse
 @keyframes border-pulse-slow {
-  0% { box-shadow: 0 0 5px rgba(255, 222, 33, 0.1); border-color: rgba(255, 255, 255, 0.1); }
+  0%, 100% { box-shadow: 0 0 5px rgba(255, 222, 33, 0.1); border-color: rgba(255, 255, 255, 0.1); }
   50% { box-shadow: 0 0 20px rgba(255, 222, 33, 0.2); border-color: rgba(255, 222, 33, 0.3); }
-  100% { box-shadow: 0 0 5px rgba(255, 222, 33, 0.1); border-color: rgba(255, 255, 255, 0.1); }
 }
 
 @keyframes shimmer-sweep {
@@ -313,38 +273,28 @@
   100% { left: 200%; opacity: 0; }
 }
 
-// CONTACT DECK (Morph Stage - Holographic Glitch)
+// CONTACT DECK
 .contact-deck {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  background: rgba(20, 20, 20, 0.6); // Matching Transparency
+  background: rgba(20, 20, 20, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 30px 40px;
   border-radius: 12px;
-  
-  // THE FUTURISTIC "GLOW PULSE" (No Glitch)
   box-shadow: 0 0 30px rgba(0,0,0,0.5);
   backdrop-filter: blur(20px); 
   animation: border-pulse-slow 4s infinite ease-in-out;
-  
   align-items: center;
   min-width: 320px;
   position: relative;
   overflow: hidden;
 
-  // Holographic Scanlines
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(255, 255, 255, 0.03) 3px,
-      rgba(255, 255, 255, 0.03) 4px
-    );
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 255, 255, 0.03) 3px, rgba(255, 255, 255, 0.03) 4px);
     pointer-events: none;
     z-index: 0;
   }
@@ -375,14 +325,12 @@
   transition: all 0.3s ease;
   position: relative;
   
-  // Clean Text Look (No Icons)
   .deck-label {
     letter-spacing: 0.15em;
     position: relative;
     z-index: 2;
   }
 
-  // Hover Glow Bloom
   &::after {
     content: '';
     position: absolute;
@@ -398,11 +346,7 @@
     color: #ffde21;
     text-shadow: 0 0 15px rgba(255, 222, 33, 0.5);
     transform: scale(1.1);
-    
-    &::after {
-      opacity: 1;
-      transform: scale(1.2);
-    }
+    &::after { opacity: 1; transform: scale(1.2); }
   }
 }
 
@@ -412,7 +356,6 @@
   background: rgba(255,255,255,0.15);
 }
 
-// Close Button (Absolute Top Right)
 .deck-close {
   position: absolute;
   top: 15px;
@@ -429,7 +372,6 @@
   transition: all 0.3s ease;
   color: rgba(255, 255, 255, 0.4);
   font-size: 0.9rem;
-  margin: 0; // Reset margin
 
   &:hover {
     color: #ff5555;
@@ -438,305 +380,34 @@
   }
 }
 
-// REMOVE OLD ANIMATIONS
-@keyframes border-waver {
-  0% { box-shadow: 0 0 10px rgba(255, 222, 33, 0.1); border-color: rgba(255, 255, 255, 0.1); }
-  50% { box-shadow: 0 0 20px rgba(255, 222, 33, 0.3); border-color: rgba(255, 222, 33, 0.4); }
-  100% { box-shadow: 0 0 10px rgba(255, 222, 33, 0.1); border-color: rgba(255, 255, 255, 0.1); }
-}
-
-@keyframes scanner-border {
-  0% { mask-position: 0 0; }
-  100% { mask-position: 100% 0; } 
-}
-
-
-
-// Footer Styles
+// FOOTER STYLES
 .home-footer {
-  border-top: none; // Lose the top border
-  background: transparent !important; // Lose the background (Bulma Override)
-  background-color: transparent !important; 
-  backdrop-filter: none; // No blur, just floating icons
-  padding: 2.5rem 0; // Increased from 1.5rem for more gap with button
-  position: absolute; // Fix to bottom of container
+  width: 100%;
+  height: 50px;
+  padding-bottom: 12px;
+  padding-top: 40px;
+  background: transparent !important;
+  user-select: none;
+  z-index: 100;
+  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  width: 100%;
-  z-index: 100;
-  
-  
-  @media (max-width: 992px) {
-    position: absolute; // Keep absolute on mobile too
-    margin-top: 0;
-    padding: 25px 0; // Increased from 15px for more gap
-    background: transparent !important;
-    backdrop-filter: none !important;
-    
-    .container {
-      background: transparent !important;
-    }
-    
-    .footer-single-row {
-       background: transparent !important;
-    }
-  }
+  overflow: hidden; // Prevent internal elements from pushing out
   
   .container {
     max-width: 100% !important;
     width: 100% !important;
-    padding: 0 20px !important; // Add some padding to prevent edge cutoff
-    box-sizing: border-box !important;
-  }
-
-}
-
-.footer-link {
-  color: rgba(255, 255, 255, 0.7); // Increased from 0.3 for better visibility
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .social-icon {
-    padding: 8px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-
-    svg {
-      transition: all 0.3s ease;
-    }
-  }
-
-  &:hover {
-    color: #ffde21;
-    transform: translateY(-5px);
-    .social-icon {
-      border-color: #ffde21;
-      background: rgba(255, 222, 33, 0.08);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3),
-        0 0 15px rgba(255, 222, 33, 0.1);
-
-      svg {
-        stroke: #ffde21;
-        filter: drop-shadow(0 0 5px rgba(255, 222, 33, 0.5));
-      }
-    }
-
-    &[title="Spotify"] .social-icon {
-      color: #1db954;
-      border-color: #1db954;
-      background: rgba(29, 185, 84, 0.08);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3),
-        0 0 15px rgba(29, 185, 84, 0.2);
-      svg {
-        stroke: #1db954;
-      }
-    }
-
-    &[title="Support on Ko-fi"] .social-icon {
-      color: #ff5e5b;
-      border-color: #ff5e5b;
-      background: rgba(255, 94, 91, 0.08);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3),
-        0 0 15px rgba(255, 94, 91, 0.2);
-      svg {
-        stroke: #ff5e5b;
-      }
-    }
-  }
-}
-
-// Social Icon Tooltips
-.footer-link {
-  position: relative;
-  
-  &[data-tooltip] {
-    &::before {
-      content: attr(data-tooltip);
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%) translateY(-8px);
-      color: #ffde21;
-      font-size: 0.75rem;
-      font-weight: 500;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s ease;
-      z-index: 1000;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-    }
-    
-    &:hover::before {
-      opacity: 1;
-      transform: translateX(-50%) translateY(-4px);
-    }
-  }
-}
-
-// Mobile Social Toggle (Integrated into Button Style Base)
-
-
-// Social Popup Overlay
-.social-popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(15px);
-  z-index: 2000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-.social-popup-content {
-  box-sizing: border-box; // Prevent overflow from padding
-  background: rgba(15, 15, 15, 0.95);
-  border: 1px solid rgba(255, 222, 33, 0.2);
-  border-radius: 20px;
-  width: min(90%, 340px); // Responsive width, never touching edges, max 340px
-  margin: auto; // Powerful flexbox centering alignment
-  padding: 30px 20px;
-  position: relative;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 222, 33, 0.1);
-  
-  @media (max-width: 992px) {
-    transform: translateX(-20px); // Stronger nudge left to fix "too much on right"
-  }
-
-  .popup-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-    h3 {
-      font-family: 'Anta', sans-serif;
-      color: #ffde21;
-      font-size: 1.2rem;
-      letter-spacing: 0.05em;
-      margin: 0;
-    }
-
-    .close-popup {
-      background: none;
-      border: none;
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 1.8rem;
-      line-height: 1;
-      cursor: pointer;
-      padding: 0;
-      transition: color 0.3s ease;
-
-      &:hover {
-        color: #ffde21;
-      }
-    }
-  }
-
-  .popup-social-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px; // Reduced gap for tighter fit
-    
-    // Ensure items are sized consistently in flex
-    .popup-link {
-      width: 28%; // Strictly force 3 columns (3*28 = 84% + gaps)
-      min-width: 70px; // Prevent getting too squished
-      aspect-ratio: 1; // Square container
-      box-sizing: border-box; // Include padding in width!
-    }
-
-    @media (max-width: 360px) {
-      .popup-link {
-        width: 45%; // 2 per row on very small screens
-      }
-    }
-  }
-
-  .popup-link {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 15px 10px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    min-height: 90px;
-    aspect-ratio: 1;
-
-    .popup-icon {
-      color: rgba(255, 255, 255, 0.6);
-      transition: all 0.3s ease;
-      
-      svg {
-        width: 24px;
-        height: 24px;
-      }
-    }
-
-    .link-label {
-      color: rgba(255, 255, 255, 0.4);
-      font-family: 'Roboto Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      text-align: center;
-      transition: all 0.3s ease;
-      line-height: 1.2;
-    }
-
-    &:active, &:hover {
-      background: rgba(255, 222, 33, 0.1);
-      border-color: rgba(255, 222, 33, 0.4);
-      transform: translateY(-5px);
-      
-      .popup-icon {
-        color: #ffde21;
-        filter: drop-shadow(0 0 8px rgba(255, 222, 33, 0.4));
-      }
-      
-      .link-label {
-        color: #ffde21;
-      }
-    }
-  }
-}
-
-// // ==========================================================================
-// FOOTER REFINEMENTS (OPTIMIZED & CLEAN)
-// ==========================================================================
-
-.home-footer {
-  width: 100%;
-  padding-bottom: 20px;
-  background: transparent !important;
-  user-select: none;
-  z-index: 100;
-  
-  .container {
-    max-width: 100%;
     background: transparent !important;
-    padding: 0;
+    padding: 0; // Use row padding instead
+  }
+
+  @media (max-width: 1337px) {
+    height: auto !important;
+    padding-bottom: 5px;
+    padding-top: 10px;
+    position: absolute;
+    bottom: 0;
   }
 }
 
@@ -744,28 +415,33 @@
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 15px 40px;
   width: 100%;
   box-sizing: border-box;
+  padding: 0 40px; // Standard desktop padding
 
-  @media (max-width: 992px) {
+  @media (max-width: 1337px) {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 8px;
     padding: 10px 15px;
+
+    // Ordered Stack for Tablet/Mobile
+    .footer-links-group { order: 2; width: 100%; }
+    .footer-social-wrapper { order: 1; width: 100%; display: flex; justify-content: center; }
+    .footer-copyright { order: 3; width: 100%; }
   }
 }
 
-// Links Group (Desktop LEFT, Mobile ROW 1)
 .footer-links-group {
   display: flex;
   align-items: center;
   gap: 12px;
   justify-self: start;
 
-  @media (max-width: 992px) {
+  @media (max-width: 1337px) {
     width: 100%;
     justify-content: center;
+    gap: 8px;
     
     .footer-privacy, .footer-social-mobile-container, .footer-terms {
       flex: 1;
@@ -775,12 +451,12 @@
   }
 }
 
-// Button Style Base (Privacy, Terms, Social Toggle, Copyright Container)
+// SHARED BUTTON STYLE (Privacy, Terms, Social Toggle, Copyright Box)
 .privacy-link, .terms-link, .social-mobile-toggle, .copyright-link {
   color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
   font-family: 'Roboto Mono', monospace;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 500;
   display: inline-flex;
   align-items: center;
@@ -794,8 +470,11 @@
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
   cursor: pointer;
-  height: 35px; // Standardized desktop height
-  
+  height: 35px;
+  position: relative;
+  z-index: 1000 !important;
+  pointer-events: auto !important;
+
   svg {
     transition: all 0.3s ease;
     flex-shrink: 0;
@@ -804,25 +483,27 @@
   }
 
   &:hover, &:active {
-    color: #ffde21;
-    background: rgba(255, 222, 33, 0.08);
-    border-color: rgba(255, 222, 33, 0.3);
-    transform: translateY(-2px);
+    color: #ffde21 !important;
+    background: rgba(255, 222, 33, 0.1) !important;
+    border-color: rgba(255, 222, 33, 0.5) !important;
     
-    svg {
-      stroke: #ffde21;
+    // Disable movement for all unless we're on desktop
+    @media (max-width: 1337px) {
+      transform: none !important;
     }
-
-    .toggle-dots span {
-      background: #ffde21;
+    @media (min-width: 1338px) {
+      transform: translateY(-2px);
     }
+    
+    svg { stroke: #ffde21 !important; }
+    .toggle-dots span { background: #ffde21 !important; }
   }
 
-  @media (max-width: 992px) {
+  @media (max-width: 1337px) {
     width: 100%;
-    font-size: 0.72rem; // Slightly larger matching common footer text
+    font-size: 0.72rem;
     padding: 0 8px;
-    height: 32px; // Standardized mobile height (exactly 32px)
+    height: 32px;
     display: flex;
     box-sizing: border-box;
   }
@@ -841,10 +522,8 @@
   }
 }
 
-// Social Icons Wrapper (Desktop CENTER)
 .footer-social-wrapper {
   justify-self: center;
-  
   .footer-social {
     display: flex;
     align-items: center;
@@ -852,115 +531,297 @@
   }
 }
 
-// Copyright Section
 .footer-copyright {
   justify-self: end;
-  
   .copyright-link {
     cursor: default;
-    background: rgba(255, 255, 255, 0.02);
-    font-size: 0.85rem; // Desktop match
     
-    &:hover {
-      transform: none;
-      color: rgba(255, 255, 255, 0.6);
-      background: rgba(255, 255, 255, 0.02);
-      border-color: rgba(255, 255, 255, 0.08);
+    // Disable any hover flair from shared styles
+    &:hover, &:active {
+      transform: none !important;
+      color: rgba(255, 255, 255, 0.6) !important;
+      background: rgba(255, 255, 255, 0.03) !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+      box-shadow: none !important;
     }
   }
 
-  @media (max-width: 992px) {
+  @media (max-width: 1337px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
     .copyright-link {
-      font-size: 0.72rem; // Mobile match with buttons
+      font-size: 0.72rem;
+      width: 100% !important;
+      height: 32px;
+      padding: 0;
     }
   }
 }
 
-// Hover effects for social icons
+// --- SOCIAL INTERACTION SYSTEM ---
+
 .footer-link {
+  position: relative;
   color: rgba(255, 255, 255, 0.4);
-  transition: all 0.3s ease;
-  
-  &:hover {
-    color: #ffde21;
-    filter: drop-shadow(0 0 8px rgba(255, 222, 33, 0.4));
-    transform: translateY(-3px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+
+  .social-icon {
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+
+    @media (max-width: 999px) {
+      width: 12px;
+      height: 12px;
+    }
+
+    svg {
+      transition: all 0.3s ease;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  // DESKTOP INTERACTION (Hover + Movement + Brand Colors)
+  @media (min-width: 1338px) {
+    &:hover {
+      transform: translateY(-5px);
+      .social-icon {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        border-color: #ffde21;
+        background: rgba(255, 222, 33, 0.05);
+      }
+      .social-icon svg { transform: scale(1.1); }
+      .footer-label { opacity: 1; transform: translateX(-50%) translateY(-8px); }
+
+      // Brand Colors (Only on Desktop)
+      &.github-link { .footer-label, .social-icon svg { color: #fff; stroke: #fff; } }
+      &.instagram-link { .footer-label, .social-icon svg { color: #E1306C; stroke: #E1306C; } }
+      &.spotify-link { .footer-label, .social-icon svg { color: #1db954; stroke: #1db954; } }
+      &.apple-link { .footer-label, .social-icon svg { color: #FC3C44; stroke: #FC3C44; } }
+      &.kofi-link { .footer-label, .social-icon svg { color: #ffde21; stroke: #ffde21; } }
+      &.linkedin-link { .footer-label, .social-icon svg { color: #0A66C2; stroke: #0A66C2; } }
+      &.youtube-link { .footer-label, .social-icon svg { color: #FF0000; stroke: #FF0000; } }
+      &.threads-link { .footer-label, .social-icon svg { color: #fff; stroke: #fff; } }
+      &.contact-link { .footer-label, .social-icon svg { color: #ffde21; stroke: #ffde21; } }
+    }
+  }
+
+  // TABLET/MOBILE INTERACTION (No movement, Unified Yellow Highlight)
+  @media (max-width: 1337px) {
+    transform: none !important; 
+    flex-direction: row !important;
+    gap: 0;
+
+    &:active, &:hover {
+      .social-icon {
+        background: rgba(255, 222, 33, 0.1) !important;
+        border-color: #ffde21 !important;
+        color: #ffde21 !important;
+      }
+      .footer-label, .social-icon svg {
+        color: #ffde21 !important;
+        stroke: #ffde21 !important;
+        filter: drop-shadow(0 0 5px rgba(255,222,33,0.3));
+      }
+    }
   }
 }
 
-// Mobile layout enforcement (No Scroll)
-@media (max-width: 992px) {
+.footer-label {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  color: #fff; // Default color
+  z-index: 10;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+
+  // Tablet View: Permanent on the right
+  @media (max-width: 1337px) {
+    position: static;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    margin-left: 8px;
+    font-size: 0.55rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.footer-link {
+  @media (max-width: 999px) {
+    flex-direction: row !important;
+    gap: 0;
+    
+    &:active {
+      .social-icon { border-color: #ffde21; background: rgba(255, 222, 33, 0.1); }
+      .footer-label, .social-icon svg { color: #ffde21 !important; stroke: #ffde21 !important; }
+    }
+  }
+}
+
+// Brand Hover Labels (Desktop Only handled in centralized section)
+@media (min-width: 1338px) {
+  .footer-link:hover .footer-label {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-8px);
+  }
+}
+
+.social-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  cursor: pointer;
+}
+
+.social-popup-content {
+  box-sizing: border-box;
+  background: rgba(15, 15, 15, 0.98);
+  border: 1px solid rgba(255, 222, 33, 0.3);
+  border-radius: 20px;
+  width: min(90%, 360px);
+  padding: 30px 25px;
+  position: relative;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 222, 33, 0.1);
+  cursor: default;
+
+  .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    
+    h3 { 
+      font-family: 'Anta', sans-serif; 
+      color: #ffde21; 
+      font-size: 1.25rem; 
+      margin: 0; 
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    
+    .close-popup { 
+      background: none; 
+      border: none; 
+      color: rgba(255, 255, 255, 0.5); 
+      font-size: 2rem; 
+      cursor: pointer; 
+      line-height: 1;
+      padding: 5px;
+      &:hover { color: #ffde21; } 
+    }
+  }
+
+  .popup-social-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+    
+    .popup-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      
+      .popup-icon { 
+        color: rgba(255, 255, 255, 0.7); 
+        display: flex;
+        align-items: center;
+        
+        svg { 
+          width: 20px; 
+          height: 20px; 
+          stroke: currentColor;
+        } 
+      }
+      
+      .link-label { 
+        color: rgba(255, 255, 255, 0.7); 
+        font-family: 'Roboto Mono', monospace; 
+        font-size: 0.7rem; 
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      &:active, &:hover {
+        background: rgba(255, 222, 33, 0.15);
+        border-color: #ffde21;
+        .popup-icon, .link-label { color: #ffde21; }
+      }
+    }
+  }
+}
+
+// MOBILE & TABLET REFINEMENTS (< 1337px)
+@media (max-width: 1337px) {
   .cinematic-wrapper {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0;
-    margin-top: -12vh; // Slightly lower for text space
+    margin-top: -12vh;
   }
   
   .cinematic-title {
-    font-size: clamp(2.2rem, 10vw, 3.4rem); // Increased size for mobile presence
+    font-size: clamp(3rem, 12vw, 4.8rem); // Increased for Tablet
     white-space: normal;
     margin-bottom: 8px;
-  }
 
-  .title-3d-wrapper {
-    margin-bottom: 8px;
+    @media (max-width: 999px) {
+      font-size: clamp(2.2rem, 10vw, 3.4rem); // Original size for Mobile
+    }
   }
 
   .identity-decoder {
-    margin-bottom: 15px;
-    .decoder-text {
-      font-size: 0.75rem; // Increased size for mobile legibility
-      letter-spacing: 0.12em;
-    }
+    margin-top: -5px; // Move nearer to title
+    margin-bottom: 20px;
+    .decoder-text { font-size: 0.75rem; }
   }
 
-  .cta-section {
-    margin-bottom: 0;
-    .nav-pulsator {
-      min-width: 180px;
-      padding: 12px 25px;
-      .pulsator-text {
-        font-size: 0.75rem;
-      }
-    }
+  .cta-section .nav-pulsator {
+    min-width: 180px;
+    padding: 12px 25px;
+    .pulsator-text { font-size: 0.75rem; }
   }
 
   .homepage-wrapper {
     height: 100vh !important;
     height: 100dvh !important;
-    overflow: hidden !important; // ABSOLUTELY NO SCROLL
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .home-footer {
-    padding-bottom: 12px;
-  }
-
-  .footer-single-row {
-    gap: 8px;
-    padding: 10px 15px;
-  }
-
-  .footer-links-group {
-    gap: 6px;
-    width: 100%;
-  }
-
-  .footer-copyright {
-    width: 100%; 
-    order: 2;
-    display: flex;
-    justify-content: center;
-
-    .copyright-link {
-       width: 100% !important;
-       height: 32px; // Exact match 32px
-       padding: 0;
-    }
+    overflow: hidden !important; // NO SCROLL
   }
 }
