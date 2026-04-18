@@ -7,39 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### In Progress
+- Development of internal pages: `/about`, `/code`, and `/music`.
+- Global navigation transition animations.
+
+## [2.0.0] - 2026-04-18
+
 ### Added
-
-- created new sveltekit with bulma
-
-## [2.0.0] - 2025-12-29
-
-### Added
-
-- Services (src/lib/services/): Purely for data fetching and external API interaction (e.g., github.service.ts).
-- Logic (src/lib/logic/): Page-specific TypeScript logic, such as GSAP animation timelines or interaction handlers (e.g., home.animation.ts).
-- Styles (src/lib/styles/): Refined SCSS files, separated by responsibility (e.g., brand-theme.scss, home.pages.scss).
-- Components (src/lib/components/): Reusable UI building blocks (e.g., ProjectCard.svelte, AnimatedTitle.svelte).
-- Route Handlers: +page.server.ts will act as a "thin wrapper" that only calls the services in /lib, keeping the route folder lean.
+- **Cinematic Homepage 2.0**: Completely redesigned interface with massive 3D typography and identity decoder.
+- **Tiered Responsive Engine**: 
+  - **Desktop (1338px+)**: Full hover-interactive brand color mode.
+  - **Tablet (1000px - 1337px)**: Centered 3-row footer with permanent social labels and unified yellow highlight.
+  - **Mobile (< 999px)**: Space-optimized toggle logic with premium social popup overlay.
+- **Social Interaction System**: Standardized interaction model with brand-specific hover labels on desktop and unified touch highlights on handheld devices.
+- **Premium Backdrop Filter**: Implemented high-end blur and frosted glass effects across popups and containers.
+- **Project Foundation**: robust separation of services, logic, styles, and reusable Svelte components.
 
 ### Fixed
+- Footer overlap issues on short-viewport devices via flexible flexbox container logic.
+- Responsive break-point synchronization across `app.scss` and `homepage-design.scss`.
+- Static copyright styling to prevent accidental interaction highlights.
 
-### Changed
-
-### Removed
-
-## [2.1.0] - 2025-12-30
-
-### Added
-
-- Danish translation (#297).
-- Georgian translation from (#337).
-- Changelog inconsistency section in Bad Practices.
-
-### Fixed
-
-- Italian translation (#332).
-- Indonesian translation (#336).
-
-[unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v1.1.1...HEAD
-[1.1.1]: https://github.com/olivierlacan/keep-a-changelog/compare/v1.1.0...v1.1.1
-[1.1.0]: https://github.com/olivierlacan/keep-a-changelog/compare/v1.0.0...v1.1.0
+## [1.0.0] - Earlier
+- Initial SvelteKit + Bulma setup.
+- Basic route structure and GitHub service integration.
