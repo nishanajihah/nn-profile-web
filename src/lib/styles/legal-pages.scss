@@ -1,0 +1,316 @@
+@use "sass:color";
+
+$primary: #ffde21;
+$bg-black: #0a0a0a;
+$card-bg: rgba(20, 20, 20, 0.6);
+$text-dim: rgba(255, 255, 255, 0.7);
+$neu-shadow-light: rgba(255, 255, 255, 0.05);
+$neu-shadow-dark: rgba(0, 0, 0, 0.5);
+
+.legal-page-wrapper {
+  min-height: 100vh;
+  background-color: $bg-black;
+  color: #ffffff;
+  padding: 100px 20px;
+  position: relative;
+  overflow-x: hidden;
+  font-family: 'Roboto', sans-serif;
+
+  .background-accents {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.15;
+    }
+
+    // Orb variations for different pages
+    &.privacy-accents {
+      .orb-1 {
+        width: 400px;
+        height: 400px;
+        background: $primary;
+        top: -100px;
+        right: -100px;
+      }
+      .orb-2 {
+        width: 300px;
+        height: 300px;
+        background: #4a90e2;
+        bottom: -50px;
+        left: -50px;
+      }
+    }
+
+    &.terms-accents {
+      .orb-1 {
+        width: 400px;
+        height: 400px;
+        background: $primary;
+        top: -100px;
+        left: -100px;
+      }
+      .orb-2 {
+        width: 300px;
+        height: 300px;
+        background: #ff4a4a;
+        bottom: -50px;
+        right: -50px;
+      }
+    }
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.legal-header {
+  text-align: center;
+  margin-bottom: 60px;
+
+  .title {
+    font-family: 'Anta', sans-serif;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    color: $primary;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-shadow: 0 0 20px rgba(255, 222, 33, 0.3);
+  }
+
+  .policy-meta {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .badge {
+      background: rgba($primary, 0.1);
+      border: 1px solid rgba($primary, 0.3);
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: $primary;
+      font-weight: 500;
+    }
+
+    .last-updated {
+      font-size: 0.9rem;
+      color: $text-dim;
+    }
+  }
+}
+
+.legal-content-card {
+  background: $card-bg;
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 40px;
+  padding: 60px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+
+  @media (max-width: 768px) {
+    padding: 30px 20px;
+    border-radius: 24px;
+  }
+}
+
+.policy-section {
+  margin-bottom: 50px;
+  padding: 30px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+
+  &.inset-shadow {
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: inset 8px 8px 16px rgba(0, 0, 0, 0.4), 
+                inset -8px -8px 16px rgba(255, 255, 255, 0.02);
+  }
+
+  .section-title {
+    font-family: 'Anta', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+
+    &::before {
+      content: '';
+      width: 4px;
+      height: 24px;
+      background: $primary;
+      margin-right: 15px;
+      border-radius: 2px;
+    }
+  }
+
+  p {
+    line-height: 1.8;
+    color: $text-dim;
+    font-size: 1.05rem;
+    margin-bottom: 15px;
+
+    strong {
+      color: #ffffff;
+      font-weight: 500;
+    }
+  }
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 25px;
+
+  .info-item {
+    h3 {
+      font-size: 1.1rem;
+      color: $primary;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 0.95rem;
+    }
+  }
+}
+
+.styled-list {
+  list-style: none;
+  padding: 0;
+
+  li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    color: $text-dim;
+    line-height: 1.6;
+
+    &::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: $primary;
+    }
+
+    strong {
+      color: #fff;
+    }
+  }
+
+  &.restriction-list {
+    li::before {
+      content: '✕';
+      color: #ff4a4a;
+      font-size: 0.8rem;
+      top: 4px;
+    }
+  }
+}
+
+.contact-box {
+  margin-top: 30px;
+  padding: 30px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  &.neumorphic-raised {
+    background: rgba(30, 30, 30, 0.4);
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3), 
+                -10px -10px 20px rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: $primary;
+    margin-bottom: 10px;
+  }
+
+  .name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .email-link {
+    color: $primary;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+  }
+}
+
+.action-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+}
+
+.btn-neumorphic {
+  background: $bg-black;
+  padding: 15px 40px;
+  border-radius: 50px;
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.4), 
+              -8px -8px 16px rgba(255, 255, 255, 0.03);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.5), 
+                -12px -12px 24px rgba(255, 255, 255, 0.05);
+    color: $primary;
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4), 
+                inset -4px -4px 8px rgba(255, 255, 255, 0.02);
+  }
+}
+
+.inline-link {
+  color: $primary;
+  text-decoration: underline;
+}
+
+.mt-4 { margin-top: 1rem; }
+
+// Handle global scrollbar for these pages
+:global(.legal-page-active) {
+  :global(html), :global(body) {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: auto !important;
+    scroll-behavior: smooth;
+  }
+}

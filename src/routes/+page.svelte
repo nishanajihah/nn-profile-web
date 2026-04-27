@@ -48,9 +48,14 @@
     };
     runHomepageEntranceAnimation(elements);
 
+    document.documentElement.classList.add('home-page-active');
+    document.body.classList.add('home-page-active');
+
     return () => {
       cleanupGlow();
       cleanupAbout();
+      document.documentElement.classList.remove('home-page-active');
+      document.body.classList.remove('home-page-active');
     };
   });
 </script>
@@ -210,7 +215,7 @@
 
           <!-- Terms Link -->
           <div class="footer-terms">
-            <a href="/terms" class="terms-link">
+            <a href="/terms-and-conditions" class="terms-link">
               <svg
                 width="14"
                 height="14"
@@ -722,8 +727,8 @@
   @use "$lib/styles/homepage-design.scss";
 
   // Lock scrolling globally ONLY for this route
-  :global(html),
-  :global(body) {
+  :global(html.home-page-active),
+  :global(body.home-page-active) {
     overflow: hidden !important;
     height: 100vh !important;
     height: 100dvh !important;
