@@ -1,0 +1,573 @@
+// Artist Page WOW Styles
+$music-primary: #ffde21;
+$music-secondary: #00e5ff;
+$music-accent: #ff4081;
+$bg-color: #050505;
+
+.artist-page {
+    background-color: $bg-color;
+    color: white;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 100px; /* Space for the absolute footer */
+
+    // Custom Glassy Box for Navigation (Music Page Only)
+    :global(.top-cinematic-nav) {
+        background: rgba(10, 10, 10, 0.15);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 0.6rem 2.5rem; 
+        border-radius: 20px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+
+        :global(.nav-portal) {
+            position: relative;
+            
+            :global(.nav-sub) {
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            }
+            
+            &:hover :global(.nav-sub) {
+                transform: translateY(4px) !important;
+                background: $music-primary;
+                color: #000 !important;
+                padding: 4px 12px;
+                border-radius: 12px;
+                font-weight: 800;
+                letter-spacing: 0.15em;
+                text-shadow: none !important;
+                box-shadow: 0 4px 15px rgba(255, 222, 33, 0.4);
+                opacity: 1 !important;
+            }
+        }
+    }
+}
+
+// Parallax Hero Section
+.artist-hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    .hero-bg-container {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        z-index: 0;
+        
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba($bg-color, 0.2) 0%, rgba($bg-color, 0.8) 80%, $bg-color 100%);
+        }
+    }
+
+    .hero-bg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.1); // Room for parallax
+        animation: slowZoom 20s infinite alternate linear;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        width: 100%;
+        
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            
+            .marquee {
+                display: inline-block;
+                animation: marqueeLeft 30s linear infinite;
+                font-family: 'Anta', sans-serif;
+                font-size: 15vw;
+                font-weight: 700;
+                color: transparent;
+                -webkit-text-stroke: 2px rgba(255, 255, 255, 0.2);
+                text-transform: uppercase;
+                line-height: 1;
+                
+                span {
+                    padding: 0 2vw;
+                }
+            }
+        }
+        
+        .hero-title-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Anta', sans-serif;
+            font-size: 8vw;
+            font-weight: 700;
+            color: $music-primary;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            width: 100%;
+        }
+    }
+}
+
+.stream-banner {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.5rem 0;
+    position: relative;
+    z-index: 10;
+    margin-top: 0;
+    
+    .stream-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        
+        @media (max-width: 768px) {
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+    }
+    
+    .stream-label {
+        font-family: 'Anta', sans-serif;
+        font-size: 1.2rem;
+        color: $music-primary;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        
+        &::after {
+            content: '';
+            display: inline-block;
+            width: 40px;
+            height: 2px;
+            background: $music-primary;
+            margin-left: 1rem;
+            
+            @media (max-width: 768px) {
+                display: none;
+            }
+        }
+    }
+    
+    .stream-links {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        
+        .stream-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            
+            &:hover {
+                color: white;
+                transform: translateY(-2px);
+                
+                svg {
+                    stroke: $music-primary;
+                }
+            }
+            
+            svg {
+                transition: stroke 0.3s ease;
+            }
+            
+            .stream-name {
+                font-family: 'Anta', sans-serif;
+                font-size: 0.9rem;
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+            }
+        }
+    }
+}
+
+
+.discography-layout {
+    display: flex;
+    max-width: 1500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    gap: 4rem;
+    position: relative;
+    z-index: 2;
+    
+    @media (max-width: 1024px) {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 2rem;
+    }
+}
+
+.disco-sidebar {
+    width: 120px;
+    flex-shrink: 0;
+    position: relative;
+    
+    @media (max-width: 1024px) {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.vertical-wrapper {
+    position: sticky;
+    top: 150px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    
+    @media (min-width: 1025px) {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        height: fit-content;
+    }
+    
+    @media (max-width: 1024px) {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .creative-title {
+        font-family: 'Anta', sans-serif;
+        font-size: clamp(4rem, 8vw, 8rem);
+        font-weight: 800;
+        color: transparent;
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15);
+        text-transform: uppercase;
+        position: relative;
+        margin: 0;
+        line-height: 1;
+        cursor: pointer;
+        
+        &::before {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: $music-primary;
+            -webkit-text-stroke: 0px transparent;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            
+            @media (min-width: 1025px) {
+                height: 0%;
+                width: 100%;
+                border-bottom: 4px solid transparent;
+            }
+            @media (max-width: 1024px) {
+                width: 0%;
+                height: 100%;
+                border-right: 4px solid transparent;
+            }
+        }
+        
+        &:hover::before {
+            @media (min-width: 1025px) {
+                height: 100%;
+                border-bottom-color: $music-primary;
+            }
+            @media (max-width: 1024px) {
+                width: 100%;
+                border-right-color: $music-primary;
+            }
+        }
+    }
+
+    .creative-subtitle {
+        color: $music-secondary;
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5em;
+        opacity: 0.6;
+        margin: 0;
+    }
+}
+
+.disco-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.discography-section {
+    padding: 0 0 4rem 0;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+
+    .section-subtitle {
+        font-family: 'Anta', sans-serif;
+        font-size: 2.2rem;
+        color: white;
+        margin-bottom: 2.5rem;
+        text-align: left;
+        padding-bottom: 0.8rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        
+        span {
+            color: $music-primary;
+        }
+    }
+
+    .album-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 3rem;
+        
+        .album-card {
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            
+            &:hover, &.is-playing {
+                transform: translateY(-3px);
+                
+                .album-art-wrapper {
+                    box-shadow: 0 10px 30px rgba($music-primary, 0.3);
+                    border-color: rgba($music-primary, 0.6);
+                    
+                    img {
+                        transform: scale(1.02);
+                        filter: brightness(1.1);
+                    }
+                }
+                
+                .album-info h3 {
+                    color: $music-primary;
+                }
+            }
+        }
+        
+        .album-art-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.5s ease, filter 0.3s ease;
+            }
+        }
+        
+        .album-info {
+            margin-top: 1.5rem;
+            text-align: center;
+            
+            h3 {
+                font-size: 1.2rem;
+                color: white;
+                margin: 0 0 0.5rem 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-family: 'Anta', sans-serif;
+                transition: color 0.3s ease;
+            }
+            
+            p {
+                font-size: 0.9rem;
+                color: rgba(255, 255, 255, 0.6);
+                margin: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+}
+
+@keyframes bounce {
+    from { transform: scaleY(0.5); }
+    to { transform: scaleY(1); }
+}
+
+// Global fixed audio player for Spotify/Local fallback
+.global-player {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(150%);
+    width: 90%;
+    max-width: 600px;
+    background: rgba(20, 20, 20, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    z-index: 1000;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    &.visible {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .player-cover {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        animation: spin 5s linear infinite;
+        border: 2px solid #333;
+        
+        &.paused {
+            animation-play-state: paused;
+        }
+    }
+
+    .player-info {
+        flex-grow: 1;
+        overflow: hidden;
+        
+        h4 {
+            margin: 0;
+            color: white;
+            font-size: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        p {
+            margin: 0;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.8rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .player-controls {
+        button {
+            background: $music-primary;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            
+            &:hover {
+                transform: scale(1.1);
+                box-shadow: 0 0 20px rgba($music-primary, 0.5);
+            }
+            
+            svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    }
+    
+    .close-player {
+        background: transparent;
+        border: none;
+        color: rgba(255,255,255,0.5);
+        cursor: pointer;
+        padding: 5px;
+        &:hover { color: white; }
+    }
+}
+
+// Fixed Spotify Embed
+.spotify-embed-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    width: 350px;
+    height: 152px; // Standard spotify embed height
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+    transform: translateY(200%);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Removed overflow: hidden so close button is not cropped */
+    
+    &.visible {
+        transform: translateY(0);
+    }
+    
+    .close-embed {
+        position: absolute;
+        top: -12px;
+        right: -12px;
+        background: #333;
+        color: white;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: 2px solid white;
+        z-index: 1001;
+        font-weight: bold;
+    }
+    
+    iframe {
+        border-radius: 12px;
+        display: block;
+    }
+}
+
+@keyframes marqueeLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes slowZoom {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.15); }
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}

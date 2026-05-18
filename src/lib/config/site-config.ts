@@ -6,7 +6,7 @@ export const siteConfig = {
   isBuildingMode: true,
   
   // List of paths that should show the "Building Mode" state
-  underConstructionPaths: ['/about', '/music', '/code']
+  underConstructionPaths: ['/about', '/code']
 };
 
 /**
