@@ -1,22 +1,31 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { siteConfig } from '$lib/config/site-config';
+  import '$lib/styles/navigation.scss';
+
+  // When true, the HOME link is hidden (used on the homepage itself)
+  export let hideHome = false;
+
+  // 'home'  → transparent floating nav (original homepage-design.scss style, position: absolute top: 15vh)
+  // 'inner' → glassmorphism pill bar (position: fixed top: 40px), used on Music, About, Code pages
+  export let variant: 'home' | 'inner' = 'home';
 
   const isPathDisabled = (path: string) =>
     siteConfig.isBuildingMode && siteConfig.underConstructionPaths.includes(path);
 </script>
 
-<nav class="top-cinematic-nav">
-  <!-- HOMEPAGE LINK (optional, but good for navigation) -->
-  <a
-    href="/"
-    class="nav-portal {$page.url.pathname === '/' ? 'is-active' : ''}"
-  >
-    <span class="nav-label">HOME</span>
-    <span class="nav-sub">Origin</span>
-  </a>
+<nav class="top-cinematic-nav {variant === 'inner' ? 'nav--inner' : ''}">
+  {#if !hideHome}
+    <a
+      href="/"
+      class="nav-portal {$page.url.pathname === '/' ? 'is-active' : ''}"
+    >
+      <span class="nav-label">HOME</span>
+      <span class="nav-sub">Origin</span>
+    </a>
 
-  <div class="nav-divider"></div>
+    <div class="nav-divider"></div>
+  {/if}
 
   <a
     href="/about"
@@ -46,18 +55,3 @@
     <span class="nav-sub">Code Development</span>
   </a>
 </nav>
-
-<style lang="scss">
-  /* Inherit top-cinematic-nav styles from homepage-design.scss globally */
-  .nav-portal {
-    &.is-active {
-      .nav-label {
-        color: #ffde21 !important;
-        text-shadow: 0 0 10px rgba(255, 222, 33, 0.5) !important;
-      }
-      .nav-sub {
-        color: rgba(255, 255, 255, 0.8) !important;
-      }
-    }
-  }
-</style>

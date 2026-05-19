@@ -123,7 +123,7 @@ export function runHomepageEntranceAnimation(elements: HomepageElements) {
  * Sets up the interaction where hovering the 'About' portal highlights the Title.
  */
 export function setupAboutPointerInteraction(titleElement: HTMLElement | null) {
-    const aboutPortal = document.getElementById('about-portal');
+    const aboutPortal = document.querySelector('.nav-portal[href="/about"]');
     if (!aboutPortal || !titleElement) return () => {};
 
     const handleEnter = () => {

@@ -12,6 +12,8 @@
   } from "$lib/logic/homepage-animations";
 
   import { siteConfig } from "$lib/config/site-config";
+  import Navigation from "$lib/components/Navigation.svelte";
+  import Footer from "$lib/components/Footer.svelte";
 
   const isPathDisabled = (path: string) =>
     siteConfig.isBuildingMode &&
@@ -48,14 +50,14 @@
     };
     runHomepageEntranceAnimation(elements);
 
-    document.documentElement.classList.add('home-page-active');
-    document.body.classList.add('home-page-active');
+    document.documentElement.classList.add("home-page-active");
+    document.body.classList.add("home-page-active");
 
     return () => {
       cleanupGlow();
       cleanupAbout();
-      document.documentElement.classList.remove('home-page-active');
-      document.body.classList.remove('home-page-active');
+      document.documentElement.classList.remove("home-page-active");
+      document.body.classList.remove("home-page-active");
     };
   });
 </script>
@@ -77,38 +79,8 @@
       class="hero-body is-z-10 is-flex is-align-items-center is-justify-content-center"
       style="min-height: 100vh; position: relative;"
     >
-      <!-- Top Cinematic Nav (Text + Subtext Reveal) -->
-      <nav class="top-cinematic-nav">
-        <!-- Added ID for specific targeting in animation script -->
-        <a
-          href="/about"
-          class="nav-portal {isPathDisabled('/about') ? 'is-disabled' : ''}"
-          id="about-portal"
-        >
-          <span class="nav-label">ABOUT</span>
-          <span class="nav-sub">The Identity</span>
-        </a>
-
-        <div class="nav-divider"></div>
-
-        <a
-          href="/music"
-          class="nav-portal {isPathDisabled('/music') ? 'is-disabled' : ''}"
-        >
-          <span class="nav-label">AUDITORY</span>
-          <span class="nav-sub">Music Production</span>
-        </a>
-
-        <div class="nav-divider"></div>
-
-        <a
-          href="/code"
-          class="nav-portal {isPathDisabled('/code') ? 'is-disabled' : ''}"
-        >
-          <span class="nav-label">VISUAL</span>
-          <span class="nav-sub">Code Development</span>
-        </a>
-      </nav>
+      <!-- Top Cinematic Nav -->
+      <Navigation hideHome />
 
       <div class="container has-text-centered cinematic-wrapper">
         <!-- MASSIVE 3D Identity Anchor (Single Line) -->

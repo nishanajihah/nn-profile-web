@@ -1,0 +1,169 @@
+/* ============================================
+   NAVIGATION COMPONENT STYLES
+   Used by: src/lib/components/Navigation.svelte
+
+   Two variants:
+   - .top-cinematic-nav               → Homepage: transparent floating nav (original design)
+   - .top-cinematic-nav.nav--inner    → Inner pages (Music, About, Code): glassmorphism pill bar
+   ============================================ */
+
+// ─── SHARED BASE ────────────────────────────────────────────────────────────
+
+.top-cinematic-nav {
+  position: absolute;
+  top: 15vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  gap: 3.5rem;
+  width: auto;
+  z-index: 50;
+  align-items: center;
+
+  @media (max-width: 1337px) {
+    top: 5vh;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    top: 5vh;
+    gap: 1rem;
+  }
+
+  // ─── INNER PAGES VARIANT (pill box) ──────────────────────────────────────
+  &.nav--inner {
+    // Same position as homepage nav — only the visual style changes
+    background: rgba(10, 10, 10, 0.85);
+    padding: 10px 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    gap: 30px;
+    // Allow the absolute-positioned .nav-sub to overflow the pill
+    overflow: visible;
+
+    // ── Tablet (mirrors home nav top: 5vh breakpoint) ────────────────────
+    @media (max-width: 1337px) {
+      padding: 10px 24px;
+      gap: 16px;
+    }
+
+    // ── Mobile ───────────────────────────────────────────────────────────
+    @media (max-width: 768px) {
+      padding: 8px 16px;
+      gap: 10px;
+      width: auto;
+      max-width: 95%;
+
+      // Make lines in between clearer on mobile view
+      .nav-divider {
+        display: block;
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      // On mobile: suppress the label lift so it doesn't clip the pill
+      .nav-portal:hover:not(.is-disabled) {
+        .nav-label {
+          transform: none;
+        }
+      }
+    }
+
+    // Inner pages nav-portal — keep all homepage font/animation, only tweak active colour
+    .nav-portal {
+      padding: 10px;
+
+      @media (max-width: 768px) {
+        padding: 6px 4px;
+      }
+
+      @media (max-width: 1337px) {
+        .nav-sub {
+          display: none !important;
+        }
+      }
+
+      // Active page link — yellow label, white subtitle (turns yellow on hover via base styles)
+      &.is-active {
+        .nav-label {
+          color: #ffde21;
+          text-shadow: 0 0 10px rgba(255, 222, 33, 0.5);
+        }
+        .nav-sub {
+          opacity: 1;
+          transform: translateY(2px);
+          color: rgba(255, 255, 255, 0.9);
+        }
+      }
+    }
+
+    .nav-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+  }
+}
+
+// ─── HOMEPAGE NAV-PORTAL (original transparent style) ───────────────────────
+
+.nav-portal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  padding: 10px;
+  transition: all 0.3s ease;
+
+  &.is-disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  .nav-label {
+    font-family: 'Anta', sans-serif;
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.4s ease;
+  }
+
+  .nav-sub {
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.75rem;
+    color: #ffde21;
+    letter-spacing: 0.1em;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    position: absolute;
+    top: 100%;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  &:hover:not(.is-disabled) {
+    .nav-label {
+      color: #fff;
+      transform: translateY(-5px);
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    }
+    .nav-sub {
+      opacity: 1;
+      transform: translateY(2px);
+    }
+  }
+}
+
+// ─── HOMEPAGE DIVIDER ────────────────────────────────────────────────────────
+
+.nav-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+}
