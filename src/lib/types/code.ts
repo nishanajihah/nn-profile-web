@@ -12,6 +12,7 @@ export interface ProjectData {
   hasLanding: boolean;    
   
   // Dynamic fields
+  customLandingUrl?: string; // Links directly to a static custom landing page OR an external URL!
   liveUrl?: string;       
   docsUrl?: string;       
   repoUrl?: string;
