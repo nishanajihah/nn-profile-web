@@ -120,75 +120,6 @@
   pointer-events: none;
 }
 
-// TOP CINEMATIC NAV
-.top-cinematic-nav {
-  position: absolute;
-  top: 15vh;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  gap: 3.5rem;
-  width: auto;
-  z-index: 50;
-  
-  @media (max-width: 1337px) {
-    top: 5vh;
-    gap: 1.5rem;
-  }
-
-  .nav-divider {
-    width: 1px;
-    height: 20px;
-    background: rgba(255,255,255,0.2);
-  }
-}
-
-.nav-portal {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  cursor: pointer;
-  position: relative;
-  padding: 10px;
-
-  .nav-label {
-    font-family: 'Anta', sans-serif;
-    font-size: clamp(0.9rem, 2vw, 1.2rem);
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    color: rgba(255,255,255,0.7);
-    transition: all 0.4s ease;
-  }
-
-  .nav-sub {
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.75rem;
-    color: #ffde21;
-    letter-spacing: 0.1em;
-    opacity: 0;
-    transform: translateY(-5px);
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-    position: absolute;
-    top: 100%;
-    white-space: nowrap;
-    text-transform: uppercase;
-  }
-
-  &:hover {
-    .nav-label {
-      color: #fff;
-      transform: translateY(-5px);
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
-    }
-    
-    .nav-sub {
-      opacity: 1;
-      transform: translateY(2px);
-    }
-  }
-}
 
 // CONNECT PRISM CTA
 .cinematic-controls.bottom-center {
@@ -475,13 +406,6 @@
   z-index: 1000 !important;
   pointer-events: auto !important;
 
-  svg {
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-    width: 12px;
-    height: 12px;
-  }
-
   &:hover, &:active {
     color: #ffde21 !important;
     background: rgba(255, 222, 33, 0.1) !important;
@@ -494,9 +418,6 @@
     @media (min-width: 1338px) {
       transform: translateY(-2px);
     }
-    
-    svg { stroke: #ffde21 !important; }
-    .toggle-dots span { background: #ffde21 !important; }
   }
 
   @media (max-width: 1337px) {
@@ -509,6 +430,18 @@
   }
 }
 
+.privacy-link, .terms-link {
+  svg {
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+  }
+  &:hover, &:active {
+    svg { stroke: #ffde21 !important; }
+  }
+}
+
 .social-mobile-toggle {
   .toggle-dots {
     display: flex;
@@ -518,6 +451,11 @@
       height: 3px;
       background: rgba(255, 255, 255, 0.6);
       border-radius: 50%;
+    }
+  }
+  &:hover, &:active {
+    .toggle-dots span {
+      background: #ffde21 !important;
     }
   }
 }
@@ -813,11 +751,6 @@
     .decoder-text { font-size: 0.75rem; }
   }
 
-  .cta-section .nav-pulsator {
-    min-width: 180px;
-    padding: 12px 25px;
-    .pulsator-text { font-size: 0.75rem; }
-  }
 
   .homepage-wrapper {
     height: 100vh !important;
