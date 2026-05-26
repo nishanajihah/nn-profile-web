@@ -2,6 +2,7 @@
   import { browser } from "$app/environment";
   import { onMount } from "svelte";
   import { fade, fly } from "svelte/transition";
+  import "$lib/styles/legal-pages.scss";
 
   let visible = $state(false);
 
@@ -220,6 +221,4 @@
   {/if}
 </div>
 
-<style lang="scss">
-  @use "$lib/styles/legal-pages.scss";
-</style>
+
