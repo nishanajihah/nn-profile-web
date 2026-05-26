@@ -61,6 +61,20 @@
         };
     }
   });
+
+  const returnUrl = $derived.by(() => {
+    if ($page.url.pathname.includes('/code/project/landing/')) {
+      return '/code#section-02';
+    }
+    return '/';
+  });
+
+  const returnLabel = $derived.by(() => {
+    if ($page.url.pathname.includes('/code/project/landing/')) {
+      return 'Return to Code';
+    }
+    return 'Return to Home';
+  });
 </script>
 
 <svelte:head>
@@ -130,8 +144,8 @@
 
     <p class="error-message">{errorData.message}</p>
 
-    <a href="/" class="action-btn">
-      <span>Return to Home</span>
+    <a href={returnUrl} class="action-btn">
+      <span>{returnLabel}</span>
     </a>
   </div>
 </div>
