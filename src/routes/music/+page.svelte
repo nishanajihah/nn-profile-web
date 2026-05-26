@@ -1,8 +1,6 @@
 <script lang="ts">
   import { onMount, tick } from "svelte";
   import type { PageData } from "./$types";
-  import TrackCard from "$lib/components/music/TrackCard.svelte";
-  import VinylRecord from "$lib/components/music/VinylRecord.svelte";
   import Navigation from "$lib/components/Navigation.svelte";
   import Footer from "$lib/components/Footer.svelte";
 
@@ -106,7 +104,7 @@
 
 <div class="artist-page">
   <!-- Global Navigation -->
-  <Navigation variant="inner" />
+  <Navigation variant="home" />
 
   <!-- Hero Section -->
   <section class="artist-hero">
