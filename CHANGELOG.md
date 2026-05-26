@@ -8,8 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### In Progress
-- Development of internal pages: `/about`, `/code`, and `/music`.
 - Global navigation transition animations.
+
+## [2.1.0] - 2026-05-27
+
+### Added
+- **Static Landing Route Support**: Refactored landing page showcase routing from dynamic if-else rendering (`[project]`) to cleaner, decoupled static routes. Established first static showcase route for "Random Kit +Idle" at `/code/project/landing/random-kit-idle`.
+- **Global Trademark Layout**: Created a shared `+layout.svelte` for `/landing` routes to auto-inject the **NISHA NAJIHAH // SYSTEM BACK** return bar across all landing pages.
+- **Premium Glassmorphic Back Navigation**: Designed the return header as a floating glass capsule with smooth hover micro-animations, custom arrow translation, and glowing golden (`#ffde21`) hover state.
+- **Anchor-Scroll Section Support**: Added `id="section-02"` to the Featured Deployments wrapper and programmed `onMount` anchor scroll tracking to smoothly scroll the custom viewport directly to the deployments section.
+- **Context-Aware Error Routing**: Upgraded the global SvelteKit `+error.svelte` page. Errors under the `/landing/` paths now dynamically render a specialized **"Return to Code"** CTA pointing directly to `/code#section-02` instead of the root homepage.
+
+### Removed / Cleaned Up
+- **Unused Music Components**: Deleted obsolete `TrackCard.svelte` and `VinylRecord.svelte` components, and cleaned up corresponding unused imports in the `/music` route.
+- **Workspace Compilation Hygiene**: Backed up old dynamic landing components to `reference_backup` and appended a `.bak` extension to their filenames, resolving all `svelte-check` compilation errors and warnings.
 
 ## [2.0.0] - 2026-04-18
 
