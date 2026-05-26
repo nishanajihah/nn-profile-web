@@ -1,0 +1,90 @@
+import { animate, createTimeline, stagger } from "animejs";
+
+export function initCodeInteractions(cursorDot: HTMLElement | null, cursorRing: HTMLElement | null, root: HTMLElement | null) {
+  document.documentElement.classList.add("code-page-active");
+  document.body.classList.add("code-page-active");
+
+  // ═══ Custom Cursor ═══
+  const moveCursor = (e: MouseEvent) => {
+    if (cursorDot) {
+      cursorDot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    }
+    if (cursorRing) {
+      animate(cursorRing, {
+        translateX: e.clientX - 15,
+        translateY: e.clientY - 15,
+        duration: 300,
+        ease: "easeOutExpo",
+      });
+    }
+  };
+  window.addEventListener("mousemove", moveCursor);
+
+  // ═══ Hero Title Stagger Animation ═══
+  createTimeline({ defaults: { ease: "easeOutExpo" } })
+    .add(".giant-hero-title .char", {
+      translateY: [100, 0],
+      opacity: [0, 1],
+      duration: 1200,
+      delay: stagger(40),
+    });
+
+  // ═══ Deployments 2x2 Grid Animation ═══
+  const deploymentsObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animate(".deployment-card", {
+          translateY: [40, 0],
+          opacity: [0, 1],
+          duration: 800,
+          delay: stagger(100),
+          ease: "easeOutExpo",
+        });
+        deploymentsObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, root });
+
+  const deploymentsSection = document.querySelector(".deployments-section");
+  if (deploymentsSection) deploymentsObserver.observe(deploymentsSection);
+
+  // ═══ Repo Cards Stagger ═══
+  const repoObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animate(".repo-card", {
+          translateY: [40, 0],
+          opacity: [0, 1],
+          duration: 600,
+          delay: stagger(60),
+          ease: "easeOutExpo",
+        });
+        repoObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, root });
+
+  const repoSection = document.querySelector(".repo-section");
+  if (repoSection) repoObserver.observe(repoSection);
+
+  return {
+    cleanup() {
+      window.removeEventListener("mousemove", moveCursor);
+      document.documentElement.classList.remove("code-page-active");
+      document.body.classList.remove("code-page-active");
+      deploymentsObserver.disconnect();
+      repoObserver.disconnect();
+    }
+  };
+}
+
+export function splitText(text: string) {
+  return text
+    .split("")
+    .map((char) =>
+      char === " "
+        ? "&nbsp;"
+        : `<span class="char" style="display:inline-block">${char}</span>`,
+    )
+    .join("");
+}

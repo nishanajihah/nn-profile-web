@@ -1,0 +1,1008 @@
+@use "sass:color";
+
+// ═══════════════════════════════════════════
+//  DESIGN TOKENS
+// ═══════════════════════════════════════════
+$yellow: #ffde21;
+$gold: #ffd700;
+$silver: #c0c0c0;
+$bg-black: #050505;
+$text-dim: rgba(255, 255, 255, 0.5);
+$font-mono: 'Roboto Mono', monospace;
+$font-display: 'Anta', sans-serif;
+$font-body: 'Roboto', sans-serif;
+$ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+// ═══════════════════════════════════════════
+//  CUSTOM CURSOR
+// ═══════════════════════════════════════════
+.code-cursor-dot,
+.code-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  transform: translate3d(-100px, -100px, 0);
+}
+
+.code-cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: $yellow;
+  margin-top: -3px;
+  margin-left: -3px;
+  transition: opacity 0.3s;
+}
+
+.code-cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba($yellow, 0.4);
+  transition: width 0.2s ease, height 0.2s ease;
+}
+
+// ═══════════════════════════════════════════
+//  FIXED 3D BACKGROUND CANVAS
+// ═══════════════════════════════════════════
+.threlte-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  background: $bg-black;
+}
+
+// ═══════════════════════════════════════════
+//  WRAPPER & SCROLL SNAP SYSTEM
+// ═══════════════════════════════════════════
+.code-immersive-wrapper {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  color: #fff;
+  font-family: $font-body;
+  overflow-x: hidden;
+  height: 100vh;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scroll-behavior: smooth;
+}
+
+.snap-section {
+  min-height: 100vh;
+  position: relative;
+  padding: 80px 5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+// ═══════════════════════════════════════════
+//  MATHEMATICAL ANCHORED HEADERS (01, 02, 03)
+.section-header-anchored {
+  position: relative;
+  margin-bottom: 48px;
+  text-align: center;
+  z-index: 20;
+
+  .section-tag {
+    display: inline-block;
+    font-family: $font-mono;
+    font-size: 0.85rem;
+    color: $gold;
+    letter-spacing: 0.25em;
+    margin-bottom: 16px;
+    padding: 8px 20px;
+    border: 1px solid rgba($gold, 0.3);
+    border-radius: 50px;
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(10px);
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-family: $font-display;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1;
+    margin: 0;
+    letter-spacing: 0.05em;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+}
+
+// ═══════════════════════════════════════════
+//  TELEMETRY CAPSULE (GITHUB STATS SIDEBAR)
+// ═══════════════════════════════════════════
+.telemetry-capsule {
+  position: fixed;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  background: rgba(10, 10, 10, 0.5);
+  border: 1px solid rgba($gold, 0.15);
+  border-radius: 40px;
+  padding: 24px 12px;
+  backdrop-filter: blur(24px);
+  text-decoration: none;
+  transition: all 0.4s $ease-expo;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    inset 0 0 12px rgba($gold, 0.03);
+
+  &:hover {
+    background: rgba(15, 15, 15, 0.7);
+    border-color: rgba($gold, 0.4);
+    box-shadow:
+      0 12px 48px rgba(0, 0, 0, 0.8),
+      0 0 24px rgba($gold, 0.15);
+    transform: translateY(-50%) scale(1.05);
+  }
+
+  .telemetry-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid $gold;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .telemetry-icon {
+    width: 22px;
+    height: 22px;
+    color: $silver;
+    transition: color 0.3s;
+  }
+  &:hover .telemetry-icon {
+    color: $gold;
+  }
+
+  .telemetry-divider {
+    width: 1px;
+    height: 32px;
+    background: linear-gradient(to bottom, transparent, rgba($silver, 0.25), transparent);
+  }
+
+  .telemetry-data {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-family: $font-mono;
+    font-size: 0.8rem;
+    color: white;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    .gold-text {
+      color: $gold;
+      font-weight: bold;
+    }
+  }
+}
+
+// ═══════════════════════════════════════════
+//  SECTION 02: 3-ITEM DEPLOYMENTS CAROUSEL
+// ═══════════════════════════════════════════
+.deployments-section {
+  padding: 100px 5vw; 
+  position: relative;
+}
+
+.deployments-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 40px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.deployments-carousel {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  padding: 40px 5vw;
+  
+  /* Redundant but safe */
+  &::-webkit-scrollbar { display: none; }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+:global(.deployments-carousel.turn-left) .deployment-card {
+  animation: turnLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+:global(.deployments-carousel.turn-right) .deployment-card {
+  animation: turnRight 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes turnLeft {
+  0% { transform: perspective(1000px) rotateY(0deg) translateX(0); }
+  50% { transform: perspective(1000px) rotateY(-20deg) scale(0.95) translateX(20px); }
+  100% { transform: perspective(1000px) rotateY(0deg) translateX(0); }
+}
+
+@keyframes turnRight {
+  0% { transform: perspective(1000px) rotateY(0deg) translateX(0); }
+  50% { transform: perspective(1000px) rotateY(20deg) scale(0.95) translateX(-20px); }
+  100% { transform: perspective(1000px) rotateY(0deg) translateX(0); }
+}
+
+.carousel-slide {
+  flex: 0 0 calc((100% - 60px) / 3);
+  scroll-snap-align: center;
+  min-width: 320px;
+  
+  @media (max-width: 1200px) {
+    flex: 0 0 calc((100% - 30px) / 2);
+  }
+  @media (max-width: 768px) {
+    flex: 0 0 85vw;
+  }
+}
+
+.deployment-card {
+  height: 100%;
+  background: rgba(15, 15, 15, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  transition: transform 0.4s $ease-expo, box-shadow 0.4s;
+  
+  /* Wait for intersection observer */
+  opacity: 0;
+  transform: translateY(30px);
+  
+  &:global(.revealed) {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.1);
+    border-color: rgba(255, 215, 0, 0.3);
+
+    .geo-sculpture {
+      .geo-ring { border-color: rgba(255, 215, 0, 0.5); }
+      .geo-core { transform: rotate(135deg) scale(1.2); }
+    }
+  }
+}
+
+.centered-carousel {
+  justify-content: center;
+  @media (max-width: 1024px) {
+    justify-content: flex-start;
+  }
+}
+
+.carousel-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+  z-index: 10;
+}
+
+.carousel-pagination {
+  display: flex;
+  gap: 8px;
+  
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba($silver, 0.3);
+    transition: all 0.3s ease;
+    
+    &.active {
+      background: $gold;
+      box-shadow: 0 0 10px rgba($gold, 0.8);
+      transform: scale(1.3);
+    }
+  }
+}
+
+.carousel-arrows {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.carousel-nav-btn {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(10, 10, 10, 0.8);
+  border: 1px solid rgba($silver, 0.2);
+  color: $silver;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s;
+
+  &:hover {
+    background: rgba($gold, 0.1);
+    border-color: $gold;
+    color: $gold;
+    transform: scale(1.1);
+  }
+  
+  &:active {
+    transform: scale(0.9);
+    background: rgba($gold, 0.3);
+    transition: all 0.1s;
+  }
+  
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  &.glowing-arrow {
+    border-color: rgba($gold, 0.5);
+    color: $gold;
+    box-shadow: 0 0 15px rgba($gold, 0.2);
+    animation: arrowPulse 2s infinite alternate ease-in-out;
+  }
+}
+
+@keyframes arrowPulse {
+  0% { box-shadow: 0 0 5px rgba($gold, 0.1); }
+  100% { box-shadow: 0 0 20px rgba($gold, 0.6); }
+}
+
+.deployment-art {
+  height: 200px;
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.8), rgba(5, 5, 5, 0.9));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+
+  .geo-sculpture.mini {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    transform-style: preserve-3d;
+
+    .geo-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(192, 192, 192, 0.2);
+      transition: border-color 0.4s;
+      
+      &.ring-1 {
+        animation: rotateGeo 15s linear infinite;
+        border-color: rgba(255, 215, 0, 0.2);
+      }
+      &.ring-2 {
+        inset: 15%;
+        animation: rotateGeo 12s linear infinite reverse;
+      }
+    }
+
+    .geo-core {
+      position: absolute;
+      inset: 35%;
+      background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), transparent);
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      transform: rotate(45deg);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  }
+}
+
+.deployment-info {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  .deployment-title {
+    font-family: 'Anta', sans-serif;
+    font-size: 1.8rem;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .deployment-desc {
+    color: $text-dim;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex: 1;
+  }
+
+  .deployment-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 30px;
+
+    .tech-pill {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.75rem;
+      color: $silver;
+      padding: 4px 10px;
+      border: 1px solid rgba(192, 192, 192, 0.2);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+  }
+
+  .deployment-cta {
+    display: inline-block;
+    padding: 12px 24px;
+    background: transparent;
+    border: 1px solid $gold;
+    color: $gold;
+    font-family: 'Anta', sans-serif;
+    text-decoration: none;
+    border-radius: 50px;
+    text-align: center;
+    transition: all 0.3s;
+    margin-top: auto;
+
+    &:hover {
+      background: rgba(255, 215, 0, 0.1);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+      transform: translateY(-2px);
+    }
+
+    &.external {
+      border-color: $silver;
+      color: $silver;
+      
+      &:hover {
+        background: rgba(192, 192, 192, 0.1);
+        border-color: #fff;
+        color: #fff;
+      }
+    }
+  }
+}
+
+// ═══════════════════════════════════════════
+//  SECTION 01: HERO
+// ═══════════════════════════════════════════
+.hero-space {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10vh 5vw 0 5vw; // Added 10vh padding top to push away from header nav
+  position: relative;
+  
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    bottom: 20%;
+    width: 200px;
+    z-index: 0;
+    pointer-events: none;
+    filter: blur(100px);
+    opacity: 0.15;
+    transition: opacity 0.6s ease;
+  }
+  &::before {
+    left: -100px;
+    background: radial-gradient(circle, $yellow 0%, transparent 70%);
+  }
+  &::after {
+    right: -100px;
+    background: radial-gradient(circle, $gold 0%, transparent 70%);
+  }
+
+  &:hover::before, &:hover::after {
+    opacity: 0.3;
+  }
+
+  .hero-inner {
+    text-align: center;
+    z-index: 10;
+    max-width: 90vw;
+  }
+
+  .giant-hero-title {
+    font-family: $font-display;
+    font-size: clamp(4rem, 12vw, 12rem);
+    line-height: 0.9;
+    margin: 0;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  .hero-subtitle {
+    font-family: $font-mono;
+    font-size: clamp(1.2rem, 4vw, 2.5rem); // Scaled down for mobile, big on desktop
+    letter-spacing: 0.4em;
+    margin-top: 30px;
+    text-transform: uppercase;
+    font-weight: 600;
+    
+    // Solid gold with a breathing glow effect
+    color: $gold;
+    text-shadow: 0 0 15px rgba($gold, 0.4);
+    animation: breathingGlow 4s ease-in-out infinite alternate;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 12vh; // Pushed up from 40px so it's clearly visible above the fold
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    color: $text-dim;
+    letter-spacing: 2px;
+
+    .line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, $yellow, transparent);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes breathingGlow {
+  0% {
+    text-shadow: 0 0 5px rgba($gold, 0.2);
+    opacity: 0.85;
+  }
+  100% {
+    text-shadow: 0 0 20px rgba($gold, 0.8), 0 0 40px rgba($gold, 0.4);
+    opacity: 1;
+  }
+}
+
+// ═══════════════════════════════════════════
+//  SECTION 03: REPOSITORY GRID
+// ═══════════════════════════════════════════
+.repo-section {
+  position: relative;
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    bottom: 20%;
+    width: 200px;
+    z-index: 0;
+    pointer-events: none;
+    filter: blur(100px);
+    opacity: 0.15;
+    transition: opacity 0.6s ease;
+  }
+  &::before {
+    left: -100px;
+    background: radial-gradient(circle, $yellow 0%, transparent 70%);
+  }
+  &::after {
+    right: -100px;
+    background: radial-gradient(circle, $gold 0%, transparent 70%);
+  }
+
+  &:hover::before, &:hover::after {
+    opacity: 0.3;
+  }
+
+  .repo-grid-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .repo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+    width: 100%;
+    
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .repo-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    padding: 28px;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    transition:
+      transform 0.4s $ease-expo,
+      border-color 0.4s ease,
+      background 0.4s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      border-color: rgba($silver, 0.3);
+      background: rgba(255, 255, 255, 0.04);
+
+      .repo-card-header svg {
+        transform: translate(2px, -2px);
+        stroke: $yellow;
+      }
+    }
+
+    .repo-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+
+      .repo-lang {
+        font-family: $font-mono;
+        font-size: 0.7rem;
+        color: $yellow;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      svg {
+        width: 18px;
+        height: 18px;
+        stroke: $text-dim;
+        transition: all 0.3s ease;
+      }
+    }
+
+    .repo-name {
+      font-family: $font-display;
+      font-size: 1.3rem;
+      margin: 0 0 8px 0;
+      line-height: 1.2;
+    }
+
+    .repo-desc {
+      font-size: 0.9rem;
+      color: $text-dim;
+      line-height: 1.5;
+      margin: 0 0 20px 0;
+      flex-grow: 1;
+    }
+
+    .repo-stats {
+      display: flex;
+      gap: 16px;
+      font-family: $font-mono;
+      font-size: 0.75rem;
+      color: $text-dim;
+    }
+  }
+
+  // View More button
+  .repo-view-more {
+    margin-top: 40px;
+    margin-bottom: 80px; // Add a bit of gap to the footer
+    text-align: center;
+
+    .view-all-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba($gold, 0.05);
+      border: 1px solid rgba($gold, 0.4);
+      color: $gold;
+      font-family: $font-mono;
+      font-size: 0.85rem;
+      padding: 14px 40px;
+      border-radius: 50px;
+      cursor: pointer;
+      letter-spacing: 0.15em;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba($gold, 0.1);
+
+      &:hover {
+        background: rgba($gold, 0.15);
+        border-color: $gold;
+        color: $gold;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 25px rgba($gold, 0.25);
+      }
+
+      svg {
+        width: 18px;
+        height: 18px;
+        transition: transform 0.3s ease;
+      }
+      
+      &:hover svg {
+        transform: translateX(4px);
+      }
+    }
+  }
+}
+
+// ═══════════════════════════════════════════
+//  FULL SCREEN REPO OVERLAY
+// ═══════════════════════════════════════════
+.repo-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(5, 5, 5, 0.85);
+  backdrop-filter: blur(24px);
+  z-index: 9000;
+  overflow-y: auto;
+  padding: 80px 5vw;
+
+  .overlay-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    padding-bottom: 60px;
+  }
+
+  .close-overlay-btn {
+    background: rgba($gold, 0.1);
+    border: 1px solid rgba($gold, 0.4);
+    color: $gold;
+    padding: 14px 40px;
+    border-radius: 50px;
+    font-family: $font-mono;
+    letter-spacing: 0.15em;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba($gold, 0.1);
+
+    svg {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover {
+      background: rgba($gold, 0.15);
+      border-color: $gold;
+      box-shadow: 0 6px 25px rgba($gold, 0.25);
+      transform: translateY(-3px);
+      
+      svg {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  .overlay-content {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .overlay-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      margin-bottom: 60px;
+      
+      .overlay-title {
+        font-family: $font-display;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        color: $gold;
+        text-align: center;
+        letter-spacing: 0.1em;
+        text-shadow: 0 0 20px rgba($gold, 0.4);
+        margin: 0;
+      }
+      
+      .top-close-btn {
+        position: absolute;
+        right: 0;
+        background: transparent;
+        border: none;
+        color: $gold;
+        cursor: pointer;
+        transition: transform 0.3s ease, text-shadow 0.3s ease;
+        padding: 10px;
+        
+        svg {
+          width: 32px;
+          height: 32px;
+        }
+        
+        &:hover {
+          transform: scale(1.1) rotate(90deg);
+          filter: drop-shadow(0 0 10px rgba($gold, 0.6));
+        }
+      }
+    }
+
+    .repo-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+
+      .repo-list-item {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 12px;
+        padding: 30px;
+        background: rgba(10, 10, 10, 0.8);
+        border: 1px solid rgba($gold, 0.2);
+        border-radius: 16px;
+        text-decoration: none;
+        color: white;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 50%;
+          height: 100%;
+          background: linear-gradient(
+            to right,
+            transparent,
+            rgba($gold, 0.1),
+            transparent
+          );
+          transform: skewX(-20deg);
+          transition: all 0.5s ease;
+        }
+
+        &:hover {
+          background: rgba($gold, 0.05);
+          border-color: $gold;
+          transform: translateY(-5px);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba($gold, 0.2);
+          
+          &::before {
+            left: 200%;
+          }
+        }
+
+        .repo-name {
+          font-family: $font-display;
+          font-size: 1.3rem;
+          color: white;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        
+        .repo-meta {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          
+          .repo-lang {
+            font-family: $font-mono;
+            font-size: 0.8rem;
+            color: $gold;
+            background: rgba($gold, 0.1);
+            padding: 4px 10px;
+            border-radius: 4px;
+          }
+          
+          .repo-stars {
+            font-family: $font-mono;
+            font-size: 0.85rem;
+            color: $silver;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ═══════════════════════════════════════════
+//  INTEGRATED FOOTER
+// ═══════════════════════════════════════════
+.integrated-footer {
+  background: #000;
+  width: 100%;
+}
+
+// ═══════════════════════════════════════════
+//  CSS GEOMETRIC ART KEYFRAMES
+// ═══════════════════════════════════════════
+@keyframes geoOrbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes scrollLine {
+  0% { transform: translateY(-100%); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+
+// ═══════════════════════════════════════════
+//  SCROLL REVEAL UTILITY
+// ═══════════════════════════════════════════
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.8s $ease-expo,
+    transform 0.8s $ease-expo;
+
+  &:global(.revealed) {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ═══════════════════════════════════════════
+//  RESPONSIVE: TELEMETRY CAPSULE
+// ═══════════════════════════════════════════
+@media (max-width: 768px) {
+  .telemetry-capsule {
+    right: 12px;
+    padding: 16px 8px;
+    gap: 10px;
+    border-radius: 30px;
+
+    .telemetry-avatar {
+      width: 26px;
+      height: 26px;
+    }
+    .telemetry-icon {
+      width: 18px;
+      height: 18px;
+    }
+    .telemetry-divider {
+      height: 20px;
+    }
+    .telemetry-data {
+      font-size: 0.65rem;
+    }
+  }
+}

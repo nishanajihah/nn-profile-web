@@ -97,13 +97,6 @@
   z-index: 1000 !important;
   pointer-events: auto !important;
 
-  svg {
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-    width: 12px;
-    height: 12px;
-  }
-
   &:hover, &:active {
     color: #ffde21 !important;
     background: rgba(255, 222, 33, 0.1) !important;
@@ -115,9 +108,6 @@
     @media (min-width: 1338px) {
       transform: translateY(-2px);
     }
-
-    svg { stroke: #ffde21 !important; }
-    .toggle-dots span { background: #ffde21 !important; }
   }
 
   @media (max-width: 1337px) {
@@ -130,6 +120,18 @@
   }
 }
 
+.privacy-link, .terms-link {
+  svg {
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+  }
+  &:hover, &:active {
+    svg { stroke: #ffde21 !important; }
+  }
+}
+
 .social-mobile-toggle {
   .toggle-dots {
     display: flex;
@@ -139,6 +141,11 @@
       height: 3px;
       background: rgba(255, 255, 255, 0.6);
       border-radius: 50%;
+    }
+  }
+  &:hover, &:active {
+    .toggle-dots span {
+      background: #ffde21 !important;
     }
   }
 }
