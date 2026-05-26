@@ -1,0 +1,33 @@
+import { error } from '@sveltejs/kit';
+import type { PageLoad } from './$types';
+import { featuredProjects } from '$lib/data/projects';
+
+export const ssr = false;
+
+export const load: PageLoad = async ({ params }) => {
+  const { project } = params;
+
+  const found = featuredProjects.find(p => p.id === project);
+  if (found) {
+    return {
+      projectData: found
+    };
+  }
+
+  if (project) {
+    return {
+      projectData: {
+        id: project,
+        name: project.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+        description: `This is the dedicated isolated showcase landing page for ${project}.`,
+        type: 'Website',
+        tags: ['SvelteKit', 'TypeScript'],
+        hasImages: false,
+        hasLanding: false
+      }
+    };
+  }
+
+  throw error(404, 'Project not found');
+};
+

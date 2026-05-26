@@ -1,0 +1,50 @@
+<script lang="ts">
+  import type { ProjectData } from "$lib/types/code";
+  import "$lib/styles/landing/hybrid/_layout.scss";
+  export let project: ProjectData;
+</script>
+
+<div class="landing-hybrid-wrapper">
+  <a href="/code" class="trademark">NISHA NAJIHAH // SYSTEM BACK</a>
+
+  <div class="informational-container">
+    <div class="hybrid-header">
+      <span class="type-pill">HYBRID ECOSYSTEM</span>
+      <h1 class="project-title">{project.name}</h1>
+      <p class="project-description">{project.description || "A unified system spanning web, mobile, and server infrastructure."}</p>
+      
+      <div class="tech-stack">
+        {#each project.tags as tag}
+          <span class="tech-pill">{tag}</span>
+        {/each}
+      </div>
+
+      <div class="action-row">
+        {#if project.liveUrl}
+          <a href={project.liveUrl} target="_blank" class="launch-btn">ENTER SYSTEM</a>
+        {/if}
+        {#if project.repoUrl}
+          <a href={project.repoUrl} target="_blank" class="repo-btn">SOURCE CODE</a>
+        {/if}
+      </div>
+    </div>
+
+    <div class="hybrid-grid">
+      <div class="grid-card feature-web">
+        <h3>Web Client</h3>
+        <p>Optimized frontend architecture with dynamic routing.</p>
+        <div class="mini-frame-web"></div>
+      </div>
+      <div class="grid-card feature-mobile">
+        <h3>Mobile PWA</h3>
+        <p>Progressive capabilities for cross-platform hardware access.</p>
+        <div class="mini-frame-mobile"></div>
+      </div>
+      <div class="grid-card feature-api">
+        <h3>Data Layer</h3>
+        <p>High-throughput data synchronization and persistent state.</p>
+        <div class="mini-frame-api"></div>
+      </div>
+    </div>
+  </div>
+</div>

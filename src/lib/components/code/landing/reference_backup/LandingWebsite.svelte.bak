@@ -1,0 +1,74 @@
+<script lang="ts">
+  import type { ProjectData } from "$lib/types/code";
+  import "$lib/styles/landing/website/_layout.scss";
+  import { onMount } from "svelte";
+  import { animate } from "animejs";
+
+  export let project: ProjectData;
+
+  onMount(() => {
+    // Stagger in the content
+    animate(".hero-header > *", {
+      translateY: [30, 0],
+      opacity: [0, 1],
+      duration: 800,
+      delay: (_el: any, i: number) => i * 120,
+      ease: "easeOutExpo",
+    });
+
+    // Animate the CSS geo art
+    animate(".css-geo-shape", {
+      rotate: ["0deg", "360deg"],
+      duration: 20000,
+      loop: true,
+      ease: "linear",
+    });
+  });
+</script>
+
+<div class="landing-website-wrapper">
+  <a href="/code" class="trademark">NISHA NAJIHAH // SYSTEM BACK</a>
+
+  <div class="informational-container">
+    <div class="hero-header">
+      <span class="type-pill">WEB DEPLOYMENT</span>
+      <h1 class="project-title">{project.name}</h1>
+      <p class="project-description">{project.description}</p>
+      
+      <div class="tech-stack">
+        {#each project.tags as tag}
+          <span class="tech-pill">{tag}</span>
+        {/each}
+      </div>
+      
+      {#if project.liveUrl}
+        <a href={project.liveUrl} target="_blank" class="launch-btn">LAUNCH LIVE SITE</a>
+      {/if}
+    </div>
+
+    <div class="visual-mockup-section">
+      <div class="browser-frame-ultra">
+        <div class="browser-header">
+          <div class="dots">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+          </div>
+          <div class="url-bar">https://{project.name.toLowerCase().replace(/\s+/g, '-')}.com</div>
+        </div>
+        
+        <div class="browser-viewport">
+          <!-- CSS Geometric Art instead of WebGL -->
+          <div class="css-geo-container">
+            <div class="css-geo-shape">
+              <div class="css-ring ring-1"></div>
+              <div class="css-ring ring-2"></div>
+              <div class="css-ring ring-3"></div>
+              <div class="css-core"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

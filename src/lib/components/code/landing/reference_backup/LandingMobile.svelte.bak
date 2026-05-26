@@ -1,0 +1,81 @@
+<script lang="ts">
+  import type { ProjectData } from "$lib/types/code";
+  import "$lib/styles/landing/mobile/_layout.scss";
+  import { onMount } from "svelte";
+  import { animate } from "animejs";
+
+  export let project: ProjectData;
+
+  onMount(() => {
+    animate(".mobile-info > *", {
+      translateY: [30, 0],
+      opacity: [0, 1],
+      duration: 800,
+      delay: (_el: any, i: number) => i * 100,
+      ease: "easeOutExpo",
+    });
+  });
+</script>
+
+<div class="landing-mobile-wrapper">
+  <a href="/code" class="trademark">NISHA NAJIHAH // SYSTEM BACK</a>
+
+  <div class="informational-container">
+    <div class="mobile-grid">
+      <div class="mobile-info">
+        <span class="type-pill">MOBILE DEPLOYMENT</span>
+        <h1 class="project-title">{project.name}</h1>
+        <p class="project-description">{project.description || "Interactive mobile experience optimized for iOS and Android."}</p>
+        
+        <div class="tech-stack">
+          {#each project.tags as tag}
+            <span class="tech-pill">{tag}</span>
+          {/each}
+        </div>
+
+        <div class="store-links-large">
+          {#if project.stores}
+            {#each project.stores as store}
+              <a href={store.url} class="store-badge-premium store-{store.name}">
+                <span class="icon">
+                  {#if store.name === 'apple'}
+                  {:else if store.name === 'google'}G
+                  {:else if store.name === 'huawei'}H
+                  {:else}📱{/if}
+                </span>
+                <span class="text">
+                  <small>GET IT ON</small>
+                  <strong>{store.name.toUpperCase()}</strong>
+                </span>
+              </a>
+            {/each}
+          {/if}
+        </div>
+      </div>
+
+      <div class="mobile-device-showcase">
+        <div class="mobile-frame-ultra">
+          <div class="hardware-buttons">
+            <div class="btn-mute"></div>
+            <div class="btn-vol-up"></div>
+            <div class="btn-vol-down"></div>
+            <div class="btn-power"></div>
+          </div>
+          <div class="notch-island"></div>
+          <div class="mobile-content">
+            <!-- CSS Geometric Art instead of WebGL -->
+            <div class="css-geo-container">
+              <div class="css-geo-shape">
+                <div class="css-ring ring-1"></div>
+                <div class="css-ring ring-2"></div>
+                <div class="css-core"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="device-glow"></div>
+      </div>
+    </div>
+  </div>
+</div>

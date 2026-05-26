@@ -1,0 +1,46 @@
+<script lang="ts">
+  import type { ProjectData } from "$lib/types/code";
+  import "$lib/styles/landing/api/_layout.scss";
+  export let project: ProjectData;
+</script>
+
+<div class="landing-api-wrapper">
+  <a href="/code" class="trademark">NISHA NAJIHAH // SYSTEM BACK</a>
+
+  <div class="informational-container">
+    <div class="api-grid">
+      <div class="api-info">
+        <span class="type-pill">API ARCHITECTURE</span>
+        <h1 class="project-title">{project.name}</h1>
+        <p class="project-description">{project.description || "Robust microservice layer handling core data synchronization and compute logic."}</p>
+        
+        <div class="tech-stack">
+          {#each project.tags as tag}
+            <span class="tech-pill">{tag}</span>
+          {/each}
+        </div>
+
+        {#if project.docsUrl}
+          <a href={project.docsUrl} target="_blank" class="docs-btn">READ DOCUMENTATION</a>
+        {/if}
+      </div>
+
+      <div class="terminal-showcase">
+        <div class="terminal-frame">
+          <div class="term-header">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="title">server@production: ~</span>
+          </div>
+          <div class="term-body">
+            <p><span class="prompt">$</span> npm run start:prod</p>
+            <p class="sys">[INFO] Initializing system nodes...</p>
+            <p class="sys">[INFO] Connecting to primary database...</p>
+            <p class="success">[OK] Database connection established</p>
+            <p class="sys">[INFO] Starting {project.name} on port 8080</p>
+            <p><span class="prompt">$</span> <span class="blink">_</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

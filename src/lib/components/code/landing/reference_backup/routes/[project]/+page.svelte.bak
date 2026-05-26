@@ -1,0 +1,36 @@
+<script lang="ts">
+  import { page } from "$app/stores";
+  import type { PageData } from "./$types";
+  import LandingWebsite from "$lib/components/code/landing/LandingWebsite.svelte";
+  import LandingMobile from "$lib/components/code/landing/LandingMobile.svelte";
+  import LandingHybrid from "$lib/components/code/landing/LandingHybrid.svelte";
+  import LandingApi from "$lib/components/code/landing/LandingApi.svelte";
+  import { fade } from "svelte/transition";
+  import type { ProjectData } from "$lib/types/code";
+
+  export let data: PageData;
+  const projectData = data.projectData as ProjectData;
+</script>
+
+<svelte:head>
+  <title>{projectData.name} | Showcase</title>
+</svelte:head>
+
+<!-- We DO NOT import the global Navigation or Footer here. -->
+<main in:fade={{ duration: 800 }}>
+  {#if projectData.type === 'Website'}
+    <LandingWebsite project={projectData} />
+  {:else if projectData.type === 'MobileApp'}
+    <LandingMobile project={projectData} />
+  {:else if projectData.type === 'Hybrid'}
+    <LandingHybrid project={projectData} />
+  {:else if projectData.type === 'API'}
+    <LandingApi project={projectData} />
+  {:else}
+    <!-- Fallback if type is missing or unknown -->
+    <div style="color:white; padding:100px;">
+      <h2>Project type unassigned.</h2>
+      <a href="/code" style="color:gold;">Return to Code</a>
+    </div>
+  {/if}
+</main>

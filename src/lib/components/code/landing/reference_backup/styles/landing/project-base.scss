@@ -1,0 +1,131 @@
+@use "sass:color";
+
+$landing-bg: #030303;
+$landing-primary: #00e5ff;
+$landing-text: rgba(255, 255, 255, 0.8);
+
+.landing-immersive-wrapper {
+  position: relative;
+  background: $landing-bg;
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  min-height: 100vh;
+  z-index: 1;
+}
+
+.landing-main {
+  position: relative;
+  z-index: 10;
+}
+
+.landing-hero {
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  
+  .landing-tag {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.8rem;
+    color: $landing-primary;
+    letter-spacing: 0.2em;
+    display: block;
+    margin-bottom: 20px;
+  }
+  
+  .landing-title {
+    font-family: 'Anta', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    margin: 0 0 20px 0;
+    line-height: 1;
+  }
+
+  .landing-desc {
+    font-size: 1.1rem;
+    color: $landing-text;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+}
+
+.landing-content {
+  padding: 5rem 5vw;
+  
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 3rem;
+    backdrop-filter: blur(10px);
+    
+    h2 {
+      font-family: 'Anta', sans-serif;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+// ═══════════════════════════════════════════
+//  CSS GEOMETRIC ART (LANDING PLACEHOLDERS)
+// ═══════════════════════════════════════════
+.css-geo-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  background: linear-gradient(135deg, rgba(10, 10, 10, 0.8), rgba(0, 0, 0, 0.9));
+
+  .css-geo-shape {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    transform-style: preserve-3d;
+
+    .css-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(192, 192, 192, 0.15);
+      
+      &.ring-1 {
+        border-color: rgba(255, 215, 0, 0.3);
+        animation: rotateGeo 10s linear infinite;
+      }
+      &.ring-2 {
+        inset: 15%;
+        border-color: rgba(192, 192, 192, 0.4);
+        animation: rotateGeo 8s linear infinite reverse;
+      }
+      &.ring-3 {
+        inset: 30%;
+        border-color: rgba(255, 222, 33, 0.2);
+        animation: rotateGeo 12s linear infinite;
+      }
+    }
+
+    .css-core {
+      position: absolute;
+      inset: 40%;
+      background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), transparent);
+      border: 1px solid rgba(255, 215, 0, 0.5);
+      transform: rotate(45deg);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.1);
+      animation: pulseCore 4s ease-in-out infinite alternate;
+    }
+  }
+}
+
+@keyframes rotateGeo {
+  from { transform: rotateX(60deg) rotateY(0deg) rotateZ(0deg); }
+  to { transform: rotateX(60deg) rotateY(360deg) rotateZ(360deg); }
+}
+
+@keyframes pulseCore {
+  from { transform: rotate(45deg) scale(0.9); opacity: 0.7; }
+  to { transform: rotate(45deg) scale(1.1); opacity: 1; }
+}
