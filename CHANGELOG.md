@@ -7,8 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-06-05
+
+### Added
+- **Pinned Storytelling Architecture**: Transformed the About page into a fixed-screen GSAP presentation. The screen pins in place, and the user's scroll wheel scrubs through a master animation timeline, seamlessly transitioning sections in and out of the same viewport without vertical scrolling.
+- **2D/3D Bio Card Animations**: Bio cards now fly into the fixed screen with dynamic 3D rotations (`rotateX`, `rotateY`) and fade out elegantly, creating a highly polished, immersive reading experience.
+- **Infinite 3D Horizon Background**: Massively expanded the Threlte 3D halftone grid to cover any ultra-wide screen and tilted the perspective to create an infinite, endless 3D floor that reacts to cursor movements and ambient time loops.
+- **Scroll-Synced 3D Camera**: Hooked the GSAP scroll progress directly into the Threlte 3D canvas. The 3D camera now dynamically pans up and zooms in as the user progresses through the pinned story timeline.
+- **Premium Ko-fi Redesign**: Refactored the Ko-fi section into a glowing, glassmorphic container that invites user interaction and beautifully matches the site's sleek aesthetic.
+- **Code Separation**: Decoupled About page logic (`logic/about.ts`) and styling (`styles/about.scss`) from the main view layer to improve scalability and maintainability.
+
 ### In Progress
 - Global navigation transition animations.
+
+## [2.2.0] - 2026-05-31
+
+### Added
+- **About Page Full Digital Presence**: Integrated all 12 social links (GitHub, Instagram, Spotify, Apple Music, Deezer, Audiomack, SoundCloud, Ko-fi, LinkedIn, YouTube, Threads, and Email) into the about page footer (`variant="about"`), ensuring complete coverage across both desktop layout and mobile full-screen overlay popup grid.
+
+### Cleaned Up
+- **Style Duplication Clean-up**: Removed duplicated SCSS blocks from `<style>` inside `Footer.svelte` to ensure all styles are loaded purely from `footer.scss` as intended, preventing style replication in the build assets.
 
 ## [2.1.0] - 2026-05-27
 
@@ -17,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Global Trademark Layout**: Created a shared `+layout.svelte` for `/landing` routes to auto-inject the **NISHA NAJIHAH // SYSTEM BACK** return bar across all landing pages.
 - **Premium Glassmorphic Back Navigation**: Designed the return header as a floating glass capsule with smooth hover micro-animations, custom arrow translation, and glowing golden (`#ffde21`) hover state.
 - **Anchor-Scroll Section Support**: Added `id="section-02"` to the Featured Deployments wrapper and programmed `onMount` anchor scroll tracking to smoothly scroll the custom viewport directly to the deployments section.
+- **Synchronized View More Button Stagger**: Integrated the 'View More' repository button into Section 03's Anime.js stagger sequence, ensuring it fades and glides into position smoothly right after the last repository card.
 - **Context-Aware Error Routing**: Upgraded the global SvelteKit `+error.svelte` page. Errors under the `/landing/` paths now dynamically render a specialized **"Return to Code"** CTA pointing directly to `/code#section-02` instead of the root homepage.
 
 ### Removed / Cleaned Up

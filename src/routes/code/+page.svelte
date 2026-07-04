@@ -135,7 +135,7 @@
       }
 
       document
-        .querySelectorAll(".scroll-reveal:not(.repo-card)")
+        .querySelectorAll(".scroll-reveal:not(.repo-card):not(.repo-view-more)")
         .forEach((el) => {
           observer.observe(el);
         });

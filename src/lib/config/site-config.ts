@@ -3,8 +3,8 @@
  */
 export const siteConfig = {
   // Set to true to enable "Building Mode" for specific routes
-  isBuildingMode: true,
-  
+  isBuildingMode: false,
+
   // List of paths that should show the "Building Mode" state
   underConstructionPaths: ['/about']
 };

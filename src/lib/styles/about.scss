@@ -1,0 +1,186 @@
+.page-wrapper.about-page {
+  position: relative;
+  background: #000;
+  min-height: 200vh; /* Force a huge native scrollbar to absolutely guarantee GSAP ScrollTrigger captures events */
+
+  /* Threlte Background Container - Fixed to screen */
+  .threlte-background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* GSAP Pinned Wrapper */
+  .story-pin-wrapper {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    z-index: 10;
+  }
+
+  .pinned-content-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* CRITICAL: Prevents GSAP offscreen animations from causing horizontal scrolling and shifting the page */
+  }
+
+  /* Each story segment is an absolute layer that overlays perfectly */
+  .story-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5%;
+    box-sizing: border-box; /* CRITICAL: Prevents padding from increasing width to 110%, which caused the right-shift bug */
+  }
+
+  /* KINETIC TYPOGRAPHY SYSTEM */
+  .kinetic-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    z-index: 20;
+    width: 100%;
+    pointer-events: none; // Let clicks pass through to 3D unless specified
+  }
+  
+  /* Forces giant words to display in a single row side-by-side */
+  .hero-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap; // Allows it to wrap gracefully on mobile
+    gap: 1.5vw;
+  }
+
+  .giant-word {
+    font-family: 'Anta', sans-serif;
+    font-size: clamp(4rem, 15vw, 12rem);
+    line-height: 0.85;
+    margin: 0;
+    text-transform: uppercase;
+    color: #fff;
+    white-space: nowrap;
+    will-change: transform, opacity;
+  }
+
+  .outline-text {
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.4);
+  }
+
+  .hero-name {
+    font-size: clamp(2rem, 8vw, 8rem); // Smaller clamp so the full name fits on one row
+    letter-spacing: 0.05em;
+  }
+
+  .kinetic-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 2rem;
+    max-width: 800px;
+    letter-spacing: 0.05em;
+    will-change: transform, opacity;
+    
+    // Add a beautiful subtle accent
+    position: relative;
+    padding-top: 1rem;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 2px;
+      background: #fcbf47; // Ko-fi gold color for accent
+      box-shadow: 0 0 10px rgba(252, 191, 71, 0.5);
+    }
+    
+    strong {
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+
+  /* Support Grid specialized for Ko-fi */
+  .convergence-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    width: 100%;
+    max-width: 600px;
+    pointer-events: auto;
+  }
+
+  .kofi-premium-container {
+    position: relative;
+    width: auto;
+    margin: 0 auto;
+    z-index: 30;
+
+    .kofi-glow {
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      right: -20px;
+      bottom: -20px;
+      background: radial-gradient(circle, rgba(252, 191, 71, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
+      z-index: -1;
+      border-radius: 24px;
+      pointer-events: none;
+      animation: pulseGlow 3s infinite alternate;
+    }
+
+    .kofi-button-custom {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #191a17;
+      border: 1px solid rgba(252, 191, 71, 0.4);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      
+      img {
+        width: 28px;
+        height: 28px;
+      }
+
+      &:hover {
+        background: #252622;
+        border-color: #fcbf47;
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 15px 40px rgba(252, 191, 71, 0.2);
+      }
+    }
+  }
+  
+  @keyframes pulseGlow {
+    0% { opacity: 0.5; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1.05); }
+  }
+}

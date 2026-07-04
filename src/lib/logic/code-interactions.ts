@@ -48,11 +48,11 @@ export function initCodeInteractions(cursorDot: HTMLElement | null, cursorRing: 
   const deploymentsSection = document.querySelector(".deployments-section");
   if (deploymentsSection) deploymentsObserver.observe(deploymentsSection);
 
-  // ═══ Repo Cards Stagger ═══
+  // ═══ Repo Cards & View More Button Stagger ═══
   const repoObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        animate(".repo-card", {
+        animate(".repo-card, .repo-view-more", {
           translateY: [40, 0],
           opacity: [0, 1],
           duration: 600,
