@@ -965,7 +965,8 @@
           <span class="copyright-line"
             >© {new Date().getFullYear()} Nisha Najihah</span
           >
-          <span class="copyright-credit">&nbsp;|&nbsp;Designed &amp; Built</span
+          <span class="copyright-credit"
+            >&nbsp;|&nbsp;Designed &amp; Built By Nisha Najihah</span
           >
         </div>
       </div>

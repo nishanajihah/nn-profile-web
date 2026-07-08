@@ -2,6 +2,7 @@
   import { T, useTask } from '@threlte/core';
   import * as THREE from 'three';
   import { calculateGridScale, scrollProgress } from '../../logic/about';
+  import StoryShapes from './StoryShapes.svelte';
 
   // Massive Halftone Grid Settings for an infinite look
   const gridSize = 80; 
@@ -94,3 +95,5 @@
   args={[geometry, material, totalInstances]}
   bind:ref={instancedMesh}
 />
+
+<StoryShapes />

@@ -55,6 +55,16 @@
     width: 100%;
     pointer-events: none; // Let clicks pass through to 3D unless specified
   }
+
+  .about-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.8rem, 1.5vw, 1.2rem);
+    letter-spacing: 0.3em;
+    color: #fcbf47;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
   
   /* Forces giant words to display in a single row side-by-side */
   .hero-row {
@@ -80,11 +90,6 @@
   .outline-text {
     color: transparent;
     -webkit-text-stroke: 2px rgba(255, 255, 255, 0.4);
-  }
-
-  .hero-name {
-    font-size: clamp(2rem, 8vw, 8rem); // Smaller clamp so the full name fits on one row
-    letter-spacing: 0.05em;
   }
 
   .kinetic-subtitle {
@@ -113,10 +118,7 @@
       box-shadow: 0 0 10px rgba(252, 191, 71, 0.5);
     }
     
-    strong {
-      color: #fff;
-      font-weight: 600;
-    }
+
   }
 
   /* Support Grid specialized for Ko-fi */
@@ -136,19 +138,6 @@
     margin: 0 auto;
     z-index: 30;
 
-    .kofi-glow {
-      position: absolute;
-      top: -20px;
-      left: -20px;
-      right: -20px;
-      bottom: -20px;
-      background: radial-gradient(circle, rgba(252, 191, 71, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
-      z-index: -1;
-      border-radius: 24px;
-      pointer-events: none;
-      animation: pulseGlow 3s infinite alternate;
-    }
-
     .kofi-button-custom {
       display: inline-flex;
       align-items: center;
@@ -165,10 +154,7 @@
       transition: all 0.3s ease;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       
-      img {
-        width: 28px;
-        height: 28px;
-      }
+
 
       &:hover {
         background: #252622;
@@ -182,5 +168,57 @@
   @keyframes pulseGlow {
     0% { opacity: 0.5; transform: scale(0.95); }
     100% { opacity: 1; transform: scale(1.05); }
+  }
+
+  /* RESPONSIVE SCALING FOR PHONE DEVICES */
+  @media (max-width: 768px) {
+    .about-eyebrow {
+      font-size: clamp(0.7rem, 3vw, 0.9rem);
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.25em;
+    }
+
+    .hero-row {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .giant-word {
+      font-size: clamp(2.4rem, 11vw, 4.5rem); // Prevents text overflow/wrapping issues on mobile
+      line-height: 0.9;
+    }
+
+    .outline-text {
+      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
+    }
+
+    .kinetic-subtitle {
+      font-size: clamp(0.95rem, 4vw, 1.15rem);
+      margin-top: 1.5rem;
+      padding-top: 0.75rem;
+      max-width: 90%;
+      line-height: 1.5;
+      
+      &::before {
+        width: 30px;
+      }
+    }
+
+    .convergence-grid {
+      gap: 2rem;
+    }
+
+    .kofi-premium-container {
+      .kofi-button-custom {
+        font-size: 1rem;
+        padding: 0.75rem 1.8rem;
+        gap: 8px;
+        
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
   }
 }
