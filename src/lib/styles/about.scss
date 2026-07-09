@@ -118,7 +118,10 @@
       box-shadow: 0 0 10px rgba(252, 191, 71, 0.5);
     }
     
-
+    strong {
+      color: #fff;
+      font-weight: 600;
+    }
   }
 
   /* Support Grid specialized for Ko-fi */
@@ -142,8 +145,10 @@
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      background: #191a17;
-      border: 1px solid rgba(252, 191, 71, 0.4);
+      background: rgba(25, 26, 23, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
       font-family: 'Inter', sans-serif;
       font-size: 1.25rem;
@@ -151,16 +156,43 @@
       padding: 1rem 2.5rem;
       border-radius: 50px;
       text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
       
-
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0; left: -100%;
+        width: 50%; height: 100%;
+        background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transform: skewX(-20deg);
+        transition: all 0.5s ease;
+      }
 
       &:hover {
-        background: #252622;
+        background: rgba(255, 255, 255, 0.1);
         border-color: #fcbf47;
-        transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 15px 40px rgba(252, 191, 71, 0.2);
+        color: #fcbf47;
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 0 20px rgba(252, 191, 71, 0.2);
+        
+        svg path {
+          fill: #fcbf47;
+        }
+
+        &::before {
+          left: 150%;
+        }
+      }
+      
+      svg {
+        transition: all 0.3s ease;
+      }
+
+      svg path {
+        transition: fill 0.3s ease;
+        fill: #fff;
       }
     }
   }

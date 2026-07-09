@@ -8,13 +8,13 @@ export const aboutSections = [
     id: 'hero',
     giantWord1: "NISHA",
     giantWord2: "NAJIHAH",
-    subtitle: "Engineer of Logic. Composer of Sound. Based in Kuala Lumpur, Malaysia."
+    subtitle: "Engineer of Logic. Composer of Music. Based in Kuala Lumpur, Malaysia."
   },
   {
     id: 'robotics',
     giantWord1: "ENGINEERING",
     giantWord2: "THE FUTURE",
-    subtitle: "Building robots, IoT, and AI logic from scratch."
+    subtitle: "Engineering robots, IoT, AI logic, and web & apps from the ground up."
   },
   {
     id: 'music',

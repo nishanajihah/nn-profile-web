@@ -170,7 +170,7 @@
   <T.Group
     position={[isMobile ? -9 : -36, isMobile ? 6 : -3, isMobile ? -15 : 12]}
     rotation={[0.2, 0.4 + Math.sin(roboticsRotY * 0.2) * 0.15, 0]}
-    scale={isMobile ? [1.2, 1.2, 1.2] : [1.9, 1.9, 1.9]}
+    scale={isMobile ? [1.5, 1.5, 1.5] : [2.2, 2.2, 2.2]}
   >
     <!-- Robot Body (Chassis) -->
     <T.Mesh position={[0, 0, 0]}>
@@ -352,7 +352,7 @@
   <T.Group
     position={[isMobile ? 9 : 36, isMobile ? -6 : -3, isMobile ? -15 : 12]}
     rotation={[0.2, -0.45 + Math.sin(roboticsRotY * 0.25) * 0.1, 0]}
-    scale={isMobile ? [1.2, 1.2, 1.2] : [1.9, 1.9, 1.9]}
+    scale={isMobile ? [1.5, 1.5, 1.5] : [2.2, 2.2, 2.2]}
   >
     <!-- Dark Graphite Metallic Core Sphere -->
     <T.Mesh position={[0, 0, 0]}>

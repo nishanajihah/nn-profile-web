@@ -69,7 +69,7 @@
 <div class="homepage-wrapper">
   <div
     bind:this={homepageContent}
-    class="hero is-flex-grow-1 is-black is-relative is-overflow-hidden"
+    class="hero is-flex-grow-1 is-relative is-overflow-hidden"
   >
     <!-- Background Effects -->
     <div bind:this={particleContainer} class="ambient-container"></div>
