@@ -12,9 +12,16 @@
   // Per-variant email address in the social set
   $: emailHref =
     variant === "code"
-      ? "mailto:nishanajihah.dev@gmail.com"
-      : "mailto:nishanajihah@gmail.com";
-  $: emailLabel = variant === "code" ? "DEV EMAIL" : "EMAIL";
+      ? "https://mail.google.com/mail/?view=cm&fs=1&to=nishanajihah.dev@gmail.com"
+      : variant === "music"
+        ? "https://mail.google.com/mail/?view=cm&fs=1&to=nishanajihah.music@gmail.com"
+        : "https://mail.google.com/mail/?view=cm&fs=1&to=nishanajihah88@gmail.com";
+  $: emailLabel =
+    variant === "code"
+      ? "DEV EMAIL"
+      : variant === "music"
+        ? "MUSIC EMAIL"
+        : "GENERAL EMAIL";
 
   onMount(() => {
     if (browser) {
@@ -292,7 +299,7 @@
               </span>
               <span class="footer-label">Threads</span>
             </a>
-            <a href={emailHref} class="footer-link contact-link" title="Email">
+            <a href={emailHref} target="_blank" rel="noopener noreferrer" class="footer-link contact-link" title="Email">
               <span class="social-icon">
                 <svg
                   width="20"
@@ -579,7 +586,7 @@
               </span>
               <span class="footer-label">Threads</span>
             </a>
-            <a href={emailHref} class="footer-link contact-link" title="Email">
+            <a href={emailHref} target="_blank" rel="noopener noreferrer" class="footer-link contact-link" title="Email">
               <span class="social-icon">
                 <svg
                   width="20"
@@ -750,7 +757,7 @@
               </span>
               <span class="footer-label">LinkedIn</span>
             </a>
-            <a href={emailHref} class="footer-link contact-link" title="Email">
+            <a href={emailHref} target="_blank" rel="noopener noreferrer" class="footer-link contact-link" title="Email">
               <span class="social-icon">
                 <svg
                   width="20"
@@ -937,7 +944,7 @@
               </span>
               <span class="footer-label">YouTube</span>
             </a>
-            <a href={emailHref} class="footer-link contact-link" title="Email">
+            <a href={emailHref} target="_blank" rel="noopener noreferrer" class="footer-link contact-link" title="Email">
               <span class="social-icon">
                 <svg
                   width="20"
@@ -1180,7 +1187,9 @@
               <span class="link-label">THREADS</span>
             </a>
             <a
-              href="mailto:nishanajihah88@gmail.com"
+              href={emailHref}
+              target="_blank"
+              rel="noopener noreferrer"
               class="popup-link contact-link"
               title="Contact"
             >
@@ -1197,7 +1206,7 @@
                   ></path><polyline points="22,6 12,13 2,6"></polyline></svg
                 ></span
               >
-              <span class="link-label">CONTACT</span>
+              <span class="link-label">{emailLabel}</span>
             </a>
           {:else if variant === "code"}
             <!-- CODE VARIANT POPUP -->
@@ -1341,6 +1350,22 @@
               >
               <span class="link-label">LINKEDIN</span>
             </a>
+            <a href={emailHref} target="_blank" rel="noopener noreferrer" class="popup-link contact-link" title="Email">
+              <span class="popup-icon"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  ><path
+                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                  ></path><polyline points="22,6 12,13 2,6"></polyline></svg
+                ></span
+              >
+              <span class="link-label">{emailLabel}</span>
+            </a>
           {:else if variant === "music"}
             <!-- MUSIC VARIANT POPUP -->
             <a
@@ -1473,6 +1498,22 @@
                 ></span
               >
               <span class="link-label">KO-FI</span>
+            </a>
+            <a href={emailHref} target="_blank" rel="noopener noreferrer" class="popup-link contact-link" title="Email">
+              <span class="popup-icon"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  ><path
+                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                  ></path><polyline points="22,6 12,13 2,6"></polyline></svg
+                ></span
+              >
+              <span class="link-label">{emailLabel}</span>
             </a>
           {:else if variant === "about"}
             <!-- ABOUT VARIANT POPUP (ALL 12 LINKS) -->
@@ -1721,7 +1762,7 @@
               >
               <span class="link-label">THREADS</span>
             </a>
-            <a href={emailHref} class="popup-link contact-link" title="Email">
+            <a href={emailHref} target="_blank" rel="noopener noreferrer" class="popup-link contact-link" title="Email">
               <span class="popup-icon"
                 ><svg
                   viewBox="0 0 24 24"

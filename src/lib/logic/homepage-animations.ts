@@ -66,6 +66,28 @@ export function runHomepageEntranceAnimation(elements: HomepageElements) {
                 1.0
             );
         }
+
+        // Animate Support Button
+        const supportBtn = document.querySelector('.nav-support-btn');
+        if (supportBtn) {
+            tl.fromTo(supportBtn, 
+                { 
+                    y: -30, 
+                    yPercent: -50,
+                    opacity: 0, 
+                    filter: 'blur(5px)'
+                }, 
+                { 
+                    y: 0, 
+                    yPercent: -50,
+                    opacity: 1, 
+                    filter: 'blur(0px)',
+                    duration: 1.2, 
+                    ease: 'power2.out' 
+                }, 
+                1.4
+            );
+        }
     }
 
     // 5. Animate Center Connect Button (Bottom)
@@ -282,6 +304,12 @@ let mouseMoveTimeout: ReturnType<typeof setTimeout> | null = null;
 export function setupHomepageGlowInteraction(elements: { glow: HTMLElement | null, container: HTMLElement | null }) {
     if (!elements.container || !elements.glow) return () => {};
 
+    // Disable on mobile/tablet or touch devices
+    if (typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(pointer: coarse)').matches)) {
+        elements.glow.style.display = 'none';
+        return () => {};
+    }
+
     const handleMove = (event: MouseEvent) => {
         const containerRect = elements.container!.getBoundingClientRect();
         const x = event.clientX - containerRect.left;
@@ -290,7 +318,9 @@ export function setupHomepageGlowInteraction(elements: { glow: HTMLElement | nul
         gsap.to(elements.glow, {
             x: x,
             y: y,
-            opacity: 0.2,
+            xPercent: -50,
+            yPercent: -50,
+            opacity: 0.35,
             scale: 1.2,
             duration: 0.3,
             ease: 'power1.out'
@@ -299,6 +329,8 @@ export function setupHomepageGlowInteraction(elements: { glow: HTMLElement | nul
         if (mouseMoveTimeout !== null) clearTimeout(mouseMoveTimeout);
         mouseMoveTimeout = setTimeout(() => {
             gsap.to(elements.glow, {
+                xPercent: -50,
+                yPercent: -50,
                 opacity: 0.2,
                 scale: 1,
                 duration: 1.5,

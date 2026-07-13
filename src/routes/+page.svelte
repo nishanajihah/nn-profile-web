@@ -123,7 +123,9 @@
             <span class="deck-prompt">CHOOSE A PROJECT:</span>
             <div class="deck-options">
               <a
-                href="mailto:nishanajihah88@gmail.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=nishanajihah.music@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 class="deck-btn split-btn"
                 aria-label="Music Inquiries"
               >
@@ -131,7 +133,9 @@
               </a>
               <div class="deck-separator"></div>
               <a
-                href="mailto:nishanajihah.dev@gmail.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=nishanajihah.dev@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 class="deck-btn split-btn"
                 aria-label="Code Inquiries"
               >

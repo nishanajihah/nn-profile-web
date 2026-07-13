@@ -21,6 +21,103 @@ $bg-color: #050505;
         border-radius: 20px;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
 
+        :global(.nav-support-btn) {
+            position: absolute !important;
+            left: calc(100% + 60px) !important; // Pushed further right on desktop
+            top: 50%;
+            transform: translateY(-50%) !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            padding: 8px 18px !important;
+            background: rgba(255, 255, 255, 0.8) !important; // Softer white for high contrast
+            border: 1px solid rgba(255, 255, 255, 0.8) !important;
+            border-radius: 20px !important;
+            color: #000000 !important; // Black text
+            font-family: 'Anta', sans-serif !important;
+            font-size: 0.82rem !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.08em !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+            z-index: 60 !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+
+            &::after {
+                display: none !important; // Disable ripple ping
+            }
+
+            :global(.btn-text) {
+                display: inline-block !important; // Show text on desktop
+                font-weight: 800 !important;
+            }
+
+            :global(.nav-heart-icon) {
+                color: #ff4b4b !important; // Red heart
+                width: 15px !important;
+                height: 15px !important;
+                transition: all 0.3s ease !important;
+                filter: none !important;
+            }
+
+            // Highlight state: transition to solid yellow
+            &:hover {
+                background: #ffde21 !important;
+                border-color: #ffde21 !important;
+                color: #000000 !important;
+                transform: translateY(calc(-50% - 2px)) scale(1.03) !important;
+                box-shadow: 0 6px 20px rgba(255, 222, 33, 0.4) !important;
+
+                :global(.nav-heart-icon) {
+                    transform: scale(1.2) !important;
+                    animation: heartPulse 1.1s infinite ease-in-out !important;
+                }
+            }
+
+            &:active {
+                transform: translateY(calc(-50% + 1px)) scale(0.98) !important;
+            }
+
+            @media (max-width: 1024px) {
+                left: calc(100% + 30px) !important; // Moderate gap on tablets
+            }
+
+            @media (max-width: 768px) {
+                left: calc(100% - 16px) !important; // Overlap with navbar edge on mobile
+                padding: 0 !important;
+                border-radius: 8px !important; // Rounded square with soft border edge
+                aspect-ratio: 1 !important;
+                width: 32px !important; // Slightly smaller
+                height: 32px !important;
+                justify-content: center !important;
+                align-items: center !important;
+                display: inline-flex !important;
+                background: rgba(255, 255, 255, 0.8) !important;
+                border-color: rgba(255, 255, 255, 0.8) !important;
+
+                :global(.btn-text) {
+                    display: none !important;
+                }
+
+                :global(.nav-heart-icon) {
+                    color: #ff4b4b !important;
+                    width: 16px !important;
+                    height: 16px !important;
+                }
+
+                &:hover {
+                    background: #ffde21 !important;
+                    border-color: #ffde21 !important;
+                    transform: translateY(calc(-50% - 2px)) scale(1.05) !important;
+                }
+                &:active {
+                    transform: translateY(calc(-50% + 1px)) scale(0.98) !important;
+                }
+            }
+        }
+
         :global(.nav-portal) {
             position: relative;
             
@@ -572,4 +669,9 @@ $bg-color: #050505;
 
 @keyframes spin {
     100% { transform: rotate(360deg); }
+}
+
+@keyframes ripplePing {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.4); opacity: 0; }
 }
