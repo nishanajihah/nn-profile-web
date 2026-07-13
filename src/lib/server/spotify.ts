@@ -76,7 +76,20 @@ async function fetchSpotifyApi(endpoint: string) {
     }
 
     if (!response.ok) {
-        throw new Error(`Spotify API error: ${response.status} ${response.statusText}`);
+        let errMsg = `Spotify API error: ${response.status} ${response.statusText}`;
+        try {
+            const errData = await response.json();
+            if (errData.error?.message) {
+                errMsg += ` - ${errData.error.message}`;
+            }
+        } catch {
+            // Fallback if not JSON
+            try {
+                const txt = await response.text();
+                if (txt) errMsg += ` - ${txt}`;
+            } catch {}
+        }
+        throw new Error(errMsg);
     }
 
     return response.json();

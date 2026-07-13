@@ -52,11 +52,18 @@
             "The core processor encountered a critical failure. Our engineers are currently debugging the simulation.",
           code: "500",
         };
+      case 503:
+        return {
+          title: "Service Unavailable",
+          message:
+            message || "The server is temporarily unable to service your request due to maintenance downtime or capacity problems.",
+          code: "503",
+        };
       default:
         return {
           title: "Unknown Glitch",
           message:
-            "An unexpected fragment error has occurred. Please return to the main hub.",
+            message || "An unexpected fragment error has occurred. Please return to the main hub.",
           code: status.toString(),
         };
     }
