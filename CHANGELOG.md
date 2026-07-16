@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.4.0] - 2026-07-17
+
+### Added
+- **Unified Favicon Package**: Integrated a full suite of generated site favicons (16x16, 32x32, apple-touch, and android-chrome variants) via `site.webmanifest` inside `+layout.svelte`, excluding the raw vector SVG.
+- **Header Navigation Variant `compact`**: Introduced a new `'compact'` layout variant to separate **About** and **Code** pages from the Music page. It renders a completely transparent, boxless header with squeezed padding and gap spacing.
+- **Heart-Only Support Button**: Programmed the Support Me button on all subpages to automatically hide its text label and scale down to a touch-optimized heart-only button when entering tablet screens (`<= 1200px`) and smaller.
+- **Symmetrical Mobile Positioning**: Synchronized all page navigation bars (Home, About, Code, and Music) to use the exact same absolute positioning (`position: absolute !important` at `top: 5vh !important`) on mobile viewports.
+- **Main Link Highlights**: Cleaned up the header structure by hiding the secondary subtitle lines (`.nav-sub`) on all pages. Replaced vertical shift animations with subtle scaling hover actions (`scale(1.05)`) and added a yellow glow shadow to the active page labels.
+- **Mobile Overlap Collision Prevention**: Added custom right-side padding (`padding-right: 32px`) to the mobile navigation containers, creating an invisible safety buffer that allows the Support Me button to overlap the navbar edge without clipping the rightmost text link (`VISUAL`).
+- **Gmail Contact Integration**: Shifted email redirection coordinates to direct to Gmail (`nishanajihah.dev@gmail.com`) instead of Outlook, optimizing communications flow.
+
+### Changed
+- **Spotify Web API Restructuring**: Upgraded the Spotify API integration with robust error handling and fallbacks to handle Spotify's restriction requiring active premium accounts for player queries.
+- **Shared Footer Component Refactor**: Replaced the legacy hardcoded footer on the homepage with the shared Svelte `<Footer />` component to align layout code.
+- **Pure Black Cinematic Backdrop**: Updated the homepage background canvas color to pure black (`#000000`) instead of dark grey for a premium, high-contrast look.
+- **3D About Page Refinements**: Retuned Threlte coordinate offsets and GSAP timelines on the About page for smoother 3D parallax scroll translations.
+
 ## [2.3.0] - 2026-06-05
 
 ### Added
