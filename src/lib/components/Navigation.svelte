@@ -6,15 +6,16 @@
   // When true, the HOME link is hidden (used on the homepage itself)
   export let hideHome = false;
 
-  // 'home'  → transparent floating nav (original homepage-design.scss style, position: absolute top: 15vh)
-  // 'inner' → glassmorphism pill bar (position: fixed top: 40px), used on Music, About, Code pages
-  export let variant: 'home' | 'inner' = 'home';
+  // 'home'    → transparent floating nav (original homepage-design.scss style, position: absolute top: 15vh)
+  // 'inner'   → music page glassy nav
+  // 'compact' → transparent squeezed nav, used on About, Code pages
+  export let variant: 'home' | 'inner' | 'compact' = 'home';
 
   const isPathDisabled = (path: string) =>
     siteConfig.isBuildingMode && siteConfig.underConstructionPaths.includes(path);
 </script>
 
-<nav class="top-cinematic-nav {variant === 'inner' ? 'nav--inner' : ''}">
+<nav class="top-cinematic-nav {variant === 'inner' ? 'nav--inner' : ''} {variant === 'compact' ? 'nav--compact' : ''}">
   {#if !hideHome}
     <a
       href="/"
@@ -58,7 +59,7 @@
     href="https://ko-fi.com/nishanajihah/tip"
     target="_blank"
     rel="noopener noreferrer"
-    class="nav-support-btn {variant === 'inner' ? 'nav-support-btn--inner' : ''}"
+    class="nav-support-btn {variant === 'inner' ? 'nav-support-btn--inner' : ''} {variant === 'compact' ? 'nav-support-btn--compact' : ''}"
     title="Support Me"
   >
     <svg class="nav-heart-icon" viewBox="0 0 24 24" fill="currentColor">

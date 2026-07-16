@@ -183,7 +183,7 @@
   bind:this={wrapper}
   on:scroll={handleScroll}
 >
-  <Navigation variant="home" />
+  <Navigation variant="compact" />
 
   <!-- GitHub Telemetry Capsule -->
   <a

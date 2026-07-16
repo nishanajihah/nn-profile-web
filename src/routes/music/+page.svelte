@@ -104,7 +104,7 @@
 
 <div class="artist-page">
   <!-- Global Navigation -->
-  <Navigation variant="home" />
+  <Navigation variant="inner" />
 
   <!-- Hero Section -->
   <section class="artist-hero">

@@ -21,6 +21,23 @@ $bg-color: #050505;
         border-radius: 20px;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
 
+        @media (max-width: 1024px) {
+            padding: 0.6rem 2rem !important; // Less small padding on tablet
+            gap: 2rem !important; // Less small link gap on tablet
+        }
+
+        @media (max-width: 768px) {
+            position: absolute !important; // Match home/compact nav position
+            top: 5vh !important; // Match home/compact nav position
+            padding: 0.35rem 32px 0.35rem 0.8rem !important; // Right padding creates space for overlapping support button
+            gap: 0.7rem !important; // Tighter gap
+            border-radius: 12px !important;
+
+            :global(.nav-portal) {
+                font-size: 0.74rem !important; // Scaled down links
+            }
+        }
+
         :global(.nav-support-btn) {
             position: absolute !important;
             left: calc(100% + 60px) !important; // Pushed further right on desktop
@@ -80,40 +97,48 @@ $bg-color: #050505;
                 transform: translateY(calc(-50% + 1px)) scale(0.98) !important;
             }
 
-            @media (max-width: 1024px) {
+            @media (max-width: 1200px) {
                 left: calc(100% + 30px) !important; // Moderate gap on tablets
-            }
-
-            @media (max-width: 768px) {
-                left: calc(100% - 16px) !important; // Overlap with navbar edge on mobile
                 padding: 0 !important;
                 border-radius: 8px !important; // Rounded square with soft border edge
                 aspect-ratio: 1 !important;
-                width: 32px !important; // Slightly smaller
-                height: 32px !important;
+                width: 38px !important; // A bit bigger on tablet
+                height: 38px !important;
                 justify-content: center !important;
                 align-items: center !important;
                 display: inline-flex !important;
                 background: rgba(255, 255, 255, 0.8) !important;
-                border-color: rgba(255, 255, 255, 0.8) !important;
+                border: 1px solid rgba(255, 255, 255, 0.8) !important;
 
                 :global(.btn-text) {
                     display: none !important;
                 }
 
                 :global(.nav-heart-icon) {
-                    color: #ff4b4b !important;
-                    width: 16px !important;
-                    height: 16px !important;
+                    color: #ff4b4b !important; // Red heart
+                    width: 18px !important;
+                    height: 18px !important;
                 }
 
                 &:hover {
                     background: #ffde21 !important;
                     border-color: #ffde21 !important;
                     transform: translateY(calc(-50% - 2px)) scale(1.05) !important;
+                    box-shadow: 0 6px 20px rgba(255, 222, 33, 0.4) !important;
                 }
                 &:active {
                     transform: translateY(calc(-50% + 1px)) scale(0.98) !important;
+                }
+            }
+
+            @media (max-width: 768px) {
+                left: calc(100% - 16px) !important; // Overlap with navbar edge on mobile
+                width: 32px !important; // Smaller on mobile
+                height: 32px !important;
+
+                :global(.nav-heart-icon) {
+                    width: 16px !important;
+                    height: 16px !important;
                 }
             }
         }

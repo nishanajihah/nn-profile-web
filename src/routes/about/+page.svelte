@@ -200,7 +200,7 @@
 </svelte:head>
 
 <div class="page-wrapper about-page">
-  <Navigation variant="home" />
+  <Navigation variant="compact" />
 
   <div class="threlte-background-container">
     <HalftoneBackground />

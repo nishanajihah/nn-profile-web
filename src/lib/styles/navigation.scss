@@ -2,9 +2,10 @@
    NAVIGATION COMPONENT STYLES
    Used by: src/lib/components/Navigation.svelte
 
-   Two variants:
-   - .top-cinematic-nav               → Homepage: transparent floating nav (original design)
-   - .top-cinematic-nav.nav--inner    → Inner pages (Music, About, Code): glassmorphism pill bar
+   Three variants:
+   - .top-cinematic-nav                 → Homepage: transparent floating nav (original design)
+   - .top-cinematic-nav.nav--inner      → Music page: glassy pill bar
+   - .top-cinematic-nav.nav--compact    → About & Code pages: transparent squeezed nav
    ============================================ */
 
 // ─── SHARED BASE ────────────────────────────────────────────────────────────
@@ -31,10 +32,50 @@
     gap: 1rem;
   }
 
-  // ─── INNER PAGES VARIANT (pill box) ──────────────────────────────────────
+  // ─── COMPACT PAGES VARIANT (transparent boxless for About & Code) ─────────
+  &.nav--compact {
+    background: transparent;
+    padding: 10px 0;
+    border: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+    gap: 30px;
+    overflow: visible;
+
+    @media (max-width: 1337px) {
+      padding: 10px 0;
+      gap: 16px;
+    }
+
+    @media (max-width: 768px) {
+      position: absolute !important; // Match home nav position on mobile
+      top: 5vh !important; // Match home nav position on mobile
+      padding: 0.35rem 32px 0.35rem 0.8rem; // Match music page padding to align width and text perfectly
+      gap: 0.7rem;
+      border-radius: 0;
+      width: auto;
+      max-width: 95%;
+
+      .nav-portal {
+        font-size: 0.74rem !important;
+      }
+
+      .nav-divider {
+        display: block;
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .nav-portal:hover:not(.is-disabled) {
+        .nav-label {
+          transform: none;
+        }
+      }
+    }
+  }
+
+  // ─── INNER PAGES VARIANT (glassmorphism pill box for Music/other inner) ──
   &.nav--inner {
-    position: fixed;
-    top: 40px;
     background: rgba(10, 10, 10, 0.85);
     padding: 10px 40px;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -42,37 +83,38 @@
     backdrop-filter: blur(15px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     gap: 30px;
-    // Allow the absolute-positioned .nav-sub to overflow the pill
     overflow: visible;
 
-    // ── Tablet (mirrors home nav top: 5vh breakpoint) ────────────────────
     @media (max-width: 1337px) {
-      top: 40px;
       padding: 10px 24px;
       gap: 16px;
     }
 
-    // ── Mobile ───────────────────────────────────────────────────────────
     @media (max-width: 768px) {
-      top: 20px;
-      padding: 8px 16px;
-      gap: 10px;
+      position: absolute !important; // Match home nav position on mobile
+      top: 5vh !important; // Match home nav position on mobile
+      padding: 0.35rem 1.2rem;
+      gap: 0.7rem;
+      border-radius: 12px;
       width: auto;
       max-width: 95%;
 
-      // Make lines in between clearer on mobile view
+      .nav-portal {
+        font-size: 0.74rem !important;
+      }
+
       .nav-divider {
         display: block;
         background: rgba(255, 255, 255, 0.3);
       }
 
-      // On mobile: suppress the label lift so it doesn't clip the pill
       .nav-portal:hover:not(.is-disabled) {
         .nav-label {
           transform: none;
         }
       }
     }
+  }
 
     // Inner pages nav-portal — keep all homepage font/animation, only tweak active colour
     .nav-portal {
@@ -108,7 +150,6 @@
       background: rgba(255, 255, 255, 0.15);
     }
   }
-}
 
 // ─── HOMEPAGE NAV-PORTAL (original transparent style) ───────────────────────
 
@@ -137,28 +178,21 @@
   }
 
   .nav-sub {
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.75rem;
-    color: #ffde21;
-    letter-spacing: 0.1em;
-    opacity: 0;
-    transform: translateY(-5px);
-    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-    position: absolute;
-    top: 100%;
-    white-space: nowrap;
-    text-transform: uppercase;
+    display: none !important; // Hide subtext entirely
   }
 
   &:hover:not(.is-disabled) {
     .nav-label {
-      color: #fff;
-      transform: translateY(-5px);
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+      color: #ffde21; // Highlight yellow on hover
+      transform: scale(1.05); // Clean scale highlight
+      text-shadow: 0 0 15px rgba(255, 222, 33, 0.5); // Yellow glow
     }
-    .nav-sub {
-      opacity: 1;
-      transform: translateY(2px);
+  }
+
+  &.is-active {
+    .nav-label {
+      color: #ffde21 !important; // Active link yellow highlight
+      text-shadow: 0 0 10px rgba(255, 222, 33, 0.5) !important;
     }
   }
 }
@@ -247,9 +281,21 @@
     transform: translateY(calc(-50% + 1px)) scale(0.98);
   }
 
-  // ─── INNER PAGES VARIANT (matches the pill navbar styling) ──────────────
+  // ─── COMPACT PAGES VARIANT (transparent boxless for About & Code) ─────────
+  &.nav-support-btn--compact {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: none;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffde21;
+      box-shadow: 0 0 15px rgba(255, 222, 33, 0.25);
+    }
+  }
+
+  // ─── INNER PAGES VARIANT (glassy pill matches for Music page default) ─────
   &.nav-support-btn--inner {
-    // Match nav--inner background and border exactly
     background: rgba(10, 10, 10, 0.85);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -261,17 +307,13 @@
     }
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     left: calc(100% + 30px); // Moderate gap on tablets
-  }
-
-  @media (max-width: 768px) {
-    left: calc(100% + 20px); // Pushed further away on mobile
     padding: 0;
     border-radius: 8px; // Rounded square with soft border edge
     aspect-ratio: 1;
-    width: 32px; // Slightly smaller
-    height: 32px;
+    width: 38px; // A bit bigger on tablet
+    height: 38px;
     justify-content: center;
     align-items: center;
     display: inline-flex;
@@ -281,9 +323,9 @@
     }
 
     .nav-heart-icon {
-      color: #ffde21; // Always navbar yellow highlight on mobile
-      width: 16px;
-      height: 16px;
+      color: #ffde21; // Always navbar yellow highlight on tablet/mobile
+      width: 18px;
+      height: 18px;
     }
 
     &:hover {
@@ -291,6 +333,55 @@
     }
     &:active {
       transform: translateY(calc(-50% + 1px)) scale(0.98);
+    }
+
+    &.nav-support-btn--compact {
+      background: transparent !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    &.nav-support-btn--inner {
+      background: rgba(10, 10, 10, 0.85) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    left: calc(100% + 20px); // Pushed further away on mobile (homepage)
+    width: 32px; // Smaller on mobile
+    height: 32px;
+
+    .nav-heart-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    &.nav-support-btn--compact {
+      left: calc(100% - 16px) !important; // Overlap with navbar edge on mobile
+      border: 1px solid rgba(255, 255, 255, 0.2) !important; // Full thin border box
+      box-shadow: none !important;
+      background: transparent !important;
+      border-radius: 8px !important; // Rounded square box
+
+      &:hover {
+        border: 1px solid #ffde21 !important; // Restores full yellow border highlight
+        background: rgba(255, 255, 255, 0.08) !important;
+        box-shadow: 0 0 15px rgba(255, 222, 33, 0.25) !important;
+      }
+    }
+
+    &.nav-support-btn--inner {
+      left: calc(100% - 16px) !important; // Overlap with navbar edge on mobile
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      box-shadow: none !important;
+      background: rgba(10, 10, 10, 0.85) !important;
+      border-radius: 8px !important;
+
+      &:hover {
+        border: 1px solid #ffde21 !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        box-shadow: 0 0 15px rgba(255, 222, 33, 0.25) !important;
+      }
     }
   }
 }
