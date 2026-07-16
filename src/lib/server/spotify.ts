@@ -10,7 +10,7 @@ let tokenExpiresAt: number = 0;
  * Retrieves a Spotify Access Token using the Client Credentials Flow.
  * Implements token caching to avoid requesting a new token for every API call.
  */
-async function getAccessToken(): Promise<string> {
+async function getAccessToken(customFetch: typeof fetch = fetch): Promise<string> {
     const clientId = env.SPOTIFY_CLIENT_ID;
     const clientSecret = env.SPOTIFY_CLIENT_SECRET;
 
@@ -25,7 +25,7 @@ async function getAccessToken(): Promise<string> {
 
     const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
     
-    const response = await fetch(SPOTIFY_TOKEN_URL, {
+    const response = await customFetch(SPOTIFY_TOKEN_URL, {
         method: 'POST',
         headers: {
             'Authorization': `Basic ${basicAuth}`,
@@ -49,11 +49,11 @@ async function getAccessToken(): Promise<string> {
 /**
  * Helper to fetch data from Spotify Web API with error handling and retry logic.
  */
-async function fetchSpotifyApi(endpoint: string) {
-    const token = await getAccessToken();
+async function fetchSpotifyApi(endpoint: string, customFetch: typeof fetch = fetch) {
+    const token = await getAccessToken(customFetch);
     const url = `${SPOTIFY_API_BASE}${endpoint}`;
 
-    let response = await fetch(url, {
+    let response = await customFetch(url, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -68,7 +68,7 @@ async function fetchSpotifyApi(endpoint: string) {
         await new Promise(resolve => setTimeout(resolve, waitTime));
         
         // Retry once
-        response = await fetch(url, {
+        response = await customFetch(url, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -98,10 +98,10 @@ async function fetchSpotifyApi(endpoint: string) {
 /**
  * Fetch artist details and top tracks for an artist.
  */
-export async function getArtistData(artistName: string = 'Nisha Najihah') {
+export async function getArtistData(artistName: string = 'Nisha Najihah', customFetch: typeof fetch = fetch) {
     try {
         // Step 1: Search for the artist
-        const searchResult = await fetchSpotifyApi(`/search?q=${encodeURIComponent(artistName)}&type=artist&limit=1`);
+        const searchResult = await fetchSpotifyApi(`/search?q=${encodeURIComponent(artistName)}&type=artist&limit=1`, customFetch);
         
         const artist = searchResult?.artists?.items?.[0];
         if (!artist) {
@@ -110,13 +110,13 @@ export async function getArtistData(artistName: string = 'Nisha Najihah') {
         }
 
         // Step 2: Get artist's top tracks
-        const topTracksResult = await fetchSpotifyApi(`/artists/${artist.id}/top-tracks?market=US`);
+        const topTracksResult = await fetchSpotifyApi(`/artists/${artist.id}/top-tracks?market=US`, customFetch);
         let rawOwnTracks = topTracksResult.tracks || [];
         let rawCollabTracks = [];
 
         // Step 3: Search for tracks featuring the artist
         try {
-            const featureSearchResult = await fetchSpotifyApi(`/search?q=${encodeURIComponent(artist.name)}&type=track&limit=15`);
+            const featureSearchResult = await fetchSpotifyApi(`/search?q=${encodeURIComponent(artist.name)}&type=track&limit=15`, customFetch);
             rawCollabTracks = featureSearchResult?.tracks?.items?.filter((t: any) => 
                 t.artists.some((a: any) => a.id === artist.id) && !rawOwnTracks.some((existing: any) => existing.id === t.id)
             ) || [];

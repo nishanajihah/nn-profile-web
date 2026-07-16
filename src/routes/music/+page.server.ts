@@ -2,13 +2,13 @@ import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getArtistData } from '$lib/server/spotify';
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ fetch }) => {
     let tracks: any[] = [];
     let collabTracks: any[] = [];
     let artist: any = null;
 
     try {
-        const data = await getArtistData('Nisha Najihah');
+        const data = await getArtistData('Nisha Najihah', fetch);
         tracks = data.tracks;
         collabTracks = data.collabTracks || [];
         artist = data.artist;
