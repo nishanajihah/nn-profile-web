@@ -12,7 +12,7 @@
 
 .top-cinematic-nav {
   position: absolute;
-  top: 15vh;
+  top: 12vh;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -44,7 +44,7 @@
     overflow: visible;
 
     @media (max-width: 1337px) {
-      padding: 10px 0;
+      padding: 10px 32px 10px 16px; // Right padding for overlapping support button on tablet
       gap: 16px;
     }
 
@@ -76,24 +76,24 @@
 
   // ─── INNER PAGES VARIANT (glassmorphism pill box for Music/other inner) ──
   &.nav--inner {
-    background: rgba(10, 10, 10, 0.85);
-    padding: 10px 40px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50px;
-    backdrop-filter: blur(15px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background: rgba(10, 10, 10, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0.6rem 2.5rem; 
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
     gap: 30px;
     overflow: visible;
 
     @media (max-width: 1337px) {
-      padding: 10px 24px;
-      gap: 16px;
+      padding: 0.6rem 32px 0.6rem 2rem;
+      gap: 2rem;
     }
 
     @media (max-width: 768px) {
       position: absolute !important; // Match home nav position on mobile
       top: 5vh !important; // Match home nav position on mobile
-      padding: 0.35rem 1.2rem;
+      padding: 0.35rem 32px 0.35rem 0.8rem;
       gap: 0.7rem;
       border-radius: 12px;
       width: auto;
@@ -114,6 +114,59 @@
         }
       }
     }
+
+    .nav-portal {
+      // Active page: highlight title/label in yellow, do NOT show the subtitle
+      &.is-active {
+        .nav-label {
+          color: #ffde21 !important;
+          text-shadow: 0 0 10px rgba(255, 222, 33, 0.5) !important;
+        }
+        .nav-sub {
+          opacity: 0 !important;
+          display: none !important;
+        }
+      }
+
+      // Hover state: show the subtitle inside a glass pill overlaying the bottom edge of the navbar
+      &:hover:not(.is-disabled) {
+        .nav-label {
+          color: #ffde21 !important;
+          transform: scale(1.05) !important;
+          text-shadow: 0 0 15px rgba(255, 222, 33, 0.5) !important;
+        }
+
+        .nav-sub {
+          display: inline-block !important;
+          opacity: 1 !important;
+          background: #ffffff !important; // White background pill
+          color: #000000 !important; // Black text
+          font-family: 'Anta', sans-serif !important; // Brand display font
+          font-weight: 700 !important;
+          letter-spacing: 0.08em !important;
+          border-radius: 30px !important; // Pill border radius
+          position: absolute !important;
+          top: 100% !important;
+          left: 50% !important;
+          white-space: nowrap !important;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.45) !important;
+          z-index: 100 !important; // Overlays everything
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+          // Desktop sizing
+          @media (min-width: 1338px) {
+            font-size: 0.85rem !important;
+            padding: 6px 16px !important;
+            transform: translateX(-50%) translateY(2px) !important;
+          }
+
+          // Mobile sizing
+          @media (max-width: 1337px) {
+            display: none !important; // Hide entirely on mobile
+          }
+        }
+      }
+    }
   }
 
     // Inner pages nav-portal — keep all homepage font/animation, only tweak active colour
@@ -124,22 +177,12 @@
         padding: 6px 4px;
       }
 
-      @media (max-width: 1337px) {
-        .nav-sub {
-          display: none !important;
-        }
-      }
 
       // Active page link — yellow label, white subtitle (turns yellow on hover via base styles)
       &.is-active {
         .nav-label {
           color: #ffde21;
           text-shadow: 0 0 10px rgba(255, 222, 33, 0.5);
-        }
-        .nav-sub {
-          opacity: 1;
-          transform: translateY(2px);
-          color: rgba(255, 255, 255, 0.9);
         }
       }
     }
@@ -178,7 +221,28 @@
   }
 
   .nav-sub {
-    display: none !important; // Hide subtext entirely
+    font-family: 'Anta', sans-serif; // Brand display font
+    font-weight: 700; // Balanced bold weight
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    pointer-events: none;
+    
+    @media (min-width: 1338px) {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-5px);
+      opacity: 0;
+      white-space: nowrap;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: block !important;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 1337px) {
+      display: none !important; // Hide subtitle entirely on mobile/tablet
+    }
   }
 
   &:hover:not(.is-disabled) {
@@ -186,6 +250,14 @@
       color: #ffde21; // Highlight yellow on hover
       transform: scale(1.05); // Clean scale highlight
       text-shadow: 0 0 15px rgba(255, 222, 33, 0.5); // Yellow glow
+    }
+
+    .nav-sub {
+      @media (min-width: 1338px) {
+        opacity: 1;
+        transform: translateX(-50%) translateY(2px);
+        color: rgba(255, 255, 255, 0.8);
+      }
     }
   }
 
@@ -294,26 +366,61 @@
     }
   }
 
-  // ─── INNER PAGES VARIANT (glassy pill matches for Music page default) ─────
+  // ─── INNER PAGES VARIANT (music page custom high contrast button) ────────
   &.nav-support-btn--inner {
-    background: rgba(10, 10, 10, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    color: #000000;
+    font-family: 'Anta', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    left: calc(100% + 60px);
+
+    &::after {
+      display: none !important; // Disable ripple ping
+    }
+
+    .btn-text {
+      display: inline-block;
+      font-weight: 800;
+    }
+
+    .nav-heart-icon {
+      color: #ff4b4b; // Red heart
+      width: 15px;
+      height: 15px;
+      filter: none;
+    }
 
     &:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: #ffde21;
       border-color: #ffde21;
-      box-shadow: 0 0 15px rgba(255, 222, 33, 0.25);
+      color: #000000;
+      transform: translateY(calc(-50% - 2px)) scale(1.03);
+      box-shadow: 0 6px 20px rgba(255, 222, 33, 0.4);
+
+      .nav-heart-icon {
+        color: #ff4b4b !important;
+        transform: scale(1.2);
+        animation: heartPulse 1.1s infinite ease-in-out;
+      }
+    }
+
+    &:active {
+      transform: translateY(calc(-50% + 1px)) scale(0.98);
     }
   }
 
   @media (max-width: 1200px) {
-    left: calc(100% + 30px); // Moderate gap on tablets
+    left: calc(100% + 30px); // Default placement for homepage on tablet
     padding: 0;
     border-radius: 8px; // Rounded square with soft border edge
     aspect-ratio: 1;
-    width: 38px; // A bit bigger on tablet
-    height: 38px;
+    width: 32px; // Sized down to match mobile
+    height: 32px;
     justify-content: center;
     align-items: center;
     display: inline-flex;
@@ -324,8 +431,8 @@
 
     .nav-heart-icon {
       color: #ffde21; // Always navbar yellow highlight on tablet/mobile
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
     }
 
     &:hover {
@@ -335,20 +442,49 @@
       transform: translateY(calc(-50% + 1px)) scale(0.98);
     }
 
+    &.nav-support-btn--compact, &.nav-support-btn--inner {
+      left: calc(100% - 16px) !important; // Match mobile overlay position
+      width: 32px !important;
+      height: 32px !important;
+      box-shadow: none !important;
+      border-radius: 8px !important;
+
+      .nav-heart-icon {
+        width: 16px !important;
+        height: 16px !important;
+      }
+    }
+
     &.nav-support-btn--compact {
       background: transparent !important;
       border: 1px solid rgba(255, 255, 255, 0.2) !important;
+
+      &:hover {
+        border: 1px solid #ffde21 !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        box-shadow: 0 0 15px rgba(255, 222, 33, 0.25) !important;
+      }
     }
 
     &.nav-support-btn--inner {
-      background: rgba(10, 10, 10, 0.85) !important;
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      background: rgba(255, 255, 255, 0.8) !important;
+      border: 1px solid rgba(255, 255, 255, 0.8) !important;
+
+      .nav-heart-icon {
+        color: #ff4b4b !important; // Red heart
+      }
+
+      &:hover {
+        border: 1px solid #ffde21 !important;
+        background: #ffde21 !important;
+        box-shadow: 0 0 15px rgba(255, 222, 33, 0.25) !important;
+      }
     }
   }
 
   @media (max-width: 768px) {
     left: calc(100% + 20px); // Pushed further away on mobile (homepage)
-    width: 32px; // Smaller on mobile
+    width: 32px;
     height: 32px;
 
     .nav-heart-icon {
@@ -358,13 +494,13 @@
 
     &.nav-support-btn--compact {
       left: calc(100% - 16px) !important; // Overlap with navbar edge on mobile
-      border: 1px solid rgba(255, 255, 255, 0.2) !important; // Full thin border box
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
       box-shadow: none !important;
       background: transparent !important;
-      border-radius: 8px !important; // Rounded square box
+      border-radius: 8px !important;
 
       &:hover {
-        border: 1px solid #ffde21 !important; // Restores full yellow border highlight
+        border: 1px solid #ffde21 !important;
         background: rgba(255, 255, 255, 0.08) !important;
         box-shadow: 0 0 15px rgba(255, 222, 33, 0.25) !important;
       }
@@ -372,14 +508,18 @@
 
     &.nav-support-btn--inner {
       left: calc(100% - 16px) !important; // Overlap with navbar edge on mobile
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      border: 1px solid rgba(255, 255, 255, 0.8) !important;
       box-shadow: none !important;
-      background: rgba(10, 10, 10, 0.85) !important;
+      background: rgba(255, 255, 255, 0.8) !important;
       border-radius: 8px !important;
+
+      .nav-heart-icon {
+        color: #ff4b4b !important; // Red heart
+      }
 
       &:hover {
         border: 1px solid #ffde21 !important;
-        background: rgba(255, 255, 255, 0.08) !important;
+        background: #ffde21 !important;
         box-shadow: 0 0 15px rgba(255, 222, 33, 0.25) !important;
       }
     }

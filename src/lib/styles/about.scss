@@ -54,16 +54,46 @@
     z-index: 20;
     width: 100%;
     pointer-events: none; // Let clicks pass through to 3D unless specified
+
+    @media (min-width: 769px) {
+      margin-top: 11vh; // Shift content down on desktop to clear header navigation perfectly
+    }
   }
 
   .about-eyebrow {
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(0.8rem, 1.5vw, 1.2rem);
-    letter-spacing: 0.3em;
-    color: #fcbf47;
-    margin-bottom: 2rem;
+    font-family: 'Anta', sans-serif;
+    font-size: clamp(0.9rem, 1.8vw, 1.25rem);
+    font-weight: 800;
+    letter-spacing: 0.35em;
+    color: #ffde21; // Brand glowing yellow text
+    background: rgba(255, 222, 33, 0.06);
+    border: 1px solid rgba(255, 222, 33, 0.25);
+    border-radius: 30px; // Floating capsule design
+    box-shadow: 0 0 20px rgba(255, 222, 33, 0.15), inset 0 0 10px rgba(255, 222, 33, 0.05);
     text-transform: uppercase;
-    font-weight: 600;
+    display: inline-block;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    pointer-events: auto; // Allow hover scaling
+
+    // Desktop
+    @media (min-width: 1338px) {
+      padding: 8px 24px;
+      margin-bottom: 2.5rem;
+    }
+    // Tablet
+    @media (max-width: 1337px) {
+      padding: 6px 20px;
+      margin-bottom: 2rem;
+    }
+
+    &:hover {
+      background: rgba(255, 222, 33, 0.1);
+      border-color: rgba(255, 222, 33, 0.5);
+      box-shadow: 0 0 25px rgba(255, 222, 33, 0.3);
+      transform: scale(1.03);
+    }
   }
   
   /* Forces giant words to display in a single row side-by-side */
@@ -78,13 +108,25 @@
 
   .giant-word {
     font-family: 'Anta', sans-serif;
-    font-size: clamp(4rem, 15vw, 12rem);
     line-height: 0.85;
     margin: 0;
     text-transform: uppercase;
     color: #fff;
     white-space: nowrap;
     will-change: transform, opacity;
+
+    // Desktop
+    @media (min-width: 1441px) {
+      font-size: clamp(6rem, 12vw, 11rem);
+    }
+    // Large Laptops / Tablets
+    @media (max-width: 1440px) {
+      font-size: clamp(4.5rem, 10vw, 8rem);
+    }
+    // Small Tablets
+    @media (max-width: 1024px) {
+      font-size: clamp(3.5rem, 8vw, 6rem);
+    }
   }
 
   .outline-text {
@@ -95,16 +137,37 @@
   .kinetic-subtitle {
     font-family: 'Inter', sans-serif;
     font-weight: 300;
-    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
     color: rgba(255, 255, 255, 0.85);
-    margin-top: 2rem;
-    max-width: 800px;
-    letter-spacing: 0.05em;
+    margin-top: 2.5rem;
     will-change: transform, opacity;
     
-    // Add a beautiful subtle accent
     position: relative;
-    padding-top: 1rem;
+    padding-top: 1.5rem;
+
+    // Desktop (Large, highly readable)
+    @media (min-width: 1441px) {
+      font-size: clamp(1.5rem, 2.4vw, 2.05rem);
+      max-width: 900px;
+      line-height: 1.6;
+    }
+    // Large Laptops / Tablets
+    @media (max-width: 1440px) {
+      font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+      max-width: 800px;
+      line-height: 1.55;
+    }
+    // Small Tablets
+    @media (max-width: 1024px) {
+      font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+      max-width: 85%;
+      line-height: 1.5;
+    }
+    // Mobile Sizing
+    @media (max-width: 768px) {
+      font-size: clamp(0.95rem, 4vw, 1.2rem);
+      max-width: 90%;
+      line-height: 1.45;
+    }
     
     &::before {
       content: '';
@@ -112,7 +175,7 @@
       top: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 40px;
+      width: 50px;
       height: 2px;
       background: #fcbf47; // Ko-fi gold color for accent
       box-shadow: 0 0 10px rgba(252, 191, 71, 0.5);
@@ -129,7 +192,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3rem;
+    gap: clamp(1.5rem, 3vh, 3rem); // Responsive fluid gap
     width: 100%;
     max-width: 600px;
     pointer-events: auto;
@@ -151,14 +214,29 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
       font-family: 'Inter', sans-serif;
-      font-size: 1.25rem;
       font-weight: 600;
-      padding: 1rem 2.5rem;
       border-radius: 50px;
       text-decoration: none;
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       position: relative;
       overflow: hidden;
+      white-space: nowrap; // Keeps button layout single-row
+
+      // Desktop
+      @media (min-width: 1441px) {
+        font-size: clamp(1.15rem, 1.5vw, 1.3rem);
+        padding: 1.1rem 2.8rem;
+      }
+      // Laptop
+      @media (max-width: 1440px) {
+        font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+        padding: 0.9rem 2.2rem;
+      }
+      // Tablet
+      @media (max-width: 1024px) {
+        font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+        padding: 0.8rem 2rem;
+      }
       
       &::before {
         content: '';
@@ -172,13 +250,13 @@
 
       &:hover {
         background: rgba(255, 255, 255, 0.1);
-        border-color: #fcbf47;
-        color: #fcbf47;
+        border-color: #ffde21; // Brand yellow
+        color: #ffde21; // Brand yellow
         transform: translateY(-5px) scale(1.05);
-        box-shadow: 0 0 20px rgba(252, 191, 71, 0.2);
+        box-shadow: 0 0 20px rgba(255, 222, 33, 0.25); // Brand yellow shadow glow
         
         svg path {
-          fill: #fcbf47;
+          fill: #ffde21; // Brand yellow icon filling
         }
 
         &::before {
@@ -202,12 +280,30 @@
     100% { opacity: 1; transform: scale(1.05); }
   }
 
+  // --- SUPPORT SECTION HIGHLIGHT & LAYOUT ADJUSTMENTS ---
+  .layer-support {
+    .kinetic-container {
+      @media (min-width: 769px) {
+        margin-top: 2vh !important; // Position content up on desktop to clear footer nicely
+      }
+    }
+
+    .kinetic-subtitle {
+      @media (min-width: 769px) {
+        white-space: nowrap !important; // Force subtitle in a single row on desktop/web
+        max-width: none !important;
+      }
+    }
+  }
+
   /* RESPONSIVE SCALING FOR PHONE DEVICES */
   @media (max-width: 768px) {
     .about-eyebrow {
-      font-size: clamp(0.7rem, 3vw, 0.9rem);
-      margin-bottom: 1.25rem;
-      letter-spacing: 0.25em;
+      font-size: clamp(0.75rem, 3.5vw, 0.95rem) !important;
+      padding: 5px 16px !important; // Compact padding on mobile
+      border-radius: 20px !important; // Tighter capsule border-radius on mobile
+      margin-bottom: 1.5rem !important;
+      letter-spacing: 0.25em !important;
     }
 
     .hero-row {
@@ -242,13 +338,13 @@
 
     .kofi-premium-container {
       .kofi-button-custom {
-        font-size: 1rem;
-        padding: 0.75rem 1.8rem;
-        gap: 8px;
+        font-size: clamp(0.85rem, 3.5vw, 1rem) !important;
+        padding: clamp(0.55rem, 2vw, 0.75rem) clamp(1.2rem, 4vw, 1.8rem) !important;
+        gap: 8px !important;
         
         svg {
-          width: 20px;
-          height: 20px;
+          width: clamp(16px, 4vw, 20px) !important;
+          height: clamp(16px, 4vw, 20px) !important;
         }
       }
     }

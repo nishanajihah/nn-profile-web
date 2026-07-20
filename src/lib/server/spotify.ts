@@ -10,7 +10,7 @@ let tokenExpiresAt: number = 0;
  * Retrieves a Spotify Access Token using the Client Credentials Flow.
  * Implements token caching to avoid requesting a new token for every API call.
  */
-async function getAccessToken(customFetch: typeof fetch = fetch): Promise<string> {
+async function getAccessToken(customFetch?: typeof fetch): Promise<string> {
     const clientId = env.SPOTIFY_CLIENT_ID;
     const clientSecret = env.SPOTIFY_CLIENT_SECRET;
 
@@ -25,7 +25,8 @@ async function getAccessToken(customFetch: typeof fetch = fetch): Promise<string
 
     const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
     
-    const response = await customFetch(SPOTIFY_TOKEN_URL, {
+    const fetchFn = customFetch || globalThis.fetch;
+    const response = await fetchFn(SPOTIFY_TOKEN_URL, {
         method: 'POST',
         headers: {
             'Authorization': `Basic ${basicAuth}`,
@@ -49,11 +50,12 @@ async function getAccessToken(customFetch: typeof fetch = fetch): Promise<string
 /**
  * Helper to fetch data from Spotify Web API with error handling and retry logic.
  */
-async function fetchSpotifyApi(endpoint: string, customFetch: typeof fetch = fetch) {
-    const token = await getAccessToken(customFetch);
+async function fetchSpotifyApi(endpoint: string, customFetch?: typeof fetch) {
+    const fetchFn = customFetch || globalThis.fetch;
+    const token = await getAccessToken(fetchFn);
     const url = `${SPOTIFY_API_BASE}${endpoint}`;
 
-    let response = await customFetch(url, {
+    let response = await fetchFn(url, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -68,7 +70,7 @@ async function fetchSpotifyApi(endpoint: string, customFetch: typeof fetch = fet
         await new Promise(resolve => setTimeout(resolve, waitTime));
         
         // Retry once
-        response = await customFetch(url, {
+        response = await fetchFn(url, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -98,7 +100,7 @@ async function fetchSpotifyApi(endpoint: string, customFetch: typeof fetch = fet
 /**
  * Fetch artist details and top tracks for an artist.
  */
-export async function getArtistData(artistName: string = 'Nisha Najihah', customFetch: typeof fetch = fetch) {
+export async function getArtistData(artistName: string = 'Nisha Najihah', customFetch?: typeof fetch) {
     try {
         // Step 1: Search for the artist
         const searchResult = await fetchSpotifyApi(`/search?q=${encodeURIComponent(artistName)}&type=artist&limit=1`, customFetch);

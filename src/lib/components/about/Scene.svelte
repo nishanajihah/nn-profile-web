@@ -18,6 +18,7 @@
   let pointerY = 0;
 
   function handlePointerMove(e: PointerEvent) {
+    if (windowWidth < 1338) return;
     pointerX = (e.clientX / windowWidth) * 2 - 1;
     pointerY = -(e.clientY / windowHeight) * 2 + 1;
   }
@@ -38,6 +39,11 @@
     
     const time = (Date.now() - startTime) / 1000;
 
+    if (windowWidth < 1338) {
+      pointerX = 0;
+      pointerY = 0;
+    }
+
     targetX += (pointerX * (gridSize * spacing) / 2 - targetX) * 0.05;
     targetY += (pointerY * (gridSize * spacing) / 2 - targetY) * 0.05;
 
@@ -49,7 +55,7 @@
         const posX = x * spacing - offset + (spacing/2);
         const posY = y * spacing - offset + (spacing/2);
         
-        const scaleEffect = calculateGridScale(posX, posY, targetX, targetY, 25, time);
+        const scaleEffect = calculateGridScale(posX, posY, targetX, targetY, 25, time, windowWidth < 1338);
         const finalScale = Math.max(0.01, 0.02 + scaleEffect * 0.85);
         
         dummy.position.set(posX, posY, 0);

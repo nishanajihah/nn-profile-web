@@ -496,10 +496,20 @@ $ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
 // ═══════════════════════════════════════════
 .hero-space {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10vh 5vw 0 5vw; // Added 10vh padding top to push away from header nav
+  padding: 10vh 5vw 0 5vw;
   position: relative;
+
+  .section-header-anchored {
+    margin-top: -14vh; // Shift the entire block (tag + title + subtitle) up further on web and mobile
+    margin-bottom: 30px !important; // Match the exact 30px spacing between system_core and hero-subtitle
+    
+    .section-tag {
+      margin-bottom: 0 !important; // Remove internal bottom margin so it is closer to the title
+    }
+  }
   
   &::before, &::after {
     content: '';
@@ -540,6 +550,10 @@ $ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
     letter-spacing: -0.02em;
     text-transform: uppercase;
     color: #fff;
+
+    @media (max-width: 768px) {
+      font-size: clamp(2.3rem, 10vw, 3.8rem); // Smaller size for SYSTEM_CORE on mobile
+    }
   }
 
   .hero-subtitle {
@@ -595,6 +609,7 @@ $ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
 // ═══════════════════════════════════════════
 .repo-section {
   position: relative;
+  padding-bottom: 0 !important;
 
   &::before, &::after {
     content: '';
@@ -717,7 +732,7 @@ $ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   // View More button
   .repo-view-more {
     margin-top: 40px;
-    margin-bottom: 80px; // Add a bit of gap to the footer
+    margin-bottom: 180px; // Ensure spacious gap to prevent overlapping the footer on mobile and desktop
     text-align: center;
 
     .view-all-btn {
@@ -766,9 +781,9 @@ $ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(5, 5, 5, 0.85);
+  background: rgba(10, 10, 10, 0.98); // High opacity premium dark background
   backdrop-filter: blur(24px);
-  z-index: 9000;
+  z-index: 99999 !important; // Ensure it overlays header navbar completely
   overflow-y: auto;
   padding: 80px 5vw;
 
@@ -947,7 +962,12 @@ $ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
 // ═══════════════════════════════════════════
 .integrated-footer {
   background: #000;
-  width: 100%;
+  width: calc(100% + 10vw) !important;
+  margin-left: -5vw !important;
+  margin-right: -5vw !important;
+  position: relative;
+  z-index: 9999 !important;
+  overflow: visible !important;
 }
 
 // ═══════════════════════════════════════════

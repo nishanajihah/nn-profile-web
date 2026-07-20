@@ -40,8 +40,17 @@ export function calculateGridScale(
   targetX: number, 
   targetY: number, 
   radius: number,
-  time: number
+  time: number,
+  isMobile: boolean = false
 ): number {
+  // Ambient wave based on position and time (same for web and mobile)
+  const ambientWave = (Math.sin(x * 0.3 + time * 2) + Math.cos(y * 0.3 + time * 2)) * 0.5;
+
+  if (isMobile) {
+    // Only return the clean ambient wave, no mouse hover circle highlight
+    return ambientWave * 0.15;
+  }
+
   const dx = x - targetX;
   const dy = y - targetY;
   const distance = Math.sqrt(dx * dx + dy * dy);
@@ -52,9 +61,6 @@ export function calculateGridScale(
   // Smooth easing for the mouse halftone gradient
   const easeInOutQuad = (t: number) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
   const mouseEffect = 1.0 - easeInOutQuad(normalizedDistance);
-  
-  // Ambient wave based on position and time
-  const ambientWave = (Math.sin(x * 0.3 + time * 2) + Math.cos(y * 0.3 + time * 2)) * 0.5;
 
   // Mix mouse effect and ambient wave.
   // Ambient wave creates a slight ripple (0 to 0.3).

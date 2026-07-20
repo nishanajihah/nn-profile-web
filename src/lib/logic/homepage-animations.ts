@@ -302,20 +302,29 @@ export function initializeStardust() {
 let mouseMoveTimeout: ReturnType<typeof setTimeout> | null = null;
 
 export function setupHomepageGlowInteraction(elements: { glow: HTMLElement | null, container: HTMLElement | null }) {
-    if (!elements.container || !elements.glow) return () => {};
+    const container = elements.container;
+    const glow = elements.glow;
+    if (!container || !glow) return () => {};
 
-    // Disable on mobile/tablet or touch devices
-    if (typeof window !== 'undefined' && (window.innerWidth < 768 || window.matchMedia('(pointer: coarse)').matches)) {
-        elements.glow.style.display = 'none';
-        return () => {};
+    const isMobile = () => typeof window !== 'undefined' && (window.innerWidth < 1338 || window.matchMedia('(pointer: coarse)').matches);
+
+    // Initial disable on mobile/tablet or touch devices
+    if (isMobile()) {
+        glow.style.display = 'none';
     }
 
     const handleMove = (event: MouseEvent) => {
-        const containerRect = elements.container!.getBoundingClientRect();
+        if (isMobile()) {
+            glow.style.display = 'none';
+            return;
+        }
+        glow.style.display = 'block';
+
+        const containerRect = container.getBoundingClientRect();
         const x = event.clientX - containerRect.left;
         const y = event.clientY - containerRect.top;
 
-        gsap.to(elements.glow, {
+        gsap.to(glow, {
             x: x,
             y: y,
             xPercent: -50,
@@ -328,7 +337,8 @@ export function setupHomepageGlowInteraction(elements: { glow: HTMLElement | nul
 
         if (mouseMoveTimeout !== null) clearTimeout(mouseMoveTimeout);
         mouseMoveTimeout = setTimeout(() => {
-            gsap.to(elements.glow, {
+            if (isMobile()) return;
+            gsap.to(glow, {
                 xPercent: -50,
                 yPercent: -50,
                 opacity: 0.2,
@@ -339,8 +349,8 @@ export function setupHomepageGlowInteraction(elements: { glow: HTMLElement | nul
         }, 300);
     };
 
-    elements.container.addEventListener('mousemove', handleMove);
-    return () => elements.container?.removeEventListener('mousemove', handleMove);
+    container.addEventListener('mousemove', handleMove);
+    return () => container.removeEventListener('mousemove', handleMove);
 }
 
 /**

@@ -2,12 +2,26 @@
   import { onMount } from "svelte";
   import { browser } from "$app/environment";
   import { fade } from "svelte/transition";
+  import { page } from "$app/stores";
   import "$lib/styles/footer.scss";
   import { setupFooterNodeAnimations } from "$lib/logic/homepage-animations";
 
   // "home", "code", "music", or "about"
   export let variant: "home" | "code" | "music" | "about" = "home";
   let isSocialOpen = false;
+  let isNavOpen = false;
+  let navContainer: HTMLElement;
+
+  function toggleNavMenu(e: Event) {
+    e.stopPropagation();
+    isNavOpen = !isNavOpen;
+  }
+
+  function handleWindowClick(e: MouseEvent) {
+    if (isNavOpen && navContainer && !navContainer.contains(e.target as Node)) {
+      isNavOpen = false;
+    }
+  }
 
   // Per-variant email address in the social set
   $: emailHref =
@@ -32,7 +46,9 @@
   });
 </script>
 
-<footer class="home-footer has-text-centered">
+<svelte:window on:click={handleWindowClick} />
+
+<footer class="home-footer has-text-centered variant-{variant}">
   <div class="container">
     <div class="footer-single-row">
       <!-- Links Group (LEFT on desktop) -->
@@ -56,20 +72,6 @@
           </a>
         </div>
 
-        <!-- Social Toggle (ONLY visible on mobile) -->
-        <div class="footer-social-mobile-container is-hidden-tablet">
-          <button
-            class="social-mobile-toggle"
-            on:click={() => (isSocialOpen = !isSocialOpen)}
-            aria-label="Toggle social links"
-          >
-            <span class="toggle-text">Social</span>
-            <div class="toggle-dots">
-              <span></span><span></span><span></span>
-            </div>
-          </button>
-        </div>
-
         <!-- Terms Link -->
         <div class="footer-terms">
           <a href="/terms-and-conditions" class="terms-link">
@@ -91,6 +93,121 @@
             <span class="is-hidden-mobile">Terms & Conditions</span>
             <span class="is-hidden-tablet">T&C</span>
           </a>
+        </div>
+
+        <!-- Social Toggle (ONLY visible on mobile) -->
+        <div class="footer-social-mobile-container is-hidden-tablet">
+          <button
+            class="social-mobile-toggle"
+            on:click={() => (isSocialOpen = !isSocialOpen)}
+            aria-label="Toggle social links"
+          >
+            <span class="toggle-text">Social</span>
+            <div class="toggle-dots">
+              <span></span><span></span><span></span>
+            </div>
+          </button>
+        </div>
+
+        <!-- Navigation Dropup Toggle -->
+        <div class="footer-nav-container" bind:this={navContainer}>
+          <button
+            class="nav-menu-toggle"
+            on:click={toggleNavMenu}
+            aria-label="Toggle navigation menu"
+            class:is-active={isNavOpen}
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            <span>Explore</span>
+          </button>
+
+          {#if isNavOpen}
+            <div class="nav-dropup-menu" transition:fade={{ duration: 150 }}>
+              <div class="menu-top-row">
+                <!-- Mobile Close Button -->
+                <button 
+                  class="menu-close-btn" 
+                  on:click|stopPropagation={() => (isNavOpen = false)}
+                  aria-label="Close menu"
+                >
+                  ✕
+                </button>
+                
+                <!-- Support Me Link -->
+                <a
+                  href="https://ko-fi.com/nishanajihah"
+                  target="_blank"
+                  class="menu-item support-menu-item"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="support-heart"
+                  >
+                    <path
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                    />
+                  </svg>
+                  <span class="menu-label">SUPPORT ME</span>
+                </a>
+              </div>
+              <div class="menu-divider"></div>
+              {#if String($page.url.pathname) !== "/"}
+                <a
+                  href="/"
+                  class="menu-item {String($page.url.pathname) === '/'
+                    ? 'is-active'
+                    : ''}"
+                >
+                  <span class="menu-label">HOME</span>
+                  <span class="menu-sub">Origin</span>
+                </a>
+                <div class="menu-divider"></div>
+              {/if}
+              <a
+                href="/about"
+                class="menu-item {$page.url.pathname.includes('/about')
+                  ? 'is-active'
+                  : ''}"
+              >
+                <span class="menu-label">ABOUT</span>
+                <span class="menu-sub">The Identity</span>
+              </a>
+              <div class="menu-divider"></div>
+              <a
+                href="/music"
+                class="menu-item {$page.url.pathname.includes('/music')
+                  ? 'is-active'
+                  : ''}"
+              >
+                <span class="menu-label">AUDITORY</span>
+                <span class="menu-sub">Music Production</span>
+              </a>
+              <div class="menu-divider"></div>
+              <a
+                href="/code"
+                class="menu-item {$page.url.pathname.includes('/code')
+                  ? 'is-active'
+                  : ''}"
+              >
+                <span class="menu-label">VISUAL</span>
+                <span class="menu-sub">Code Development</span>
+              </a>
+            </div>
+          {/if}
         </div>
       </div>
 
@@ -121,6 +238,26 @@
                 >
               </span>
               <span class="footer-label">GitHub</span>
+            </a>
+            <a
+              href="https://devpost.com/nishanajihah"
+              target="_blank"
+              class="footer-link devpost-link"
+              title="Devpost"
+            >
+              <span class="social-icon">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M6.002 1.61L0 12.004 6.002 22.39h11.996L24 12.004 17.998 1.61zm1.593 4.084h3.947c3.605 0 6.276 1.695 6.276 6.31 0 4.436-3.21 6.302-6.456 6.302H7.595zm2.517 2.449v7.714h1.241c2.646 0 3.862-1.55 3.862-3.861.009-2.569-1.096-3.853-3.767-3.853Z"
+                  />
+                </svg>
+              </span>
+              <span class="footer-label">Devpost</span>
             </a>
             <a
               href="https://www.instagram.com/nisha.najihah"
@@ -299,7 +436,13 @@
               </span>
               <span class="footer-label">Threads</span>
             </a>
-            <a href={emailHref} target="_blank" rel="noopener noreferrer" class="footer-link contact-link" title="Email">
+            <a
+              href={emailHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-link contact-link"
+              title="Email"
+            >
               <span class="social-icon">
                 <svg
                   width="20"
@@ -341,6 +484,26 @@
                 >
               </span>
               <span class="footer-label">GitHub</span>
+            </a>
+            <a
+              href="https://devpost.com/nishanajihah"
+              target="_blank"
+              class="footer-link devpost-link"
+              title="Devpost"
+            >
+              <span class="social-icon">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M6.002 1.61L0 12.004 6.002 22.39h11.996L24 12.004 17.998 1.61zm1.593 4.084h3.947c3.605 0 6.276 1.695 6.276 6.31 0 4.436-3.21 6.302-6.456 6.302H7.595zm2.517 2.449v7.714h1.241c2.646 0 3.862-1.55 3.862-3.861.009-2.569-1.096-3.853-3.767-3.853Z"
+                  />
+                </svg>
+              </span>
+              <span class="footer-label">Devpost</span>
             </a>
             <a
               href="https://www.instagram.com/nisha.najihah"
@@ -586,7 +749,13 @@
               </span>
               <span class="footer-label">Threads</span>
             </a>
-            <a href={emailHref} target="_blank" rel="noopener noreferrer" class="footer-link contact-link" title="Email">
+            <a
+              href={emailHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-link contact-link"
+              title="Email"
+            >
               <span class="social-icon">
                 <svg
                   width="20"
@@ -682,6 +851,26 @@
               <span class="footer-label">GitHub</span>
             </a>
             <a
+              href="https://devpost.com/nishanajihah"
+              target="_blank"
+              class="footer-link devpost-link"
+              title="Devpost"
+            >
+              <span class="social-icon">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M6.002 1.61L0 12.004 6.002 22.39h11.996L24 12.004 17.998 1.61zm1.593 4.084h3.947c3.605 0 6.276 1.695 6.276 6.31 0 4.436-3.21 6.302-6.456 6.302H7.595zm2.517 2.449v7.714h1.241c2.646 0 3.862-1.55 3.862-3.861.009-2.569-1.096-3.853-3.767-3.853Z"
+                  />
+                </svg>
+              </span>
+              <span class="footer-label">Devpost</span>
+            </a>
+            <a
               href="https://www.threads.com/@nisha.najihah"
               target="_blank"
               class="footer-link threads-link"
@@ -757,7 +946,13 @@
               </span>
               <span class="footer-label">LinkedIn</span>
             </a>
-            <a href={emailHref} target="_blank" rel="noopener noreferrer" class="footer-link contact-link" title="Email">
+            <a
+              href={emailHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-link contact-link"
+              title="Email"
+            >
               <span class="social-icon">
                 <svg
                   width="20"
@@ -944,7 +1139,13 @@
               </span>
               <span class="footer-label">YouTube</span>
             </a>
-            <a href={emailHref} target="_blank" rel="noopener noreferrer" class="footer-link contact-link" title="Email">
+            <a
+              href={emailHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-link contact-link"
+              title="Email"
+            >
               <span class="social-icon">
                 <svg
                   width="20"
@@ -973,7 +1174,7 @@
             >© {new Date().getFullYear()} Nisha Najihah</span
           >
           <span class="copyright-credit"
-            >&nbsp;|&nbsp;Designed &amp; Built By Nisha Najihah</span
+            >|&nbsp;Designed &amp; Built By Nisha Najihah</span
           >
         </div>
       </div>
@@ -1022,6 +1223,21 @@
                 ></span
               >
               <span class="link-label">GITHUB</span>
+            </a>
+            <a
+              href="https://devpost.com/nishanajihah"
+              target="_blank"
+              class="popup-link devpost-link"
+              title="Devpost"
+            >
+              <span class="popup-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M6.002 1.61L0 12.004 6.002 22.39h11.996L24 12.004 17.998 1.61zm1.593 4.084h3.947c3.605 0 6.276 1.695 6.276 6.31 0 4.436-3.21 6.302-6.456 6.302H7.595zm2.517 2.449v7.714h1.241c2.646 0 3.862-1.55 3.862-3.861.009-2.569-1.096-3.853-3.767-3.853Z"
+                  />
+                </svg>
+              </span>
+              <span class="link-label">DEVPOST</span>
             </a>
             <a
               href="https://www.instagram.com/nisha.najihah"
@@ -1281,6 +1497,21 @@
               <span class="link-label">GITHUB</span>
             </a>
             <a
+              href="https://devpost.com/nishanajihah"
+              target="_blank"
+              class="popup-link devpost-link"
+              title="Devpost"
+            >
+              <span class="popup-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M6.002 1.61L0 12.004 6.002 22.39h11.996L24 12.004 17.998 1.61zm1.593 4.084h3.947c3.605 0 6.276 1.695 6.276 6.31 0 4.436-3.21 6.302-6.456 6.302H7.595zm2.517 2.449v7.714h1.241c2.646 0 3.862-1.55 3.862-3.861.009-2.569-1.096-3.853-3.767-3.853Z"
+                  />
+                </svg>
+              </span>
+              <span class="link-label">DEVPOST</span>
+            </a>
+            <a
               href="https://www.threads.com/@nisha.najihah"
               target="_blank"
               class="popup-link threads-link"
@@ -1350,7 +1581,13 @@
               >
               <span class="link-label">LINKEDIN</span>
             </a>
-            <a href={emailHref} target="_blank" rel="noopener noreferrer" class="popup-link contact-link" title="Email">
+            <a
+              href={emailHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="popup-link contact-link"
+              title="Email"
+            >
               <span class="popup-icon"
                 ><svg
                   viewBox="0 0 24 24"
@@ -1499,7 +1736,13 @@
               >
               <span class="link-label">KO-FI</span>
             </a>
-            <a href={emailHref} target="_blank" rel="noopener noreferrer" class="popup-link contact-link" title="Email">
+            <a
+              href={emailHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="popup-link contact-link"
+              title="Email"
+            >
               <span class="popup-icon"
                 ><svg
                   viewBox="0 0 24 24"
@@ -1537,6 +1780,21 @@
                 ></span
               >
               <span class="link-label">GITHUB</span>
+            </a>
+            <a
+              href="https://devpost.com/nishanajihah"
+              target="_blank"
+              class="popup-link devpost-link"
+              title="Devpost"
+            >
+              <span class="popup-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M6.002 1.61L0 12.004 6.002 22.39h11.996L24 12.004 17.998 1.61zm1.593 4.084h3.947c3.605 0 6.276 1.695 6.276 6.31 0 4.436-3.21 6.302-6.456 6.302H7.595zm2.517 2.449v7.714h1.241c2.646 0 3.862-1.55 3.862-3.861.009-2.569-1.096-3.853-3.767-3.853Z"
+                  />
+                </svg>
+              </span>
+              <span class="link-label">DEVPOST</span>
             </a>
             <a
               href="https://www.instagram.com/nisha.najihah"
@@ -1762,7 +2020,13 @@
               >
               <span class="link-label">THREADS</span>
             </a>
-            <a href={emailHref} target="_blank" rel="noopener noreferrer" class="popup-link contact-link" title="Email">
+            <a
+              href={emailHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="popup-link contact-link"
+              title="Email"
+            >
               <span class="popup-icon"
                 ><svg
                   viewBox="0 0 24 24"
