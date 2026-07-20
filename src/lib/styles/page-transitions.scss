@@ -1,0 +1,284 @@
+// ═══════════════════════════════════════════
+//  CYBERPUNK CURTAIN PAGE TRANSITIONS
+// ═══════════════════════════════════════════
+
+$yellow: #ffde21;
+$gold: #fcbf47;
+$black: #050505;
+$font-mono: 'Anta', sans-serif;
+
+.transition-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  pointer-events: none;
+  overflow: hidden;
+  display: block;
+
+  // Active state to block clicks during transition
+  &.is-animating {
+    pointer-events: auto;
+  }
+}
+
+.curtain-panel {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 52vh; // Overlap by 4vh in the middle (52% top + 52% bottom) to ensure zero gaps
+  background: $black;
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.95);
+  z-index: 10;
+  overflow: hidden;
+
+  // Scanning laser beam sweeping down
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba($yellow, 0.06) 50%, transparent);
+    animation: laserSweep 3s infinite linear;
+    pointer-events: none;
+    z-index: 11;
+  }
+
+  // Cybernetic grid mesh pattern
+  .panel-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      linear-gradient(rgba($yellow, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba($yellow, 0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center;
+    opacity: 0.85;
+    z-index: 5;
+  }
+
+  &.panel-top {
+    top: 0;
+    border-bottom: 2px solid rgba($yellow, 0.35);
+    transform: translateY(-100%);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.85);
+  }
+
+  &.panel-bottom {
+    bottom: 0;
+    border-top: 2px solid rgba($yellow, 0.35);
+    transform: translateY(100%);
+    box-shadow: 0 -15px 35px rgba(0, 0, 0, 0.85);
+  }
+}
+
+// Glowing horizontal laser beam where panels meet
+.transition-flare {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: $yellow;
+  transform: translateY(-50%) scaleX(0);
+  z-index: 15;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 
+    0 0 15px $yellow,
+    0 0 35px $yellow,
+    0 0 70px $yellow;
+}
+
+// Glowing energy ring expanding outwards on impact
+.transition-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 100px;
+  height: 100px;
+  border: 1px solid rgba($yellow, 0.4);
+  border-radius: 50%;
+  z-index: 14;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 
+    0 0 15px rgba($yellow, 0.3),
+    inset 0 0 15px rgba($yellow, 0.3);
+}
+
+// Central futuristic status block
+.transition-telemetry {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  z-index: 20;
+  opacity: 0;
+  pointer-events: none;
+  font-family: $font-mono;
+}
+
+.telemetry-box {
+  background: rgba(5, 5, 5, 0.95);
+  border: 1px solid rgba($yellow, 0.2); // Softer border glow
+  border-radius: 28px; // Softer rounded edges
+  padding: 20px 35px;
+  min-width: 320px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.95),
+    0 0 25px rgba($yellow, 0.08); // Softer shadow glow
+  box-sizing: border-box;
+
+  .telemetry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.4);
+
+    .telemetry-status {
+      color: $yellow;
+      text-shadow: 0 0 8px rgba($yellow, 0.4);
+      animation: flashStatus 1.5s infinite alternate;
+    }
+  }
+
+  .telemetry-divider {
+    height: 1px;
+    background: rgba($yellow, 0.15);
+    margin: 12px 0;
+    width: 100%;
+  }
+
+  .telemetry-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+
+    .telemetry-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      color: #ffffff;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .telemetry-loader {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+
+      .loader-progress {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: linear-gradient(90deg, transparent, $yellow, transparent);
+        animation: scanLoader 1.5s infinite linear;
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes flashStatus {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+@keyframes scanLoader {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes laserSweep {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+// ═══════════════════════════════════════════
+//  REBOOT MODE (WHITE CYBERPUNK THEME)
+// ═══════════════════════════════════════════
+.transition-container.reboot-mode {
+  $white: #ffffff;
+
+  .curtain-panel {
+    border-color: rgba($white, 0.4) !important;
+
+    // Fades from glowing white near outer screen edges to solid black in the center where they meet
+    &.panel-top {
+      background: linear-gradient(to bottom, rgba($white, 0.05) 0%, $black 75%) !important;
+    }
+    &.panel-bottom {
+      background: linear-gradient(to top, rgba($white, 0.05) 0%, $black 75%) !important;
+    }
+
+    &::before {
+      background: linear-gradient(to bottom, transparent, rgba($white, 0.07) 50%, transparent) !important;
+    }
+
+    .panel-grid {
+      background-image: 
+        linear-gradient(rgba($white, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba($white, 0.02) 1px, transparent 1px) !important;
+    }
+  }
+
+  .transition-flare {
+    background: $white !important;
+    box-shadow: 
+      0 0 15px $white,
+      0 0 35px $white,
+      0 0 70px $white !important;
+  }
+
+  .transition-ring {
+    border-color: rgba($white, 0.5) !important;
+    box-shadow: 
+      0 0 15px rgba($white, 0.4),
+      inset 0 0 15px rgba($white, 0.4) !important;
+  }
+
+  .telemetry-box {
+    border-color: rgba($white, 0.25) !important;
+    box-shadow: 
+      0 25px 60px rgba(0, 0, 0, 0.95),
+      0 0 25px rgba($white, 0.08) !important;
+
+    .telemetry-header {
+      .telemetry-status {
+        color: $white !important;
+        text-shadow: 0 0 8px rgba($white, 0.4) !important;
+      }
+    }
+
+    .telemetry-divider {
+      background: rgba($white, 0.2) !important;
+    }
+
+    .telemetry-body {
+      .telemetry-loader {
+        .loader-progress {
+          background: linear-gradient(90deg, transparent, $white, transparent) !important;
+        }
+      }
+    }
+  }
+}
