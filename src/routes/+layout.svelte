@@ -16,7 +16,10 @@
 
   beforeNavigate((navigation) => {
     // Only intercept standard page changes
-    if (forceNavigate || navigation.to?.url.pathname === navigation.from?.url.pathname) {
+    if (
+      forceNavigate ||
+      navigation.to?.url.pathname === navigation.from?.url.pathname
+    ) {
       forceNavigate = false;
       return;
     }
@@ -27,7 +30,8 @@
     // Cancel initial instant route swap
     navigation.cancel();
 
-    const targetUrl = navigation.to?.url.pathname + (navigation.to?.url.search || "");
+    const targetUrl =
+      navigation.to?.url.pathname + (navigation.to?.url.search || "");
 
     const container = document.querySelector(".transition-container");
     const panelTop = document.querySelector(".panel-top");
@@ -60,57 +64,68 @@
         onComplete: () => {
           forceNavigate = true;
           goto(targetUrl);
-        }
+        },
       });
 
       // Curtain closing sequence (snappy & high-tech)
       tl.to([panelTop, panelBottom], {
         translateY: "0%",
         duration: isFromError ? 0.35 : 0.45, // Quicker slam on emergency reboot
-        ease: "power4.inOut"
+        ease: "power4.inOut",
       })
-      .to(flare, {
-        scaleX: 1,
-        opacity: 1,
-        duration: 0.25,
-        ease: "power2.out"
-      }, "-=0.2")
-      .fromTo(
-        ring,
-        {
-          scale: 0,
-          opacity: 1
-        },
-        {
-          scale: 2.5,
-          opacity: 0,
-          duration: 0.45,
-          ease: "power2.out"
-        },
-        "-=0.2"
-      );
+        .to(
+          flare,
+          {
+            scaleX: 1,
+            opacity: 1,
+            duration: 0.25,
+            ease: "power2.out",
+          },
+          "-=0.2",
+        )
+        .fromTo(
+          ring,
+          {
+            scale: 0,
+            opacity: 1,
+          },
+          {
+            scale: 2.5,
+            opacity: 0,
+            duration: 0.45,
+            ease: "power2.out",
+          },
+          "-=0.2",
+        );
 
       // Play emergency glitch flickering for reboot effect
       if (isFromError) {
-        tl.to([panelTop, panelBottom, telemetry, flare], {
-          opacity: 0.25,
-          duration: 0.05,
-          repeat: 3,
-          yoyo: true,
-          ease: "rough"
-        }, "-=0.1")
-        .to([panelTop, panelBottom, telemetry, flare], {
+        tl.to(
+          [panelTop, panelBottom, telemetry, flare],
+          {
+            opacity: 0.25,
+            duration: 0.05,
+            repeat: 3,
+            yoyo: true,
+            ease: "rough",
+          },
+          "-=0.1",
+        ).to([panelTop, panelBottom, telemetry, flare], {
           opacity: 1,
-          duration: 0.05
+          duration: 0.05,
         });
       }
 
-      tl.to(telemetry, {
-        opacity: 1,
-        scale: 1,
-        duration: 0.3,
-        ease: "back.out(1.5)"
-      }, isFromError ? "-=0.05" : "-=0.25");
+      tl.to(
+        telemetry,
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.3,
+          ease: "back.out(1.5)",
+        },
+        isFromError ? "-=0.05" : "-=0.25",
+      );
     } else {
       goto(targetUrl);
     }
@@ -128,7 +143,7 @@
         onComplete: () => {
           container.classList.remove("is-animating");
           container.classList.remove("reboot-mode"); // Reset reboot mode class
-        }
+        },
       });
 
       // Curtain opening sequence (rapid expo.out split)
@@ -136,28 +151,32 @@
         opacity: 0,
         scale: 0.95,
         duration: 0.25,
-        ease: "power2.in"
+        ease: "power2.in",
       })
-      .to(flare, {
-        scaleX: 0,
-        opacity: 0,
-        duration: 0.2,
-        ease: "power2.in"
-      }, "-=0.15")
-      .to(panelTop, {
-        translateY: "-100%",
-        duration: 0.55,
-        ease: "expo.out"
-      })
-      .to(
-        panelBottom,
-        {
-          translateY: "100%",
+        .to(
+          flare,
+          {
+            scaleX: 0,
+            opacity: 0,
+            duration: 0.2,
+            ease: "power2.in",
+          },
+          "-=0.15",
+        )
+        .to(panelTop, {
+          translateY: "-100%",
           duration: 0.55,
-          ease: "expo.out"
-        },
-        "-=0.55"
-      );
+          ease: "expo.out",
+        })
+        .to(
+          panelBottom,
+          {
+            translateY: "100%",
+            duration: 0.55,
+            ease: "expo.out",
+          },
+          "-=0.55",
+        );
     }
   });
 </script>

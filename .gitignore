@@ -44,3 +44,11 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Gemini / Antigravity agent temp artifacts
+.gemini/
+
+# Build & Temporary Files
+*.tmp
+*.bak
+

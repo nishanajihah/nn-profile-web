@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.0] - 2026-07-22
+
+### Added
+- **Cyberpunk Page Transitions**: Full-screen curtain transition (`PageTransitionCurtain.svelte`) that slides closed and opens smoothly when navigating between pages.
+- **System Reboot Error State**: Custom white-themed glitch reboot animation when returning from error pages.
+- **Mobile Close Button**: Added a circular close button (`✕`) right next to the "SUPPORT ME" button in the mobile footer menu.
+- **Security Headers & CSP**: Added `src/hooks.server.ts` with HTTP security headers and Content Security Policy (CSP) to protect against clickjacking and cross-site scripting (XSS).
+
+### Changed
+- **Code Page Layout**: Centered the `SYSTEM_CORE` hero title and aligned text spacing cleanly on desktop and mobile.
+- **Mobile Background Animations**: Optimized background wave movement for mobile screens without mouse hover interference.
+- **Cleaned Up Server Fetching**: Updated Spotify API server functions to prevent SvelteKit eager fetch build warnings.
+
 ## [2.4.0] - 2026-07-17
 
 ### Added

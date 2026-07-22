@@ -146,7 +146,7 @@
                 
                 <!-- Support Me Link -->
                 <a
-                  href="https://ko-fi.com/nishanajihah"
+                  href="https://ko-fi.com/nishanajihah/tip"
                   target="_blank"
                   class="menu-item support-menu-item"
                 >
