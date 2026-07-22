@@ -37,6 +37,10 @@ npm run dev
 - **Styling:** [SCSS](https://sass-lang.com/)
 - **Languages:** [TypeScript](https://www.typescriptlang.org/)
 
+## 📄 License
+
+Copyright (c) 2026 Nisha Najihah. All rights reserved. See [LICENSE](file:///c:/Users/nisha/nnc25/web/nn/nn-profile/nn-profile-web/LICENSE) for details.
+
 ## 📧 Contact
 
 - Email: nishanajihah.dev@gmail.com
