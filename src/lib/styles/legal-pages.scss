@@ -350,6 +350,52 @@ $neu-shadow-dark: rgba(0, 0, 0, 0.5);
   margin-top: 60px;
 }
 
+// Random Kit+ Idle Custom Orange Legal Theme Extensions
+.legal-page-wrapper.random-kit-legal-theme {
+  background: linear-gradient(180deg, #2d1402 0%, #150a02 40%, #0a0501 100%);
+
+  .background-accents.random-kit-accents {
+    .orb-1 {
+      background: #ff7d00;
+      opacity: 0.35;
+    }
+    .orb-2 {
+      background: #ff9900;
+      opacity: 0.25;
+    }
+  }
+
+  .app-title-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    .header-app-logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(255, 125, 0, 0.4);
+    }
+  }
+
+  .orange-badge {
+    background: rgba(255, 125, 0, 0.2) !important;
+    border-color: rgba(255, 160, 0, 0.5) !important;
+    color: #ffaa33 !important;
+  }
+
+  .orange-btn {
+    border-color: rgba(255, 125, 0, 0.4) !important;
+    color: #ffaa33 !important;
+
+    &:hover {
+      background: rgba(255, 125, 0, 0.2) !important;
+      border-color: rgba(255, 160, 0, 0.7) !important;
+      box-shadow: 0 4px 20px rgba(255, 125, 0, 0.3) !important;
+    }
+  }
+}
+
 .btn-neumorphic {
   background: $bg-black;
   padding: 15px 40px;
