@@ -3,6 +3,7 @@
   import { fade } from "svelte/transition";
   import { spring } from "svelte/motion";
   import { browser } from "$app/environment";
+  import { afterNavigate } from "$app/navigation";
   import Navigation from "$lib/components/Navigation.svelte";
   import Footer from "$lib/components/Footer.svelte";
   import type { PageData } from "./$types";
@@ -105,6 +106,19 @@
       },
     };
   }
+
+  afterNavigate(() => {
+    if (browser && window.location.hash) {
+      tick().then(() => {
+        const target = document.querySelector(window.location.hash);
+        if (target) {
+          setTimeout(() => {
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 200);
+        }
+      });
+    }
+  });
 
   onMount(() => {
     visible = true;
