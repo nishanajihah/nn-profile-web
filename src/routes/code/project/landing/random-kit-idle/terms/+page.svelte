@@ -1,139 +1,98 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
-  import { onMount } from "svelte";
-  import { fade, fly } from "svelte/transition";
-  import "../privacy/random-kit-legal.scss";
-
-  let visible = $state(false);
-  const currentYear = new Date().getFullYear();
-
-  onMount(() => {
-    visible = true;
-    if (browser) {
-      window.scrollTo(0, 0);
-      document.documentElement.classList.add("legal-page-active");
-      document.body.classList.add("legal-page-active");
-    }
-
-    return () => {
-      if (browser) {
-        document.documentElement.classList.remove("legal-page-active");
-        document.body.classList.remove("legal-page-active");
-      }
-    };
-  });
+  import LegalPageLayout from "$lib/components/code/landing/LegalPageLayout.svelte";
 </script>
 
-<svelte:head>
-  <title>Terms & Conditions | Random Kit+ Idle</title>
-  <meta
-    name="description"
-    content="Terms and Conditions of Use for Random Kit+ Idle mobile app, developed by Nisha Najihah."
-  />
-</svelte:head>
+<LegalPageLayout
+  appName="Random Kit+ Idle"
+  appSlug="random-kit-idle"
+  docType="Terms & Conditions"
+  lastUpdated="July 26, 2026"
+  gradientBackground="linear-gradient(180deg, #ff7d00 0%, #ff5500 35%, #e64a00 100%)"
+  accentColor="#e65c00"
+>
+  <section class="rk-section">
+    <h2>1. Agreement to Terms</h2>
+    <p>
+      By downloading, installing, accessing, or using the mobile application <strong
+        >Random Kit+ Idle</strong
+      >
+      ("App"), created and published by <strong>Nisha Najihah</strong> ("Developer",
+      "I", "me", or "my"), you agree to be bound by these Terms & Conditions ("Terms").
+      If you do not agree to these Terms, please uninstall and do not use the App.
+    </p>
+  </section>
 
-<div class="rk-legal-wrapper">
-  {#if visible}
-    <div class="rk-legal-container" in:fade={{ duration: 600 }}>
-      <header class="rk-legal-header" in:fly={{ y: -20, duration: 600 }}>
-        <a href="/code/project/landing/random-kit-idle" class="rk-back-btn" title="Return to App Page">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <line x1="19" y1="12" x2="5" y2="12"></line>
-            <polyline points="12 19 5 12 12 5"></polyline>
-          </svg>
-          <span>Back to Random Kit+ Idle Main</span>
-        </a>
-        
-        <div class="rk-header-meta">
-          <span class="rk-app-badge">Random Kit+ Idle</span>
-          <h1 class="rk-page-title">Terms & Conditions</h1>
-          <span class="rk-date">Last Updated: July 26, 2026</span>
-        </div>
-      </header>
+  <section class="rk-section">
+    <h2>2. License & Intellectual Property Rights</h2>
+    <p>
+      I grant you a personal, non-exclusive, non-transferable, revocable license
+      to download and use Random Kit+ Idle for personal, non-commercial
+      entertainment purposes on your Android device.
+    </p>
+    <ul class="rk-list">
+      <li>
+        <strong>Ownership:</strong> All visual designs, source code, game mechanics,
+        icons, branding, and assets belong exclusively to Nisha Najihah.
+      </li>
+      <li>
+        <strong>Restrictions:</strong> You may not reverse engineer, decompile, copy,
+        modify, distribute, sell, or create derivative works based on Random Kit+
+        Idle without explicit written consent.
+      </li>
+    </ul>
+  </section>
 
-      <main class="rk-legal-card">
-        <section class="rk-section">
-          <h2>1. Agreement to Terms</h2>
-          <p>
-            By downloading, installing, accessing, or using the mobile application <strong>Random Kit+ Idle</strong> 
-            ("App"), created and published by <strong>Nisha Najihah</strong> ("Developer", "I", "me", or "my"), 
-            you agree to be bound by these Terms & Conditions ("Terms"). If you do not agree to these Terms, 
-            please uninstall and do not use the App.
-          </p>
-        </section>
+  <section class="rk-section">
+    <h2>3. Acceptable Use & Conduct</h2>
+    <p>
+      You agree to use Random Kit+ Idle only for lawful purposes. You agree not
+      to attempt to disrupt, exploit, decompile, or bypass ad delivery networks
+      (such as Google AdMob) or introduce malicious code through the App
+      interface.
+    </p>
+  </section>
 
-        <section class="rk-section">
-          <h2>2. License & Intellectual Property Rights</h2>
-          <p>
-            I grant you a personal, non-exclusive, non-transferable, revocable license to download and use 
-            Random Kit+ Idle for personal, non-commercial entertainment purposes on your Android device.
-          </p>
-          <ul class="rk-list">
-            <li>
-              <strong>Ownership:</strong> All visual designs, source code, game mechanics, icons, branding, and assets 
-              belong exclusively to Nisha Najihah.
-            </li>
-            <li>
-              <strong>Restrictions:</strong> You may not reverse engineer, decompile, copy, modify, distribute, sell, 
-              or create derivative works based on Random Kit+ Idle without explicit written consent.
-            </li>
-          </ul>
-        </section>
+  <section class="rk-section">
+    <h2>4. Disclaimer of Warranties ("AS IS")</h2>
+    <p>
+      Random Kit+ Idle is provided on an <strong>"AS IS"</strong> and
+      <strong>"AS AVAILABLE"</strong> basis without warranties of any kind, whether
+      express, implied, statutory, or otherwise. The Developer does not guarantee
+      that the App will function uninterrupted, error-free, or compatible with every
+      mobile device configuration.
+    </p>
+  </section>
 
-        <section class="rk-section">
-          <h2>3. Acceptable Use & Conduct</h2>
-          <p>
-            You agree to use Random Kit+ Idle only for lawful purposes. You agree not to attempt to disrupt, exploit, 
-            decompile, or bypass ad delivery networks (such as Google AdMob) or introduce malicious code through the App interface.
-          </p>
-        </section>
+  <section class="rk-section">
+    <h2>5. Limitation of Liability</h2>
+    <p>
+      To the maximum extent permitted by applicable law, Nisha Najihah shall not
+      be liable for any indirect, incidental, consequential, special, or
+      exemplary damages—including but not limited to loss of device data, lost
+      local scores, device malfunction, or business interruption—arising out of
+      your use of or inability to use the App.
+    </p>
+  </section>
 
-        <section class="rk-section">
-          <h2>4. Disclaimer of Warranties ("AS IS")</h2>
-          <p>
-            Random Kit+ Idle is provided on an <strong>"AS IS"</strong> and <strong>"AS AVAILABLE"</strong> basis without 
-            warranties of any kind, whether express, implied, statutory, or otherwise. 
-            The Developer does not guarantee that the App will function uninterrupted, error-free, or compatible 
-            with every mobile device configuration.
-          </p>
-        </section>
+  <section class="rk-section">
+    <h2>6. Termination & App Updates</h2>
+    <p>
+      I reserve the right to release updates, alter gameplay features, or
+      suspend distribution of Random Kit+ Idle at any time without prior notice.
+    </p>
+  </section>
 
-        <section class="rk-section">
-          <h2>5. Limitation of Liability</h2>
-          <p>
-            To the maximum extent permitted by applicable law, Nisha Najihah shall not be liable for any indirect, 
-            incidental, consequential, special, or exemplary damages—including but not limited to loss of device data, 
-            lost local scores, device malfunction, or business interruption—arising out of your use of or inability to use the App.
-          </p>
-        </section>
-
-        <section class="rk-section">
-          <h2>6. Termination & App Updates</h2>
-          <p>
-            I reserve the right to release updates, alter gameplay features, or suspend distribution of Random Kit+ Idle 
-            at any time without prior notice.
-          </p>
-        </section>
-
-        <section class="rk-section">
-          <h2>7. Contact Information</h2>
-          <p>If you have any questions regarding these Terms & Conditions, please contact:</p>
-          <div class="rk-contact-signature">
-            <span class="name">Nisha Najihah (Solo Developer)</span>
-            <a href="mailto:nishanajihah.dev@gmail.com" class="email-link">nishanajihah.dev@gmail.com</a>
-          </div>
-        </section>
-
-        <div class="rk-action-footer">
-          <a href="/code/project/landing/random-kit-idle" class="rk-return-btn">
-            <span>Return to Random Kit+ Idle App Page</span>
-          </a>
-        </div>
-      </main>
-
-      <footer class="rk-legal-footer">
-        <p>© {currentYear} Random Kit+ Idle. Developed by Nisha Najihah. All Rights Reserved.</p>
-      </footer>
+  <section class="rk-section">
+    <h2>7. Contact Information</h2>
+    <p>
+      If you have any questions regarding these Terms & Conditions, please
+      contact:
+    </p>
+    <div class="rk-contact-signature">
+      <span class="name">Nisha Najihah (Solo Developer)</span>
+      <a href="mailto:nishanajihah.dev@gmail.com" class="email-link"
+        >nishanajihah.dev@gmail.com</a
+      >
     </div>
-  {/if}
-</div>
+  </section>
+</LegalPageLayout>
