@@ -4,12 +4,14 @@
   import { fade } from "svelte/transition";
   import {
     runHomepageEntranceAnimation,
+    setupTitleMouseTilt,
+    setupMouseParticleTrail,
     setupHomepageGlowInteraction,
     setupAboutPointerInteraction,
     generateAmbientParticles,
     animateDeckEntrance,
     type HomepageElements,
-  } from "$lib/logic/homepage-animations";
+  } from "$lib/logic/home/animations";
 
   import { siteConfig } from "$lib/config/site-config";
   import Navigation from "$lib/components/Navigation.svelte";
@@ -152,7 +154,7 @@
 </div>
 
 <style lang="scss">
-  @use "$lib/styles/homepage-design.scss";
+  @use "$lib/styles/pages/home.scss";
 
   // Lock scrolling globally ONLY for this route
   :global(html.home-page-active),

@@ -1,58 +1,20 @@
 import { GITHUB_TOKEN } from '$env/static/private';
-import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { featuredProjects } from '$lib/data/projects';
+import { featuredProjects } from '$lib/logic/code/data';
+import { getGitHubStatsAndRepos } from '$lib/logic/code/github';
 
-export const load: PageServerLoad = async ({ fetch }) => {
-  if (!GITHUB_TOKEN) {
-    console.error('GITHUB_TOKEN is missing in environment variables.');
-  }
-
-  const headers = {
-    Authorization: `Bearer ${GITHUB_TOKEN}`,
-    Accept: 'application/vnd.github.v3+json',
-  };
-
-
+export const load: PageServerLoad = async () => {
   try {
-    const [userResponse, reposResponse] = await Promise.all([
-      fetch('https://api.github.com/user', { headers }),
-      fetch('https://api.github.com/user/repos?sort=updated&per_page=30', { headers }),
-    ]);
-
-    if (!userResponse.ok || !reposResponse.ok) {
-      throw error(500, 'Failed to fetch GitHub data');
-    }
-
-    const userData = await userResponse.json();
-    const reposData = await reposResponse.json();
-
-    const stats = {
-      followers: userData.followers,
-      publicRepos: userData.public_repos,
-      profileUrl: userData.html_url,
-      avatarUrl: userData.avatar_url,
-    };
-
-    const repos = reposData.map((repo: any) => ({
-      id: repo.id,
-      name: repo.name,
-      description: repo.description,
-      html_url: repo.html_url,
-      language: repo.language,
-      stargazers_count: repo.stargazers_count,
-      forks_count: repo.forks_count,
-      updated_at: repo.updated_at,
-    }));
-
+    const { stats, repos } = await getGitHubStatsAndRepos(GITHUB_TOKEN);
     return {
       stats,
       repos,
       featuredProjects
     };
-  } catch (e) {
-    console.error('GitHub API error:', e);
-    // Return mock fallback data if API fails
+  } catch (e: any) {
+    const reason = e?.name === 'TimeoutError' ? 'Connection timed out (3s)' : (e?.message || 'Network unavailable');
+    console.warn(`[GitHub API] Offline/Fallback mode active: ${reason}`);
+
     return {
       stats: {
         followers: 142,

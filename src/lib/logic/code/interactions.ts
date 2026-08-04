@@ -1,4 +1,8 @@
 import { animate, createTimeline, stagger } from "animejs";
+import { writable } from "svelte/store";
+
+// Carousel click pulse store for 3D Threlte burst animations
+export const carouselClickPulse = writable(0);
 
 export function initCodeInteractions(cursorDot: HTMLElement | null, cursorRing: HTMLElement | null, root: HTMLElement | null) {
   document.documentElement.classList.add("code-page-active");
@@ -48,43 +52,31 @@ export function initCodeInteractions(cursorDot: HTMLElement | null, cursorRing: 
   const deploymentsSection = document.querySelector(".deployments-section");
   if (deploymentsSection) deploymentsObserver.observe(deploymentsSection);
 
-  // ═══ Repo Cards & View More Button Stagger ═══
-  const repoObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        animate(".repo-card, .repo-view-more", {
-          translateY: [40, 0],
-          opacity: [0, 1],
-          duration: 600,
-          delay: stagger(60),
-          ease: "easeOutExpo",
-        });
-        repoObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15, root });
-
-  const repoSection = document.querySelector(".repo-section");
-  if (repoSection) repoObserver.observe(repoSection);
-
-  return {
-    cleanup() {
-      window.removeEventListener("mousemove", moveCursor);
-      document.documentElement.classList.remove("code-page-active");
-      document.body.classList.remove("code-page-active");
-      deploymentsObserver.disconnect();
-      repoObserver.disconnect();
-    }
+  const cleanup = () => {
+    window.removeEventListener("mousemove", moveCursor);
+    deploymentsObserver.disconnect();
+    document.documentElement.classList.remove("code-page-active");
+    document.body.classList.remove("code-page-active");
   };
+
+  return { cleanup };
 }
 
-export function splitText(text: string) {
-  return text
+export function splitText(target: string | HTMLElement | null): string {
+  if (!target) return "";
+  let text = "";
+  if (typeof target === "string") {
+    text = target;
+  } else {
+    text = target.textContent || "";
+  }
+  const result = text
     .split("")
-    .map((char) =>
-      char === " "
-        ? "&nbsp;"
-        : `<span class="char" style="display:inline-block">${char}</span>`,
-    )
+    .map((char) => `<span class="char" style="display:inline-block">${char === " " ? "&nbsp;" : char}</span>`)
     .join("");
+
+  if (typeof target !== "string") {
+    target.innerHTML = result;
+  }
+  return result;
 }

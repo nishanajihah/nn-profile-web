@@ -6,11 +6,11 @@
   import Navigation from "$lib/components/Navigation.svelte";
   import Footer from "$lib/components/Footer.svelte";
   import type { PageData } from "./$types";
-  import "$lib/styles/code-page.scss";
+  import "$lib/styles/pages/code.scss";
   import {
     initCodeInteractions,
     splitText,
-  } from "$lib/logic/code-interactions";
+  } from "$lib/logic/code/interactions";
   import { Canvas } from "@threlte/core";
   import Scene from "$lib/components/code/Scene.svelte";
 
@@ -187,13 +187,13 @@
 
   <!-- GitHub Telemetry Capsule -->
   <a
-    href={stats.profileUrl}
+    href={stats?.profileUrl || "https://github.com/nishanajihah"}
     target="_blank"
     rel="noopener noreferrer"
     class="telemetry-capsule"
   >
     <div class="telemetry-avatar">
-      <img src={stats.avatarUrl} alt="GitHub Avatar" />
+      <img src={stats?.avatarUrl || "https://github.com/github.png"} alt="GitHub Avatar" />
     </div>
     <div class="telemetry-divider"></div>
     <svg
@@ -279,52 +279,169 @@
             {#each featuredProjects as project, i}
               <div class="carousel-slide">
                 <div
-                  class="deployment-card scroll-reveal"
-                  style="transition-delay: {i * 100}ms;"
+                  class="deployment-card scroll-reveal {project.projectBadge
+                    ? `badge-type-${project.projectBadge.toLowerCase()}`
+                    : ''}"
+                  style="transition-delay: {i * 100}ms; {project.accentColor
+                    ? `--app-card-accent: ${project.accentColor};`
+                    : ''}"
                 >
-                  <div class="deployment-art">
-                    <div class="geo-sculpture mini">
-                      <div class="geo-ring ring-1"></div>
-                      <div class="geo-ring ring-2"></div>
-                      <div class="geo-core"></div>
-                    </div>
-                  </div>
-                  <div class="deployment-info">
-                    <h3 class="deployment-title">{project.name}</h3>
-                    <p class="deployment-desc">{project.description}</p>
-                    <div class="deployment-tags">
-                      {#each project.tags as tag}
-                        <span class="tech-pill">{tag}</span>
-                      {/each}
-                    </div>
+                  {#if project.projectBadge === "APP" || project.type === "MobileApp"}
+                    <!-- ═══════════ REFINED APP PROJECT CARD LAYOUT ═══════════ -->
+                    <div class="app-card-split-container">
+                      <!-- Ambient Background Glow -->
+                      <div class="app-card-ambient-glow"></div>
 
-                    {#if project.customLandingUrl || project.hasLanding}
-                      <a
-                        href={project.customLandingUrl ||
-                          `/code/project/landing/${project.id}`}
-                        target={(project.customLandingUrl || "").startsWith(
-                          "http",
-                        )
-                          ? "_blank"
-                          : undefined}
-                        rel={(project.customLandingUrl || "").startsWith("http")
-                          ? "noopener noreferrer"
-                          : undefined}
-                        class="deployment-cta"
-                      >
-                        ENTER SYSTEM →
-                      </a>
-                    {:else if project.liveUrl || project.docsUrl}
-                      <a
-                        href={project.liveUrl || project.docsUrl || "#"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="deployment-cta external"
-                      >
-                        EXTERNAL LINK ↗
-                      </a>
-                    {/if}
-                  </div>
+                      <!-- LEFT SHOWCASE COLUMN: Raw Device Screenshot + Floating App Icon -->
+                      <div class="app-card-left-showcase">
+                        <!-- Top Header: Unified Glass Pill Meta Container (Badge + Category) -->
+                        <div class="app-meta-unified-pill">
+                          <div class="app-badge-part">
+                            <span class="live-dot-pulse"></span>
+                            <span class="badge-label"
+                              >{project.projectBadge || "APP"}</span
+                            >
+                          </div>
+                          <span class="meta-divider">//</span>
+                          <span class="category-label"
+                            >{project.projectCategory || "Entertainment"}</span
+                          >
+                        </div>
+
+                        <!-- Device Visual Stage: Unclipped Raw Device Screenshot & Perfectly Balanced App Icon -->
+                        <div class="app-hero-visual-stage">
+                          {#if project.projectDeviceImage}
+                            <div class="raw-device-image-wrapper">
+                              <img
+                                src={project.projectDeviceImage}
+                                alt="{project.name} Device Preview"
+                                class="raw-device-img"
+                              />
+                            </div>
+                          {/if}
+
+                          {#if project.projectIcon}
+                            <div class="app-icon-badge-box">
+                              <img
+                                src={project.projectIcon}
+                                alt="{project.name} Logo"
+                                class="app-icon-img"
+                              />
+                            </div>
+                          {/if}
+                        </div>
+                      </div>
+
+                      <!-- RIGHT CONTENT COLUMN: Platform, Title, Description, Tech Stack Pills, & Refined CTA Button -->
+                      <div class="app-card-right-content">
+                        <div class="content-header-row">
+                          <span class="platform-chip">ANDROID RELEASE</span>
+                          <h3 class="app-main-title">{project.name}</h3>
+                        </div>
+
+                        <p class="app-main-desc">{project.description}</p>
+
+                        <!-- Tech Stack Tags Row -->
+                        <div class="app-cyber-pills-row">
+                          {#each project.tags as tag}
+                            <span class="cyber-tech-pill">{tag}</span>
+                          {/each}
+                        </div>
+
+                        <!-- Refined System Action CTA Button (Theme Yellow + Warm White Dual Color) -->
+                        {#if project.customLandingUrl || project.hasLanding}
+                          <a
+                            href={project.customLandingUrl ||
+                              `/code/project/landing/${project.id}`}
+                            target={(project.customLandingUrl || "").startsWith(
+                              "http",
+                            )
+                              ? "_blank"
+                              : undefined}
+                            rel={(project.customLandingUrl || "").startsWith(
+                              "http",
+                            )
+                              ? "noopener noreferrer"
+                              : undefined}
+                            class="app-system-action-btn"
+                          >
+                            <span class="btn-text">ENTER SYSTEM</span>
+                            <div class="btn-arrow-disc">
+                              <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                              </svg>
+                            </div>
+                          </a>
+                        {:else if project.liveUrl || project.docsUrl}
+                          <a
+                            href={project.liveUrl || project.docsUrl || "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="app-system-action-btn"
+                          >
+                            <span class="btn-text">SYSTEM DOCS</span>
+                            <div class="btn-arrow-disc">
+                              <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                              </svg>
+                            </div>
+                          </a>
+                        {/if}
+                      </div>
+                    </div>
+                  {:else}
+                    <!-- ═══════════ STANDARD DEPLOYMENT CARD LAYOUT ═══════════ -->
+                    <div class="deployment-art">
+                      {#if project.projectBadge}
+                        <span class="deployment-badge-tag"
+                          >{project.projectBadge}</span
+                        >
+                      {/if}
+                      <div class="geo-sculpture mini">
+                        <div class="geo-ring ring-1"></div>
+                        <div class="geo-ring ring-2"></div>
+                        <div class="geo-core"></div>
+                      </div>
+                    </div>
+                    <div class="deployment-info">
+                      <h3 class="deployment-title">{project.name}</h3>
+                      <p class="deployment-desc">{project.description}</p>
+                      <div class="deployment-tags">
+                        {#each project.tags as tag}
+                          <span class="tech-pill">{tag}</span>
+                        {/each}
+                      </div>
+                      {#if project.customLandingUrl || project.hasLanding}
+                        <a
+                          href={project.customLandingUrl ||
+                            `/code/project/landing/${project.id}`}
+                          class="deployment-cta"
+                        >
+                          ENTER SYSTEM →
+                        </a>
+                      {/if}
+                    </div>
+                  {/if}
                 </div>
               </div>
             {/each}
@@ -343,7 +460,7 @@
                   class="carousel-nav-btn left-btn glowing-arrow"
                   aria-label="Scroll left"
                   on:click={() => {
-                    import("$lib/stores/carouselInteraction").then((m) =>
+                    import("$lib/logic/code/interactions").then((m) =>
                       m.carouselClickPulse.update((n) => n + 1),
                     );
                     if (carouselTrack) {
@@ -372,7 +489,7 @@
                   class="carousel-nav-btn right-btn glowing-arrow"
                   aria-label="Scroll right"
                   on:click={() => {
-                    import("$lib/stores/carouselInteraction").then((m) =>
+                    import("$lib/logic/code/interactions").then((m) =>
                       m.carouselClickPulse.update((n) => n + 1),
                     );
                     if (carouselTrack) {
@@ -547,5 +664,5 @@
 </div>
 
 <style lang="scss">
-  @use "$lib/styles/code-page.scss";
+  @use "$lib/styles/pages/code.scss";
 </style>

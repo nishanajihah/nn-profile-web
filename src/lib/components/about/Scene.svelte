@@ -1,7 +1,7 @@
 <script lang="ts">
   import { T, useTask } from '@threlte/core';
   import * as THREE from 'three';
-  import { calculateGridScale, scrollProgress } from '../../logic/about';
+  import { calculateGridScale, scrollProgress } from '$lib/logic/about/story';
   import StoryShapes from './StoryShapes.svelte';
 
   // Massive Halftone Grid Settings for an infinite look

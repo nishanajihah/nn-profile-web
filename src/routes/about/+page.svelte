@@ -2,7 +2,7 @@
   import Navigation from "$lib/components/Navigation.svelte";
   import Footer from "$lib/components/Footer.svelte";
   import HalftoneBackground from "$lib/components/about/HalftoneBackground.svelte";
-  import { aboutSections, scrollProgress } from "$lib/logic/about";
+  import { aboutSections, scrollProgress } from "$lib/logic/about/story";
   import { onMount, tick } from "svelte";
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -314,5 +314,5 @@
 </div>
 
 <style lang="scss">
-  @use "../../lib/styles/about.scss";
+  @use "$lib/styles/pages/about.scss";
 </style>

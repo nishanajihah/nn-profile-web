@@ -3,8 +3,8 @@
   import { browser } from "$app/environment";
   import { fade } from "svelte/transition";
   import { page } from "$app/stores";
-  import "$lib/styles/footer.scss";
-  import { setupFooterNodeAnimations } from "$lib/logic/homepage-animations";
+  import "$lib/styles/components/footer.scss";
+  import { setupFooterNodeAnimations } from "$lib/logic/home/animations";
 
   // "home", "code", "music", or "about"
   export let variant: "home" | "code" | "music" | "about" = "home";
@@ -136,14 +136,14 @@
             <div class="nav-dropup-menu" transition:fade={{ duration: 150 }}>
               <div class="menu-top-row">
                 <!-- Mobile Close Button -->
-                <button 
-                  class="menu-close-btn" 
+                <button
+                  class="menu-close-btn"
                   on:click|stopPropagation={() => (isNavOpen = false)}
                   aria-label="Close menu"
                 >
                   ✕
                 </button>
-                
+
                 <!-- Support Me Link -->
                 <a
                   href="https://ko-fi.com/nishanajihah/tip"
@@ -1173,8 +1173,7 @@
           <span class="copyright-line"
             >© {new Date().getFullYear()} Nisha Najihah</span
           >
-          <span class="copyright-credit"
-            >|&nbsp;Designed &amp; Built By Nisha Najihah</span
+          <span class="copyright-credit">|&nbsp;Developed By Nisha Najihah</span
           >
         </div>
       </div>

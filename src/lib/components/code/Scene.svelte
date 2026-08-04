@@ -4,7 +4,7 @@
   import { browser } from '$app/environment';
   import { onMount } from 'svelte';
   import { spring } from 'svelte/motion';
-  import { carouselClickPulse } from '$lib/stores/carouselInteraction';
+  import { carouselClickPulse } from '$lib/logic/code/interactions';
 
   /** scrollProgress: 0 = hero, 0.5 = projects, 1 = repos (since sections reordered) */
   export let scrollProgress: number = 0;

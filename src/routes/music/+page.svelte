@@ -21,43 +21,12 @@
   // Fallback audio for local/mock preview URLs
   let audio: HTMLAudioElement;
 
-  async function handlePlay(event: CustomEvent) {
-    const track = event.detail;
-
-    if (currentTrack?.id === track.id) {
-      isPlaying = !isPlaying;
-      if (
-        audio &&
-        track.previewUrl &&
-        !track.spotifyUrl?.includes("spotify.com/track/")
-      ) {
-        if (isPlaying) audio.play();
-        else audio.pause();
-      }
-    } else {
-      currentTrack = track;
-      isPlaying = true;
-
-      // Check if it's a real Spotify track
-      if (!isMockData && track.id) {
-        // Generate embed URL
-        spotifyEmbedUrl = `https://open.spotify.com/embed/track/${track.id}?utm_source=generator&theme=0&autoplay=1`;
-        showSpotifyEmbed = true;
-        if (audio) audio.pause();
-      } else if (track.previewUrl) {
-        // Mock data with a preview URL
-        showSpotifyEmbed = false;
-        await tick();
-        if (audio) {
-          audio.src = track.previewUrl;
-          audio.play().catch((e) => console.error("Audio play failed", e));
-        }
-      } else {
-        // Pure mock without audio
-        showSpotifyEmbed = false;
-        if (audio) audio.pause();
-      }
-    }
+  function playTrack(track: any) {
+    if (!track || !track.id) return;
+    currentTrack = track;
+    isPlaying = true;
+    spotifyEmbedUrl = `https://open.spotify.com/embed/track/${track.id}?utm_source=generator`;
+    showSpotifyEmbed = true;
   }
 
   function togglePlayState() {
@@ -301,13 +270,13 @@
                   ? 'is-playing'
                   : ''}"
                 role="button"
-                on:click={() =>
-                  handlePlay(new CustomEvent("play", { detail: track }))}
+                tabindex="0"
+                on:click={() => playTrack(track)}
               >
                 <div class="album-art-wrapper">
                   <img
-                    src={track.albumImageUrl}
-                    alt={track.album}
+                    src={track.albumImageUrl || 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&q=80&w=400'}
+                    alt={track.album || 'Album'}
                     loading="lazy"
                   />
                 </div>
@@ -339,13 +308,13 @@
                   ? 'is-playing'
                   : ''}"
                 role="button"
-                on:click={() =>
-                  handlePlay(new CustomEvent("play", { detail: track }))}
+                tabindex="0"
+                on:click={() => playTrack(track)}
               >
                 <div class="album-art-wrapper">
                   <img
-                    src={track.albumImageUrl}
-                    alt={track.album}
+                    src={track.albumImageUrl || 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&q=80&w=400'}
+                    alt={track.album || 'Album'}
                     loading="lazy"
                   />
                 </div>
@@ -365,7 +334,7 @@
 
   <!-- Real Spotify Embed Player -->
   <div class="spotify-embed-container {showSpotifyEmbed ? 'visible' : ''}">
-    {#if showSpotifyEmbed}
+    {#if showSpotifyEmbed && spotifyEmbedUrl}
       <button
         class="close-embed"
         aria-label="Close embed"
@@ -376,8 +345,8 @@
         src={spotifyEmbedUrl}
         width="100%"
         height="152"
+        style="border-radius: 12px; border: 0;"
         frameBorder="0"
-        allowfullscreen={false}
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy"
       >
@@ -385,53 +354,11 @@
     {/if}
   </div>
 
-  <!-- Fallback Global Player for Mock/Local Audio -->
-  {#if currentTrack && !showSpotifyEmbed}
-    <div class="global-player visible">
-      <img
-        src={currentTrack.albumImageUrl}
-        alt="Cover"
-        class="player-cover {!isPlaying ? 'paused' : ''}"
-      />
-
-      <div class="player-info">
-        <h4>{currentTrack.name}</h4>
-        <p>{currentTrack.artists}</p>
-      </div>
-
-      <div class="player-controls">
-        <button aria-label="Toggle Play" on:click={togglePlayState}>
-          {#if isPlaying}
-            <svg viewBox="0 0 24 24" fill="currentColor"
-              ><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg
-            >
-          {:else}
-            <svg viewBox="0 0 24 24" fill="currentColor"
-              ><path d="M8 5v14l11-7z" /></svg
-            >
-          {/if}
-        </button>
-      </div>
-
-      <button
-        class="close-player"
-        aria-label="Close player"
-        on:click={closePlayer}
-      >
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"
-          ><path
-            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-          /></svg
-        >
-      </button>
-    </div>
-  {/if}
-
   <audio bind:this={audio} on:ended={() => (isPlaying = false)}></audio>
 
   <Footer variant="music" />
 </div>
 
 <style lang="scss" global>
-  @use "../../lib/styles/music.scss";
+  @use "$lib/styles/pages/music.scss";
 </style>

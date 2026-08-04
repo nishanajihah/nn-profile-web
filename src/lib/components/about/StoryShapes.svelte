@@ -1,7 +1,7 @@
 <script lang="ts">
   import { T, useTask } from "@threlte/core";
   import * as THREE from "three";
-  import { scrollProgress } from "../../logic/about";
+  import { scrollProgress } from "$lib/logic/about/story";
   import { onMount } from "svelte";
 
   // Responsive state
