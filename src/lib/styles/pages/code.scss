@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "$lib/styles/components/code/project/app-card.scss";
 
 // ═══════════════════════════════════════════
 //  DESIGN TOKENS
@@ -251,11 +252,16 @@ $ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   scroll-snap-align: center;
   min-width: 320px;
   
+  &:has(.badge-type-app) {
+    flex: 0 0 calc(680px);
+    max-width: 92vw;
+  }
+  
   @media (max-width: 1200px) {
     flex: 0 0 calc((100% - 30px) / 2);
   }
   @media (max-width: 768px) {
-    flex: 0 0 85vw;
+    flex: 0 0 88vw;
   }
 }
 
@@ -281,8 +287,8 @@ $ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.1);
-    border-color: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 170, 51, 0.15);
+    border-color: rgba(255, 170, 51, 0.4);
 
     .geo-sculpture {
       .geo-ring { border-color: rgba(255, 215, 0, 0.5); }
@@ -378,14 +384,32 @@ $ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .deployment-art {
-  height: 200px;
-  background: linear-gradient(180deg, rgba(20, 20, 20, 0.8), rgba(5, 5, 5, 0.9));
+  height: 220px;
+  background: radial-gradient(circle at 70% 30%, rgba(255, 125, 0, 0.12) 0%, rgba(15, 15, 15, 0.95) 70%);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   position: relative;
   overflow: hidden;
+
+  .deployment-badge-tag {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 900;
+    letter-spacing: 1.8px;
+    color: #ffaa33;
+    background: rgba(255, 170, 51, 0.18);
+    border: 1px solid rgba(255, 170, 51, 0.45);
+    padding: 5px 14px;
+    border-radius: 20px;
+    z-index: 5;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
 
   .geo-sculpture.mini {
     position: relative;
@@ -476,17 +500,6 @@ $ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
       background: rgba(255, 215, 0, 0.1);
       box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
       transform: translateY(-2px);
-    }
-
-    &.external {
-      border-color: $silver;
-      color: $silver;
-      
-      &:hover {
-        background: rgba(192, 192, 192, 0.1);
-        border-color: #fff;
-        color: #fff;
-      }
     }
   }
 }

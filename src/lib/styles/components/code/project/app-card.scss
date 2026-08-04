@@ -1,0 +1,420 @@
+// ════════════════════════════════════════════════════════════════
+//  APP PROJECT CARD MODULE (badge-type-app)
+// ════════════════════════════════════════════════════════════════
+//
+// DESIGN SYSTEM STYLING:
+// - Permanent Theme Accent Colors: White (#ffffff) & Theme Yellow (#ffaa33)
+// - Dynamic Color Variable: --app-card-accent (Defaults to #ffaa33, can be customized per project landing page)
+//
+
+.deployment-card.badge-type-app {
+  --app-card-accent: #ffaa33; // Default theme yellow accent; can override inline or per badge
+  --app-card-accent-rgb: 255, 170, 51;
+
+  background: linear-gradient(145deg, rgba(32, 22, 12, 0.98) 0%, rgba(12, 10, 8, 0.99) 100%);
+  border: 1px solid rgba(var(--app-card-accent-rgb), 0.45);
+  border-radius: 36px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 0 30px rgba(var(--app-card-accent-rgb), 0.12);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  @media (max-width: 600px) {
+    border-radius: 24px;
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    border-color: var(--app-card-accent);
+    box-shadow: 0 30px 75px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.25) inset, 0 0 40px rgba(var(--app-card-accent-rgb), 0.3);
+
+    .app-card-ambient-glow {
+      opacity: 0.85;
+      transform: scale(1.15);
+    }
+
+    .raw-device-image-wrapper {
+      transform: translateY(-6px) rotate(-1.5deg) scale(1.04);
+    }
+
+    .app-icon-badge-box {
+      transform: translateY(-5px) rotate(4deg) scale(1.1);
+      border-color: #ffffff;
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.85), 0 0 25px rgba(var(--app-card-accent-rgb), 0.5);
+    }
+
+    .app-system-action-btn {
+      background: linear-gradient(135deg, rgba(var(--app-card-accent-rgb), 0.35) 0%, rgba(255, 255, 255, 0.2) 100%);
+      border-color: var(--app-card-accent);
+      box-shadow: 0 8px 25px rgba(var(--app-card-accent-rgb), 0.35);
+
+      .btn-text {
+        color: #ffffff;
+      }
+
+      .btn-arrow-disc {
+        background: var(--app-card-accent);
+        border-color: var(--app-card-accent);
+        box-shadow: 0 4px 15px rgba(var(--app-card-accent-rgb), 0.5);
+
+        svg {
+          stroke: #000000;
+          transform: translateX(4px);
+        }
+      }
+    }
+  }
+
+  .app-card-split-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: 285px 1fr;
+    min-height: 430px;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    /* DUAL-COLOR AMBIENT BACKGROUND GLOW */
+    .app-card-ambient-glow {
+      position: absolute;
+      top: -60px;
+      left: -60px;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--app-card-accent-rgb), 0.4) 0%, rgba(255, 255, 255, 0.15) 50%, transparent 70%);
+      filter: blur(65px);
+      pointer-events: none;
+      transition: all 0.6s ease;
+      opacity: 0.6;
+    }
+
+    /* LEFT SHOWCASE COLUMN */
+    .app-card-left-showcase {
+      position: relative;
+      background: radial-gradient(circle at 50% 30%, rgba(var(--app-card-accent-rgb), 0.22) 0%, rgba(12, 10, 8, 0.98) 85%);
+      border-right: 1px solid rgba(var(--app-card-accent-rgb), 0.25);
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      @media (max-width: 900px) {
+        border-right: none;
+        border-bottom: 1px solid rgba(var(--app-card-accent-rgb), 0.25);
+        min-height: 280px;
+        padding: 20px 16px;
+      }
+
+      /* UNIFIED GLASS PILL META CONTAINER (BADGE + CATEGORY) */
+      .app-meta-unified-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(0, 0, 0, 0.85);
+        border: 1px solid rgba(var(--app-card-accent-rgb), 0.5);
+        backdrop-filter: blur(14px);
+        padding: 6px 18px;
+        border-radius: 30px;
+        width: fit-content;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+        z-index: 3;
+
+        .app-badge-part {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+
+          .live-dot-pulse {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--app-card-accent);
+            box-shadow: 0 0 10px var(--app-card-accent);
+            animation: pulseDot 1.8s infinite;
+          }
+
+          .badge-label {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 900;
+            color: var(--app-card-accent);
+            letter-spacing: 2px;
+          }
+        }
+
+        .meta-divider {
+          font-family: 'Roboto Mono', monospace;
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: rgba(255, 255, 255, 0.35);
+        }
+
+        .category-label {
+          font-family: 'Roboto Mono', monospace;
+          font-size: 0.76rem;
+          font-weight: 800;
+          color: #ffffff;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+        }
+      }
+
+      .app-hero-visual-stage {
+        position: relative;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 15px;
+
+        /* UNCLIPPED LARGER RAW DEVICE SCREENSHOT */
+        .raw-device-image-wrapper {
+          position: relative;
+          height: 275px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          z-index: 2;
+
+          @media (max-width: 600px) {
+            height: 220px;
+          }
+
+          .raw-device-img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            display: block;
+            border-radius: 0;
+            filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.9));
+          }
+        }
+
+        /* FLOATING APP ICON */
+        .app-icon-badge-box {
+          position: absolute;
+          bottom: 4px;
+          left: 12px;
+          width: 78px;
+          height: 78px;
+          border-radius: 22px;
+          background: rgba(16, 12, 8, 0.95);
+          border: 2px solid rgba(var(--app-card-accent-rgb), 0.7);
+          padding: 8px;
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9);
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          z-index: 4;
+
+          @media (max-width: 600px) {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            left: 4px;
+            bottom: 0px;
+          }
+
+          .app-icon-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 14px;
+          }
+        }
+      }
+    }
+
+    /* RIGHT CONTENT COLUMN */
+    .app-card-right-content {
+      padding: 36px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      @media (max-width: 900px) {
+        padding: 24px 20px;
+      }
+
+      @media (max-width: 600px) {
+        padding: 20px 16px;
+      }
+
+      .content-header-row {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        .platform-chip {
+          font-family: 'Roboto Mono', monospace;
+          font-size: 0.75rem;
+          font-weight: 800;
+          color: var(--app-card-accent);
+          letter-spacing: 2.5px;
+        }
+
+        .app-main-title {
+          font-family: 'Anta', sans-serif;
+          font-size: 2.35rem;
+          font-weight: 900;
+          color: #ffffff;
+          margin: 0;
+          letter-spacing: 0.5px;
+
+          @media (max-width: 768px) {
+            font-size: 1.85rem;
+          }
+
+          @media (max-width: 480px) {
+            font-size: 1.5rem;
+          }
+        }
+      }
+
+      .app-main-desc {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 1.05rem;
+        line-height: 1.75;
+        margin: 16px 0 22px;
+
+        @media (max-width: 600px) {
+          font-size: 0.95rem;
+          margin: 12px 0 18px;
+        }
+      }
+
+      /* DUAL-COLOR TECH PILLS */
+      .app-cyber-pills-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 28px;
+
+        @media (max-width: 600px) {
+          gap: 8px;
+          margin-bottom: 20px;
+        }
+
+        .cyber-tech-pill {
+          font-family: 'Roboto Mono', monospace;
+          font-size: 0.8rem;
+          font-weight: 800;
+          color: #ffffff;
+          padding: 7px 16px;
+          border: 1px solid rgba(var(--app-card-accent-rgb), 0.5);
+          border-radius: 12px;
+          background: linear-gradient(135deg, rgba(var(--app-card-accent-rgb), 0.22) 0%, rgba(255, 255, 255, 0.08) 100%);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+          transition: all 0.3s ease;
+
+          @media (max-width: 600px) {
+            font-size: 0.72rem;
+            padding: 5px 12px;
+            border-radius: 10px;
+          }
+
+          &:hover {
+            border-color: var(--app-card-accent);
+            color: var(--app-card-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(var(--app-card-accent-rgb), 0.35);
+          }
+        }
+      }
+
+      /* RESPONSIVE SYSTEM ACTION CTA BUTTON (PREVENTS OVERFLOW ON MOBILE SCREENS) */
+      .app-system-action-btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        width: 84%;
+        max-width: 100%;
+        box-sizing: border-box; // Prevent overflow padding issues
+        padding: 12px 24px;
+        background: linear-gradient(135deg, rgba(var(--app-card-accent-rgb), 0.22) 0%, rgba(255, 255, 255, 0.1) 100%);
+        border: 1.5px solid rgba(var(--app-card-accent-rgb), 0.65);
+        border-radius: 50px;
+        color: #ffffff;
+        font-family: 'Anta', sans-serif;
+        font-size: 0.98rem;
+        font-weight: 800;
+        letter-spacing: 1.8px;
+        text-decoration: none;
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.5), 0 0 15px rgba(var(--app-card-accent-rgb), 0.15);
+        transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+
+        @media (max-width: 900px) {
+          width: 100%;
+        }
+
+        @media (max-width: 600px) {
+          padding: 10px 18px;
+          font-size: 0.88rem;
+          letter-spacing: 1.2px;
+        }
+
+        .btn-text {
+          color: #ffffff;
+          font-weight: 800;
+          transition: color 0.3s ease;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .btn-arrow-disc {
+          width: 36px;
+          height: 36px;
+          min-width: 36px; // Prevent disc squishing on small screens
+          border-radius: 50%;
+          background: linear-gradient(135deg, rgba(var(--app-card-accent-rgb), 0.3) 0%, rgba(255, 255, 255, 0.15) 100%);
+          border: 1px solid rgba(var(--app-card-accent-rgb), 0.6);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+          transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+
+          @media (max-width: 600px) {
+            width: 30px;
+            height: 30px;
+            min-width: 30px;
+
+            svg {
+              width: 15px;
+              height: 15px;
+            }
+          }
+
+          svg {
+            stroke: var(--app-card-accent);
+            transition: all 0.35s ease;
+          }
+        }
+
+        &:hover {
+          background: linear-gradient(135deg, rgba(var(--app-card-accent-rgb), 0.35) 0%, rgba(255, 150, 0, 0.25) 100%);
+          border-color: var(--app-card-accent);
+          box-shadow: 0 8px 25px rgba(var(--app-card-accent-rgb), 0.35);
+
+          .btn-text {
+            color: #ffffff;
+          }
+
+          .btn-arrow-disc {
+            background: var(--app-card-accent);
+            border-color: var(--app-card-accent);
+            box-shadow: 0 4px 15px rgba(var(--app-card-accent-rgb), 0.5);
+
+            svg {
+              stroke: #000000;
+              transform: translateX(4px);
+            }
+          }
+        }
+      }
+    }
+  }
+}

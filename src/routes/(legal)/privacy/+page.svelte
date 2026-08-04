@@ -2,7 +2,7 @@
   import { browser } from "$app/environment";
   import { onMount } from "svelte";
   import { fade, fly } from "svelte/transition";
-  import "$lib/styles/legal-pages.scss";
+  import "$lib/styles/pages/legal.scss";
 
   let visible = $state(false);
 

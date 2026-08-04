@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { siteConfig } from '$lib/config/site-config';
-  import '$lib/styles/navigation.scss';
+  import '$lib/styles/components/navigation.scss';
 
   // When true, the HOME link is hidden (used on the homepage itself)
   export let hideHome = false;

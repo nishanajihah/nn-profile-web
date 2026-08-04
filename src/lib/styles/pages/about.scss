@@ -181,7 +181,7 @@
       box-shadow: 0 0 10px rgba(252, 191, 71, 0.5);
     }
     
-    strong {
+    :global(strong) {
       color: #fff;
       font-weight: 600;
     }
