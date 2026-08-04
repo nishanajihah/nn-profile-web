@@ -15,12 +15,13 @@ export const handle: Handle = async ({ event, resolve }) => {
   // Content Security Policy (CSP) tailored for the portfolio's assets and integrations
   const cspDirectives = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval'", // unsafe-eval needed for Vite dev & dynamic GSAP calculations
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:", // unsafe-eval & blob: needed for Vite dev workers & Threlte 3D background
+    "worker-src 'self' blob:",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com data:",
     "img-src 'self' data: blob: https://avatars.githubusercontent.com https://images.unsplash.com https://i.scdn.co https://*.scdn.co https://ko-fi.com",
     "media-src 'self' https://p.scdn.co https://*.scdn.co data: blob:",
-    "frame-src 'self' https://open.spotify.com https://ko-fi.com",
+    "frame-src 'self' https://open.spotify.com https://*.spotify.com https://ko-fi.com",
     "connect-src 'self' https://api.github.com https://api.spotify.com https://accounts.spotify.com ws: wss:",
     "object-src 'none'",
     "base-uri 'self'",

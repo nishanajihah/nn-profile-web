@@ -1,6 +1,6 @@
 <script lang="ts">
   import "../app.scss";
-  import "$lib/styles/page-transitions.scss";
+  import "$lib/styles/components/page-transitions.scss";
   import faviconIco from "$lib/assets/favicon-nn/favicon.ico";
   import faviconPng from "$lib/assets/favicon-nn/favicon-96x96.png";
   import appleTouchIcon from "$lib/assets/favicon-nn/apple-touch-icon.png";
@@ -18,7 +18,8 @@
     // Only intercept standard page changes
     if (
       forceNavigate ||
-      navigation.to?.url.pathname === navigation.from?.url.pathname
+      !navigation.to ||
+      navigation.to.url.pathname === navigation.from?.url.pathname
     ) {
       forceNavigate = false;
       return;
@@ -31,7 +32,7 @@
     navigation.cancel();
 
     const targetUrl =
-      navigation.to?.url.pathname + (navigation.to?.url.search || "");
+      navigation.to.url.pathname + (navigation.to.url.search || "");
 
     const container = document.querySelector(".transition-container");
     const panelTop = document.querySelector(".panel-top");
