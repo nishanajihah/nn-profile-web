@@ -186,14 +186,114 @@ export function setupHomepageGlowInteraction(target: { glow?: HTMLElement | null
     return () => window.removeEventListener('mousemove', handleMouseMove);
 }
 
-export function setupAboutPointerInteraction(container: HTMLElement | null) {
-    if (!container) return () => {};
-    return () => {};
+/**
+ * Sets up the interaction where hovering the 'About' portal in navigation highlights the Title.
+ */
+export function setupAboutPointerInteraction(titleElement: HTMLElement | null) {
+    if (!titleElement || typeof document === 'undefined') return () => {};
+
+    const aboutPortal = document.getElementById('about-portal') || document.querySelector('.top-cinematic-nav a[href="/about"]');
+    if (!aboutPortal) return () => {};
+
+    const handleEnter = () => {
+        titleElement.classList.add("about-hovered");
+        gsap.to(titleElement, {
+            scale: 1.04,
+            y: -6,
+            duration: 0.4,
+            ease: 'power2.out'
+        });
+    };
+
+    const handleLeave = () => {
+        titleElement.classList.remove("about-hovered");
+        gsap.to(titleElement, {
+            scale: 1,
+            y: 0,
+            duration: 0.4,
+            ease: 'power2.out'
+        });
+    };
+
+    aboutPortal.addEventListener('mouseenter', handleEnter);
+    aboutPortal.addEventListener('mouseleave', handleLeave);
+
+    return () => {
+        aboutPortal.removeEventListener('mouseenter', handleEnter);
+        aboutPortal.removeEventListener('mouseleave', handleLeave);
+    };
 }
 
-export function generateAmbientParticles(container: HTMLElement | null) {
-    if (!container) return () => {};
-    return () => {};
+/**
+ * Interactive Stardust: Tiny magical star dots that float and glow.
+ */
+export function initializeStardust(container: HTMLElement | null) {
+    const targetContainer = container || (document.querySelector('.ambient-container') as HTMLElement);
+    if (!targetContainer || typeof document === 'undefined') return;
+
+    for (let i = 0; i < 35; i++) {
+        const star = document.createElement('div');
+        star.className = 'stardust-particle';
+        const size = Math.random() < 0.6 ? 2.5 : 4.5;
+        const isGold = i % 3 === 0;
+        Object.assign(star.style, {
+            position: 'absolute',
+            width: `${size}px`,
+            height: `${size}px`,
+            background: isGold ? '#ffde21' : '#ffffff',
+            borderRadius: '50%',
+            opacity: String(Math.random() * 0.6 + 0.4),
+            left: Math.random() * 100 + '%',
+            top: Math.random() * 100 + '%',
+            pointerEvents: 'none',
+            boxShadow: `0 0 ${size * 2}px ${isGold ? 'rgba(255, 222, 33, 0.9)' : 'rgba(255, 255, 255, 0.7)'}`
+        });
+        targetContainer.appendChild(star);
+
+        animate(star, {
+            translateX: () => utils.random(-200, 200),
+            translateY: () => utils.random(-200, 200),
+            opacity: [0.3, 1.0],
+            duration: () => utils.random(4000, 8000),
+            direction: 'alternate',
+            loop: true,
+            easing: 'easeInOutSine'
+        });
+    }
+}
+
+/**
+ * Generates and animates ambient particles & floating star dots in a container.
+ */
+export function generateAmbientParticles(container: HTMLElement | null, count: number = 20) {
+    const targetContainer = container || (document.querySelector('.ambient-container') as HTMLElement);
+    if (!targetContainer || typeof document === 'undefined') return;
+
+    // Create both ambient blurred particles and magical star dots
+    initializeStardust(targetContainer);
+
+    for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'ambient-particle';
+        const size = Math.random() * 60 + 10;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.filter = `blur(${Math.random() * 8 + 5}px)`;
+        targetContainer.appendChild(particle);
+
+        gsap.set(particle, { opacity: Math.random() * 0.2 + 0.1 });
+
+        gsap.to(particle, {
+            opacity: `+=${Math.random() * 0.2}`,
+            duration: Math.random() * 4 + 2,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut',
+            delay: Math.random() * 2
+        });
+    }
 }
 
 export function animateDeckEntrance(node?: HTMLElement) {

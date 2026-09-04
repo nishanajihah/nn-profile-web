@@ -30,6 +30,7 @@
 
   <a
     href="/about"
+    id="about-portal"
     class="nav-portal {isPathDisabled('/about') ? 'is-disabled' : ''} {$page.url.pathname.includes('/about') ? 'is-active' : ''}"
   >
     <span class="nav-label">ABOUT</span>
