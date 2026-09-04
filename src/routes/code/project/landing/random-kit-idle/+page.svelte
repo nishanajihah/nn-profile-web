@@ -57,19 +57,21 @@
   <!-- Top App Bar Navigation -->
   <header class="app-nav">
     <div class="nav-container">
-      <div class="app-brand">
-        <div class="brand-logo-bg">
-          <img
-            src={appLogo}
-            alt="Random Kit+ Idle Logo"
-            class="brand-logo-img"
-          />
+      <a href="/code#section-02" class="app-brand-link" title="Return to Active Systems">
+        <div class="app-brand">
+          <div class="brand-logo-bg">
+            <img
+              src={appLogo}
+              alt="Random Kit+ Idle Logo"
+              class="brand-logo-img"
+            />
+          </div>
+          <div class="brand-text">
+            <span class="app-name">Random Kit+ Idle</span>
+            <span class="app-sub">BY NISHA NAJIHAH</span>
+          </div>
         </div>
-        <div class="brand-text">
-          <span class="app-name">Random Kit+ Idle</span>
-          <span class="app-sub">BY NISHA NAJIHAH</span>
-        </div>
-      </div>
+      </a>
       <div class="nav-actions" class:mobile-open={mobileMenuOpen}>
         <a
           href="#features"
@@ -472,9 +474,9 @@
           <a
             href="/code/project/landing/random-kit-idle/terms"
             class="legal-stack-btn"
-            aria-label="Read our Terms and Conditions"
+            aria-label="Read our Terms of Service"
           >
-            <span>Terms & Conditions</span>
+            <span>Terms of Service</span>
             <span class="btn-arrow" aria-hidden="true">→</span>
           </a>
         </div>
@@ -484,7 +486,7 @@
     <div class="legal-copyright-bar">
       <span>
         © {currentYear} Random Kit+ Idle. Developed by
-        <a href="/" class="copyright-dev-link">Nisha Najihah</a>. All Rights
+        <a href="/code#section-02" class="copyright-dev-link">Nisha Najihah</a>. All Rights
         Reserved.
       </span>
     </div>

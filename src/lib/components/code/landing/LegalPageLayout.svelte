@@ -7,7 +7,8 @@
     appName?: string;
     appSlug?: string;
     lastUpdated?: string;
-    docType?: "Privacy Policy" | "Terms & Conditions";
+    docType?: "Privacy Policy" | "Terms of Service";
+    badgeText?: string;
     gradientBackground?: string;
     accentColor?: string;
     cardBgColor?: string;
@@ -36,6 +37,7 @@
     appSlug = "random-kit-idle",
     lastUpdated = "July 26, 2026",
     docType = "Privacy Policy",
+    badgeText,
     gradientBackground = "linear-gradient(180deg, #ff7d00 0%, #ff5500 35%, #e64a00 100%)",
     accentColor = "#e65c00",
     cardBgColor = "#ffffff",
@@ -134,8 +136,13 @@
 
         <div class="rk-header-meta">
           <span class="rk-app-badge">{appName}</span>
-          <h1 class="rk-page-title">{docType}</h1>
-          <span class="rk-date">Last Updated: {lastUpdated}</span>
+          <h1 class="rk-page-title">{docType.toUpperCase()}</h1>
+          <div class="rk-policy-meta">
+            {#if badgeText}
+              <span class="rk-compliance-badge">{badgeText}</span>
+            {/if}
+            <span class="rk-date">Last Updated: {lastUpdated}</span>
+          </div>
         </div>
       </header>
 
@@ -247,6 +254,28 @@
           padding: 6px 18px;
           border-radius: 20px;
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .rk-policy-meta {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          flex-wrap: wrap;
+          margin-top: 4px;
+        }
+
+        .rk-compliance-badge {
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: #ffffff;
+          background: rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.35);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          padding: 6px 14px;
+          border-radius: 20px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .rk-page-title {

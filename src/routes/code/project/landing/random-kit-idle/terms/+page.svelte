@@ -5,7 +5,8 @@
 <LegalPageLayout
   appName="Random Kit+ Idle"
   appSlug="random-kit-idle"
-  docType="Terms & Conditions"
+  docType="Terms of Service"
+  badgeText="Region: Malaysia & International"
   lastUpdated="July 26, 2026"
   gradientBackground="linear-gradient(180deg, #ff7d00 0%, #ff5500 35%, #e64a00 100%)"
   accentColor="#e65c00"
@@ -17,7 +18,7 @@
         >Random Kit+ Idle</strong
       >
       ("App"), created and published by <strong>Nisha Najihah</strong> ("Developer",
-      "I", "me", or "my"), you agree to be bound by these Terms & Conditions ("Terms").
+      "I", "me", or "my"), you agree to be bound by these Terms of Service ("Terms").
       If you do not agree to these Terms, please uninstall and do not use the App.
     </p>
   </section>
@@ -85,7 +86,7 @@
   <section class="rk-section">
     <h2>7. Contact Information</h2>
     <p>
-      If you have any questions regarding these Terms & Conditions, please
+      If you have any questions regarding these Terms of Service, please
       contact:
     </p>
     <div class="rk-contact-signature">

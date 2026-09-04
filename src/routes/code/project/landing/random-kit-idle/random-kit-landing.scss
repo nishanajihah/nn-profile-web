@@ -67,6 +67,12 @@ $text-muted: #d6cdc4;
     justify-content: space-between;
     padding: 0 24px;
 
+    .app-brand-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
     .app-brand {
       display: flex;
       align-items: center;
