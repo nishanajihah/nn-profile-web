@@ -18,7 +18,7 @@
   export let data: PageData;
   const { stats, repos, featuredProjects } = data;
 
-  let visible = false;
+  let visible = true;
   // Initialize scrollProgress as a spring store for buttery smooth 3D transitions
   let scrollProgress = spring(0, { stiffness: 0.05, damping: 0.5 });
   let wrapper: HTMLElement;
@@ -32,6 +32,32 @@
 
   // ═══ Repo Display State ═══
   let isRepoOverlayOpen = false;
+
+  function handleHashScroll() {
+    if (!browser) return;
+    const hash = window.location.hash || "#section-02";
+
+    tick().then(() => {
+      const scrollAttempt = (attemptsLeft: number) => {
+        const target = document.querySelector<HTMLElement>(hash);
+        if (target && wrapper) {
+          const targetTop =
+            target.getBoundingClientRect().top -
+            wrapper.getBoundingClientRect().top +
+            wrapper.scrollTop;
+
+          wrapper.scrollTo({
+            top: targetTop,
+            behavior: "smooth",
+          });
+        } else if (attemptsLeft > 0) {
+          setTimeout(() => scrollAttempt(attemptsLeft - 1), 100);
+        }
+      };
+
+      scrollAttempt(5);
+    });
+  }
 
   $: isMobile = innerWidth < 768;
   $: isTablet = innerWidth >= 768 && innerWidth < 1024;
@@ -110,10 +136,16 @@
   afterNavigate(() => {
     if (browser && window.location.hash) {
       tick().then(() => {
-        const target = document.querySelector(window.location.hash);
+        const target = document.querySelector<HTMLElement>(
+          window.location.hash,
+        );
         if (target) {
           setTimeout(() => {
-            target.scrollIntoView({ behavior: "smooth", block: "start" });
+            if (wrapper) {
+              wrapper.scrollTo({ top: target.offsetTop, behavior: "smooth" });
+            } else {
+              target.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
           }, 200);
         }
       });
@@ -207,7 +239,10 @@
     class="telemetry-capsule"
   >
     <div class="telemetry-avatar">
-      <img src={stats?.avatarUrl || "https://github.com/github.png"} alt="GitHub Avatar" />
+      <img
+        src={stats?.avatarUrl || "https://github.com/github.png"}
+        alt="GitHub Avatar"
+      />
     </div>
     <div class="telemetry-divider"></div>
     <svg

@@ -1,4 +1,5 @@
-export async function getGitHubStatsAndRepos(githubToken?: string) {
+export async function getGitHubStatsAndRepos(githubToken?: string, customFetch?: typeof fetch) {
+  const fetchFn = customFetch || globalThis.fetch;
   const hasToken = Boolean(githubToken && githubToken.trim().length > 0);
 
   const headers: Record<string, string> = {
@@ -18,11 +19,9 @@ export async function getGitHubStatsAndRepos(githubToken?: string) {
     ? 'https://api.github.com/user/repos?sort=updated&per_page=30'
     : 'https://api.github.com/users/nishanajihah/repos?sort=updated&per_page=30';
 
-  const signal = AbortSignal.timeout(3000);
-
   const [userResponse, reposResponse] = await Promise.all([
-    globalThis.fetch(userEndpoint, { headers, signal }),
-    globalThis.fetch(reposEndpoint, { headers, signal }),
+    fetchFn(userEndpoint, { headers }),
+    fetchFn(reposEndpoint, { headers }),
   ]);
 
   if (!userResponse.ok || !reposResponse.ok) {

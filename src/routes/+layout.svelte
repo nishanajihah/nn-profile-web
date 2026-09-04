@@ -32,7 +32,9 @@
     navigation.cancel();
 
     const targetUrl =
-      navigation.to.url.pathname + (navigation.to.url.search || "");
+      navigation.to.url.pathname +
+      (navigation.to.url.search || "") +
+      (navigation.to.url.hash || "");
 
     const container = document.querySelector(".transition-container");
     const panelTop = document.querySelector(".panel-top");

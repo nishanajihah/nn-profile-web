@@ -11,7 +11,7 @@ export const featuredProjects: ProjectData[] = [
     projectCategory: 'Entertainment',
     projectIcon: randomKitLogo,
     projectDeviceImage: screenshotDashboard,
-    description: 'Your Ultimate All-in-One Utility & Arcade Kit for Android.',
+    description: 'Yours All-in-One Utility & Arcade Kit.',
     tags: ['Flutter', 'Dart', 'Android', 'AdMob', 'SharedPreferences'],
     hasImages: true,
     hasLanding: true,

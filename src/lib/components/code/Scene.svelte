@@ -6,7 +6,7 @@
   import { spring } from 'svelte/motion';
   import { carouselClickPulse } from '$lib/logic/code/interactions';
 
-  /** scrollProgress: 0 = hero, 0.5 = projects, 1 = repos (since sections reordered) */
+  /** scrollProgress: 0 = hero, 0.5 = projects, 1 = repos */
   export let scrollProgress: number = 0;
 
   // Normalized mouse coordinates (-1 to 1)
@@ -41,23 +41,41 @@
     mouseY += (targetMouseY - mouseY) * 0.05;
   });
 
-  // Derived reactive values for the 3 macro phases (Hero -> Projects -> Repos)
-  // Phase 0 (Hero):     0 to 0.5 progress -> opacity peak at 0
-  // Phase 1 (Projects): 0.5 to 1.0 progress -> opacity peak at 0.5
-  // Phase 2 (Repos):    1.0 progress -> opacity peak at 1.0
-
+  // Smooth interpolated phase & opacities for seamless scrolling up & down
   $: phase = scrollProgress * 2; // 0..2
-  $: heroOpacity   = Math.max(0, 1 - phase * 1.5);
-  $: projOpacity   = Math.max(0, 1 - Math.abs(phase - 1) * 1.8);
-  $: repoOpacity   = Math.max(0, (phase - 1) * 1.5);
+  $: heroOpacity = Math.max(0, Math.min(1, 1 - phase * 1.4));
+  $: projOpacity = Math.max(0, Math.min(1, 1 - Math.abs(phase - 1) * 1.1));
+  $: repoOpacity = Math.max(0, Math.min(1, (phase - 1) * 1.4));
 
-  // Camera lerp
-  $: camZ = 10 + scrollProgress * 5;
-  $: camY = scrollProgress * 4;
+  // Smooth Camera lerp
+  $: camZ = 10 + scrollProgress * 4;
+  $: camY = scrollProgress * 3;
 
   // Light intensity morphing
-  $: pointIntensity = 2 + scrollProgress * 4;
-  $: ambientIntensity = 0.15 + scrollProgress * 0.2;
+  $: pointIntensity = 2 + scrollProgress * 3;
+  $: ambientIntensity = 0.2 + scrollProgress * 0.2;
+
+  // Pre-generate deterministic starfield positions once for smooth performance & no re-renders
+  interface Star {
+    x: number;
+    y: number;
+    z: number;
+    size: number;
+    color: string;
+    speed: number;
+    opacityMultiplier: number;
+  }
+
+  const starCount = 150;
+  const stars: Star[] = Array.from({ length: starCount }, (_, i) => ({
+    x: (Math.sin(i * 137.5) * 0.5) * 38,
+    y: (Math.cos(i * 137.5) * 0.5) * 28,
+    z: -18 + (Math.sin(i * 42.1) * 0.5 + 0.5) * 16,
+    size: 0.04 + (Math.abs(Math.sin(i * 7.3)) * 0.06),
+    color: i % 4 === 0 ? "#ffffff" : i % 3 === 0 ? "#ffe875" : "#ffd700",
+    speed: 0.2 + (Math.abs(Math.cos(i * 11.2)) * 0.4),
+    opacityMultiplier: 0.4 + (Math.abs(Math.sin(i * 19.8)) * 0.6)
+  }));
 
   type Position = [x: number, y: number, z: number];
   interface NodeItem {
@@ -75,18 +93,18 @@
   ];
 </script>
 
-<!-- Camera that drifts with scroll -->
+<!-- Camera that drifts smoothly with scroll -->
 <T.PerspectiveCamera makeDefault position={[mouseX * 2, camY + mouseY * 2, camZ]} fov={50}>
   <OrbitControls
     enableZoom={false}
     enableDamping
     autoRotate
-    autoRotateSpeed={0.3 + scrollProgress * 1.5}
+    autoRotateSpeed={0.3 + scrollProgress * 1.2}
     enablePan={false}
   />
 </T.PerspectiveCamera>
 
-<!-- Lighting that evolves (Strictly Gold/Silver/White) -->
+<!-- Lighting (Strictly Gold/Silver/White) -->
 <T.AmbientLight intensity={ambientIntensity} />
 <T.DirectionalLight position={[5 + mouseX * 2, 10 + mouseY * 2, 5]} intensity={1.5} color="#ffffff" />
 <T.PointLight position={[-5, 0, -5]} intensity={pointIntensity} color="#ffd700" />
@@ -99,7 +117,7 @@
       rotation.y={time * 0.15 + mouseX * 0.5}
       rotation.x={time * 0.08 - mouseY * 0.5}
       scale={[heroOpacity * 1.2, heroOpacity * 1.2, heroOpacity * 1.2]}
-      position={[0, (1 - heroOpacity) * -5, 0]} 
+      position={[0, (1 - heroOpacity) * -4, 0]} 
     >
       <T.IcosahedronGeometry args={[3, 1]} />
       <T.MeshStandardMaterial
@@ -128,81 +146,26 @@
   </Float>
 {/if}
 
-<!-- ========== PHASE 1: PROJECTS — Tapering Mechanical Serpent & Stars ========== -->
+<!-- ========== PHASE 1: PROJECTS — Star Dots Field Only ========== -->
 {#if projOpacity > 0.01}
-  <!-- Background Sparks / Stars -->
-  <Float floatIntensity={1} rotationIntensity={0.5} speed={0.5}>
-    {#each Array(50) as _, i}
+  <Float floatIntensity={1.2} rotationIntensity={0.3} speed={0.8}>
+    {#each stars as star, i}
       <T.Mesh 
         position={[
-          (Math.random() - 0.5) * 30, 
-          (Math.random() - 0.5) * 20, 
-          -10 + (Math.random() * 5)
+          star.x + mouseX * 0.8, 
+          star.y + mouseY * 0.8 + Math.sin(time * star.speed + i) * 0.3, 
+          star.z
         ]}
       >
-        <T.SphereGeometry args={[0.05 + Math.random() * 0.05, 8, 8]} />
-        <T.MeshBasicMaterial color={Math.random() > 0.5 ? "#ffd700" : "#ffffff"} transparent={true} opacity={projOpacity * (0.3 + Math.random() * 0.5)} />
+        <T.SphereGeometry args={[star.size, 12, 12]} />
+        <T.MeshBasicMaterial 
+          color={star.color} 
+          transparent={true} 
+          opacity={projOpacity * star.opacityMultiplier * (0.6 + Math.sin(time * 2 + i) * 0.4)} 
+        />
       </T.Mesh>
     {/each}
   </Float>
-
-  <!-- The Mechanical Serpent -->
-  {#each Array(20) as _, i}
-    <Float floatIntensity={1.5} rotationIntensity={1} speed={1.2}>
-      <T.Group 
-        position={[
-          // Snake sweeps tighter across the screen
-          -8 + (i * 0.8) + mouseX * 1.5, 
-          // Elegant undulating wave
-          Math.sin(time * 1.5 + i * 0.5) * 3 + mouseY * 1.5, 
-          // Depth wave
-          -4 + Math.cos(time * 1.2 + i * 0.4) * 2
-        ]} 
-        scale={[
-          projOpacity * (1.6 - i * 0.06), 
-          projOpacity * (1.6 - i * 0.06), 
-          projOpacity * (1.6 - i * 0.06)
-        ]}
-      >
-        <!-- Inner Core (Icosahedron) -->
-        <T.Mesh rotation.x={time * 0.8 + $burstRotation} rotation.y={time * 0.5 + i}>
-          <T.IcosahedronGeometry args={[0.4, 0]} />
-          <T.MeshStandardMaterial 
-            color="#000000" 
-            emissive="#ffd700" 
-            emissiveIntensity={2} 
-            wireframe={true} 
-            transparent={true} 
-            opacity={projOpacity} 
-          />
-        </T.Mesh>
-
-        <!-- Mechanical Vertebrae Shell (Torus) -->
-        <T.Mesh rotation.x={Math.PI / 2} rotation.y={time + i} rotation.z={$burstRotation}>
-          <T.TorusGeometry args={[0.7, 0.08, 8, 24]} />
-          <T.MeshStandardMaterial color="#000000" emissive="#ffde21" emissiveIntensity={1} wireframe={true} transparent={true} opacity={projOpacity * 0.8} />
-        </T.Mesh>
-        
-        <!-- 2D HUD Ring (Dashed Data Ring) -->
-        <T.Mesh rotation.x={Math.PI / 2.5} rotation.z={time * 2.5 + $burstRotation * 2 + i}>
-          <T.RingGeometry args={[1.0, 1.05, 32, 1]} />
-          <T.MeshBasicMaterial color="#ffffff" wireframe={true} transparent={true} opacity={projOpacity * 0.6} />
-        </T.Mesh>
-
-        <!-- Orbital Ring -->
-        <T.Mesh rotation.x={Math.sin(time + i)} rotation.y={Math.cos(time + i)} rotation.z={-time * 2 - $burstRotation}>
-          <T.RingGeometry args={[1.4, 1.45, 24]} />
-          <T.MeshBasicMaterial color="#ffd700" transparent={true} opacity={projOpacity * 0.4} />
-        </T.Mesh>
-        
-        <!-- Center Solid Pearl -->
-        <T.Mesh>
-          <T.SphereGeometry args={[0.15, 16, 16]} />
-          <T.MeshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={2} transparent={true} opacity={projOpacity} />
-        </T.Mesh>
-      </T.Group>
-    </Float>
-  {/each}
 {/if}
 
 <!-- ========== PHASE 2: REPOS — Yellow Constellation Nodes ========== -->
