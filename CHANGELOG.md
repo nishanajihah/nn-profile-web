@@ -7,18 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.5.0] - 2026-07-22
+## [2.5.0] - 2026-09-05
 
 ### Added
+- **Global & Local Legal Compliance**: Comprehensive Privacy Policy and Terms of Use adhering to Malaysia PDPA 2010, EU GDPR, US CalOPPA/CCPA/CPRA, and COPPA standards.
+- **Section 02 Application Decoupling**: Dedicated Terms of Service and Privacy Policy templates for hosted projects and landing showcases (Random Kit+ Idle), explicitly stating independent legal coverage.
+- **Uniform Compliance & Region Badges**: Styled glassmorphic status badges (`Compliance: International & Malaysia` and `Region: Malaysia & International`) matching typography across all portfolio and project legal pages.
+- **Interactive About Portal Highlight**: Connected the `ABOUT` header navigation portal to dynamically highlight the `NISHA NAJIHAH` 3D title with a punchy yellow rim glow, 3D pop shadow, and elevation lift.
+- **3D Stardust Performance Background**: Upgraded the Section 02 active systems backdrop to a clean, high-performance ambient 3D starfield with smooth scroll scaling.
+- **Legal Architecture Guidelines**: Added [`docs/privacy_policy_guidelines.md`](file:///c:/Users/nisha/nnc25/web/nn/nn-profile/nn-profile-web/docs/privacy_policy_guidelines.md) and [`docs/terms_guidelines.md`](file:///c:/Users/nisha/nnc25/web/nn/nn-profile/nn-profile-web/docs/terms_guidelines.md) as reference checklists for future landing pages and applications.
 - **Cyberpunk Page Transitions**: Full-screen curtain transition (`PageTransitionCurtain.svelte`) that slides closed and opens smoothly when navigating between pages.
-- **System Reboot Error State**: Custom white-themed glitch reboot animation when returning from error pages.
-- **Mobile Close Button**: Added a circular close button (`✕`) right next to the "SUPPORT ME" button in the mobile footer menu.
-- **Security Headers & CSP**: Added `src/hooks.server.ts` with HTTP security headers and Content Security Policy (CSP) to protect against clickjacking and cross-site scripting (XSS).
+- **Security Headers & CSP**: Configured `src/hooks.server.ts` with HTTP security headers and Content Security Policy (CSP).
 
-### Changed
-- **Code Page Layout**: Centered the `SYSTEM_CORE` hero title and aligned text spacing cleanly on desktop and mobile.
-- **Mobile Background Animations**: Optimized background wave movement for mobile screens without mouse hover interference.
-- **Cleaned Up Server Fetching**: Updated Spotify API server functions to prevent SvelteKit eager fetch build warnings.
+### Changed & Fixed
+- **SSR Eager Fetch Warning Resolution**: Injected event-scoped `fetch` parameter across Spotify and GitHub server loaders (`+page.server.ts`) for safe server-side rendering.
+- **Smooth Hash Navigation**: Implemented retry-capable hash scroll handler to seamlessly deep-link to `#section-02` upon clicking "SYSTEM BACK" from project landing pages.
+- **Terms Route Optimization**: Streamlined URL routing from `/terms-and-conditions` to clean `/terms` with responsive footer button integration.
+- **Code Page Layout & Mobile Animations**: Centered `SYSTEM_CORE` hero title and optimized background wave movement for mobile screens.
 
 ## [2.4.0] - 2026-07-17
 

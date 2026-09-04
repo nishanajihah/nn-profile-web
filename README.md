@@ -10,16 +10,18 @@ A modern, high-performance portfolio application built with **SvelteKit**, **Typ
 
 ## 🚀 Key Features
 
-- **Cinematic Experience:** Modern dark-mode UI with custom animations and smooth page transitions.
+- **Cinematic Experience:** Modern dark-mode UI with custom GSAP animations, 3D WebGL stardust canvases (Threlte/Three.js), and smooth page transitions.
+- **Global Compliance:** Built-in Privacy Policy and Terms of Use compliant with Malaysia PDPA, EU GDPR, US CCPA/CalOPPA, and COPPA standards.
 - **Security & Safety:** Built-in server-side HTTP security headers, Content Security Policy (CSP), and secure server API routing.
 - **Responsive Layout:** Fully optimized for Desktop, Tablet, and Mobile devices.
 
 ## 🏗️ Project Structure
 
-- `src/lib/services/`: External API handlers.
-- `src/lib/logic/`: Core application logic and interaction helpers.
-- `src/lib/styles/`: SCSS design system and styles.
-- `src/routes/`: SvelteKit pages and layout structure.
+- `docs/`: Reference checklists for Privacy Policy and Terms drafting.
+- `src/lib/components/`: Reusable Svelte UI and 3D canvas components.
+- `src/lib/logic/`: Feature-domain logic (about, code, home, music).
+- `src/lib/styles/`: SCSS design system organized into pages and components.
+- `src/routes/`: SvelteKit pages, project landings, legal routes, and API endpoints.
 
 ## 💻 Development
 
