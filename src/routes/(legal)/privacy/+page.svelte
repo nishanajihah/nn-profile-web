@@ -27,7 +27,7 @@
   <title>Privacy Policy | Nisha Najihah</title>
   <meta
     name="description"
-    content="Privacy Policy for Nisha Najihah's portfolio, compliant with Malaysia's PDPA and international GDPR standards."
+    content="Privacy Policy for Nisha Najihah's developer portfolio. Compliant with international and Malaysia standards (PDPA, GDPR, CCPA, COPPA)."
   />
 </svelte:head>
 
@@ -61,8 +61,8 @@
         </a>
         <h1 class="title">Privacy Policy</h1>
         <div class="policy-meta">
-          <span class="badge">Compliance: PDPA & GDPR</span>
-          <span class="last-updated">Last Updated: May 19, 2026</span>
+          <span class="badge">Compliance: International & Malaysia</span>
+          <span class="last-updated">Last Updated: August 5, 2026</span>
         </div>
       </header>
 
@@ -72,37 +72,34 @@
             <h2 class="section-title">1. Introduction</h2>
             <p>
               Welcome to Nisha Najihah's official portfolio. I am committed to
-              protecting your personal data and respecting your privacy. This
-              policy outlines how I handle information in compliance with the <strong
+              protecting your personal data and respecting your privacy rights. This
+              policy outlines how I handle information across global standards, including the <strong
                 >Malaysian Personal Data Protection Act 2010 (PDPA)</strong
-              >
-              and the
-              <strong>General Data Protection Regulation (GDPR)</strong>.
+              >, the
+              <strong>General Data Protection Regulation (GDPR)</strong>, US State Privacy Laws (<strong>CalOPPA, CCPA/CPRA</strong>), and the <strong>Children's Online Privacy Protection Act (COPPA)</strong>.
             </p>
           </section>
 
           <section class="policy-section inset-shadow">
-            <h2 class="section-title">2. Information I Collect</h2>
+            <h2 class="section-title">2. Information Collection & Usage</h2>
+            <p>As a portfolio, this website collects minimal information to function properly:</p>
             <div class="info-grid">
               <div class="info-item">
-                <h3>Technical Data</h3>
+                <h3>Technical & Usage Data</h3>
                 <p>
-                  IP address, browser type, device information, and operating
-                  system via basic server logs.
-                </p>
-              </div>
-              <div class="info-item">
-                <h3>Usage Data</h3>
-                <p>
-                  Information about how you use the website, pages visited, and
-                  time spent.
+                  Basic server logs (IP address, browser type, device information) may be temporarily processed by the hosting provider to ensure security and analyze traffic.
                 </p>
               </div>
               <div class="info-item">
                 <h3>Contact Data</h3>
                 <p>
-                  If you email me directly, I receive your email address and any
-                  information provided in the message.
+                  If you choose to email me directly, I will receive your email address and message contents solely to respond to your inquiry.
+                </p>
+              </div>
+              <div class="info-item">
+                <h3>Third-Party APIs</h3>
+                <p>
+                  My profile fetches live data from GitHub and Spotify to display my coding activity and current listening status.
                 </p>
               </div>
             </div>
@@ -124,7 +121,7 @@
                 without consent, unless required by law.
               </li>
               <li>
-                <strong>Security:</strong> I implement practical security measures
+                <strong>Security:</strong> Practical security measures are implemented
                 to protect data from loss or unauthorized access.
               </li>
               <li>
@@ -135,72 +132,101 @@
           </section>
 
           <section class="policy-section inset-shadow">
-            <h2 class="section-title">4. GDPR Compliance (International)</h2>
+            <h2 class="section-title">4. GDPR Compliance (International / EEA)</h2>
             <p>
-              For visitors from the European Economic Area (EEA), your rights
-              include:
+              For visitors from the European Economic Area (EEA) and United Kingdom:
             </p>
             <ul class="styled-list">
               <li>
-                <strong>Right of Access:</strong> Request a copy of your personal
-                data.
+                <strong>Right of Access:</strong> Request a copy of your personal data.
               </li>
               <li>
-                <strong>Right to Erasure:</strong> Request that your data be deleted
-                ("Right to be Forgotten").
+                <strong>Right to Erasure:</strong> Request that your data be deleted ("Right to be Forgotten").
               </li>
               <li>
-                <strong>Right to Portability:</strong> Receive your data in a structured,
-                commonly used format.
+                <strong>Right to Portability:</strong> Receive your data in a structured, commonly used format.
               </li>
               <li>
-                <strong>Lawful Basis:</strong> I process data based on "Legitimate
-                Interests" (improving website UX) or "Consent" (if you email me).
+                <strong>Lawful Basis:</strong> Data is processed based on "Legitimate Interests" (improving website performance & UX) or "Consent" (when contacting via email).
               </li>
             </ul>
           </section>
 
           <section class="policy-section">
-            <h2 class="section-title">5. Cookies & Tracking</h2>
+            <h2 class="section-title">5. US & California Privacy Rights (CalOPPA, CCPA / CPRA)</h2>
             <p>
-              This site uses minimal cookies for performance and analytics. You
-              can manage cookie preferences through your browser settings. We do
-              not use intrusive cross-site tracking or behavioral advertising.
+              For visitors residing in California and the United States:
             </p>
+            <ul class="styled-list">
+              <li>
+                <strong>CalOPPA Statement:</strong> This website maintains a conspicuous privacy policy link across all main footers and pages, detailing collected data categories and third-party interactions.
+              </li>
+              <li>
+                <strong>Right to Know & Delete:</strong> You have the right to request disclosure of personal data collected and request deletion of your information.
+              </li>
+              <li>
+                <strong>No Sale or Sharing of Personal Information:</strong> I do not sell, rent, trade, or share your personal data with third parties for monetary or cross-context behavioral advertising.
+              </li>
+              <li>
+                <strong>Non-Discrimination:</strong> Exercising your privacy rights will never result in denied service or altered website functionality.
+              </li>
+            </ul>
           </section>
 
           <section class="policy-section inset-shadow">
-            <h2 class="section-title">6. Third-Party Integrations (Spotify)</h2>
+            <h2 class="section-title">6. Children's Privacy (COPPA Compliance)</h2>
             <p>
-              I use the <strong>Spotify Web API</strong> and
-              <strong>Spotify Embedded Players</strong>
-              to stream music clips and display album art. When you interact
-              with these elements, Spotify may process your usage statistics, IP
-              address, and browser cookies in accordance with the
-              <a
-                href="https://www.spotify.com/us/legal/privacy-policy/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-link">Spotify Privacy Policy</a
-              >. I do not store or collect any Spotify credentials or personal
-              account information on my servers.
+              This website is a general audience professional portfolio and is <strong>not directed to children under the age of 13</strong> (or under 16 in certain European jurisdictions). I do not knowingly collect, request, or solicit personal information from children.
+            </p>
+            <p>
+              If you are a parent or legal guardian and believe your child under 13 has provided personal data to me, please contact me immediately at <a href="mailto:nishanajihah.dev@gmail.com" class="inline-link">nishanajihah.dev@gmail.com</a>, and I will promptly delete such information from my records.
             </p>
           </section>
 
           <section class="policy-section">
-            <h2 class="section-title">7. Data Security</h2>
+            <h2 class="section-title">7. Cookies & Tracking</h2>
             <p>
-              While no method of transmission over the internet is 100% secure,
-              I use industry-standard encryption and security protocols to
-              safeguard your information.
+              This site uses minimal cookies strictly for performance, essential navigation, and basic analytics. You can manage cookie preferences through your browser settings. We do not use intrusive cross-site tracking or behavioral advertising.
             </p>
           </section>
 
           <section class="policy-section inset-shadow">
-            <h2 class="section-title">8. Contact & Data Access</h2>
+            <h2 class="section-title">8. Third-Party Integrations</h2>
             <p>
-              If you wish to access, correct, or delete your personal data, or
-              if you have questions regarding this policy, please contact:
+              This web profile integrates with external services to display dynamic content:
+            </p>
+            <ul class="styled-list">
+              <li>
+                <strong>Spotify API:</strong> Used to display my recent or current music listening activity. When you visit this site, requests are made server-side to fetch this data. 
+                (<a href="https://www.spotify.com/us/legal/privacy-policy/" target="_blank" rel="noopener noreferrer" class="inline-link">Spotify Privacy Policy</a>)
+              </li>
+              <li>
+                <strong>GitHub API:</strong> Used to display my coding statistics and open-source contributions. 
+                (<a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement" target="_blank" rel="noopener noreferrer" class="inline-link">GitHub Privacy Statement</a>)
+              </li>
+            </ul>
+            <p>I do not collect, process, or store your personal credentials or accounts for any of these services.</p>
+          </section>
+
+          <section class="policy-section">
+            <h2 class="section-title">9. External Projects & Demos (Code Page Section 02)</h2>
+            <p>
+              My portfolio showcases various projects, landing pages, and applications (e.g., in the Code Page "02 // ACTIVE SYSTEMS" section). Please note that:
+            </p>
+            <ul class="styled-list">
+              <li>
+                These individual projects may operate independently and have their own specific <strong>Privacy Policies and Terms & Conditions</strong>.
+              </li>
+              <li>
+                When interacting with a specific project or demo, its respective legal documents govern the data collection for that specific application, which may differ from this portfolio's general policy.
+              </li>
+            </ul>
+          </section>
+
+          <section class="policy-section inset-shadow">
+            <h2 class="section-title">10. Contact & Data Access Requests</h2>
+            <p>
+              If you wish to access, correct, or delete your personal data, or if you have questions regarding this policy, please contact:
             </p>
             <div class="contact-signature">
               <span class="name">Nisha Najihah</span>
@@ -220,5 +246,3 @@
     </div>
   {/if}
 </div>
-
-

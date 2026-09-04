@@ -74,7 +74,7 @@
 
         <!-- Terms Link -->
         <div class="footer-terms">
-          <a href="/terms-and-conditions" class="terms-link">
+          <a href="/terms" class="terms-link">
             <svg
               width="14"
               height="14"
@@ -90,8 +90,8 @@
               <line x1="16" y1="13" x2="8" y2="13"></line>
               <line x1="16" y1="17" x2="8" y2="17"></line>
             </svg>
-            <span class="is-hidden-mobile">Terms & Conditions</span>
-            <span class="is-hidden-tablet">T&C</span>
+            <span class="is-hidden-mobile">Terms of Use</span>
+            <span class="is-hidden-tablet">ToU</span>
           </a>
         </div>
 

@@ -24,10 +24,10 @@
 </script>
 
 <svelte:head>
-  <title>Terms & Conditions | Nisha Najihah</title>
+  <title>Terms of Use | Nisha Najihah</title>
   <meta
     name="description"
-    content="Terms & Conditions for Nisha Najihah's portfolio. Governing law: Malaysia, with international applicability."
+    content="Terms of Use for Nisha Najihah's portfolio. Governing law: Malaysia, with international applicability."
   />
 </svelte:head>
 
@@ -59,7 +59,7 @@
             ></polyline></svg
           >
         </a>
-        <h1 class="title">Terms & Conditions</h1>
+        <h1 class="title">Terms of Use</h1>
         <div class="policy-meta">
           <span class="badge">Region: Malaysia & International</span>
           <span class="last-updated">Last Updated: May 19, 2026</span>
@@ -74,7 +74,7 @@
               By accessing the website at <a
                 href="https://nishanajihah.com"
                 class="inline-link">nishanajihah.com</a
-              >, you are agreeing to be bound by these Terms & Conditions, all
+              >, you are agreeing to be bound by these Terms of Use, all
               applicable laws and regulations, and agree that you are
               responsible for compliance with any applicable local laws in
               <strong>Malaysia</strong> and your own jurisdiction.
@@ -101,11 +101,11 @@
               </div>
             </div>
             <p class="mt-4">
-              <strong>Third-Party Attribution:</strong> Music player services,
-              playback streaming, and track metadata are powered by the
-              <strong>Spotify Web API</strong>. All associated audio content,
-              album artwork, and Spotify trademarks are the exclusive property
-              of Spotify AB and their respective music rightsholders.
+              <strong>Third-Party Attribution:</strong> 
+              <br/>
+              • <strong>Spotify:</strong> Music player services, playback streaming, and track metadata are powered by the <strong>Spotify Web API</strong>. All associated audio content, album artwork, and Spotify trademarks are the exclusive property of Spotify AB and their respective music rightsholders.
+              <br/><br/>
+              • <strong>GitHub:</strong> Code statistics and open-source contribution metrics are powered by the <strong>GitHub API</strong>. All GitHub trademarks and associated data are the property of GitHub, Inc.
             </p>
             <p class="mt-4">
               Any unauthorized commercial reproduction, redistribution, or
@@ -158,9 +158,24 @@
           </section>
 
           <section class="policy-section inset-shadow">
-            <h2 class="section-title">6. Governing Law</h2>
+            <h2 class="section-title">6. External Projects & Demos (Code Page Section 02)</h2>
             <p>
-              These Terms & Conditions are governed by and construed in
+              This portfolio showcases various independent applications, landing pages, and systems (e.g., in the Code Page "02 // ACTIVE SYSTEMS" section). 
+            </p>
+            <ul class="styled-list">
+              <li>
+                These external projects are distinct entities and are governed by their own respective <strong>Terms of Service</strong>, <strong>Terms & Conditions</strong>, and other legal agreements.
+              </li>
+              <li>
+                Your use of any specific demo or project linked in Section 02 is subject to the rules and conditions established within that specific project, which may supersede these general portfolio Terms of Use.
+              </li>
+            </ul>
+          </section>
+
+          <section class="policy-section">
+            <h2 class="section-title">7. Governing Law</h2>
+            <p>
+              These Terms of Use are governed by and construed in
               accordance with the laws of <strong>Malaysia</strong>. You
               irrevocably submit to the exclusive jurisdiction of the courts in
               Malaysia for any dispute arising out of or relating to these
@@ -168,17 +183,17 @@
             </p>
           </section>
 
-          <section class="policy-section">
-            <h2 class="section-title">7. Modifications</h2>
+          <section class="policy-section inset-shadow">
+            <h2 class="section-title">8. Modifications</h2>
             <p>
-              I may revise these Terms & Conditions for my website at any time
+              I may revise these Terms of Use for my website at any time
               without notice. By using this website you are agreeing to be bound
-              by the then current version of these Terms & Conditions.
+              by the then current version of these Terms of Use.
             </p>
           </section>
 
-          <section class="policy-section inset-shadow">
-            <h2 class="section-title">8. Contact Information</h2>
+          <section class="policy-section">
+            <h2 class="section-title">9. Contact Information</h2>
             <p>For any clarifications regarding these terms, please contact:</p>
             <div class="contact-signature">
               <span class="name">Nisha Najihah</span>
