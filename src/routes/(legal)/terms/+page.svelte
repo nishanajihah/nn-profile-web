@@ -62,7 +62,7 @@
         <h1 class="title">Terms of Use</h1>
         <div class="policy-meta">
           <span class="badge">Region: Malaysia & International</span>
-          <span class="last-updated">Last Updated: May 19, 2026</span>
+          <span class="last-updated">Last Updated: September 5, 2026</span>
         </div>
       </header>
 
@@ -106,6 +106,8 @@
               • <strong>Spotify:</strong> Music player services, playback streaming, and track metadata are powered by the <strong>Spotify Web API</strong>. All associated audio content, album artwork, and Spotify trademarks are the exclusive property of Spotify AB and their respective music rightsholders.
               <br/><br/>
               • <strong>GitHub:</strong> Code statistics and open-source contribution metrics are powered by the <strong>GitHub API</strong>. All GitHub trademarks and associated data are the property of GitHub, Inc.
+              <br/><br/>
+              • <strong>Cloudflare:</strong> Global edge network hosting, serverless computing, CDN, and DDoS mitigation are powered by <strong>Cloudflare, Inc.</strong> Cloudflare and the Cloudflare logo are trademarks of Cloudflare, Inc.
             </p>
             <p class="mt-4">
               Any unauthorized commercial reproduction, redistribution, or

@@ -62,7 +62,7 @@
         <h1 class="title">Privacy Policy</h1>
         <div class="policy-meta">
           <span class="badge">Compliance: International & Malaysia</span>
-          <span class="last-updated">Last Updated: August 5, 2026</span>
+          <span class="last-updated">Last Updated: September 5, 2026</span>
         </div>
       </header>
 
@@ -71,9 +71,7 @@
           <section class="policy-section">
             <h2 class="section-title">1. Introduction</h2>
             <p>
-              Welcome to Nisha Najihah's official portfolio. I am committed to
-              protecting your personal data and respecting your privacy rights. This
-              policy outlines how I handle information across global standards, including the <strong
+              Welcome to Nisha Najihah's official portfolio. This Privacy Policy (“Policy”) outlines the personal data that Nisha Najihah (“I”, “me”, or “my”) gathers, how I use and protect that personal information, and your rights and options to access, correct, or delete such personal data across global standards, including the <strong
                 >Malaysian Personal Data Protection Act 2010 (PDPA)</strong
               >, the
               <strong>General Data Protection Regulation (GDPR)</strong>, US State Privacy Laws (<strong>CalOPPA, CCPA/CPRA</strong>), and the <strong>Children's Online Privacy Protection Act (COPPA)</strong>.
@@ -191,11 +189,15 @@
           </section>
 
           <section class="policy-section inset-shadow">
-            <h2 class="section-title">8. Third-Party Integrations</h2>
+            <h2 class="section-title">8. Third-Party Integrations & Cloud Infrastructure</h2>
             <p>
-              This web profile integrates with external services to display dynamic content:
+              This web profile integrates with external services and cloud providers to deliver reliable, secure functionality:
             </p>
             <ul class="styled-list">
+              <li>
+                <strong>Cloudflare:</strong> This website is hosted and deployed on the <strong>Cloudflare Workers</strong> edge runtime platform. Cloudflare provides content delivery network (CDN) caching, SSL/TLS encryption, and distributed denial-of-service (DDoS) mitigation. Transient network traffic and security logs may be processed through Cloudflare's global edge network.
+                (<a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer" class="inline-link">Cloudflare Privacy Policy</a>)
+              </li>
               <li>
                 <strong>Spotify API:</strong> Used to display my recent or current music listening activity. When you visit this site, requests are made server-side to fetch this data. 
                 (<a href="https://www.spotify.com/us/legal/privacy-policy/" target="_blank" rel="noopener noreferrer" class="inline-link">Spotify Privacy Policy</a>)
