@@ -197,6 +197,10 @@
 
 <svelte:head>
   <title>About | Nisha Najihah</title>
+  <meta
+    name="description"
+    content="Learn more about Nisha Najihah — software engineer, designer, and music producer."
+  />
 </svelte:head>
 
 <div class="page-wrapper about-page">

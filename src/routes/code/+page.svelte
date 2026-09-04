@@ -201,10 +201,10 @@
 </script>
 
 <svelte:head>
-  <title>Architecture | Nisha Najihah</title>
+  <title>Code | Nisha Najihah</title>
   <meta
     name="description"
-    content="Technical explorations and open-source architecture by Nisha Najihah."
+    content="Technical explorations, active systems, and open-source architecture by Nisha Najihah."
   />
 </svelte:head>
 

@@ -57,7 +57,11 @@
   <!-- Top App Bar Navigation -->
   <header class="app-nav">
     <div class="nav-container">
-      <a href="/code#section-02" class="app-brand-link" title="Return to Active Systems">
+      <a
+        href="/code#section-02"
+        class="app-brand-link"
+        title="Return to Active Systems"
+      >
         <div class="app-brand">
           <div class="brand-logo-bg">
             <img
@@ -486,8 +490,8 @@
     <div class="legal-copyright-bar">
       <span>
         © {currentYear} Random Kit+ Idle. Developed by
-        <a href="/code#section-02" class="copyright-dev-link">Nisha Najihah</a>. All Rights
-        Reserved.
+        <a href="/code#section-02" class="copyright-dev-link">Nisha Najihah</a>.
+        All Rights Reserved.
       </span>
     </div>
   </section>

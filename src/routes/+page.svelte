@@ -64,7 +64,11 @@
 </script>
 
 <svelte:head>
-  <title>Nisha Najihah | Home</title>
+  <title>Home | Nisha Najihah</title>
+  <meta
+    name="description"
+    content="Official developer and music producer portfolio of Nisha Najihah."
+  />
 </svelte:head>
 
 <div class="homepage-wrapper">

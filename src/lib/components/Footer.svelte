@@ -29,7 +29,7 @@
       ? "https://mail.google.com/mail/?view=cm&fs=1&to=nishanajihah.dev@gmail.com"
       : variant === "music"
         ? "https://mail.google.com/mail/?view=cm&fs=1&to=nishanajihah.music@gmail.com"
-        : "https://mail.google.com/mail/?view=cm&fs=1&to=nishanajihah88@gmail.com";
+        : "https://mail.google.com/mail/?view=cm&fs=1&to=nishanajihah.info@gmail.com";
   $: emailLabel =
     variant === "code"
       ? "DEV EMAIL"

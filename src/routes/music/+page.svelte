@@ -64,10 +64,10 @@
 </script>
 
 <svelte:head>
-  <title>{artist?.name || "Music"} | Official Artist Profile</title>
+  <title>Music | Nisha Najihah</title>
   <meta
     name="description"
-    content="Official artist page for {artist?.name || 'Nisha Najihah'}"
+    content="Official artist page for Nisha Najihah — original music, discography, and Spotify streaming."
   />
 </svelte:head>
 

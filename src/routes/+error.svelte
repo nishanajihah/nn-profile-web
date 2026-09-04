@@ -87,8 +87,8 @@
 <svelte:head>
   <title>
     {errorData.isMaintenance
-      ? "Nisha Najihah | Page in Building"
-      : `Nisha Najihah | Error ${errorData.code}`}
+      ? "Page in Building | Nisha Najihah"
+      : `Error ${errorData.code} | Nisha Najihah`}
   </title>
 </svelte:head>
 
