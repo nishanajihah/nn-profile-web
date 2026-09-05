@@ -6,14 +6,20 @@ const SPOTIFY_API_BASE = 'https://api.spotify.com/v1';
 let cachedToken: string | null = null;
 let tokenExpiresAt: number = 0;
 
+export interface SpotifyCredentials {
+    SPOTIFY_CLIENT_ID?: string;
+    SPOTIFY_CLIENT_SECRET?: string;
+    [key: string]: any;
+}
+
 /**
  * Retrieves a Spotify Access Token using the Client Credentials Flow.
  * Implements token caching to avoid requesting a new token for every API call.
  */
-async function getAccessToken(customFetch?: typeof fetch): Promise<string> {
+async function getAccessToken(customFetch?: typeof fetch, envOverride?: SpotifyCredentials): Promise<string> {
     const fetchFn = customFetch || globalThis.fetch;
-    const clientId = env.SPOTIFY_CLIENT_ID;
-    const clientSecret = env.SPOTIFY_CLIENT_SECRET;
+    const clientId = envOverride?.SPOTIFY_CLIENT_ID || env.SPOTIFY_CLIENT_ID;
+    const clientSecret = envOverride?.SPOTIFY_CLIENT_SECRET || env.SPOTIFY_CLIENT_SECRET;
 
     if (!clientId || !clientSecret) {
         throw new Error('Spotify credentials not found. Please set SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET.');
@@ -24,7 +30,10 @@ async function getAccessToken(customFetch?: typeof fetch): Promise<string> {
         return cachedToken;
     }
 
-    const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
+    const authString = `${clientId}:${clientSecret}`;
+    const basicAuth = typeof Buffer !== 'undefined'
+        ? Buffer.from(authString).toString('base64')
+        : btoa(authString);
     
     const response = await fetchFn(SPOTIFY_TOKEN_URL, {
         method: 'POST',
@@ -50,9 +59,9 @@ async function getAccessToken(customFetch?: typeof fetch): Promise<string> {
 /**
  * Helper to fetch data from Spotify Web API with error handling and retry logic.
  */
-async function fetchSpotifyApi(endpoint: string, customFetch?: typeof fetch) {
+async function fetchSpotifyApi(endpoint: string, customFetch?: typeof fetch, envOverride?: SpotifyCredentials) {
     const fetchFn = customFetch || globalThis.fetch;
-    const token = await getAccessToken(fetchFn);
+    const token = await getAccessToken(fetchFn, envOverride);
     const url = `${SPOTIFY_API_BASE}${endpoint}`;
 
     let response = await fetchFn(url, {
@@ -100,10 +109,14 @@ async function fetchSpotifyApi(endpoint: string, customFetch?: typeof fetch) {
 /**
  * Fetch artist details and top tracks for an artist.
  */
-export async function getArtistData(artistName: string = 'Nisha Najihah', customFetch?: typeof fetch) {
+export async function getArtistData(
+    artistName: string = 'Nisha Najihah', 
+    customFetch?: typeof fetch,
+    envOverride?: SpotifyCredentials
+) {
     try {
         // Step 1: Search for the artist
-        const searchResult = await fetchSpotifyApi(`/search?q=${encodeURIComponent(artistName)}&type=artist&limit=1`, customFetch);
+        const searchResult = await fetchSpotifyApi(`/search?q=${encodeURIComponent(artistName)}&type=artist&limit=1`, customFetch, envOverride);
         
         const artist = searchResult?.artists?.items?.[0];
         if (!artist) {
@@ -112,13 +125,13 @@ export async function getArtistData(artistName: string = 'Nisha Najihah', custom
         }
 
         // Step 2: Get artist's top tracks
-        const topTracksResult = await fetchSpotifyApi(`/artists/${artist.id}/top-tracks?market=US`, customFetch);
+        const topTracksResult = await fetchSpotifyApi(`/artists/${artist.id}/top-tracks?market=US`, customFetch, envOverride);
         let rawOwnTracks = topTracksResult.tracks || [];
         let rawCollabTracks = [];
 
         // Step 3: Search for tracks featuring the artist
         try {
-            const featureSearchResult = await fetchSpotifyApi(`/search?q=${encodeURIComponent(artist.name)}&type=track&limit=15`, customFetch);
+            const featureSearchResult = await fetchSpotifyApi(`/search?q=${encodeURIComponent(artist.name)}&type=track&limit=15`, customFetch, envOverride);
             rawCollabTracks = featureSearchResult?.tracks?.items?.filter((t: any) => 
                 t.artists.some((a: any) => a.id === artist.id) && !rawOwnTracks.some((existing: any) => existing.id === t.id)
             ) || [];

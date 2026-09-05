@@ -6,7 +6,18 @@ declare global {
 		// interface Locals {}
 		// interface PageData {}
 		// interface PageState {}
-		// interface Platform {}
+		interface Platform {
+			env?: {
+				SPOTIFY_CLIENT_ID?: string;
+				SPOTIFY_CLIENT_SECRET?: string;
+				GITHUB_TOKEN?: string;
+				[key: string]: any;
+			};
+			context?: {
+				waitUntil(promise: Promise<any>): void;
+			};
+			caches?: CacheStorage & { default: Cache };
+		}
 	}
 }
 
