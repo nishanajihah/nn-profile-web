@@ -3,9 +3,10 @@ import type { PageServerLoad } from './$types';
 import { featuredProjects } from '$lib/logic/code/data';
 import { getGitHubStatsAndRepos } from '$lib/logic/code/github';
 
-export const load: PageServerLoad = async ({ fetch }) => {
+export const load: PageServerLoad = async ({ fetch, platform }) => {
   try {
-    const { stats, repos } = await getGitHubStatsAndRepos(GITHUB_TOKEN, fetch);
+    const token = platform?.env?.GITHUB_TOKEN || GITHUB_TOKEN;
+    const { stats, repos } = await getGitHubStatsAndRepos(token, fetch);
     return {
       stats,
       repos,
