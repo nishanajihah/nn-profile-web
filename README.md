@@ -1,50 +1,70 @@
-# Nisha Najihah - Profile v2.5.0
+# Nisha Najihah — Official Portfolio & Creative Space
 
 ![Version](https://img.shields.io/badge/Version-2.5.0-ffde21?style=for-the-badge&labelColor=black)
-![SvelteKit](https://img.shields.io/badge/SvelteKit-FF3E00?style=for-the-badge&logo=svelte&logoColor=white)
+![SvelteKit](https://img.shields.io/badge/SvelteKit_2-FF3E00?style=for-the-badge&logo=svelte&logoColor=white)
+![Svelte 5](https://img.shields.io/badge/Svelte_5-FF3E00?style=for-the-badge&logo=svelte&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![SCSS](https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=sass&logoColor=white)
-[![Ko-fi](https://img.shields.io/badge/Support_Me_on_Ko--fi-ffffff?style=for-the-badge&logo=ko-fi&logoColor=black&labelColor=ffffff)](https://ko-fi.com/Q5Q71FN62M)
+![Cloudflare](https://img.shields.io/badge/Cloudflare_Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)
+[![Ko-fi](https://img.shields.io/badge/Support_Me_on_Ko--fi-ff5e5b?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/Q5Q71FN62M)
 
-A modern, high-performance portfolio application built with **SvelteKit**, **TypeScript**, and **Vanilla SCSS**.
+> **Live Website:** [nishanajihah.com](https://nishanajihah.com)
 
-## 🚀 Key Features
+Welcome to the personal website and creative portfolio of **Nisha Najihah** — a solo software engineer, music producer, and digital creator.
 
-- **Cinematic Experience:** Modern dark-mode UI with custom GSAP animations, 3D WebGL stardust canvases (Threlte/Three.js), and smooth page transitions.
-- **Global Compliance:** Built-in Privacy Policy and Terms of Use compliant with Malaysia PDPA, EU GDPR, US CCPA/CalOPPA, and COPPA standards.
-- **Security & Safety:** Built-in server-side HTTP security headers, Content Security Policy (CSP), and secure server API routing.
-- **Responsive Layout:** Fully optimized for Desktop, Tablet, and Mobile devices.
+This site serves as the central hub for my software projects, interactive applications, Spotify discography, and creative works.
 
-## 🏗️ Project Structure
+---
 
-- `docs/`: Reference checklists for Privacy Policy and Terms drafting.
-- `src/lib/components/`: Reusable Svelte UI and 3D canvas components.
-- `src/lib/logic/`: Feature-domain logic (about, code, home, music).
-- `src/lib/styles/`: SCSS design system organized into pages and components.
-- `src/routes/`: SvelteKit pages, project landings, legal routes, and API endpoints.
+## 🌟 What's On This Site
 
-## 💻 Development
+- **Engineering & Code:** Showcase of open-source repositories, featured software applications, and live GitHub telemetry.
+- **Auditory & Music:** Discography player and music feed directly powered by the Spotify Web API.
+- **Project Landing Pages:** Dedicated product showcases and official landing pages for personal applications (such as *Random Kit+ Idle* on Google Play).
+- **Interactive Experience:** Real-time 3D WebGL stardust particles, fluid GSAP transitions, and an audio-visual cyberpunk aesthetic.
 
-```bash
-# Install dependencies
-npm install
+---
 
-# Start development server
-npm run dev
-```
+## 🛠️ Tool & Tech Stack
 
-## 🛠️ Tech Stack
+| Category | Technology |
+|---|---|
+| **Framework** | [SvelteKit 2](https://kit.svelte.dev/) with [Svelte 5](https://svelte.dev/) |
+| **Language** | [TypeScript](https://www.typescriptlang.org/) |
+| **Styling** | Vanilla [SCSS](https://sass-lang.com/) Design System |
+| **3D & WebGL** | [Three.js](https://threejs.org/) & [Threlte](https://threlte.xyz/) |
+| **Motion & FX** | [GSAP](https://gsap.com/) & [Anime.js](https://animejs.com/) |
+| **Integrations** | Spotify Web API, GitHub REST API |
+| **Hosting & Edge** | [Cloudflare Workers](https://workers.cloudflare.com/) |
 
-- **Framework:** [SvelteKit](https://kit.svelte.dev/)
-- **Styling:** [SCSS](https://sass-lang.com/)
-- **Languages:** [TypeScript](https://www.typescriptlang.org/)
+---
 
-## 📄 License
+## 🏷️ Version
 
-Copyright (c) 2026 Nisha Najihah. All rights reserved. See [LICENSE](file:///c:/Users/nisha/nnc25/web/nn/nn-profile/nn-profile-web/LICENSE) for details.
+Current Web Release: **`v2.5.0`**
 
-## 📧 Contact
+---
 
-- Email: nishanajihah.dev@gmail.com
+## ☕ Support My Work
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q71FN62M)
+If you enjoy my software, apps, or music, you can support my work on Ko-fi! Every coffee helps keep my independent projects running.
+
+<p align="left">
+  <a href="https://ko-fi.com/Q5Q71FN62M">
+    <img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support on Ko-fi" />
+  </a>
+</p>
+
+---
+
+## 📬 Contact & Inquiries
+
+Feel free to reach out for collaborations, project inquiries, or music feedback:
+
+- **General Inquiries:** [hello@nishanajihah.com](mailto:hello@nishanajihah.com)
+- **Software & Development:** [code@nishanajihah.com](mailto:code@nishanajihah.com)
+- **Music & Auditory:** [music@nishanajihah.com](mailto:music@nishanajihah.com)
+- **Direct Developer Email:** [nishanajihah.dev@gmail.com](mailto:nishanajihah.dev@gmail.com)
+
+---
+
+<sub>© 2026 Nisha Najihah. All rights reserved.</sub>
