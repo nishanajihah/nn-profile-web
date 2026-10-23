@@ -185,7 +185,17 @@
 </script>
 
 <svelte:head>
-  <!-- Legacy fallback -->
+  <!-- Global SEO & Crawlers -->
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Nisha Najihah" />
+
+  <!-- Social & Open Graph Defaults -->
+  <meta property="og:site_name" content="Nisha Najihah" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Direct Root Favicon for crawlers & browsers -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
   <link rel="icon" href={faviconIco} sizes="any" />
 
   <!-- High-res PNG favicon (96x96) -->
@@ -193,6 +203,9 @@
 
   <!-- iOS App Icon -->
   <link rel="apple-touch-icon" href={appleTouchIcon} />
+
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="/site.webmanifest" />
 </svelte:head>
 
 <PageTransitionCurtain />

@@ -9,7 +9,7 @@
 
 > **Live Website:** [nishanajihah.com](https://nishanajihah.com)
 
-Welcome to the personal website and creative portfolio of **Nisha Najihah** — a solo software engineer, music producer, and digital creator.
+Welcome to the personal website and creative portfolio of **Nisha Najihah** — a solo developer, music producer, and digital creator.
 
 This site serves as the central hub for my software projects, interactive applications, Spotify discography, and creative works.
 
@@ -19,22 +19,22 @@ This site serves as the central hub for my software projects, interactive applic
 
 - **Engineering & Code:** Showcase of open-source repositories, featured software applications, and live GitHub telemetry.
 - **Auditory & Music:** Discography player and music feed directly powered by the Spotify Web API.
-- **Project Landing Pages:** Dedicated product showcases and official landing pages for personal applications (such as *Random Kit+ Idle* on Google Play).
+- **Project Landing Pages:** Dedicated product showcases and official landing pages for personal applications (such as _Random Kit+ Idle_ on Google Play).
 - **Interactive Experience:** Real-time 3D WebGL stardust particles, fluid GSAP transitions, and an audio-visual cyberpunk aesthetic.
 
 ---
 
 ## 🛠️ Tool & Tech Stack
 
-| Category | Technology |
-|---|---|
-| **Framework** | [SvelteKit 2](https://kit.svelte.dev/) with [Svelte 5](https://svelte.dev/) |
-| **Language** | [TypeScript](https://www.typescriptlang.org/) |
-| **Styling** | Vanilla [SCSS](https://sass-lang.com/) Design System |
-| **3D & WebGL** | [Three.js](https://threejs.org/) & [Threlte](https://threlte.xyz/) |
-| **Motion & FX** | [GSAP](https://gsap.com/) & [Anime.js](https://animejs.com/) |
-| **Integrations** | Spotify Web API, GitHub REST API |
-| **Hosting & Edge** | [Cloudflare Workers](https://workers.cloudflare.com/) |
+| Category           | Technology                                                                  |
+| ------------------ | --------------------------------------------------------------------------- |
+| **Framework**      | [SvelteKit 2](https://kit.svelte.dev/) with [Svelte 5](https://svelte.dev/) |
+| **Language**       | [TypeScript](https://www.typescriptlang.org/)                               |
+| **Styling**        | Vanilla [SCSS](https://sass-lang.com/) Design System                        |
+| **3D & WebGL**     | [Three.js](https://threejs.org/) & [Threlte](https://threlte.xyz/)          |
+| **Motion & FX**    | [GSAP](https://gsap.com/) & [Anime.js](https://animejs.com/)                |
+| **Integrations**   | Spotify Web API, GitHub REST API                                            |
+| **Hosting & Edge** | [Cloudflare Workers](https://workers.cloudflare.com/)                       |
 
 ---
 
@@ -60,9 +60,6 @@ If you enjoy my software, apps, or music, you can support my work on Ko-fi! Ever
 
 Feel free to reach out for collaborations, project inquiries, or music feedback:
 
-- **General Inquiries:** [hello@nishanajihah.com](mailto:hello@nishanajihah.com)
-- **Software & Development:** [code@nishanajihah.com](mailto:code@nishanajihah.com)
-- **Music & Auditory:** [music@nishanajihah.com](mailto:music@nishanajihah.com)
 - **Direct Developer Email:** [nishanajihah.dev@gmail.com](mailto:nishanajihah.dev@gmail.com)
 
 ---
