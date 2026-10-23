@@ -1,6 +1,6 @@
 # Nisha Najihah — Official Portfolio & Creative Space
 
-![Version](https://img.shields.io/badge/Version-2.5.0-ffde21?style=for-the-badge&labelColor=black)
+![Version](https://img.shields.io/badge/Version-2.5.1-ffde21?style=for-the-badge&labelColor=black)
 ![SvelteKit](https://img.shields.io/badge/SvelteKit_2-FF3E00?style=for-the-badge&logo=svelte&logoColor=white)
 ![Svelte 5](https://img.shields.io/badge/Svelte_5-FF3E00?style=for-the-badge&logo=svelte&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
@@ -40,7 +40,7 @@ This site serves as the central hub for my software projects, interactive applic
 
 ## 🏷️ Version
 
-Current Web Release: **`v2.5.0`**
+Current Web Release: **`v2.5.1`**
 
 ---
 

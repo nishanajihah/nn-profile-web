@@ -5,9 +5,11 @@ node_modules
 .vercel
 .netlify
 .wrangler
+.cloudflare
 /.svelte-kit
 /build
 /package
+/dist
 
 # Logs
 logs
@@ -21,6 +23,8 @@ lerna-debug.log*
 # OS
 .DS_Store
 Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
 *.local
 
 # Env / Secrets
@@ -30,6 +34,9 @@ Thumbs.db
 .env.development
 !.env.example
 !.env.test
+*.pem
+*.key
+*.cert
 .pnpm-debug.log*
 
 # IDE
@@ -52,4 +59,6 @@ vite.config.ts.timestamp-*
 # Build & Temporary Files
 *.tmp
 *.bak
+.cache/
+.temp/
 
