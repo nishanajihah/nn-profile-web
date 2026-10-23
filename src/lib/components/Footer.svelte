@@ -26,13 +26,13 @@
   // Per-variant email address in the social set
   $: emailHref =
     variant === "code"
-      ? "https://mail.google.com/mail/?view=cm&fs=1&to=nishanajihah.dev@gmail.com"
+      ? "https://mail.google.com/mail/?view=cm&fs=1&to=code@nishanajihah.com"
       : variant === "music"
-        ? "https://mail.google.com/mail/?view=cm&fs=1&to=nishanajihah.music@gmail.com"
-        : "https://mail.google.com/mail/?view=cm&fs=1&to=nishanajihah.info@gmail.com";
+        ? "https://mail.google.com/mail/?view=cm&fs=1&to=music@nishanajihah.com"
+        : "https://mail.google.com/mail/?view=cm&fs=1&to=hello@nishanajihah.com";
   $: emailLabel =
     variant === "code"
-      ? "DEV EMAIL"
+      ? "CODE EMAIL"
       : variant === "music"
         ? "MUSIC EMAIL"
         : "GENERAL EMAIL";

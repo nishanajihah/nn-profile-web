@@ -62,14 +62,18 @@
       });
 
       // ---- TRANSITION 1: HERO LAYER EXITS
-      tl.to([heroEyebrow, heroWord1, heroWord2], { 
-        opacity: 0, 
-        y: -250, 
-        rotationX: 45, 
-        stagger: 0.1,
-        duration: 1.5, 
-        ease: "power2.inOut" 
-      }, 0)
+      tl.to(
+        [heroEyebrow, heroWord1, heroWord2],
+        {
+          opacity: 0,
+          y: -250,
+          rotationX: 45,
+          stagger: 0.1,
+          duration: 1.5,
+          ease: "power2.inOut",
+        },
+        0,
+      )
         .to(heroSubtitle, { opacity: 0, scale: 0.5, duration: 1 }, "<")
 
         .fromTo(

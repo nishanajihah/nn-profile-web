@@ -129,7 +129,7 @@
             <span class="deck-prompt">CHOOSE A PROJECT:</span>
             <div class="deck-options">
               <a
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=nishanajihah.music@gmail.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=music@nishanajihah.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="deck-btn split-btn"
@@ -139,7 +139,7 @@
               </a>
               <div class="deck-separator"></div>
               <a
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=nishanajihah.dev@gmail.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=code@nishanajihah.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="deck-btn split-btn"
