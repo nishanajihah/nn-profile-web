@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.1] - 2026-10-23
+
+### Added
+- **Context-Aware Custom Domain Routing**: Integrated dedicated email routing across site entry points (`code@nishanajihah.com` on `/code`, `music@nishanajihah.com` on `/music`, and `hello@nishanajihah.com` as primary contact) with direct developer fallback (`nishanajihah.dev@gmail.com`).
+- **Cloudflare Edge Dual-Resolution for Secrets**: Added runtime secret resolution using Cloudflare `platform.env` alongside local `$env/dynamic/private` for Spotify and GitHub integrations.
+- **Email Setup & Reply Guide**: Created comprehensive documentation in `docs/email_routing_and_custom_domain_reply_setup.md` detailing Cloudflare Email Routing rules and external SMTP custom domain replies.
+- **Legal Scope Definition & Cloudflare Hosting Disclosure**: Formally established web app policy coverage and added explicit disclosures for Cloudflare Workers edge hosting.
+
+### Fixed
+- **Cloudflare CI Build Resilience**: Switched `GITHUB_TOKEN` from `$env/static/private` to `$env/dynamic/private`, preventing build-time export crashes on Cloudflare CI when environment secrets are not injected at compile time.
+- **Head Title Standardization**: Normalized document `<title>` tags across all routes (`Home`, `About`, `Music`, `Code`, `Privacy Policy`, `Terms of Use`, `Error`, and `Random Kit+ Idle`).
+- **Worker Configuration & Compatibility**: Stabilized `compatibility_date` to `2024-09-23` and synced worker name to `nn-web` in `wrangler.jsonc`.
+
+### Changed
+- **Reader-Focused README**: Streamlined `README.md` to focus on the portfolio purpose, tech stack, release version, direct contact points, and Ko-fi support.
+
 ## [2.5.0] - 2026-09-05
 
 ### Added
