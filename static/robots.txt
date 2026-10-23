@@ -1,0 +1,6 @@
+# robots.txt for nishanajihah.com
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://nishanajihah.com/sitemap.xml
