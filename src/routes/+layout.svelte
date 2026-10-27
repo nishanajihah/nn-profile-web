@@ -1,9 +1,6 @@
 <script lang="ts">
   import "../app.scss";
   import "$lib/styles/components/page-transitions.scss";
-  import faviconIco from "$lib/assets/favicon-nn/favicon.ico";
-  import faviconPng from "$lib/assets/favicon-nn/favicon-96x96.png";
-  import appleTouchIcon from "$lib/assets/favicon-nn/apple-touch-icon.png";
   import PageTransitionCurtain from "$lib/components/PageTransitionCurtain.svelte";
 
   import { beforeNavigate, afterNavigate, goto } from "$app/navigation";
@@ -192,20 +189,32 @@
   <!-- Social & Open Graph Defaults -->
   <meta property="og:site_name" content="Nisha Najihah" />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://nishanajihah.com/apple-touch-icon.png" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://nishanajihah.com/apple-touch-icon.png" />
 
-  <!-- Direct Root Favicon for crawlers & browsers -->
+  <!-- Permanent Favicons (Google Search & Browsers) -->
   <link rel="icon" href="/favicon.ico" sizes="any" />
-  <link rel="icon" href={faviconIco} sizes="any" />
-
-  <!-- High-res PNG favicon (96x96) -->
-  <link rel="icon" href={faviconPng} type="image/png" sizes="96x96" />
-
-  <!-- iOS App Icon -->
-  <link rel="apple-touch-icon" href={appleTouchIcon} />
-
-  <!-- Web App Manifest -->
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- Google Structured Data (Logo & Brand Identity) -->
+  {@html `<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Nisha Najihah",
+    "url": "https://nishanajihah.com",
+    "image": "https://nishanajihah.com/apple-touch-icon.png",
+    "jobTitle": "Developer & Music Producer",
+    "sameAs": [
+      "https://github.com/nishanajihah",
+      "https://open.spotify.com/artist/2rI5YRwSaBF0IEwiCN7SEa",
+      "https://ko-fi.com/Q5Q71FN62M"
+    ]
+  }
+  </script>`}
 </svelte:head>
 
 <PageTransitionCurtain />
