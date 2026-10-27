@@ -9,6 +9,12 @@
 
   let { children } = $props();
 
+  const canonicalUrl = $derived(
+    $page.url.pathname === "/"
+      ? "https://nishanajihah.com/"
+      : "https://nishanajihah.com" + $page.url.pathname.replace(/\/$/, "")
+  );
+
   let forceNavigate = false;
 
   beforeNavigate((navigation) => {
@@ -185,6 +191,10 @@
   <!-- Global SEO & Crawlers -->
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Nisha Najihah" />
+
+  <!-- Canonical URL (Eliminates Soft 404 & HTTP/HTTPS duplicates) -->
+  <link rel="canonical" href={canonicalUrl} />
+  <meta property="og:url" content={canonicalUrl} />
 
   <!-- Social & Open Graph Defaults -->
   <meta property="og:site_name" content="Nisha Najihah" />
