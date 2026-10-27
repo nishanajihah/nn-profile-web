@@ -208,6 +208,7 @@
     "url": "https://nishanajihah.com",
     "image": "https://nishanajihah.com/apple-touch-icon.png",
     "jobTitle": "Developer & Music Producer",
+    "description": "Official website of Nisha Najihah. Explore interactive web apps, open-source coding projects, and original music streaming on all available music platform.",
     "sameAs": [
       "https://github.com/nishanajihah",
       "https://open.spotify.com/artist/2rI5YRwSaBF0IEwiCN7SEa",
