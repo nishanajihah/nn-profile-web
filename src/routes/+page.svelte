@@ -67,7 +67,15 @@
   <title>Home | Nisha Najihah</title>
   <meta
     name="description"
-    content="Official developer and music producer portfolio of Nisha Najihah."
+    content="Official website of Nisha Najihah. Explore interactive web apps, open-source coding projects, and original music streaming on all available music platform."
+  />
+  <meta
+    property="og:description"
+    content="Official website of Nisha Najihah. Explore interactive web apps, open-source coding projects, and original music streaming on all available music platform."
+  />
+  <meta
+    name="twitter:description"
+    content="Official website of Nisha Najihah. Explore interactive web apps, open-source coding projects, and original music streaming on all available music platform."
   />
 </svelte:head>
 
