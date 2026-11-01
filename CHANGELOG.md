@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Ultra-Narrow Mobile Breakpoints (`<= 480px` and `<= 380px`)**: Introduced dedicated multi-tier responsive layout breakpoints for both the cinematic header navigation and footer components to eliminate squeezing and overflow on narrow smartphones (iPhone SE, Samsung Galaxy series, and compact/foldable screens).
+
+### Changed & Fixed
+- **Mobile Footer 2-Column Grid Layout**: Reorganized mobile footer buttons (`Privacy`, `Terms`, `Social`, `Explore`) into a comfortable 2-column grid (and full-width social button on the homepage) instead of cramming all actions into a single squeezed horizontal row.
+- **Stacked Copyright for Compact Viewports**: On screens `<= 380px`, copyright notice and developer credit stack vertically across two centered lines with the pipe divider hidden, eliminating monospace text compression.
+- **Header Navigation Scaling & Positioning**: Optimized navbar padding, label letter-spacing, divider heights, and Support Me heart button positioning (`28px` at `<= 480px` and `24px` at `<= 380px`) across all navbar variants (`home`, `compact`, `inner`) to prevent horizontal clipping.
+
 ## [2.5.1] - 2026-10-23
 
 ### Added

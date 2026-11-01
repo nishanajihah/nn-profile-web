@@ -91,7 +91,7 @@
               <line x1="16" y1="17" x2="8" y2="17"></line>
             </svg>
             <span class="is-hidden-mobile">Terms of Use</span>
-            <span class="is-hidden-tablet">ToU</span>
+            <span class="is-hidden-tablet">Terms</span>
           </a>
         </div>
 
@@ -1173,8 +1173,8 @@
           <span class="copyright-line"
             >© {new Date().getFullYear()} Nisha Najihah</span
           >
-          <span class="copyright-credit">|&nbsp;Developed By Nisha Najihah</span
-          >
+          <span class="copyright-divider">|</span>
+          <span class="copyright-credit">Developed By Nisha Najihah</span>
         </div>
       </div>
     </div>
