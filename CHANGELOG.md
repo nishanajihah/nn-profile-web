@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Enovent Tower Featured Project Deployment**: Integrated a showcase card for Enovent Tower (`https://www.enoventtower.com/`) linking directly to the live production website with external URL action button and matching split-container layout.
+- **Section 02 & Per-Project Visibility Controls**: Added a global Section 02 toggle (`isProjectsSectionEnabled`) and per-project `hidden: true` flag in `data.ts`, allowing individual projects (such as in-progress apps) or the entire featured section to be enabled or disabled cleanly.
 - **Ultra-Narrow Mobile Breakpoints (`<= 480px` and `<= 380px`)**: Introduced dedicated multi-tier responsive layout breakpoints for both the cinematic header navigation and footer components to eliminate squeezing and overflow on narrow smartphones (iPhone SE, Samsung Galaxy series, and compact/foldable screens).
 
 ### Changed & Fixed

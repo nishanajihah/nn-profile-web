@@ -252,7 +252,10 @@ $ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   scroll-snap-align: center;
   min-width: 320px;
   
-  &:has(.badge-type-app) {
+  &:has(.badge-type-app),
+  &:has(.badge-type-web),
+  &:has(.badge-type-website),
+  &:has(.app-card-split-container) {
     flex: 0 0 calc(680px);
     max-width: 92vw;
   }

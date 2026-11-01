@@ -16,7 +16,7 @@
   import Scene from "$lib/components/code/Scene.svelte";
 
   export let data: PageData;
-  const { stats, repos, featuredProjects } = data;
+  const { stats, repos, featuredProjects, isProjectsSectionEnabled = true } = data;
 
   let visible = true;
   // Initialize scrollProgress as a spring store for buttery smooth 3D transitions
@@ -35,11 +35,18 @@
 
   function handleHashScroll() {
     if (!browser) return;
-    const hash = window.location.hash || "#section-02";
+    const hash =
+      window.location.hash ||
+      (isProjectsSectionEnabled && featuredProjects.length > 0
+        ? "#section-02"
+        : "#section-03");
 
     tick().then(() => {
       const scrollAttempt = (attemptsLeft: number) => {
-        const target = document.querySelector<HTMLElement>(hash);
+        let target = document.querySelector<HTMLElement>(hash);
+        if (!target && hash === "#section-02") {
+          target = document.querySelector<HTMLElement>("#section-03");
+        }
         if (target && wrapper) {
           const targetTop =
             target.getBoundingClientRect().top -
@@ -136,9 +143,12 @@
   afterNavigate(() => {
     if (browser && window.location.hash) {
       tick().then(() => {
-        const target = document.querySelector<HTMLElement>(
+        let target = document.querySelector<HTMLElement>(
           window.location.hash,
         );
+        if (!target && window.location.hash === "#section-02") {
+          target = document.querySelector<HTMLElement>("#section-03");
+        }
         if (target) {
           setTimeout(() => {
             if (wrapper) {
@@ -283,6 +293,7 @@
       </section>
 
       <!-- ═══════════ SECTION 02: 3-ITEM FEATURED DEPLOYMENTS ═══════════ -->
+      {#if isProjectsSectionEnabled && featuredProjects.length > 0}
       <section
         id="section-02"
         class="snap-section section-02 deployments-section"
@@ -335,8 +346,8 @@
                     ? `--app-card-accent: ${project.accentColor};`
                     : ''}"
                 >
-                  {#if project.projectBadge === "APP" || project.type === "MobileApp"}
-                    <!-- ═══════════ REFINED APP PROJECT CARD LAYOUT ═══════════ -->
+                  {#if project.hasSplitLayout !== false || project.projectBadge === "APP" || project.type === "MobileApp" || project.projectBadge === "WEB" || project.type === "Website"}
+                    <!-- ═══════════ REFINED APP & WEB PROJECT CARD LAYOUT ═══════════ -->
                     <div class="app-card-split-container">
                       <!-- Ambient Background Glow -->
                       <div class="app-card-ambient-glow"></div>
@@ -384,7 +395,7 @@
                       <!-- RIGHT CONTENT COLUMN: Platform, Title, Description, Tech Stack Pills, & Refined CTA Button -->
                       <div class="app-card-right-content">
                         <div class="content-header-row">
-                          <span class="platform-chip">ANDROID RELEASE</span>
+                          <span class="platform-chip">{project.platformChip || (project.type === "MobileApp" ? "ANDROID RELEASE" : "WEB PRODUCTION")}</span>
                           <h3 class="app-main-title">{project.name}</h3>
                         </div>
 
@@ -414,7 +425,7 @@
                               : undefined}
                             class="app-system-action-btn"
                           >
-                            <span class="btn-text">ENTER SYSTEM</span>
+                            <span class="btn-text">{project.ctaText || "ENTER SYSTEM"}</span>
                             <div class="btn-arrow-disc">
                               <svg
                                 width="18"
@@ -426,8 +437,13 @@
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                               >
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
+                                {#if (project.customLandingUrl || "").startsWith("http")}
+                                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                                  <polyline points="7 7 17 7 17 17"></polyline>
+                                {:else}
+                                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                                  <polyline points="12 5 19 12 12 19"></polyline>
+                                {/if}
                               </svg>
                             </div>
                           </a>
@@ -568,6 +584,7 @@
           {/if}
         </div>
       </section>
+      {/if}
 
       <!-- ═══════════ SECTION 03: KNOWLEDGE BASE (REPOS) ═══════════ -->
       <section id="section-03" class="snap-section section-03 repo-section">

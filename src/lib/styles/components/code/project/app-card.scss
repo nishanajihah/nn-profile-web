@@ -7,7 +7,10 @@
 // - Dynamic Color Variable: --app-card-accent (Defaults to #ffaa33, can be customized per project landing page)
 //
 
-.deployment-card.badge-type-app {
+.deployment-card.badge-type-app,
+.deployment-card.badge-type-web,
+.deployment-card.badge-type-website,
+.deployment-card:has(.app-card-split-container) {
   --app-card-accent: #ffaa33; // Default theme yellow accent; can override inline or per badge
   --app-card-accent-rgb: 255, 170, 51;
 
