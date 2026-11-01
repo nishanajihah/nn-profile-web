@@ -1,6 +1,6 @@
 import type { ProjectData } from './types';
 import enoventIcon from '$lib/assets/projects/enovent-tower/enovent-icon.png';
-import enoventPreview from '$lib/assets/projects/enovent-tower/enovent-preview.png';
+import enoventPreview from '$lib/assets/projects/enovent-tower/enovent-browser-preview.png';
 import randomKitLogo from '$lib/assets/projects/random-kit-idle/random-kit-logo.png';
 import screenshotDashboard from '$lib/assets/projects/random-kit-idle/screenshot-dashboard.png';
 
@@ -19,7 +19,7 @@ export const featuredProjects: ProjectData[] = [
     name: 'Enovent Tower',
     type: 'Website',
     projectBadge: 'WEB',
-    projectCategory: 'Telecommunication Infrastructure',
+    projectCategory: 'Fullstack',
     platformChip: 'WEB PRODUCTION',
     projectIcon: enoventIcon,
     projectDeviceImage: enoventPreview,
