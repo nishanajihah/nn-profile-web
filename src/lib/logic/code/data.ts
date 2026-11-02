@@ -18,9 +18,13 @@ export const featuredProjects: ProjectData[] = [
     id: 'enovent-tower',
     name: 'Enovent Tower',
     type: 'Website',
+    status: 'live',
+    visibility: 'public',
+    statusLabel: 'LIVE // PUBLIC',
     projectBadge: 'WEB',
     projectCategory: 'Web',
     platformChip: 'WEB PRODUCTION',
+    accentColor: '#f0f4f8', // Soft white accent (can change to any custom color)
     projectIcon: enoventIcon,
     projectIconBg: '#ffffff', // Soft white background to display dark brand icon clearly
     projectDeviceImage: enoventPreview,
@@ -38,9 +42,13 @@ export const featuredProjects: ProjectData[] = [
     id: 'random-kit-idle',
     name: 'Random Kit+ Idle',
     type: 'MobileApp',
+    status: 'in-progress',
+    visibility: 'private',
+    statusLabel: 'IN PROGRESS // PRIVATE',
     projectBadge: 'APP',
     projectCategory: 'Entertainment',
     platformChip: 'ANDROID RELEASE',
+    accentColor: '#ffaa33', // Amber yellow accent matching landing page
     projectIcon: randomKitLogo,
     projectDeviceImage: screenshotDashboard,
     description: 'Yours All-in-One Utility & Arcade Kit.',

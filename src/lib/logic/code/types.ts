@@ -1,4 +1,6 @@
 export type ProjectType = 'Website' | 'MobileApp' | 'Hybrid' | 'API' | 'AppWeb' | 'Agent';
+export type ProjectStatus = 'active' | 'in-progress' | 'standby' | 'hidden' | 'live' | 'demo';
+export type ProjectVisibility = 'public' | 'private' | 'restricted';
 
 export interface ProjectData {
   id: string;
@@ -9,7 +11,9 @@ export interface ProjectData {
 
   // Visibility & Development Status
   hidden?: boolean;              // When true, hides this project from active deployments
-  status?: 'active' | 'in-progress' | 'standby' | 'hidden';
+  status?: ProjectStatus;        // Status: 'active' | 'in-progress' | 'standby' | 'hidden' | 'live' | 'demo'
+  visibility?: ProjectVisibility;// Visibility: 'public' | 'private' | 'restricted'
+  statusLabel?: string;          // Optional custom status badge (e.g. 'LIVE // PUBLIC', 'ACTIVE (PRIVATE)', 'DEMO')
 
   // Custom Visuals & Badges
   projectIcon?: string;         // App Logo icon / Web favicon

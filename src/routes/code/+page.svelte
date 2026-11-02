@@ -42,6 +42,49 @@
     return cat.includes("web") || badge === "web" || type === "website";
   }
 
+  function getAccentStyles(project: any): string {
+    const color = project.accentColor || (isWebLayout(project) ? "#f0f4f8" : "#ffaa33");
+    const hex = color.replace("#", "");
+    let r = 255, g = 170, b = 51;
+    if (hex.length === 6) {
+      r = parseInt(hex.substring(0, 2), 16);
+      g = parseInt(hex.substring(2, 4), 16);
+      b = parseInt(hex.substring(4, 6), 16);
+    } else if (hex.length === 3) {
+      r = parseInt(hex[0] + hex[0], 16);
+      g = parseInt(hex[1] + hex[1], 16);
+      b = parseInt(hex[2] + hex[2], 16);
+    }
+    return `--app-card-accent: ${color}; --app-card-accent-rgb: ${r}, ${g}, ${b};`;
+  }
+
+  function getStatusDisplay(project: any): string {
+    if (project.statusLabel) return project.statusLabel;
+    const parts: string[] = [];
+    if (project.status) {
+      if (project.status === "in-progress") parts.push("IN PROGRESS");
+      else parts.push(project.status.toUpperCase());
+    }
+    if (project.visibility) {
+      parts.push(project.visibility.toUpperCase());
+    }
+    if (parts.length > 0) return parts.join(" // ");
+    return project.platformChip || (project.type === "MobileApp" ? "ANDROID RELEASE" : "WEB PRODUCTION");
+  }
+
+  function getStatusClass(project: any): string {
+    const text = (project.statusLabel || project.status || project.visibility || "").toLowerCase();
+    if (text.includes("private")) return "status-private";
+    if (text.includes("in-progress") || text.includes("progress")) return "status-progress";
+    if (text.includes("demo")) return "status-demo";
+    if (text.includes("live") || text.includes("active") || text.includes("public")) return "status-live";
+    return "status-default";
+  }
+
+  function isPrivateStatus(project: any): boolean {
+    return project.visibility === "private" || (project.statusLabel || "").toLowerCase().includes("private");
+  }
+
   function handleHashScroll() {
     if (!browser) return;
     const hash =
@@ -351,9 +394,7 @@
                   class="deployment-card scroll-reveal {project.projectBadge
                     ? `badge-type-${project.projectBadge.toLowerCase()}`
                     : ''} {isWebLayout(project) ? 'layout-web-stacked' : 'layout-app-split'}"
-                  style="transition-delay: {i * 100}ms; {project.accentColor
-                    ? `--app-card-accent: ${project.accentColor};`
-                    : ''}"
+                  style="transition-delay: {i * 100}ms; {getAccentStyles(project)}"
                 >
                   {#if isWebLayout(project)}
                     <!-- ═══════════ REFINED WEB PROJECT CARD LAYOUT (TOP & BOTTOM STACKED) ═══════════ -->
@@ -377,7 +418,17 @@
                               >{project.projectCategory || "Web"}</span
                             >
                           </div>
-                          <span class="platform-chip">{project.platformChip || "WEB PRODUCTION"}</span>
+                          <span class="platform-chip status-chip {getStatusClass(project)}">
+                            {#if isPrivateStatus(project)}
+                              <svg class="status-lock-icon" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                              </svg>
+                            {:else}
+                              <span class="status-dot"></span>
+                            {/if}
+                            {getStatusDisplay(project)}
+                          </span>
                         </div>
 
                         <!-- Hero Visual Stage: Browser Mockup & Floating Favicon / Brand Logo -->
@@ -539,7 +590,17 @@
                       <!-- RIGHT CONTENT COLUMN: Platform, Title, Description, Tech Stack Pills, & Refined CTA Button -->
                       <div class="app-card-right-content">
                         <div class="content-header-row">
-                          <span class="platform-chip">{project.platformChip || (project.type === "MobileApp" ? "ANDROID RELEASE" : "WEB PRODUCTION")}</span>
+                          <span class="platform-chip status-chip {getStatusClass(project)}">
+                            {#if isPrivateStatus(project)}
+                              <svg class="status-lock-icon" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                              </svg>
+                            {:else}
+                              <span class="status-dot"></span>
+                            {/if}
+                            {getStatusDisplay(project)}
+                          </span>
                           <h3 class="app-main-title">{project.name}</h3>
                         </div>
 

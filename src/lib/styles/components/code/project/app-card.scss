@@ -17,7 +17,7 @@
 .deployment-card.layout-app-split,
 .deployment-card:has(.app-card-split-container),
 .deployment-card:has(.web-card-stacked-container) {
-  --app-card-accent: #ffaa33; // Default theme yellow accent; can override inline or per badge
+  --app-card-accent: #ffaa33; // Default theme yellow accent for apps; overridden per project
   --app-card-accent-rgb: 255, 170, 51;
 
   background: linear-gradient(145deg, rgba(32, 22, 12, 0.98) 0%, rgba(12, 10, 8, 0.99) 100%);
@@ -31,6 +31,24 @@
 
   @media (min-width: 901px) {
     height: 460px;
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  // SOFT WHITE THEME FOR WEB CARDS
+  // ══════════════════════════════════════════════════════════════
+  &.layout-web-stacked,
+  &:has(.web-card-stacked-container) {
+    --app-card-accent: #f0f4f8; // Soft white accent
+    --app-card-accent-rgb: 240, 244, 248;
+
+    background: linear-gradient(145deg, rgba(30, 34, 42, 0.98) 0%, rgba(14, 16, 20, 0.99) 100%);
+    border-color: rgba(var(--app-card-accent-rgb), 0.35);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.12) inset, 0 0 35px rgba(var(--app-card-accent-rgb), 0.08);
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 30px 75px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.3) inset, 0 0 45px rgba(var(--app-card-accent-rgb), 0.2);
+    }
   }
 
   @media (max-width: 600px) {
@@ -152,14 +170,50 @@
     }
   }
 
-  /* PLATFORM CHIP */
+  /* PLATFORM & STATUS CHIP */
   .platform-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
     font-family: 'Roboto Mono', monospace;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 800;
     color: var(--app-card-accent);
-    letter-spacing: 2.5px;
+    letter-spacing: 1.8px;
     text-transform: uppercase;
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 8px currentColor;
+      animation: pulseDot 1.8s infinite ease-in-out;
+    }
+
+    .status-lock-icon {
+      stroke: currentColor;
+    }
+
+    &.status-live {
+      color: #34d399; // emerald active
+      .status-dot { background: #34d399; box-shadow: 0 0 8px rgba(52, 211, 153, 0.85); }
+    }
+
+    &.status-progress {
+      color: #fbbf24; // amber in-progress
+      .status-dot { background: #fbbf24; box-shadow: 0 0 8px rgba(251, 191, 36, 0.85); }
+    }
+
+    &.status-demo {
+      color: #38bdf8; // cyan demo
+      .status-dot { background: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.85); }
+    }
+
+    &.status-private {
+      color: #f87171; // muted coral private
+      .status-lock-icon { stroke: #f87171; }
+    }
   }
 
   /* FLOATING ICON BADGE */
@@ -472,16 +526,16 @@
     /* TOP SHOWCASE: Browser Screenshot + Header Meta */
     .web-card-top-showcase {
       position: relative;
-      background: radial-gradient(circle at 50% 25%, rgba(var(--app-card-accent-rgb), 0.22) 0%, rgba(12, 10, 8, 0.98) 85%);
-      border-bottom: 1px solid rgba(var(--app-card-accent-rgb), 0.25);
-      padding: 16px 24px 10px;
+      background: radial-gradient(circle at 50% 25%, rgba(var(--app-card-accent-rgb), 0.14) 0%, rgba(12, 14, 18, 0.98) 85%);
+      border-bottom: 1px solid rgba(var(--app-card-accent-rgb), 0.2);
+      padding: 14px 22px 8px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
 
       @media (max-width: 600px) {
-        padding: 14px 16px 10px;
-        gap: 8px;
+        padding: 12px 16px 8px;
+        gap: 6px;
       }
 
       .web-meta-header-row {
@@ -497,12 +551,12 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 4px 0 8px;
+        padding: 2px 0 6px;
 
         .web-browser-image-wrapper {
           position: relative;
           width: 100%;
-          max-width: 520px;
+          max-width: 480px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -512,50 +566,51 @@
           .web-browser-img {
             width: 100%;
             height: auto;
-            max-height: 175px;
+            max-height: 145px;
             object-fit: contain;
             display: block;
-            border-radius: 12px;
-            filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.85));
+            border-radius: 10px;
+            filter: drop-shadow(0 14px 30px rgba(0, 0, 0, 0.85));
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
             @media (max-width: 600px) {
-              max-height: 140px;
+              max-height: 130px;
             }
           }
         }
 
         .app-icon-badge-box {
-          bottom: 10px;
-          left: 18px;
-          width: 62px;
-          height: 62px;
-          border-radius: 16px;
+          bottom: 6px;
+          left: 16px;
+          width: 54px;
+          height: 54px;
+          border-radius: 14px;
+          padding: 6px;
           background: rgba(255, 255, 255, 0.95);
           border: 2px solid rgba(var(--app-card-accent-rgb), 0.85);
           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.65);
 
           @media (max-width: 600px) {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             left: 10px;
-            bottom: 6px;
+            bottom: 4px;
           }
         }
       }
     }
 
-    /* BOTTOM CONTENT: Title, Description, Tech Stack Pills, and CTA Button */
+    /* BOTTOM CONTENT: Fits cleanly with ample space within 460px card height */
     .web-card-bottom-content {
-      padding: 16px 28px 20px;
+      padding: 16px 26px 18px;
       display: flex;
       flex-direction: column;
       flex: 1;
       justify-content: space-between;
 
       @media (max-width: 600px) {
-        padding: 16px 18px 20px;
+        padding: 14px 16px 18px;
       }
 
       .web-content-top {
@@ -564,52 +619,55 @@
       }
 
       .app-main-title {
-        font-size: 1.65rem;
+        font-size: 1.55rem;
+        line-height: 1.2;
         margin: 0 0 6px;
 
         @media (max-width: 768px) {
-          font-size: 1.45rem;
+          font-size: 1.35rem;
         }
 
         @media (max-width: 480px) {
-          font-size: 1.3rem;
+          font-size: 1.25rem;
         }
       }
 
       .app-main-desc {
-        font-size: 0.92rem;
-        line-height: 1.5;
-        margin: 0 0 12px;
+        font-size: 0.88rem;
+        line-height: 1.45;
+        margin: 0 0 10px;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
 
         @media (max-width: 600px) {
-          font-size: 0.86rem;
-          margin-bottom: 10px;
+          font-size: 0.84rem;
+          margin-bottom: 8px;
         }
       }
 
       .app-cyber-pills-row {
-        margin-bottom: 14px;
+        margin-bottom: 12px;
+        gap: 6px;
+
+        .cyber-tech-pill {
+          padding: 4px 10px;
+          font-size: 0.72rem;
+        }
 
         @media (max-width: 600px) {
-          margin-bottom: 12px;
+          margin-bottom: 10px;
         }
       }
 
+      /* FULL-WIDTH CTA BUTTON FOLLOWING CARD SIZE */
       .app-system-action-btn {
-        width: 100%;
-        max-width: 280px;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
         padding: 10px 20px;
         font-size: 0.9rem;
-
-        @media (max-width: 600px) {
-          max-width: 100%;
-          padding: 9px 16px;
-          font-size: 0.85rem;
-        }
       }
     }
   }
