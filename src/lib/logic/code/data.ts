@@ -19,7 +19,7 @@ export const featuredProjects: ProjectData[] = [
     name: 'Enovent Tower',
     type: 'Website',
     projectBadge: 'WEB',
-    projectCategory: 'Fullstack',
+    projectCategory: 'Web',
     platformChip: 'WEB PRODUCTION',
     projectIcon: enoventIcon,
     projectDeviceImage: enoventPreview,
@@ -30,6 +30,7 @@ export const featuredProjects: ProjectData[] = [
     hasLanding: false,
     customLandingUrl: 'https://www.enoventtower.com/',
     ctaText: 'VISIT WEBSITE',
+    layoutType: 'stacked', // Top & Bottom layout for Web
     hidden: false,
   },
   {
@@ -47,6 +48,7 @@ export const featuredProjects: ProjectData[] = [
     hasLanding: true,
     customLandingUrl: '/code/project/landing/random-kit-idle',
     ctaText: 'ENTER SYSTEM',
+    layoutType: 'split', // Left & Right layout for App
     hidden: true, // In progress — hidden from active deployments
   }
 ];

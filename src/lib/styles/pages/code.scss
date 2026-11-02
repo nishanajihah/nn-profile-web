@@ -255,7 +255,10 @@ $ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   &:has(.badge-type-app),
   &:has(.badge-type-web),
   &:has(.badge-type-website),
-  &:has(.app-card-split-container) {
+  &:has(.app-card-split-container),
+  &:has(.web-card-stacked-container),
+  &:has(.layout-web-stacked),
+  &:has(.layout-app-split) {
     flex: 0 0 calc(680px);
     max-width: 92vw;
   }

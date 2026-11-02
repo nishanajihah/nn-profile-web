@@ -15,11 +15,12 @@ export interface ProjectData {
   projectIcon?: string;         // App Logo icon / Web favicon
   projectDeviceImage?: string;   // Mockup / visual preview screenshot
   projectBadge?: string;        // Badge label (e.g. 'APP', 'WEB', 'AGENT', 'API')
-  projectCategory?: string;     // Category (e.g. 'Entertainment', 'Telecommunication Infrastructure')
+  projectCategory?: string;     // Category (e.g. 'Entertainment', 'Web Development')
   platformChip?: string;        // Platform chip label (e.g. 'ANDROID RELEASE', 'WEB PRODUCTION')
   accentColor?: string;         // Optional custom hex color for landing page matching (defaults to theme yellow #ffaa33)
   ctaText?: string;             // Action button text (e.g. 'VISIT WEBSITE', 'ENTER SYSTEM')
   hasSplitLayout?: boolean;     // Triggers the refined split container card layout
+  layoutType?: 'split' | 'stacked'; // Layout direction: 'split' (app left & right) or 'stacked' (web top & bottom)
 
   // Layout triggers
   hasImages: boolean;

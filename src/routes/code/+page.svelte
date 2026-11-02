@@ -33,6 +33,15 @@
   // ═══ Repo Display State ═══
   let isRepoOverlayOpen = false;
 
+  function isWebLayout(project: any): boolean {
+    if (project.layoutType === "stacked") return true;
+    if (project.layoutType === "split") return false;
+    const cat = (project.projectCategory || "").toLowerCase();
+    const badge = (project.projectBadge || "").toLowerCase();
+    const type = (project.type || "").toLowerCase();
+    return cat.includes("web") || badge === "web" || type === "website";
+  }
+
   function handleHashScroll() {
     if (!browser) return;
     const hash =
@@ -341,13 +350,142 @@
                 <div
                   class="deployment-card scroll-reveal {project.projectBadge
                     ? `badge-type-${project.projectBadge.toLowerCase()}`
-                    : ''}"
+                    : ''} {isWebLayout(project) ? 'layout-web-stacked' : 'layout-app-split'}"
                   style="transition-delay: {i * 100}ms; {project.accentColor
                     ? `--app-card-accent: ${project.accentColor};`
                     : ''}"
                 >
-                  {#if project.hasSplitLayout !== false || project.projectBadge === "APP" || project.type === "MobileApp" || project.projectBadge === "WEB" || project.type === "Website"}
-                    <!-- ═══════════ REFINED APP & WEB PROJECT CARD LAYOUT ═══════════ -->
+                  {#if isWebLayout(project)}
+                    <!-- ═══════════ REFINED WEB PROJECT CARD LAYOUT (TOP & BOTTOM STACKED) ═══════════ -->
+                    <div class="web-card-stacked-container">
+                      <!-- Ambient Background Glow -->
+                      <div class="app-card-ambient-glow"></div>
+
+                      <!-- TOP SHOWCASE: Mockup with Browser Window Dots + Glass Pill Meta -->
+                      <div class="web-card-top-showcase">
+                        <!-- Top Header Row: Unified Meta Pill & Platform Chip -->
+                        <div class="web-meta-header-row">
+                          <div class="app-meta-unified-pill">
+                            <div class="app-badge-part">
+                              <span class="live-dot-pulse"></span>
+                              <span class="badge-label"
+                                >{project.projectBadge || "WEB"}</span
+                              >
+                            </div>
+                            <span class="meta-divider">//</span>
+                            <span class="category-label"
+                              >{project.projectCategory || "Web"}</span
+                            >
+                          </div>
+                          <span class="platform-chip">{project.platformChip || "WEB PRODUCTION"}</span>
+                        </div>
+
+                        <!-- Hero Visual Stage: Browser Mockup & Floating Favicon / Brand Logo -->
+                        <div class="web-hero-visual-stage">
+                          {#if project.projectDeviceImage}
+                            <div class="web-browser-image-wrapper">
+                              <img
+                                src={project.projectDeviceImage}
+                                alt="{project.name} Web Preview"
+                                class="web-browser-img"
+                              />
+                            </div>
+                          {/if}
+
+                          {#if project.projectIcon}
+                            <div class="app-icon-badge-box">
+                              <img
+                                src={project.projectIcon}
+                                alt="{project.name} Logo"
+                                class="app-icon-img"
+                              />
+                            </div>
+                          {/if}
+                        </div>
+                      </div>
+
+                      <!-- BOTTOM CONTENT: Title, Description, Tech Stack Pills & CTA Button -->
+                      <div class="web-card-bottom-content">
+                        <div class="web-content-top">
+                          <h3 class="app-main-title">{project.name}</h3>
+                          <p class="app-main-desc">{project.description}</p>
+
+                          <!-- Tech Stack Tags Row -->
+                          <div class="app-cyber-pills-row">
+                            {#each project.tags as tag}
+                              <span class="cyber-tech-pill">{tag}</span>
+                            {/each}
+                          </div>
+                        </div>
+
+                        <!-- System Action CTA Button (Theme Yellow + Warm White) -->
+                        {#if project.customLandingUrl || project.hasLanding}
+                          <a
+                            href={project.customLandingUrl ||
+                              `/code/project/landing/${project.id}`}
+                            target={(project.customLandingUrl || "").startsWith(
+                              "http",
+                            )
+                              ? "_blank"
+                              : undefined}
+                            rel={(project.customLandingUrl || "").startsWith(
+                              "http",
+                            )
+                              ? "noopener noreferrer"
+                              : undefined}
+                            class="app-system-action-btn"
+                          >
+                            <span class="btn-text">{project.ctaText || "VISIT WEBSITE"}</span>
+                            <div class="btn-arrow-disc">
+                              <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                {#if (project.customLandingUrl || "").startsWith("http")}
+                                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                                  <polyline points="7 7 17 7 17 17"></polyline>
+                                {:else}
+                                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                                  <polyline points="12 5 19 12 12 19"></polyline>
+                                {/if}
+                              </svg>
+                            </div>
+                          </a>
+                        {:else if project.liveUrl || project.docsUrl}
+                          <a
+                            href={project.liveUrl || project.docsUrl || "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="app-system-action-btn"
+                          >
+                            <span class="btn-text">VISIT WEBSITE</span>
+                            <div class="btn-arrow-disc">
+                              <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                              </svg>
+                            </div>
+                          </a>
+                        {/if}
+                      </div>
+                    </div>
+                  {:else if project.hasSplitLayout !== false || project.projectBadge === "APP" || project.type === "MobileApp"}
+                    <!-- ═══════════ REFINED APP PROJECT CARD LAYOUT (LEFT & RIGHT SPLIT) ═══════════ -->
                     <div class="app-card-split-container">
                       <!-- Ambient Background Glow -->
                       <div class="app-card-ambient-glow"></div>
