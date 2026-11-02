@@ -418,7 +418,7 @@
                               >{project.projectCategory || "Web"}</span
                             >
                           </div>
-                          <span class="platform-chip status-chip {getStatusClass(project)}">
+                          <span class="platform-chip status-chip desktop-only-status {getStatusClass(project)}">
                             {#if isPrivateStatus(project)}
                               <svg class="status-lock-icon" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
@@ -461,7 +461,20 @@
                       <!-- BOTTOM CONTENT: Title, Description, Tech Stack Pills & CTA Button -->
                       <div class="web-card-bottom-content">
                         <div class="web-content-top">
-                          <h3 class="app-main-title">{project.name}</h3>
+                          <div class="content-header-row">
+                            <span class="platform-chip status-chip mobile-only-status {getStatusClass(project)}">
+                              {#if isPrivateStatus(project)}
+                                <svg class="status-lock-icon" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                              {:else}
+                                <span class="status-dot"></span>
+                              {/if}
+                              {getStatusDisplay(project)}
+                            </span>
+                            <h3 class="app-main-title">{project.name}</h3>
+                          </div>
                           <p class="app-main-desc">{project.description}</p>
 
                           <!-- Tech Stack Tags Row -->
