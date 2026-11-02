@@ -602,28 +602,30 @@
 
                       <!-- RIGHT CONTENT COLUMN: Platform, Title, Description, Tech Stack Pills, & Refined CTA Button -->
                       <div class="app-card-right-content">
-                        <div class="content-header-row">
-                          <span class="platform-chip status-chip {getStatusClass(project)}">
-                            {#if isPrivateStatus(project)}
-                              <svg class="status-lock-icon" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                              </svg>
-                            {:else}
-                              <span class="status-dot"></span>
-                            {/if}
-                            {getStatusDisplay(project)}
-                          </span>
-                          <h3 class="app-main-title">{project.name}</h3>
-                        </div>
+                        <div class="app-content-top">
+                          <div class="content-header-row">
+                            <span class="platform-chip status-chip {getStatusClass(project)}">
+                              {#if isPrivateStatus(project)}
+                                <svg class="status-lock-icon" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                              {:else}
+                                <span class="status-dot"></span>
+                              {/if}
+                              {getStatusDisplay(project)}
+                            </span>
+                            <h3 class="app-main-title">{project.name}</h3>
+                          </div>
 
-                        <p class="app-main-desc">{project.description}</p>
+                          <p class="app-main-desc">{project.description}</p>
 
-                        <!-- Tech Stack Tags Row -->
-                        <div class="app-cyber-pills-row">
-                          {#each project.tags as tag}
-                            <span class="cyber-tech-pill">{tag}</span>
-                          {/each}
+                          <!-- Tech Stack Tags Row -->
+                          <div class="app-cyber-pills-row">
+                            {#each project.tags as tag}
+                              <span class="cyber-tech-pill">{tag}</span>
+                            {/each}
+                          </div>
                         </div>
 
                         <!-- Refined System Action CTA Button (Theme Yellow + Warm White Dual Color) -->

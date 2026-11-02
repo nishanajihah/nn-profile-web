@@ -516,7 +516,7 @@
 
     /* RIGHT CONTENT COLUMN */
     .app-card-right-content {
-      padding: 26px 32px 26px;
+      padding: 28px 34px 28px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -529,10 +529,40 @@
         padding: 20px 16px;
       }
 
+      .app-content-top {
+        display: flex;
+        flex-direction: column;
+      }
+
       .content-header-row {
         display: flex;
         flex-direction: column;
         gap: 6px;
+        margin-bottom: 8px;
+      }
+
+      // Web view: title & description use the previous bold font size with tight, clean gap
+      .app-main-title {
+        @media (min-width: 901px) {
+          font-size: 2.15rem;
+          line-height: 1.15;
+          margin: 0;
+        }
+      }
+
+      .app-main-desc {
+        @media (min-width: 901px) {
+          font-size: 1.02rem;
+          line-height: 1.55;
+          margin: 0 0 14px 0;
+          -webkit-line-clamp: 3;
+        }
+      }
+
+      .app-cyber-pills-row {
+        @media (min-width: 901px) {
+          margin-bottom: 16px;
+        }
       }
     }
   }
@@ -553,7 +583,7 @@
       height: auto;
     }
 
-    /* TOP SHOWCASE: Browser Screenshot + Header Meta */
+    /* TOP SHOWCASE: Follows same mobile split proportions & padding as app card */
     .web-card-top-showcase {
       position: relative;
       background: radial-gradient(circle at 50% 25%, rgba(var(--app-card-accent-rgb), 0.14) 0%, rgba(12, 14, 18, 0.98) 85%);
@@ -563,9 +593,11 @@
       flex-direction: column;
       gap: 8px;
 
-      @media (max-width: 600px) {
-        padding: 12px 16px 8px;
-        gap: 6px;
+      @media (max-width: 900px) {
+        min-height: 280px;
+        padding: 20px 16px;
+        border-bottom: 1px solid rgba(var(--app-card-accent-rgb), 0.25);
+        justify-content: space-between;
       }
 
       .web-meta-header-row {
@@ -583,6 +615,12 @@
         justify-content: center;
         padding: 2px 0 6px;
 
+        @media (max-width: 900px) {
+          flex: 1;
+          margin-top: 15px;
+          padding: 0;
+        }
+
         .web-browser-image-wrapper {
           position: relative;
           width: 100%;
@@ -592,6 +630,10 @@
           justify-content: center;
           transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
           z-index: 2;
+
+          @media (max-width: 900px) {
+            max-width: 100%;
+          }
 
           .web-browser-img {
             width: 100%;
@@ -603,8 +645,12 @@
             filter: drop-shadow(0 14px 30px rgba(0, 0, 0, 0.85));
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
+            @media (max-width: 900px) {
+              max-height: 190px;
+            }
+
             @media (max-width: 600px) {
-              max-height: 130px;
+              max-height: 165px;
             }
           }
         }
@@ -620,18 +666,29 @@
           border: 2px solid rgba(var(--app-card-accent-rgb), 0.85);
           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.65);
 
+          // On mobile view, logo display matches the exact size, radius, elevation and position of the app card
+          @media (max-width: 900px) {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            padding: 8px;
+            left: 12px;
+            bottom: 4px;
+          }
+
           @media (max-width: 600px) {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            left: 10px;
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            padding: 8px;
+            left: 8px;
             bottom: 4px;
           }
         }
       }
     }
 
-    /* BOTTOM CONTENT: Fits cleanly with ample space within 460px card height */
+    /* BOTTOM CONTENT: Matches app card split padding on mobile */
     .web-card-bottom-content {
       padding: 16px 26px 18px;
       display: flex;
@@ -639,13 +696,24 @@
       flex: 1;
       justify-content: space-between;
 
+      @media (max-width: 900px) {
+        padding: 24px 20px;
+      }
+
       @media (max-width: 600px) {
-        padding: 14px 16px 18px;
+        padding: 20px 16px;
       }
 
       .web-content-top {
         display: flex;
         flex-direction: column;
+      }
+
+      .content-header-row {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 8px;
       }
     }
   }
