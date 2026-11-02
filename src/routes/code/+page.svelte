@@ -393,7 +393,10 @@
                           {/if}
 
                           {#if project.projectIcon}
-                            <div class="app-icon-badge-box">
+                            <div
+                              class="app-icon-badge-box"
+                              style="background: {project.projectIconBg || 'rgba(255, 255, 255, 0.95)'};"
+                            >
                               <img
                                 src={project.projectIcon}
                                 alt="{project.name} Logo"
@@ -519,7 +522,10 @@
                           {/if}
 
                           {#if project.projectIcon}
-                            <div class="app-icon-badge-box">
+                            <div
+                              class="app-icon-badge-box"
+                              style={project.projectIconBg ? `background: ${project.projectIconBg};` : ''}
+                            >
                               <img
                                 src={project.projectIcon}
                                 alt="{project.name} Logo"

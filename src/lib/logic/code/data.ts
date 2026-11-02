@@ -22,6 +22,7 @@ export const featuredProjects: ProjectData[] = [
     projectCategory: 'Web',
     platformChip: 'WEB PRODUCTION',
     projectIcon: enoventIcon,
+    projectIconBg: '#ffffff', // Soft white background to display dark brand icon clearly
     projectDeviceImage: enoventPreview,
     description:
       'Official corporate website and engineering showcase for Enovent Tower Sdn Bhd — specializing in pre-engineered telecommunication towers, monopoles, and structural infrastructure.',

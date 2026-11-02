@@ -13,6 +13,7 @@ export interface ProjectData {
 
   // Custom Visuals & Badges
   projectIcon?: string;         // App Logo icon / Web favicon
+  projectIconBg?: string;       // Optional custom background for the icon box (e.g. '#ffffff' or 'rgba(255, 255, 255, 0.95)')
   projectDeviceImage?: string;   // Mockup / visual preview screenshot
   projectBadge?: string;        // Badge label (e.g. 'APP', 'WEB', 'AGENT', 'API')
   projectCategory?: string;     // Category (e.g. 'Entertainment', 'Web Development')
