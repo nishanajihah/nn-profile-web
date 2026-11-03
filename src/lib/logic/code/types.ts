@@ -2,10 +2,29 @@ export type ProjectType = 'Website' | 'MobileApp' | 'Hybrid' | 'API' | 'AppWeb' 
 export type ProjectStatus = 'active' | 'in-progress' | 'standby' | 'hidden' | 'live' | 'demo';
 export type ProjectVisibility = 'public' | 'private' | 'restricted';
 
-export interface ProjectData {
+/**
+ * Web project categories — strictly limited to Fullstack, Backend, or Frontend only.
+ */
+export type WebCategory = 'Fullstack' | 'Backend' | 'Frontend';
+
+/**
+ * App project categories (e.g. Entertainment, Productivity, Utility, etc.)
+ */
+export type AppCategory =
+  | 'Entertainment'
+  | 'Productivity'
+  | 'Utility'
+  | 'Game'
+  | 'Social'
+  | 'Finance'
+  | 'Education'
+  | (string & {});
+
+export type ProjectCategory = WebCategory | AppCategory;
+
+interface CommonProjectFields {
   id: string;
   name: string;
-  type: ProjectType;
   description: string;
   tags: string[];
 
@@ -20,7 +39,6 @@ export interface ProjectData {
   projectIconBg?: string;       // Optional custom background for the icon box (e.g. '#ffffff' or 'rgba(255, 255, 255, 0.95)')
   projectDeviceImage?: string;   // Mockup / visual preview screenshot
   projectBadge?: string;        // Badge label (e.g. 'APP', 'WEB', 'AGENT', 'API')
-  projectCategory?: string;     // Category (e.g. 'Entertainment', 'Web Development')
   platformChip?: string;        // Platform chip label (e.g. 'ANDROID RELEASE', 'WEB PRODUCTION')
   accentColor?: string;         // Optional custom hex color for landing page matching (defaults to theme yellow #ffaa33)
   ctaText?: string;             // Action button text (e.g. 'VISIT WEBSITE', 'ENTER SYSTEM')
@@ -42,3 +60,21 @@ export interface ProjectData {
   }>;
   gallery?: string[];
 }
+
+/**
+ * Web Project: projectCategory is strictly restricted to 'Fullstack' | 'Backend' | 'Frontend' only.
+ */
+export interface WebProjectData extends CommonProjectFields {
+  type: 'Website';
+  projectCategory?: WebCategory;
+}
+
+/**
+ * Generic / App Project: supports standard app categories.
+ */
+export interface GenericProjectData extends CommonProjectFields {
+  type: Exclude<ProjectType, 'Website'>;
+  projectCategory?: AppCategory;
+}
+
+export type ProjectData = WebProjectData | GenericProjectData;

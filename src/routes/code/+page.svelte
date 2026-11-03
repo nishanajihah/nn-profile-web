@@ -39,7 +39,14 @@
     const cat = (project.projectCategory || "").toLowerCase();
     const badge = (project.projectBadge || "").toLowerCase();
     const type = (project.type || "").toLowerCase();
-    return cat.includes("web") || badge === "web" || type === "website";
+    return (
+      cat.includes("web") ||
+      badge === "web" ||
+      type === "website" ||
+      cat === "fullstack" ||
+      cat === "backend" ||
+      cat === "frontend"
+    );
   }
 
   function getAccentStyles(project: any): string {
@@ -415,7 +422,7 @@
                             </div>
                             <span class="meta-divider">//</span>
                             <span class="category-label"
-                              >{project.projectCategory || "Web"}</span
+                              >{project.projectCategory || "Fullstack"}</span
                             >
                           </div>
                           <span class="platform-chip status-chip desktop-only-status {getStatusClass(project)}">
@@ -602,19 +609,24 @@
 
                       <!-- RIGHT CONTENT COLUMN: Platform, Title, Description, Tech Stack Pills, & Refined CTA Button -->
                       <div class="app-card-right-content">
-                        <div class="app-content-top">
+                        <!-- Status Bar (shown on top in BOTH desktop and mobile view) -->
+                        <div class="app-card-status-bar">
+                          <span class="platform-chip status-chip {getStatusClass(project)}">
+                            {#if isPrivateStatus(project)}
+                              <svg class="status-lock-icon" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                              </svg>
+                            {:else}
+                              <span class="status-dot"></span>
+                            {/if}
+                            {getStatusDisplay(project)}
+                          </span>
+                        </div>
+
+                        <!-- Vertically Centered Content Body (Title, Description, Tech Pills) -->
+                        <div class="app-content-body">
                           <div class="content-header-row">
-                            <span class="platform-chip status-chip {getStatusClass(project)}">
-                              {#if isPrivateStatus(project)}
-                                <svg class="status-lock-icon" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                                </svg>
-                              {:else}
-                                <span class="status-dot"></span>
-                              {/if}
-                              {getStatusDisplay(project)}
-                            </span>
                             <h3 class="app-main-title">{project.name}</h3>
                           </div>
 

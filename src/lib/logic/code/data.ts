@@ -22,7 +22,7 @@ export const featuredProjects: ProjectData[] = [
     visibility: 'public',
     statusLabel: 'LIVE // PUBLIC',
     projectBadge: 'WEB',
-    projectCategory: 'Fullstack',
+    projectCategory: 'Fullstack', // Web Category: 'Fullstack' | 'Backend' | 'Frontend' only
     platformChip: 'WEB PRODUCTION',
     accentColor: '#f0f4f8', // Soft white accent (can change to any custom color)
     projectIcon: enoventIcon,
@@ -58,7 +58,7 @@ export const featuredProjects: ProjectData[] = [
     customLandingUrl: '/code/project/landing/random-kit-idle',
     ctaText: 'ENTER SYSTEM',
     layoutType: 'split', // Left & Right layout for App
-    hidden: false, // In progress — hidden from active deployments
+    hidden: true, // In progress — hidden from active deployments
   }
 ];
 
