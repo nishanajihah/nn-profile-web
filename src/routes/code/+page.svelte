@@ -16,7 +16,7 @@
   import Scene from "$lib/components/code/Scene.svelte";
 
   export let data: PageData;
-  const { stats, repos, featuredProjects } = data;
+  const { stats, repos, featuredProjects, isProjectsSectionEnabled = true } = data;
 
   let visible = true;
   // Initialize scrollProgress as a spring store for buttery smooth 3D transitions
@@ -33,13 +33,79 @@
   // ═══ Repo Display State ═══
   let isRepoOverlayOpen = false;
 
+  function isWebLayout(project: any): boolean {
+    if (project.layoutType === "stacked") return true;
+    if (project.layoutType === "split") return false;
+    const cat = (project.projectCategory || "").toLowerCase();
+    const badge = (project.projectBadge || "").toLowerCase();
+    const type = (project.type || "").toLowerCase();
+    return (
+      cat.includes("web") ||
+      badge === "web" ||
+      type === "website" ||
+      cat === "fullstack" ||
+      cat === "backend" ||
+      cat === "frontend"
+    );
+  }
+
+  function getAccentStyles(project: any): string {
+    const color = project.accentColor || (isWebLayout(project) ? "#f0f4f8" : "#ffaa33");
+    const hex = color.replace("#", "");
+    let r = 255, g = 170, b = 51;
+    if (hex.length === 6) {
+      r = parseInt(hex.substring(0, 2), 16);
+      g = parseInt(hex.substring(2, 4), 16);
+      b = parseInt(hex.substring(4, 6), 16);
+    } else if (hex.length === 3) {
+      r = parseInt(hex[0] + hex[0], 16);
+      g = parseInt(hex[1] + hex[1], 16);
+      b = parseInt(hex[2] + hex[2], 16);
+    }
+    return `--app-card-accent: ${color}; --app-card-accent-rgb: ${r}, ${g}, ${b};`;
+  }
+
+  function getStatusDisplay(project: any): string {
+    if (project.statusLabel) return project.statusLabel;
+    const parts: string[] = [];
+    if (project.status) {
+      if (project.status === "in-progress") parts.push("IN PROGRESS");
+      else parts.push(project.status.toUpperCase());
+    }
+    if (project.visibility) {
+      parts.push(project.visibility.toUpperCase());
+    }
+    if (parts.length > 0) return parts.join(" // ");
+    return project.platformChip || (project.type === "MobileApp" ? "ANDROID RELEASE" : "WEB PRODUCTION");
+  }
+
+  function getStatusClass(project: any): string {
+    const text = (project.statusLabel || project.status || project.visibility || "").toLowerCase();
+    if (text.includes("private")) return "status-private";
+    if (text.includes("in-progress") || text.includes("progress")) return "status-progress";
+    if (text.includes("demo")) return "status-demo";
+    if (text.includes("live") || text.includes("active") || text.includes("public")) return "status-live";
+    return "status-default";
+  }
+
+  function isPrivateStatus(project: any): boolean {
+    return project.visibility === "private" || (project.statusLabel || "").toLowerCase().includes("private");
+  }
+
   function handleHashScroll() {
     if (!browser) return;
-    const hash = window.location.hash || "#section-02";
+    const hash =
+      window.location.hash ||
+      (isProjectsSectionEnabled && featuredProjects.length > 0
+        ? "#section-02"
+        : "#section-03");
 
     tick().then(() => {
       const scrollAttempt = (attemptsLeft: number) => {
-        const target = document.querySelector<HTMLElement>(hash);
+        let target = document.querySelector<HTMLElement>(hash);
+        if (!target && hash === "#section-02") {
+          target = document.querySelector<HTMLElement>("#section-03");
+        }
         if (target && wrapper) {
           const targetTop =
             target.getBoundingClientRect().top -
@@ -136,9 +202,12 @@
   afterNavigate(() => {
     if (browser && window.location.hash) {
       tick().then(() => {
-        const target = document.querySelector<HTMLElement>(
+        let target = document.querySelector<HTMLElement>(
           window.location.hash,
         );
+        if (!target && window.location.hash === "#section-02") {
+          target = document.querySelector<HTMLElement>("#section-03");
+        }
         if (target) {
           setTimeout(() => {
             if (wrapper) {
@@ -283,6 +352,7 @@
       </section>
 
       <!-- ═══════════ SECTION 02: 3-ITEM FEATURED DEPLOYMENTS ═══════════ -->
+      {#if isProjectsSectionEnabled && featuredProjects.length > 0}
       <section
         id="section-02"
         class="snap-section section-02 deployments-section"
@@ -330,13 +400,166 @@
                 <div
                   class="deployment-card scroll-reveal {project.projectBadge
                     ? `badge-type-${project.projectBadge.toLowerCase()}`
-                    : ''}"
-                  style="transition-delay: {i * 100}ms; {project.accentColor
-                    ? `--app-card-accent: ${project.accentColor};`
-                    : ''}"
+                    : ''} {isWebLayout(project) ? 'layout-web-stacked' : 'layout-app-split'}"
+                  style="transition-delay: {i * 100}ms; {getAccentStyles(project)}"
                 >
-                  {#if project.projectBadge === "APP" || project.type === "MobileApp"}
-                    <!-- ═══════════ REFINED APP PROJECT CARD LAYOUT ═══════════ -->
+                  {#if isWebLayout(project)}
+                    <!-- ═══════════ REFINED WEB PROJECT CARD LAYOUT (TOP & BOTTOM STACKED) ═══════════ -->
+                    <div class="web-card-stacked-container">
+                      <!-- Ambient Background Glow -->
+                      <div class="app-card-ambient-glow"></div>
+
+                      <!-- TOP SHOWCASE: Mockup with Browser Window Dots + Glass Pill Meta -->
+                      <div class="web-card-top-showcase">
+                        <!-- Top Header Row: Unified Meta Pill & Platform Chip -->
+                        <div class="web-meta-header-row">
+                          <div class="app-meta-unified-pill">
+                            <div class="app-badge-part">
+                              <span class="live-dot-pulse"></span>
+                              <span class="badge-label"
+                                >{project.projectBadge || "WEB"}</span
+                              >
+                            </div>
+                            <span class="meta-divider">//</span>
+                            <span class="category-label"
+                              >{project.projectCategory || "Fullstack"}</span
+                            >
+                          </div>
+                          <span class="platform-chip status-chip desktop-only-status {getStatusClass(project)}">
+                            {#if isPrivateStatus(project)}
+                              <svg class="status-lock-icon" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                              </svg>
+                            {:else}
+                              <span class="status-dot"></span>
+                            {/if}
+                            {getStatusDisplay(project)}
+                          </span>
+                        </div>
+
+                        <!-- Hero Visual Stage: Browser Mockup & Floating Favicon / Brand Logo -->
+                        <div class="web-hero-visual-stage">
+                          {#if project.projectDeviceImage}
+                            <div class="web-browser-image-wrapper">
+                              <img
+                                src={project.projectDeviceImage}
+                                alt="{project.name} Web Preview"
+                                class="web-browser-img"
+                              />
+                            </div>
+                          {/if}
+
+                          {#if project.projectIcon}
+                            <div
+                              class="app-icon-badge-box"
+                              style="background: {project.projectIconBg || 'rgba(255, 255, 255, 0.95)'};"
+                            >
+                              <img
+                                src={project.projectIcon}
+                                alt="{project.name} Logo"
+                                class="app-icon-img"
+                              />
+                            </div>
+                          {/if}
+                        </div>
+                      </div>
+
+                      <!-- BOTTOM CONTENT: Title, Description, Tech Stack Pills & CTA Button -->
+                      <div class="web-card-bottom-content">
+                        <div class="web-content-top">
+                          <div class="content-header-row">
+                            <span class="platform-chip status-chip mobile-only-status {getStatusClass(project)}">
+                              {#if isPrivateStatus(project)}
+                                <svg class="status-lock-icon" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                              {:else}
+                                <span class="status-dot"></span>
+                              {/if}
+                              {getStatusDisplay(project)}
+                            </span>
+                            <h3 class="app-main-title">{project.name}</h3>
+                          </div>
+                          <p class="app-main-desc">{project.description}</p>
+
+                          <!-- Tech Stack Tags Row -->
+                          <div class="app-cyber-pills-row">
+                            {#each project.tags as tag}
+                              <span class="cyber-tech-pill">{tag}</span>
+                            {/each}
+                          </div>
+                        </div>
+
+                        <!-- System Action CTA Button (Theme Yellow + Warm White) -->
+                        {#if project.customLandingUrl || project.hasLanding}
+                          <a
+                            href={project.customLandingUrl ||
+                              `/code/project/landing/${project.id}`}
+                            target={(project.customLandingUrl || "").startsWith(
+                              "http",
+                            )
+                              ? "_blank"
+                              : undefined}
+                            rel={(project.customLandingUrl || "").startsWith(
+                              "http",
+                            )
+                              ? "noopener noreferrer"
+                              : undefined}
+                            class="app-system-action-btn"
+                          >
+                            <span class="btn-text">{project.ctaText || "VISIT WEBSITE"}</span>
+                            <div class="btn-arrow-disc">
+                              <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                {#if (project.customLandingUrl || "").startsWith("http")}
+                                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                                  <polyline points="7 7 17 7 17 17"></polyline>
+                                {:else}
+                                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                                  <polyline points="12 5 19 12 12 19"></polyline>
+                                {/if}
+                              </svg>
+                            </div>
+                          </a>
+                        {:else if project.liveUrl || project.docsUrl}
+                          <a
+                            href={project.liveUrl || project.docsUrl || "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="app-system-action-btn"
+                          >
+                            <span class="btn-text">VISIT WEBSITE</span>
+                            <div class="btn-arrow-disc">
+                              <svg
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                              </svg>
+                            </div>
+                          </a>
+                        {/if}
+                      </div>
+                    </div>
+                  {:else if project.hasSplitLayout !== false || project.projectBadge === "APP" || project.type === "MobileApp"}
+                    <!-- ═══════════ REFINED APP PROJECT CARD LAYOUT (LEFT & RIGHT SPLIT) ═══════════ -->
                     <div class="app-card-split-container">
                       <!-- Ambient Background Glow -->
                       <div class="app-card-ambient-glow"></div>
@@ -370,7 +593,10 @@
                           {/if}
 
                           {#if project.projectIcon}
-                            <div class="app-icon-badge-box">
+                            <div
+                              class="app-icon-badge-box"
+                              style={project.projectIconBg ? `background: ${project.projectIconBg};` : ''}
+                            >
                               <img
                                 src={project.projectIcon}
                                 alt="{project.name} Logo"
@@ -383,18 +609,35 @@
 
                       <!-- RIGHT CONTENT COLUMN: Platform, Title, Description, Tech Stack Pills, & Refined CTA Button -->
                       <div class="app-card-right-content">
-                        <div class="content-header-row">
-                          <span class="platform-chip">ANDROID RELEASE</span>
-                          <h3 class="app-main-title">{project.name}</h3>
+                        <!-- Status Bar (shown on top in BOTH desktop and mobile view) -->
+                        <div class="app-card-status-bar">
+                          <span class="platform-chip status-chip {getStatusClass(project)}">
+                            {#if isPrivateStatus(project)}
+                              <svg class="status-lock-icon" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                              </svg>
+                            {:else}
+                              <span class="status-dot"></span>
+                            {/if}
+                            {getStatusDisplay(project)}
+                          </span>
                         </div>
 
-                        <p class="app-main-desc">{project.description}</p>
+                        <!-- Vertically Centered Content Body (Title, Description, Tech Pills) -->
+                        <div class="app-content-body">
+                          <div class="content-header-row">
+                            <h3 class="app-main-title">{project.name}</h3>
+                          </div>
 
-                        <!-- Tech Stack Tags Row -->
-                        <div class="app-cyber-pills-row">
-                          {#each project.tags as tag}
-                            <span class="cyber-tech-pill">{tag}</span>
-                          {/each}
+                          <p class="app-main-desc">{project.description}</p>
+
+                          <!-- Tech Stack Tags Row -->
+                          <div class="app-cyber-pills-row">
+                            {#each project.tags as tag}
+                              <span class="cyber-tech-pill">{tag}</span>
+                            {/each}
+                          </div>
                         </div>
 
                         <!-- Refined System Action CTA Button (Theme Yellow + Warm White Dual Color) -->
@@ -414,7 +657,7 @@
                               : undefined}
                             class="app-system-action-btn"
                           >
-                            <span class="btn-text">ENTER SYSTEM</span>
+                            <span class="btn-text">{project.ctaText || "ENTER SYSTEM"}</span>
                             <div class="btn-arrow-disc">
                               <svg
                                 width="18"
@@ -426,8 +669,13 @@
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                               >
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
+                                {#if (project.customLandingUrl || "").startsWith("http")}
+                                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                                  <polyline points="7 7 17 7 17 17"></polyline>
+                                {:else}
+                                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                                  <polyline points="12 5 19 12 12 19"></polyline>
+                                {/if}
                               </svg>
                             </div>
                           </a>
@@ -568,6 +816,7 @@
           {/if}
         </div>
       </section>
+      {/if}
 
       <!-- ═══════════ SECTION 03: KNOWLEDGE BASE (REPOS) ═══════════ -->
       <section id="section-03" class="snap-section section-03 repo-section">

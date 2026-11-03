@@ -1,14 +1,54 @@
 import type { ProjectData } from './types';
+import enoventIcon from '$lib/assets/projects/enovent-tower/enovent-icon.png';
+import enoventPreview from '$lib/assets/projects/enovent-tower/enovent-browser-preview.png';
 import randomKitLogo from '$lib/assets/projects/random-kit-idle/random-kit-logo.png';
 import screenshotDashboard from '$lib/assets/projects/random-kit-idle/screenshot-dashboard.png';
 
+/**
+ * ========================================================
+ * SECTION 02: FEATURED DEPLOYMENTS GLOBAL VISIBILITY TOGGLE
+ * ========================================================
+ * Set to `true` to display the Featured Deployments section on the /code page.
+ * Set to `false` to disable and hide the entire section 02.
+ */
+export const isProjectsSectionEnabled = true;
+
 export const featuredProjects: ProjectData[] = [
+  {
+    id: 'enovent-tower',
+    name: 'Enovent Tower',
+    type: 'Website',
+    status: 'live',
+    visibility: 'public',
+    statusLabel: 'LIVE // PUBLIC',
+    projectBadge: 'WEB',
+    projectCategory: 'Fullstack', // Web Category: 'Fullstack' | 'Backend' | 'Frontend' only
+    platformChip: 'WEB PRODUCTION',
+    accentColor: '#f0f4f8', // Soft white accent (can change to any custom color)
+    projectIcon: enoventIcon,
+    projectIconBg: '#ffffff', // Soft white background to display dark brand icon clearly
+    projectDeviceImage: enoventPreview,
+    description:
+      'Official corporate website and engineering showcase for Enovent Tower Sdn Bhd — specializing in pre-engineered telecommunication towers, monopoles, and structural infrastructure.',
+    tags: ['SvelteKit', 'TypeScript', 'Web Architecture', 'Engineering', 'Production'],
+    hasImages: true,
+    hasLanding: false,
+    customLandingUrl: 'https://www.enoventtower.com/',
+    ctaText: 'VISIT WEBSITE',
+    layoutType: 'stacked', // Top & Bottom layout for Web
+    hidden: false,
+  },
   {
     id: 'random-kit-idle',
     name: 'Random Kit+ Idle',
     type: 'MobileApp',
+    status: 'in-progress',
+    visibility: 'private',
+    statusLabel: 'IN PROGRESS // PRIVATE',
     projectBadge: 'APP',
     projectCategory: 'Entertainment',
+    platformChip: 'ANDROID RELEASE',
+    accentColor: '#ffaa33', // Amber yellow accent matching landing page
     projectIcon: randomKitLogo,
     projectDeviceImage: screenshotDashboard,
     description: 'Yours All-in-One Utility & Arcade Kit.',
@@ -16,5 +56,13 @@ export const featuredProjects: ProjectData[] = [
     hasImages: true,
     hasLanding: true,
     customLandingUrl: '/code/project/landing/random-kit-idle',
+    ctaText: 'ENTER SYSTEM',
+    layoutType: 'split', // Left & Right layout for App
+    hidden: true, // In progress — hidden from active deployments
   }
 ];
+
+/**
+ * Filtered helper returning only active (non-hidden) projects.
+ */
+export const activeFeaturedProjects = featuredProjects.filter((p) => !p.hidden);

@@ -1,16 +1,19 @@
 import { env } from '$env/dynamic/private';
 import type { PageServerLoad } from './$types';
-import { featuredProjects } from '$lib/logic/code/data';
+import { featuredProjects, isProjectsSectionEnabled } from '$lib/logic/code/data';
 import { getGitHubStatsAndRepos } from '$lib/logic/code/github';
 
 export const load: PageServerLoad = async ({ fetch, platform }) => {
+  const visibleProjects = featuredProjects.filter((p) => !p.hidden);
+
   try {
     const token = platform?.env?.GITHUB_TOKEN || env.GITHUB_TOKEN;
     const { stats, repos } = await getGitHubStatsAndRepos(token, fetch);
     return {
       stats,
       repos,
-      featuredProjects
+      isProjectsSectionEnabled,
+      featuredProjects: visibleProjects
     };
   } catch (e: any) {
     const reason = e?.name === 'TimeoutError' ? 'Connection timed out (3s)' : (e?.message || 'Network unavailable');
@@ -32,7 +35,8 @@ export const load: PageServerLoad = async ({ fetch, platform }) => {
         stargazers_count: Math.floor(Math.random() * 50),
         forks_count: Math.floor(Math.random() * 10),
       })),
-      featuredProjects
+      isProjectsSectionEnabled,
+      featuredProjects: visibleProjects
     };
   }
 };
